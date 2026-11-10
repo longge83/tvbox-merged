@@ -37,6 +37,9 @@ CONFIGS = [
     "tvbox-full-homefirst.json", "tvbox-lite-homefirst.json",
     "tvbox-network-homefirst.json",
 ]
+# 场景版是新增产物：首日构建或探测失败时可能来不及产出，缺失不阻断主配置。
+# 只要存在，就同样校验 JSON 合法性、元信息一致性与「⊆ 全量版」。
+OPTIONAL_CONFIGS = ["tvbox-quality.json", "tvbox-cn-fast.json", "tvbox-stable7.json"]
 PAIRS = [("tvbox.json", "tvbox-full-homefirst.json"),
          ("tvbox-lite.json", "tvbox-lite-homefirst.json"),
          ("tvbox-network.json", "tvbox-network-homefirst.json")]
@@ -106,9 +109,10 @@ def main():
     # 1) JSON 合法性 + 重复 key
     cfgs = {}
     bad = []
-    for f in CONFIGS:
+    for f in CONFIGS + OPTIONAL_CONFIGS:
         if not os.path.exists(f):
-            bad.append(f + "(缺失)")
+            if f not in OPTIONAL_CONFIGS:
+                bad.append(f + "(缺失)")
             continue
         try:
             cfgs[f] = load_strict(f)
@@ -179,6 +183,19 @@ def main():
             pair_bad.append("%s!=%s" % (src, dst))
     record("homefirst_same_site_count", not pair_bad,
            "; ".join(pair_bad) or "三个 homefirst 版本均未删节点")
+
+    var_bad = []
+    for f in OPTIONAL_CONFIGS:
+        c = cfgs.get(f)
+        if not c:
+            continue
+        for s in c.get("sites", []):
+            if common.sig(s) not in full_sigs:
+                var_bad.append("%s:%s" % (f, str(s.get("name", ""))[:16]))
+    record("variants_subset_of_full", not var_bad,
+           "; ".join(var_bad[:4]) if var_bad else
+           "已生成的 %d 个场景版均为全量版子集" %
+           sum(1 for f in OPTIONAL_CONFIGS if f in cfgs))
 
     # 7) 过滤残留
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

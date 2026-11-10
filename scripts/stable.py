@@ -36,7 +36,10 @@ FILES = [
     "tvbox-network-homefirst.json", "tvbox-home.json",
     "tvbox.json", "tvbox-lite.json", "tvbox-network.json",
 ]
-ARCHIVE_GZ = ["tvbox-lite.json", "tvbox-home.json"]
+# 场景版是后加的：旧 tag 里没有这些文件，不能凭文件名生成 404 链接。
+# 只有 tag 对应提交里确实存在该文件时才写进 stable.json 的 files。
+OPTIONAL_FILES = ["tvbox-quality.json", "tvbox-cn-fast.json", "tvbox-stable7.json"]
+ARCHIVE_GZ = ["tvbox-lite.json", "tvbox-home.json", "tvbox-cn-fast.json"]
 KEEP_DAYS = 7
 
 
@@ -57,6 +60,16 @@ def repo_slug():
     return m.group(1) if m else "dimogu/tvbox-merged"
 
 
+def tag_contains(tag, f):
+    """tag 一旦创建就不可变，历史 tag 里没有后来新增的配置，链接不能凭空编。"""
+    try:
+        r = subprocess.run(["git", "cat-file", "-e", "%s:%s" % (tag, f)],
+                           capture_output=True, timeout=15)
+        return r.returncode == 0
+    except Exception:
+        return False
+
+
 def links(repo, tag, f):
     return {
         "cdn": "https://cdn.jsdelivr.net/gh/%s@%s/%s" % (repo, tag, f),
@@ -67,7 +80,7 @@ def links(repo, tag, f):
 
 def make_manifest():
     files = {}
-    for f in FILES:
+    for f in FILES + OPTIONAL_FILES:
         if os.path.exists(f):
             cfg = common.load_json(f, {}) or {}
             files[f] = {
@@ -127,7 +140,10 @@ def write_pointer(state, repo, tag, manifest, bootstrap=False):
         "assert_pass_streak": manifest["assert_pass_streak"],
         "min_streak_to_advance": 3,
         "policy": "回归断言连续通过 3 天才推进；坏版本可用 --rollback 退回历史 tag",
-        "files": {f: links(repo, tag, f) for f in FILES},
+        "files": dict(
+            {f: links(repo, tag, f) for f in FILES},
+            **{f: links(repo, tag, f) for f in OPTIONAL_FILES if tag_contains(tag, f)}
+        ),
         "history": history[-10:],
         "rollback_hint": "python scripts/stable.py --rollback <上一个 tag>",
         "readme": "把 files.<版本>.cdn 整行粘进 TVBox 配置地址即可；tag 固定，内容永不变化",

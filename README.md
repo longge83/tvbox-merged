@@ -1,6 +1,6 @@
 # TVBox 聚合配置（自动更新 · 可观测 · 可回滚）
 
-自动聚合多个公开 TVBox 配置源，去重、修复相对路径、内容过滤、每日存活复检、首页推荐探测、**端到端可播率探测**、多日稳定性判定与回归断言后，输出 7 份可直接使用的配置。每天北京时间 04:00 由 GitHub Actions 重建并提交。
+自动聚合多个公开 TVBox 配置源，去重、修复相对路径、内容过滤、每日存活复检、首页推荐探测、**端到端可播率探测**、多日稳定性判定与回归断言后，输出 10 份可直接使用的配置（7 份基础/排序版 + 3 份场景版）。每天北京时间 04:00 由 GitHub Actions 重建并提交。
 
 > 功能之外，这套流水线还回答三个问题：**源到底能不能播**、**今天的判定可信吗**、**生成了坏版本怎么退回**。
 
@@ -8,10 +8,13 @@
 
 ## 一、配置地址（国内推荐直接复制整行链接）
 
-按用途挑**一个**填进「设置 → 配置地址」。建议优先用带 `homefirst` 的版本：节点一个不少，但能出首页推荐的源被排到最前面。
+按用途挑**一个**填进「设置 → 配置地址」。不知道选哪个：先用 `tvbox-quality.json`（精播版）；老盒子/国内直连用 `tvbox-cn-fast.json`；想长期不动用 `tvbox-stable7.json`；想一个节点都不少用带 `homefirst` 的版本。
 
 | 文件 | 站点数（每日浮动） | 用途 |
 |---|---|---|
+| `tvbox-quality.json` | 视实测结果 | **精播版**：只留实测可播 / 首页实测有影片 / jar 实测有效的节点，宁缺毋滥 |
+| `tvbox-cn-fast.json` | ≤ 120 | **国内极速版**：国内直连、无 spider jar、无爬虫源，按质量取前 120 个，开屏最快 |
+| `tvbox-stable7.json` | 视历史累积 | **7 天稳定版**：近 7 天多次可用且当前无连败，不追新源、不随上游抖动 |
 | `tvbox-full-homefirst.json` | 约 1970 | **全量 + 首页优先**（前 ~1130 个可用），功能最全，依赖 spider jar |
 | `tvbox-lite-homefirst.json` | 约 340 | **精简 + 首页优先**（前 ~115 个可用），不依赖 jar，低性能盒子首选 |
 | `tvbox-network-homefirst.json` | 约 310 | **网络优化 + 首页优先**（前 ~115 个可用），不依赖境外代码托管，国内直连最稳 |
@@ -22,9 +25,26 @@
 
 精确值看配置里的 `_meta.sites`、`_meta.home_first_count`，或打开[健康页](#四健康页与失败告警)。
 
+### 三个场景版：怎么筛出来的
+
+`scripts/variants.py` 把同一天的 5 份探测报告按站点签名对齐，产出三份「按用途直接选」的成品：
+
+| 版本 | 保留条件 | 排序 | 额外处理 |
+|---|---|---|---|
+| 精播版 `tvbox-quality.json` | 端到端实测可播 **或** 首页影片列表实测非空（ok） **或** jar/ext 实测有效（likely，不含同 jar 推断） **或** 误杀复核复活 | 可播 > 首页 ok > 首页 likely > 可播得分 > 近 7 天可用天数 | 剔除明确探活失败的解析通道 |
+| 国内极速版 `tvbox-cn-fast.json` | 在网络优化版基础上：仅 http 采集源、无 `type=3` 爬虫源、api/jar/ext 均不落在境外托管，且满足上述质量条件 | 可播 > 首页 ok > 可播得分 | 取前 120 个；parses 取存活优先的前 40 个；去掉指向境外的全局 `spider` |
+| 7 天稳定版 `tvbox-stable7.json` | 历史 ≥3 天：`home_days_7 >= min(3, 天数-1)` 且 `fail_streak == 0`；历史不足 3 天：只认今日首页影片实测非空（`ok`，无连败）或端到端实测可播 | 近 7 天可用天数 > ok 天数 > 可播得分 > 首页等级 | 连续 2 天以上探活失败的节点排除；推断节点与「仅 jar 有效」一律不收 |
+
+降级保护：首页探测报告缺失时按 `tvbox-home.json` 顺序视为 likely；筛选结果低于 60 个时保底给出首页版节点；任何情况下都不会产出空配置，是否降级写在 `_meta.filter.history_fallback` / `home_fallback` / `_meta.evidence` 里。
+
+> 口径边界：端到端可播率每天只抽样 30 站，**未抽样站点是「首页实测通过」而非「实测能播」**。精播版是「去掉已知坏节点」，不是「保证每个节点都能播」。稳定版在历史累积到 3 天之前等同于今日实测，之后会自动收紧 —— 这一点 `_meta.filter.history_days` 会如实写明。
+
 ### 国内主线路（jsDelivr，整行复制）
 
 ```
+https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-quality.json
+https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-cn-fast.json
+https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-stable7.json
 https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-full-homefirst.json
 https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-lite-homefirst.json
 https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-network-homefirst.json
@@ -48,6 +68,9 @@ https://gcore.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-lite-homefirst.json
 Pages 的缓存时间远短于 jsDelivr 的 12 小时，而且不受 purge 影响，可作为主线路之外的第二入口：
 
 ```
+https://dimogu.github.io/tvbox-merged/tvbox-quality.json
+https://dimogu.github.io/tvbox-merged/tvbox-cn-fast.json
+https://dimogu.github.io/tvbox-merged/tvbox-stable7.json
 https://dimogu.github.io/tvbox-merged/tvbox-full-homefirst.json
 https://dimogu.github.io/tvbox-merged/tvbox-lite-homefirst.json
 https://dimogu.github.io/tvbox-merged/tvbox-network-homefirst.json
@@ -71,7 +94,7 @@ https://dimogu.github.io/tvbox-merged/tvbox-network.json
 https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@stable-YYYYMMDD/tvbox-full-homefirst.json
 ```
 
-当前推荐的 tag 与全部版本的完整链接在 `stable.json`（[在线查看](https://raw.githubusercontent.com/dimogu/tvbox-merged/main/stable.json)），健康页也会直接列出。tag 只有**回归断言连续通过 3 天**才推进；要退回旧版：
+当前推荐的 tag 与全部版本的完整链接在 `stable.json`（[在线查看](https://raw.githubusercontent.com/dimogu/tvbox-merged/main/stable.json)），健康页也会直接列出。`stable.json` 只列该 tag 里**确实存在**的文件 —— 三个场景版是后加的，旧 tag 里没有，因此不会给出 404 链接；tag 推进后自动带上。tag 只有**回归断言连续通过 3 天**才推进；要退回旧版：
 
 ```bash
 python scripts/stable.py --rollback stable-20261109
@@ -162,9 +185,10 @@ TVBox 的**主界面推荐**和**搜索**是两套数据，能搜到片子不代
 - `_meta.sites` 与实际站点数一致；站点数不低于上一版的 60%（防骤降 / 空配置）
 - 每个 `csp_*` 站点必须有 http `jar`
 - 无残留 `./` `../`、无成批 `XBPQ/XBPQ/` 类重复路径段
-- 首页版 ⊆ 全量版；三个 homefirst 版本站点数与对应源完全一致
+- 首页版 ⊆ 全量版；三个 homefirst 版本站点数与对应源完全一致；已生成的场景版也必须是全量版子集
 - 过滤后站点 / 直播 / 解析均无违规关键词残留
-- 抽样 15 个 jar（必须 200 + `PK` 魔数）与 15 个 ext，可用率不得低于 60%
+- 抽样 20 个 jar（必须 200 + `PK` 魔数）与 20 个 ext，采用「绝对下限 + 相对昨日骤降」判定（第三方链接本就大量失效，固定高阈值会天天误挡）
+- 三份场景版为**可选产物**：首日构建或探测失败来不及产出时只记警告，不阻断 7 份基础配置；一旦存在就同样校验 JSON、元信息与子集关系
 
 **2. 归档与回滚**：`archive/YYYY-MM-DD/` 存最近 7 天的轻量备份（`manifest.json` + lite/home 的 gzip），完整版本由 git 历史与不可变 tag 回滚。
 
@@ -209,7 +233,7 @@ python scripts/stable.py --rollback stable-20261109
 ## 七、自动化机制
 
 - **每天北京时间 04:00** 由 `.github/workflows/update.yml` 构建；**每周一**由 `discover.yml` 找新源；两者都支持手动 `Run workflow`。
-- 主流程：`build.py` → `home_probe.py` → `recheck.py` → `play_probe.py` → `rank_home.py` → **`assertions.py`（失败即停）** → `history.py` → 提交配置与历史 → `stable.py`（归档 + 不可变 tag）→ `health.py` → 上传 Pages artifact → 提交归档与指针 → push → 两轮 purge CDN → 部署 Pages。
+- 主流程：`build.py` → `home_probe.py` → `recheck.py` → `play_probe.py` → `rank_home.py` → `variants.py`（三个场景版）→ **`assertions.py`（失败即停）** → `history.py` → 提交配置与历史 → `stable.py`（归档 + 不可变 tag）→ `health.py` → 上传 Pages artifact → 提交归档与指针 → push → 两轮 purge CDN → 部署 Pages。
 - 内容无实质变化时不写文件；判定历史每天仍会留痕，便于看趋势。
 - 首页探测、误杀复核、可播率探测为 `continue-on-error`（单点网络抖动不影响主配置产出），只有**回归断言是硬阻断**。
 
@@ -228,6 +252,7 @@ python scripts/stable.py --rollback stable-20261109
 python scripts/build.py          # 本地只写 _local-*.json
 python scripts/home_probe.py     # 本地只写 _local-home*
 python scripts/rank_home.py      # 本地只写 _local-*-homefirst.json
+python scripts/variants.py       # 本地只写 _local-tvbox-*.json（三个场景版）
 python scripts/assertions.py     # 校验 _local-* 或正式文件（可用环境变量切换）
 python scripts/health.py         # 生成 site/index.html 预览健康页
 python scripts/local_readonly.py # 把生成产物标记为本地只读（只需一次）

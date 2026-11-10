@@ -32,6 +32,7 @@ CONFIG_FILES = [
     "tvbox.json", "tvbox-lite.json", "tvbox-network.json", "tvbox-home.json",
     "tvbox-full-homefirst.json", "tvbox-lite-homefirst.json",
     "tvbox-network-homefirst.json",
+    "tvbox-quality.json", "tvbox-cn-fast.json", "tvbox-stable7.json",
 ]
 GOOD_GRADES = ("ok", "likely", "classes_only")
 

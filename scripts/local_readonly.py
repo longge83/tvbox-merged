@@ -16,16 +16,21 @@
 """
 import argparse
 import os
+import re
 import subprocess
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-FILES = [
+BASE_FILES = [
     "tvbox.json", "tvbox-lite.json", "tvbox-network.json", "tvbox-home.json",
     "tvbox-full-homefirst.json", "tvbox-lite-homefirst.json",
     "tvbox-network-homefirst.json", "home-sites.txt", "quality.json",
     "health.json", "stable.json",
 ]
+# 自动纳入后加的场景版，避免每新增一个版本就要回来改这个清单
+DISCOVERED = [f for f in os.listdir(ROOT)
+              if re.fullmatch(r"tvbox.*\.json", f)]
+FILES = sorted(set(BASE_FILES) | set(DISCOVERED))
 
 
 def git(*args):

@@ -5,7 +5,7 @@
 把「失败静默」变成看得见：各版本站点数、上游健康（连续 3 天失败自动标注）、
 首页可用趋势、端到端可播率、误杀率、断言状态、稳定版指针，一页全展示。
 
-同时把 7 份配置复制到 site/ 交给 GitHub Pages 托管：
+同时把 10 份配置复制到 site/ 交给 GitHub Pages 托管：
 Pages 的缓存 TTL 远短于 jsDelivr 的 12 小时，可作为第二个、更新更快的直链，
 也顺带解决 CDN 单点。
 
@@ -13,7 +13,7 @@ Pages 的缓存 TTL 远短于 jsDelivr 的 12 小时，可作为第二个、更�
   health.json               结构化数据（提交进仓库，可被外部读取）
   site/index.html           健康页（纯静态，无外部依赖）
   site/health.json
-  site/<7 份配置>           Pages 备用直链
+  site/<10 份配置>          Pages 备用直链
 
 用法：python scripts/health.py
 """
@@ -27,6 +27,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import common
 
 FILES = [
+    ("tvbox-quality.json", "精播版", "只留实测可播 / 首页实测有影片的节点，宁缺毋滥"),
+    ("tvbox-cn-fast.json", "国内极速版", "国内直连、无 spider jar、按质量取前 120 个，老盒子开屏最快"),
+    ("tvbox-stable7.json", "7 天稳定版", "近 7 天多次可用且当前无连败，不追新源、不随上游抖动"),
     ("tvbox-full-homefirst.json", "全量 + 首页优先", "功能最全，推荐桌面/高性能盒子"),
     ("tvbox-lite-homefirst.json", "精简 + 首页优先", "不依赖 spider jar，低性能盒子首选"),
     ("tvbox-network-homefirst.json", "网络优化 + 首页优先", "不依赖境外代码托管，国内直连最稳"),
@@ -159,13 +162,17 @@ def main():
 
     status_cls = "ok" if health["assert_passed"] else "bad"
     status_txt = "通过" if health["assert_passed"] else "未通过（本次未提交）"
-    main_v = versions[0]
+    # 版本清单会随迭代增加，卡片按文件名取数，不依赖固定下标
+    by_file = {v["file"]: v for v in versions}
+
+    def n(f):
+        return (by_file.get(f) or {}).get("sites", 0)
+
     p.append("<div class='cards'>")
     cards = [
-        ("全量版站点", main_v["sites"], "精简 %d · 网络优化 %d" %
-         (versions[1]["sites"] if len(versions) > 1 else 0,
-          versions[2]["sites"] if len(versions) > 2 else 0), ""),
-        ("首页可用节点", versions[3]["sites"], "同 jar 推断召回 %d" % health["home_inferred"], ""),
+        ("全量版站点", n("tvbox.json"), "精简 %d · 网络优化 %d · 精播 %d" %
+         (n("tvbox-lite.json"), n("tvbox-network.json"), n("tvbox-quality.json")), ""),
+        ("首页可用节点", n("tvbox-home.json"), "同 jar 推断召回 %d" % health["home_inferred"], ""),
         ("端到端可播率", pct(health["play"]["play_rate"]),
          "抽样 %d 站 · 列表→详情→播放地址" % (health["play"]["sampled"] or 0), ""),
         ("误杀率下界", pct(health["false_kill_rate"]),

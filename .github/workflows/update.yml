@@ -55,6 +55,11 @@ jobs:
         continue-on-error: true
         run: python scripts/rank_home.py
 
+      # 场景版：把探测数据变成「按用途直接选」的成品。探测报告缺失时自动降级保底。
+      - name: 生成三个场景版（精播 / 国内极速 / 7 天稳定）
+        continue-on-error: true
+        run: python scripts/variants.py
+
       # ── 2. 保险丝：任一硬检查失败就中止，线上保持上一版 ──────────
       - name: 回归断言（失败则不提交）
         run: python scripts/assertions.py --jar-sample 20 --ext-sample 20
@@ -73,6 +78,11 @@ jobs:
             tvbox-full-homefirst.json tvbox-lite-homefirst.json \
             tvbox-network-homefirst.json \
             home-sites.txt quality.json history/ 2>/dev/null || true
+          # 场景版可能尚未产出（首日 / 探测失败），逐个判断，
+          # 否则 git add 遇到不存在的 pathspec 会整体失败并吞掉上面所有文件
+          for f in tvbox-quality.json tvbox-cn-fast.json tvbox-stable7.json; do
+            if [ -f "$f" ]; then git add -f "$f"; fi
+          done
           if git diff --cached --quiet; then
             echo "配置与历史无变化，跳过本次提交"
             echo "changed=false" >> $GITHUB_OUTPUT
@@ -120,7 +130,9 @@ jobs:
           sleep 30
           FILES="tvbox.json tvbox-lite.json tvbox-network.json tvbox-home.json \
                  tvbox-full-homefirst.json tvbox-lite-homefirst.json \
-                 tvbox-network-homefirst.json home-sites.txt health.json stable.json"
+                 tvbox-network-homefirst.json \
+                 tvbox-quality.json tvbox-cn-fast.json tvbox-stable7.json \
+                 home-sites.txt health.json stable.json"
           for pass in 1 2; do
             echo "=== purge 第 $pass 轮 ==="
             for f in $FILES; do

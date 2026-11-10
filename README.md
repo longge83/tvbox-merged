@@ -6,13 +6,15 @@
 
 五个版本按用途挑**一个**填进「设置 → 配置地址」即可。建议优先用带 `homefirst` 的两个：节点一个不少，但能出首页推荐的源被排到了最前面，开机默认就落在有内容的源上。
 
-| 文件 | 站点数 | 用途 |
+| 文件 | 站点数（每日浮动） | 用途 |
 |---|---|---|
-| `tvbox-full-homefirst.json` | 1971 | **全量 + 首页优先**（前 351 个可用），功能最全，依赖 spider jar |
-| `tvbox-lite-homefirst.json` | 344 | **精简 + 首页优先**（前 127 个可用），不依赖 jar，低性能盒子首选 |
-| `tvbox-home.json` | 351 | 只保留首页可用节点，最干净 |
-| `tvbox.json` | 1971 | 全量版，原始顺序 |
-| `tvbox-lite.json` | 344 | 精简版，原始顺序 |
+| `tvbox-full-homefirst.json` | 约 1970 | **全量 + 首页优先**（前 ~345 个可用），功能最全，依赖 spider jar |
+| `tvbox-lite-homefirst.json` | 约 340 | **精简 + 首页优先**（前 ~120 个可用），不依赖 jar，低性能盒子首选 |
+| `tvbox-home.json` | 约 345 | 只保留首页可用节点，最干净 |
+| `tvbox.json` | 约 1970 | 全量版，原始顺序 |
+| `tvbox-lite.json` | 约 340 | 精简版，原始顺序 |
+
+站点数随上游与每日探活结果波动，精确值看配置里的 `_meta.sites` 与 `_meta.home_first_count`。
 
 ### 国内线路（jsDelivr，每条都是完整地址，可整行复制）
 

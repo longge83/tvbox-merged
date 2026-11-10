@@ -130,7 +130,10 @@ def main():
             "empty_api": "`--- 1 ---` 这类分隔符被上游当成站点写进 sites，api 为空",
             "illegal_api": "api 不是 http(s):// 或 csp_ 开头，客户端无法加载",
             "no_name": "名称为空且 api 里取不到域名",
-            "dup_api": "同一接口的不同写法（参数顺序/大小写差异）重复收录",
+            "dup_api": "同一接口的不同写法（参数顺序/大小写差异）重复收录（历史口径）",
+            "dup_content": "名称不同、但内容指向同一处：emoji/装饰符换皮名，"
+                           "raw / jsdelivr / gh-proxy / github blob 链接别名，"
+                           "www / 协议 / 尾斜杠 / 参数顺序差异",
             "jar_dep": "依赖 jar 的站点，与「不加载 jar」的版本目标冲突",
             "hosting": "api / jar / ext 落在境外代码托管或 GitHub 反代（与片源内容无关）",
         }
@@ -144,6 +147,11 @@ def main():
                      "顶掉前一个（列表里少站点、收藏串号），保留第一个、其余加稳定后缀"
                      % p["keys_renamed"])
         lv, ps = p.get("lives") or {}, p.get("parses") or {}
+        if lv.get("dup_content") or ps.get("dup_content"):
+            L.append("- 直播 / 解析按内容指向去重 **%d / %d** 个：同一份 `live.txt` / 解析脚本"
+                     "挂在 raw 与 gh-proxy 上，或名称被换成「南风直播源」「Yoursmile」，"
+                     "归一后只保留一条" % (lv.get("dup_content", 0),
+                                          ps.get("dup_content", 0)))
         if ps.get("ext_fixed") or p.get("ext_normalized"):
             L.append("- `ext` 归一 **%d** 个站点 / **%d** 个解析通道：上游把 ext 写成 JSON "
                      "对象，严格解析的客户端会判定整份配置非法，统一改成字符串"

@@ -5,7 +5,7 @@ TVBox 多源聚合 + 存活复检（每日 Actions 主构建）
 
 - 拉取 sources.txt 里的多个上游配置
 - 相对路径绝对化（./js/x.js → 绝对 URL）、spider jar 下沉到站点级 jar 字段
-- 跨源去重（归一化名称 + 脚本标识 / 相同 http api）
+- 跨源按「内容指向」去重（api + ext + jar，或与名称无关的归一化接口）
 - 关键词外置（blocklist.txt），站点 / 直播 / 解析全量过滤
 - parses 规范化去重
 - CMS 采集源 ?ac=list 探活；连续失败 N 次才淘汰（读 quality.json，避免上游抖动）
@@ -161,9 +161,14 @@ def norm_name(name):
 
 
 def parse_key(p):
-    """解析通道去重键：按 URL 归一化（解析是否生效只取决于 url，不取决于名字）"""
-    u = str(p.get("url", "")).split(";")[0].strip().lower().rstrip("/")
-    return re.sub(r"^https?://", "", u)
+    """解析通道去重键：按 URL 的内容指向归一（是否生效只取决于 url，与名字无关）。
+
+    同一份解析脚本挂在 raw / gh-proxy / jsdelivr 上，或带 www / 尾斜杠差异，
+    content_url 会把它们还原成同一个键。ext 是 header / flag 配置，一并入键，
+    避免 url 相同但配置不同的两条通道被合并。
+    """
+    return (common.content_url(p.get("url", "")),
+            common.content_url(p.get("ext")))
 
 
 def probe(site):
@@ -202,7 +207,7 @@ def output_paths():
 
 def build():
     out_path, lite_path, network_path = output_paths()
-    merged, seen_key, seen_api = [], set(), set()
+    merged, seen_content = [], set()
     flat_lives, seen_live, parses, seen_parse = [], set(), [], set()
     wallpaper, global_spider, stats = None, None, []
     blocked_n, blocked_live_n, blocked_parse_n = 0, 0, 0
@@ -239,24 +244,28 @@ def build():
             ext = s.get("ext")
             if isinstance(ext, str):
                 ext = absolutize(ext, base)
-            ext_key = ext if isinstance(ext, str) else json.dumps(ext, ensure_ascii=False, sort_keys=True)[:60]
-            tail = (ext_key or api or "").rsplit("/", 1)[-1][:40]
-            k1 = norm_name(s.get("name")) + "|" + tail
-            k2 = api if str(api).startswith("http") else None
-            if k1 in seen_key or (k2 and k2 in seen_api):
+            # 同源 jar 兜底必须在判重之前补：两条内容相同的 csp 站点常常一条
+            # 自己写了 jar、另一条靠全局 spider 补，补完才是同一个内容指向。
+            jar = s.get("jar")
+            if not jar and src_jar and str(api).startswith("csp_"):
+                jar = src_jar
+            if jar:
+                jar = absolutize(jar, base)
+            # 名称不参与判重：它是显示用的皮（❤野荷塘 / 😘野荷塘），
+            # 真正决定内容的是 api + ext（配置文件）+ jar（spider）。
+            ck = common.content_key({"api": api, "ext": ext, "jar": jar,
+                                     "type": s.get("type"),
+                                     "playerType": s.get("playerType")})
+            if ck in seen_content:
                 dup += 1
                 continue
-            seen_key.add(k1)
-            if k2:
-                seen_api.add(k2)
+            seen_content.add(ck)
             ns = dict(s)
             ns["api"] = api
             if ext is not None:
                 ns["ext"] = ext
-            if src_jar and str(api).startswith("csp_") and not ns.get("jar"):
-                ns["jar"] = src_jar
-            if ns.get("jar"):
-                ns["jar"] = absolutize(ns["jar"], base)
+            if jar:
+                ns["jar"] = jar
             merged.append(ns)
             added += 1
 
@@ -281,9 +290,10 @@ def build():
                                        "name": ch.get("name"), "url": u})
             else:                                     # 新版扁平
                 u = absolutize(g.get("url"), base)
-                if not u or str(u) in seen_live:
+                ck = (common.content_url(u), common.content_url(g.get("ext")))
+                if not u or ck in seen_live:
                     continue
-                seen_live.add(str(u))
+                seen_live.add(ck)
                 ng = dict(g)
                 ng["url"] = u
                 flat_lives.append(ng)

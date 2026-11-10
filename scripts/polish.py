@@ -50,7 +50,7 @@ import os
 import re
 import sys
 from collections import Counter
-from urllib.parse import parse_qsl, urlsplit
+from urllib.parse import urlsplit
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import common
@@ -205,13 +205,14 @@ def fix_keys(sites):
 
 
 def site_key(site):
-    """去重键。参数顺序不同但指向同一接口的，视为同一个站点。"""
-    api = site["api"]
-    if api.lower().startswith("csp_"):
-        return ("csp", api.lower(), norm(site["name"]))
-    p = urlsplit(api)
-    q = tuple(sorted(parse_qsl(p.query, keep_blank_values=True)))
-    return ("api", p.netloc.lower(), p.path.rstrip("/").lower(), q)
+    """内容指向去重键，转交 common.content_key 统一口径。
+
+    旧口径对 csp 站点用「api + 归一化名称」：名称只是显示用的皮，内容其实
+    由 ext（配置文件）+ jar（spider）决定。结果就是换皮名（❤野荷塘 / 😘野荷塘）
+    漏删，同名不同配置反而可能被误杀。现在名称完全不参与判重，且把
+    raw / jsdelivr / gh-proxy / github blob 等链接别名还原成同一份内容。
+    """
+    return common.content_key(site)
 
 
 def norm(name):
@@ -308,16 +309,24 @@ def name_tag(site):
 
 
 def fix_lives(lives, dup_names):
-    out, seen, dropped, type_fixed = [], set(), 0, 0
+    # 直播源最容易被上游用不同链接发同一份文件：南风直播源 / Yoursmile 分别是
+    # gh-proxy.com 与 gh-proxy.org 的同一个 raw live.txt。按字面 URL 去重认不出，
+    # 统一走内容指向归一。
+    out, seen, dropped, type_fixed, dup_content = [], set(), 0, 0, 0
     for g in lives:
         if not isinstance(g, dict):
             dropped += 1
             continue
         u = str(g.get("url") or "").strip()
-        if not re.match(r"^https?://", u, re.I) or u in seen:
+        if not re.match(r"^https?://", u, re.I):
             dropped += 1
             continue
-        seen.add(u)
+        ck = (common.content_url(u), common.content_url(g.get("ext")))
+        if ck in seen:
+            dropped += 1
+            dup_content += 1
+            continue
+        seen.add(ck)
         ng = dict(g)
         ng["url"] = u
         ng["name"] = str(ng.get("name") or "").strip() or (urlsplit(u).netloc or "直播源")
@@ -347,11 +356,11 @@ def fix_lives(lives, dup_names):
     out.sort(key=lambda ng: 1 if common.hosting_host({"api": ng["url"]}, deep=True) else 0)
     pushed = sum(1 for ng in out if common.hosting_host({"api": ng["url"]}, deep=True))
     return out, {"dropped": dropped, "type_fixed": type_fixed, "renamed": renamed,
-                 "offshore_moved": pushed}
+                 "dup_content": dup_content, "offshore_moved": pushed}
 
 
 def fix_parses(parses, types, cap):
-    out, seen, dropped, fixed, ext_fixed = [], set(), 0, 0, 0
+    out, seen, dropped, fixed, ext_fixed, dup_content = [], set(), 0, 0, 0, 0
     for p in parses:
         if not isinstance(p, dict):
             dropped += 1
@@ -379,9 +388,13 @@ def fix_parses(parses, types, cap):
             ext_fixed += 1
         elif isinstance(e, str) and e.strip().lower() in EMPTY_EXT:
             np_.pop("ext", None)
-        k = u.split(";")[0].rstrip("/").lower()
+        # 同一 url 的 www / 协议 / 尾斜杠 / 参数序差异与 GitHub 反代别名，
+        # 都按内容指向归一后去重；但 ext 是 header / flag 配置，url 相同而
+        # ext 不同的两条通道行为不一样，必须一并纳入键。
+        k = (common.content_url(u), common.content_url(np_.get("ext")))
         if k in seen:
             dropped += 1
+            dup_content += 1
             continue
         seen.add(k)
         out.append(np_)
@@ -408,7 +421,8 @@ def fix_parses(parses, types, cap):
         capped = total - len(out)
         cap_kept = dict(Counter(p.get("type") for p in out))
     return out, {"dropped": dropped, "type_fixed": fixed, "ext_fixed": ext_fixed,
-                 "renamed": renamed, "capped": capped, "cap_kept_types": cap_kept}
+                 "dup_content": dup_content, "renamed": renamed,
+                 "capped": capped, "cap_kept_types": cap_kept}
 
 
 def cap_parses(items, cap):
@@ -520,11 +534,13 @@ def main():
                 continue
             kept.append(ns)
 
+        # 内容指向去重：名称不参与判重。保留首次出现的那条 —— 身份签名是
+        # name+api+jar+ext，不改名就不会让历史链天天断。
         seen, uniq = set(), []
         for s in kept:
             k = site_key(s)
             if k in seen:
-                reasons["dup_api"] += 1
+                reasons["dup_content"] += 1
                 continue
             seen.add(k)
             uniq.append(s)

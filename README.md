@@ -270,7 +270,7 @@ python scripts/stable.py --rollback stable-20261109
   ```
 
 - **关键词外置**：`blocklist.txt`（每行一个正则，改文件即生效），同时扫站点名 / api / ext / jar、直播、解析，不再只扫站点名。
-- **parses 去重**：按归一化 URL 去重，330 个解析通道里的重复项不再重复下发；`_meta.parses_deduped` 记录数量，另抽样验证解析通道是否真的 200。
+- **按内容指向去重（名称不参与）**：`common.content_url()` / `content_key()` 把 `raw.githubusercontent.com`、`github.com/.../blob`、`cdn|fastly|gcore.jsdelivr.net/gh`、`gh-proxy` 反代，以及 `www.`、http↔https、默认端口、尾斜杠、参数顺序、缓存参数，全部还原成同一把钥匙；站点按 `api + ext + jar` 判重，直播 / 解析按 url 判重。于是「❤ 野荷塘 / 😘野荷塘」这类换皮名、「南风直播源 / Yoursmile」这类同一份 `live.txt` 挂在 raw 与两个反代域名上的重复，只留一条；反过来**同名但 ext 不同的站点不会被误杀**。数量记在 `_meta.polish.removed.dup_content` 与健康页「内容去重」列，`assertions.py` 的 `no_content_duplicates` 会硬阻断复燃。
 - **jar 分级 + 网络优化版**：`_meta.jar_count` / `jar_top` 统计依赖，`tvbox-network.json` 只保留不依赖境外代码托管 jar/ext 的 http 站点，给低端盒子与国内直连场景。
 - **自托管入口**（合规 / 内网备用）：在 NAS、软路由或家里一台常开机器上跑，局域网设备填内网地址，避免公开仓库被投诉下架后所有设备同时失效：
 
@@ -298,7 +298,7 @@ python scripts/stable.py --rollback stable-20261109
 
 1. **相对路径**：上游大量使用 `./js/x.js`、`./jar/x.jar`，合并后必须改写为绝对 URL；
 2. **spider jar 冲突**：一份配置只能有一个全局 spider，不同源依赖不同 jar，因此把各源原配 jar 写入站点级 `jar`；
-3. **重复**：按「归一化名称 + 脚本标识」和「相同 http api」双重去重；
+3. **重复**：统一按「内容指向」去重 —— 站点看 `api + ext + jar`（`csp_*` 的内容由 `ext` 决定，名称只是显示用的皮），直播 / 解析看归一化 url；raw / jsdelivr / gh-proxy / github blob 等链接别名先还原成同一份。名称完全不参与判重，既不会漏掉换皮名，也不会误杀同名不同配置的站点；
 4. **失效源**：连续 3 天探活失败才剔除，次日恢复即重新纳入；
 5. **内容过滤**：外置关键词，站点 / 直播 / 解析全覆盖；
 6. **相对路径基准**：多数上游的 `./x.js` 相对配置文件目录，但 `yw88075/tvbox/XBPQ/yw.json` 相对**仓库根目录**。拼错会生成 `XBPQ/XBPQ/xxx.json` 这类 404，导致整批爬虫节点首页空白。`sources.txt` 第三列可显式指定基准，脚本也会用 spider jar 自动探测；断言会拦截成批重复路径段。

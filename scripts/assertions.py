@@ -17,6 +17,7 @@
   8. 客户端解析契约：key 唯一、ext 是字符串、_meta 的直播/解析条数对得上、
      解析通道不重名、没有客户端不认的字段（类型 / playurl）
   9. 壁纸若配置了就必须拉得到
+  9.5 按「内容指向」判重后无重复站点 / 直播 / 解析（防换皮名与链接别名复燃）
 软检查（抽样，低于阈值才阻断）：
  10. 抽样 jar 必须是 200 + PK(zip)；抽样 ext 必须 200
      —— 允许个别抖动，但整体可用率不能塌
@@ -258,6 +259,33 @@ def main():
                 break
     record("structure_clean", not hygiene,
            "; ".join(hygiene[:4]) or "无空/非法 api、无重名、解析 url 合法、type 均为整数")
+
+    # 9.5) 内容指向去重回归防线：名称只是显示用的皮，链接还常被换成
+    #      raw / jsdelivr / gh-proxy 等别名。只按名称或字面 URL 判重会漏，
+    #      结果就是客户端里出现好几条一模一样的源。
+    cdup = []
+    for f, c in cfgs.items():
+        seen_ck = set()
+        for s in c.get("sites", []):
+            ck = common.content_key(s)
+            if ck in seen_ck:
+                cdup.append("site %s:%s" % (f, str(s.get("name", ""))[:18]))
+            seen_ck.add(ck)
+        for coll in ("lives", "parses"):
+            seen_u = set()
+            for o in c.get(coll, []):
+                if not isinstance(o, dict):
+                    continue
+                cu = (common.content_url(o.get("url")),
+                      common.content_url(o.get("ext")))
+                if not cu[0]:
+                    continue
+                if cu in seen_u:
+                    cdup.append("%s %s:%s" % (coll, f, str(o.get("name", ""))[:18]))
+                seen_u.add(cu)
+    record("no_content_duplicates", not cdup,
+           ("; ".join(cdup[:4]) + (" 共 %d 处" % len(cdup)) if len(cdup) > 4
+            else "; ".join(cdup)) if cdup else "站点/直播/解析按内容指向判重后均无重复")
 
     # 11) 客户端解析契约：key 唯一、ext 是字符串、_meta 计数对得上、解析不重名。
     #     这几条不会让构建崩，但会让用户在客户端里「看不见某些站点 / 整份配置

@@ -15,7 +15,7 @@ import ssl
 import threading
 import time
 import urllib.request
-from urllib.parse import quote, urlsplit, urlunsplit
+from urllib.parse import quote, urlsplit, urlunsplit, parse_qsl
 
 IS_CI = os.environ.get("GITHUB_ACTIONS") == "true"
 ENV = "github-actions" if IS_CI else "local"
@@ -183,6 +183,116 @@ def canon_ext(v):
         except Exception:
             return v
     return v
+
+
+# ── 内容指向归一（去重的唯一口径）────────────────────────────────────────
+# 同一份配置，上游会用完全不同的链接发布：
+#   raw.githubusercontent.com/o/r/main/x.json
+#   https://gh-proxy.com/https://raw.githubusercontent.com/o/r/main/x.json
+#   https://cdn.jsdelivr.net/gh/o/r@main/x.json
+#   https://github.com/o/r/blob/main/x.json
+# 再叠加 www. / http↔https / 默认端口 / 尾斜杠 / 参数顺序 / 缓存参数。
+# 只按字面 URL 去重会把它们当成四个不同源，名称再一换皮就彻底认不出来。
+# 这里统一还原成「内容指向」，与名称、与发布链接的写法都无关。
+_GH_JSDELIVR = re.compile(r"^(?:cdn|fastly|gcore|testingcf|img)\.jsdelivr\.net$", re.I)
+_GH_PROXY = re.compile(r"gh-?proxy|ghproxy|gitmirror|fastgit|kgithub|moeyy", re.I)
+_CACHE_QS = {"_", "t", "ts", "timestamp", "rnd", "random", "nonce", "cachebust", "cb"}
+_URL_IN_TEXT = re.compile(r"https?://[^\s\"'<>,\\]+")
+
+
+def _gh_content(host, path):
+    """GitHub 系链接 → gh:owner/repo/branch/path；不是则 None。"""
+    parts = [x for x in path.split("/") if x]
+    if host == "raw.githubusercontent.com" and len(parts) >= 4:
+        owner, repo, branch, rest = parts[0], parts[1], parts[2], "/".join(parts[3:])
+    elif host == "github.com" and len(parts) >= 5 and parts[2] in ("blob", "raw"):
+        owner, repo, branch, rest = parts[0], parts[1], parts[3], "/".join(parts[4:])
+    elif _GH_JSDELIVR.match(host) and len(parts) >= 4 and parts[0] == "gh":
+        owner = parts[1]
+        repo, sep, branch = parts[2].partition("@")
+        rest = "/".join(parts[3:])
+        # 没写版本号时无法确定分支，用 @latest 单独成键，不与显式分支混并
+        if not sep:
+            branch = "@latest"
+    else:
+        return None
+    if not owner or not repo or not rest:
+        return None
+    return "gh:%s/%s/%s/%s" % (owner.lower(), repo.lower(), branch.lower(),
+                               rest.rstrip("/").lower())
+
+
+def content_url(v):
+    """把一个 URL / ext 值归一成「指向同一份内容」的字符串键。
+
+    非 URL 值（内嵌 JSON、加密串）走 canon_ext 紧凑化；内嵌 JSON 里出现的
+    链接也一并归一，这样 {"json":"https://gh-proxy.org/https://raw.../a.json"}
+    与 {"json":"https://raw.../a.json"} 会落到同一个键。
+    """
+    if v is None:
+        return ""
+    if isinstance(v, (dict, list)):
+        v = canon_ext(v)
+    s = str(v).strip()
+    if not s:
+        return ""
+    # ;md5;hash 只在 URL 后出现，不能切到内嵌 JSON 中间的分号
+    if s.lower().startswith(("http://", "https://")):
+        s = s.split(";", 1)[0].strip()
+    if not s.lower().startswith(("http://", "https://")):
+        text = canon_ext(s).strip()
+        # 内嵌 JSON 里的链接也按同一口径归一（不含分号/引号，正则已止于分隔符）
+        return _URL_IN_TEXT.sub(lambda m: content_url(m.group(0)), text)
+    p = urlsplit(s)
+    host = (p.hostname or "").lower()
+    if host.startswith("www."):
+        host = host[4:]
+    # GitHub 反代：路径里整条塞着真实 URL，先剥壳再还原
+    if _GH_PROXY.search(host):
+        m = re.match(r"^/(?:https?:)?/{0,2}(.+)$", p.path)
+        if m:
+            inner = m.group(1)
+            if not inner.lower().startswith(("http://", "https://")):
+                inner = "https://" + inner
+            return content_url(inner)
+    gh = _gh_content(host, p.path)
+    if gh:
+        return gh
+    try:
+        port = p.port
+    except ValueError:
+        port = None
+    if port in (80, 443, None):
+        port = ""
+    # 必须保留空值参数：解析通道的 "?url=" / "?v=" 是 TVBox 拼接播放地址的
+    # 占位符，丢掉会把两个完全不同的解析接口判成同一条。
+    q = tuple(sorted((k, val) for k, val in
+                     parse_qsl(p.query, keep_blank_values=True)
+                     if k.lower() not in _CACHE_QS))
+    return "url:%s" % json.dumps([host, port or "", p.path.rstrip("/"), q],
+                                 ensure_ascii=False, sort_keys=True)
+
+
+def content_key(site):
+    """站点「内容指向」去重键 —— 与名称无关，只看实际拉哪份配置 / 哪个接口。
+
+    csp_* 站点的内容完全由 ext（配置文件）+ jar（spider）+ api（解析器）决定，
+    名称只是显示用的皮；把名称算进键，既会漏掉换皮重复，也会误杀同名不同配置。
+    http 站点同样要带上 ext / jar：一批 drpy2 站点共用同一个 drpy2.min.js 当
+    api，靠 ext 区分各自的配置；只看 api 会把它们全删到只剩一个。
+    ext / jar 都为空的 guard 类站点没有配置内容，此时补 type / playerType，
+    避免把两个行为不同的通道合并成一条。
+    """
+    api = str(site.get("api") or "").strip()
+    ext = content_url(site.get("ext"))
+    jar = content_url(site.get("jar"))
+    if api.lower().startswith("csp_"):
+        key = ["csp", api.lower(), ext, jar]
+        if not ext and not jar:
+            key += ["behavior", str(site.get("type") or 0),
+                    str(site.get("playerType") or "")]
+        return tuple(key)
+    return ("api", content_url(api), ext, jar)
 
 
 def identity(site):

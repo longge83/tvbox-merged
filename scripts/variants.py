@@ -184,7 +184,7 @@ def quality_version(ctx, pool, cfg, floor):
 
     fallback = len(sites) < floor
     if fallback:
-        sites = [s for s in ctx.home_cfg.get("sites", [])][:max(floor, 200)]
+        sites = list(pool[:max(floor, 200)])
     parses, removed = keeps_parses(cfg, ctx, "alive")
     meta = {
         "variant": "quality",
@@ -267,7 +267,11 @@ def stable_version(ctx, pool, cfg, floor):
         if x["dead"]:
             continue
         if strict:
-            ok = x["home_days"] >= need and x["fail_streak"] == 0
+            # 同 jar 推断项在历史里也会被记成「连续可用」，若放进来，
+            # 历史满 3 天那天稳定版会从百来个实测节点暴涨到上千个推断节点。
+            # 稳定版始终只认实测，降级/严格两种口径保持一致。
+            ok = (x["home_days"] >= need and x["fail_streak"] == 0
+                  and not x["inferred"])
         else:
             # 历史不足时也不能照单全收：只认「首页影片实测非空」这个最强信号，
             # 以及端到端实测可播的站点。这样稳定版从第一天就明显比精播版保守，
@@ -283,7 +287,9 @@ def stable_version(ctx, pool, cfg, floor):
 
     fallback = len(sites) < floor
     if fallback:
-        sites = [s for s in ctx.home_cfg.get("sites", [])][:max(floor, 200)]
+        # 保底也用「全量首页优先版」的前 N 个，与排序口径一致，
+        # 不突然换成另一份未经筛选的数据
+        sites = list(pool[:max(floor, 200)])
         strict = False
     return pack(cfg, sites, {
         "variant": "stable7",
@@ -296,7 +302,9 @@ def stable_version(ctx, pool, cfg, floor):
                    "history_days": ctx.days,
                    "history_fallback": not strict,
                    "home_fallback": ctx.home_fallback,
-                   "fallback_due_to_small_result": fallback},
+                   "excluded_inferred": True,
+                   "fallback_due_to_small_result": fallback,
+                   "fallback_source": "full-homefirst 前 200 个"},
         "play_rate": ctx.play_rate,
         "play_sampled": ctx.play_sampled,
         "stability_days": ctx.days,

@@ -10,6 +10,8 @@
 
 按用途挑**一个**填进「设置 → 配置地址」。不知道选哪个：先用 `tvbox-quality.json`（精播版）；老盒子/国内直连用 `tvbox-cn-fast.json`；想长期不动用 `tvbox-stable7.json`；想一个节点都不少用带 `homefirst` 的版本。
 
+> ⚠️ **链接请一律复制下面「主线路（GitHub Pages）」里的 `https://dimogu.github.io/tvbox-merged/...`**。jsDelivr 的 `@main` 及各镜像有顽固的边缘缓存，实测曾同时挂着 4 个不同年代的旧版；旧版含客户端不兼容的 `style` 对象，导入会直接报 `IllegalStateException`。
+
 | 文件 | 站点数（每日浮动） | 用途 |
 |---|---|---|
 | `tvbox-quality.json` | 视实测结果 | **精播版**：只留实测可播 / 首页实测有影片 / jar 实测有效的节点，宁缺毋滥 |
@@ -97,7 +99,17 @@ https://dimogu.github.io/tvbox-merged/tvbox-network.json
 
 ### 备用线路（jsDelivr，国内通常更快）
 
-用带 `@main` 别名的链接（已实测能拿到最新版）；主域名被污染 / 慢时，把 `cdn` 换成 `fastly` / `gcore` / `testingcf`（同样带 `@main`）：
+**仅作为备用**：用带 `@main` 别名的链接；主域名被污染 / 慢时，把 `cdn` 换成 `fastly` / `gcore` / `testingcf`（同样带 `@main`）。这些路径有最长 12h 的边缘缓存，purge 接口不保证生效 —— 实测 `cdn` / `fastly` / `gcore` / `testingcf` 曾同时挂着 344、484、521 个站点等不同年代的旧版，而 Pages 已是新版。**导入报 `IllegalStateException` 时先换 Pages 链接**。
+
+如果必须用 jsDelivr 又要立刻拿到当前版本，用带 commit sha 的不可变链接（该路径从未缓存，回源即最新；代价是内容固定、不会自动更新）：
+
+```
+https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@<commit-sha>/tvbox-full-homefirst.json
+```
+
+`<commit-sha>` 取 `https://api.github.com/repos/dimogu/tvbox-merged/commits/main` 返回的最新 sha。
+
+下面是 `@main` 备用链接：
 
 ```
 https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-quality.json
@@ -133,7 +145,7 @@ https://gcore.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-stable7.json
 
 1. **改用 Pages 链接**：`https://dimogu.github.io/tvbox-merged/<文件名>`。Pages 缓存只有几分钟且每次构建自动部署，不受 jsDelivr 12h 边缘缓存影响 —— 曾出现 CDN 上还挂着 484 站点的旧版、仓库已是 1212 站点的情形。
 2. **清客户端缓存**：设置 → 缓存 → 清除，再重新导入；旧配置可能被客户端本地缓存住。
-3. **先用小体积版本验证**：`tvbox-cn-fast.json`（约 70 KB）或 `tvbox-network-homefirst.json`。全量 homefirst 约 1 MB，在慢网络（<50 KB/s）下会超过客户端的拉取超时。
+3. **先用小体积版本验证**：`tvbox-cn-fast.json`（约 53 KB）或 `tvbox-network-homefirst.json`（约 136 KB）。全量 homefirst 约 850 KB，在慢网络（<50 KB/s）下仍可能超过客户端的拉取超时。
 4. 仍失败就把 toast 里**完整的异常文本**（长按可复制）发出来，尤其是 `Expected a string but was BEGIN_OBJECT` 这类后半段。
 
 构建侧已做两道防护：上游常把 `style` / `header` 写成 JSON 对象，而 TVBox 原版、影视仓把这两个字段声明成 `String`，Gson 会抛 `IllegalStateException` 让整份配置导不进来 —— 现在统一降级（只影响卡片布局 / 请求头，不影响可播性），并由断言 `client_compat_clean` 硬阻断复燃；同时配置改为紧凑 JSON，同样内容体积少约四分之一。
@@ -146,6 +158,8 @@ https://gcore.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-stable7.json
 ### 固定稳定版（内容永不变化，可回滚）
 
 每日构建会覆盖 `main` 上的文件；如果你希望**版本永远不变**，用 `stable.json` 里给出的 tag 链接：
+
+> ⚠️ 当前 tag `stable-20261110` 早于本次字段兼容修复，里面的配置仍含对象型 `style`，在 TVBox 原版 / 影视仓上导入会报 `IllegalStateException`。tag 需回归断言连续通过 3 天才会推进；这期间请用 Pages 主线路，等 tag 推进后再用固定版。
 
 ```
 https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@stable-YYYYMMDD/tvbox-full-homefirst.json

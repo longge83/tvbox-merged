@@ -18,6 +18,7 @@
      解析通道不重名、没有客户端不认的字段（类型 / playurl）
   9. 壁纸若配置了就必须拉得到
   9.5 按「内容指向」判重后无重复站点 / 直播 / 解析（防换皮名与链接别名复燃）
+  9.6 客户端字段兼容：style / header 不得是 JSON 对象，数字字段不得塞字符串
 软检查（抽样，低于阈值才阻断）：
  10. 抽样 jar 必须是 200 + PK(zip)；抽样 ext 必须 200
      —— 允许个别抖动，但整体可用率不能塌
@@ -286,6 +287,31 @@ def main():
     record("no_content_duplicates", not cdup,
            ("; ".join(cdup[:4]) + (" 共 %d 处" % len(cdup)) if len(cdup) > 4
             else "; ".join(cdup)) if cdup else "站点/直播/解析按内容指向判重后均无重复")
+
+    # 9.6) 客户端字段兼容回归防线：TVBox 原版 / 影视仓把 style、header 声明成
+    #      String，上游（FongMi 系）却写成 JSON 对象，Gson 读到对象仍按字符串
+    #      取会抛 java.lang.IllegalStateException —— 一处不兼容整份配置都导不
+    #      进来。数字字段塞非数字字符串同样会让部分分支 NumberFormatException。
+    cbad = []
+    for f, c in cfgs.items():
+        for coll in ("sites", "parses", "lives"):
+            for o in c.get(coll, []):
+                if not isinstance(o, dict):
+                    continue
+                for k in ("style", "header"):
+                    if isinstance(o.get(k), (dict, list)):
+                        cbad.append("%s %s:%s 是 %s" %
+                                    (f, coll, k, type(o.get(k)).__name__))
+                if isinstance(o.get("style"), str) and \
+                        o["style"].lstrip()[:1] in "{[":
+                    cbad.append("%s %s:style 是 JSON 文本" % (f, coll))
+                for k in ("playerType", "gridview"):
+                    if isinstance(o.get(k), str):
+                        cbad.append("%s %s:%s 是字符串" % (f, coll, k))
+    record("client_compat_clean", not cbad,
+           ("; ".join(cbad[:4]) + (" 共 %d 处" % len(cbad)) if len(cbad) > 4
+            else "; ".join(cbad)) if cbad else
+           "站点/直播/解析字段均为各 TVBox 分支可解析的类型")
 
     # 11) 客户端解析契约：key 唯一、ext 是字符串、_meta 计数对得上、解析不重名。
     #     这几条不会让构建崩，但会让用户在客户端里「看不见某些站点 / 整份配置

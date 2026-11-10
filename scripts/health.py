@@ -194,6 +194,7 @@ def main():
             "keys": pol.get("keys_renamed", 0),
             "content_dup": (removed.get("dup_content", 0) +
                             lv.get("dup_content", 0) + ps.get("dup_content", 0)),
+            "client_norm": pol.get("client_normalized", 0),
             "ext": pol.get("ext_normalized", 0),
             "names": pol.get("renamed", 0),
             "parse_renamed": ps.get("renamed", 0),
@@ -332,14 +333,15 @@ def main():
     # 今日体检：结构性问题（客户端看不见站点 / 整份配置解析失败）的可核对数字
     if health.get("hygiene"):
         p.append("<h2>今日配置体检</h2>")
-        p.append("<table><tr><th>版本</th><th>主键去重</th><th>内容去重</th><th>ext 归一</th>"
-                 "<th>同名消歧</th><th>解析重名</th><th>解析截断</th>"
+        p.append("<table><tr><th>版本</th><th>主键去重</th><th>内容去重</th><th>兼容归一</th>"
+                 "<th>ext 归一</th><th>同名消歧</th><th>解析重名</th><th>解析截断</th>"
                  "<th>境外直播沉底</th><th>壁纸</th></tr>")
         for h in health["hygiene"]:
             p.append("<tr><td><b>%s</b><br><code>%s</code></td><td>%d</td><td>%d</td>"
-                     "<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%s</td></tr>" %
+                     "<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%d</td>"
+                     "<td>%d</td><td>%s</td></tr>" %
                      (esc(h["label"]), esc(h["file"]), h["keys"],
-                      h.get("content_dup", 0), h["ext"],
+                      h.get("content_dup", 0), h.get("client_norm", 0), h["ext"],
                       h["names"], h["parse_renamed"], h["parse_capped"],
                       h["offshore_live"], "已移除" if h["wallpaper"] else "保留"))
         p.append("</table>")
@@ -347,6 +349,8 @@ def main():
                  "内容去重：名称只是显示用的皮，按 <code>api + ext + jar</code> 的内容指向判重，"
                  "并把 raw / jsdelivr / gh-proxy / github blob 等链接别名还原成同一份，"
                  "删掉换皮重复；"
+                 "兼容归一：`style` / `header` 写成 JSON 对象会让 TVBox 原版、影视仓"
+                 "抛 `IllegalStateException` 导致整份配置导不进来，统一降级；"
                  "ext 归一：对象型 `ext` 会让严格解析的客户端判定整份配置非法；"
                  "境外直播沉底：走 GitHub / 反代的直播源在国内必然是空频道，排到列表末尾。</div>")
 

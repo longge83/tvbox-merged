@@ -591,6 +591,15 @@ def main():
         if lives:
             out["lives"] = lives
 
+        # 最后一道：客户端字段兼容。TVBox 原版 / 影视仓把 style、header
+        # 声明成 String，上游却常写成 JSON 对象，Gson 会抛
+        # IllegalStateException 让整份配置导不进来；统一降级成各分支都能读
+        # 的形式。数字字段里的字符串（如 gridview "0-0-4.1"）同样处理。
+        compat_fixed = 0
+        for coll in ("sites", "parses", "lives"):
+            for o in out.get(coll, []):
+                compat_fixed += common.client_compat(o)
+
         # 元信息必须跟着这一份的实际内容走：之前 lives / parses 直接沿用全量版的
         # 数字（108/192），精简版实际只有 101/80，客户端里对不上。
         jars = Counter(str(s["jar"]).split(";")[0] for s in uniq
@@ -609,6 +618,7 @@ def main():
             "renamed": renamed,
             "keys_renamed": keys_renamed,
             "ext_normalized": ext_norm,
+            "client_normalized": compat_fixed,
             "wallpaper_removed": bool(wall) and "wallpaper" not in out,
             "order": {"usable": sum(1 for v in tiers.values() if v == 0),
                       "unknown": sum(1 for v in tiers.values() if v == 1),

@@ -127,6 +127,17 @@ https://gcore.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-stable7.json
 > jsDelivr 对「不带版本号」的路径有独立的 12h 边缘缓存，purge 经常清不掉、会回退到旧版本——
 > 本次就出现主线挂着旧版（851KB，含已修掉的壁纸 / junk），而 `@main` 与 Pages 已是新版（822KB）。
 
+### 导入报「配置取得失败 / java.lang.IllegalStateException」怎么办
+
+按顺序试，基本都能解决：
+
+1. **改用 Pages 链接**：`https://dimogu.github.io/tvbox-merged/<文件名>`。Pages 缓存只有几分钟且每次构建自动部署，不受 jsDelivr 12h 边缘缓存影响 —— 曾出现 CDN 上还挂着 484 站点的旧版、仓库已是 1212 站点的情形。
+2. **清客户端缓存**：设置 → 缓存 → 清除，再重新导入；旧配置可能被客户端本地缓存住。
+3. **先用小体积版本验证**：`tvbox-cn-fast.json`（约 70 KB）或 `tvbox-network-homefirst.json`。全量 homefirst 约 1 MB，在慢网络（<50 KB/s）下会超过客户端的拉取超时。
+4. 仍失败就把 toast 里**完整的异常文本**（长按可复制）发出来，尤其是 `Expected a string but was BEGIN_OBJECT` 这类后半段。
+
+构建侧已做两道防护：上游常把 `style` / `header` 写成 JSON 对象，而 TVBox 原版、影视仓把这两个字段声明成 `String`，Gson 会抛 `IllegalStateException` 让整份配置导不进来 —— 现在统一降级（只影响卡片布局 / 请求头，不影响可播性），并由断言 `client_compat_clean` 硬阻断复燃；同时配置改为紧凑 JSON，同样内容体积少约四分之一。
+
 ### 官方源 raw（实时性最好，国内直连常需代理）
 
 把上面 jsDelivr 链接里的 `cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/` 换成

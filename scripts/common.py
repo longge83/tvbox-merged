@@ -333,8 +333,51 @@ def _strip_meta(obj):
     return json.dumps(a, ensure_ascii=False, sort_keys=True)
 
 
+# TVBox 各分支对「可选增强字段」的类型约定并不一致：原版 / 影视仓的
+# SourceBean.style、header 声明成 String，FongMi 系却写成 JSON 对象。Gson
+# 读到对象仍按字符串取，会抛 java.lang.IllegalStateException
+# ("Expected a string but was BEGIN_OBJECT")，一处不兼容整份配置都导不进来。
+# 这些字段只管卡片布局 / 请求头，删掉不影响内容可播，且对所有分支都安全。
+_CLIENT_OBJECT_FIELDS = ("style", "header")
+_CLIENT_INT_FIELDS = ("playerType", "gridview", "indexs", "timeout", "hide",
+                      "order_num", "changeable")
+
+
+def client_compat(obj):
+    """把一条站点 / 直播 / 解析降级成任何 TVBox 分支都能解析的形式。
+
+    就地修改，返回被归一化的字段数。categories 是原版就支持的 ArrayList，
+    必须保留数组形态，不能一起降级。
+    """
+    if not isinstance(obj, dict):
+        return 0
+    n = 0
+    for k in _CLIENT_OBJECT_FIELDS:
+        v = obj.get(k)
+        if isinstance(v, (dict, list)):
+            obj.pop(k, None)
+            n += 1
+        elif k == "style" and isinstance(v, str) and v.lstrip()[:1] in "{[":
+            obj.pop(k, None)                  # 把 JSON 文本塞进 style 同样不兼容
+            n += 1
+    for k in _CLIENT_INT_FIELDS:
+        v = obj.get(k)
+        if isinstance(v, str):
+            try:
+                obj[k] = int(v.strip())
+            except (TypeError, ValueError):
+                obj.pop(k, None)              # "0-0-4.1" 之类新版布局串，老版会崩
+            n += 1
+    return n
+
+
 def write_json(path, obj, skip_unchanged=True):
-    """原子写 + 内容未变不落盘（避免每天产生无意义提交）。返回是否写入。"""
+    """原子写 + 内容未变不落盘（避免每天产生无意义提交）。返回是否写入。
+
+    下发给机顶盒的 tvbox*.json 用紧凑格式：同样的内容能小四分之一左右，
+    在移动网络 / 老盒子上少几十秒下载时间，超时概率显著下降。其余报告类
+    文件保留缩进，方便人直接读。
+    """
     if skip_unchanged and os.path.exists(path):
         try:
             old = load_json(path)
@@ -346,8 +389,13 @@ def write_json(path, obj, skip_unchanged=True):
     if d:
         os.makedirs(d, exist_ok=True)
     tmp = path + ".tmp"
+    fname = os.path.basename(path)
+    compact = fname.startswith("tvbox") and fname.endswith(".json")
     with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(obj, f, ensure_ascii=False, indent=2)
+        if compact:
+            json.dump(obj, f, ensure_ascii=False, separators=(",", ":"))
+        else:
+            json.dump(obj, f, ensure_ascii=False, indent=2)
     os.replace(tmp, path)
     return True
 

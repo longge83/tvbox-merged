@@ -2,30 +2,18 @@
   "date": "2026-11-10",
   "env": {
     "env": "github-actions",
-    "runner": "42763959822",
+    "runner": "42764090725",
     "proxy": false,
-    "generated": "2026-11-10 05:44:38 UTC"
+    "generated": "2026-11-10 05:45:49 UTC"
   },
   "baseline_sites": 2133,
-  "candidates_found": 222,
+  "candidates_found": 226,
   "candidates_evaluated": 80,
-  "candidates_usable": 9,
-  "candidates_failed": 71,
+  "candidates_usable": 6,
+  "candidates_failed": 74,
   "min_new_sites": 3,
-  "elapsed_sec": 18.3,
+  "elapsed_sec": 17.3,
   "candidates": [
-    {
-      "url": "https://gh-proxy.com/raw.githubusercontent.com/yw88075/tvbox/main/yw.json",
-      "sources": [
-        "多仓聚合"
-      ],
-      "ok": true,
-      "sites": 151,
-      "new_sites": 70,
-      "new_cms": 34,
-      "lives": 1,
-      "parses": 24
-    },
     {
       "url": "https://android.lushunming.qzz.io/json/index.json",
       "sources": [
@@ -48,18 +36,6 @@
       "new_sites": 42,
       "new_cms": 9,
       "lives": 4,
-      "parses": 0
-    },
-    {
-      "url": "https://gh-proxy.com/raw.githubusercontent.com//gaotianliuyun/gao/master/0827.json",
-      "sources": [
-        "多仓聚合"
-      ],
-      "ok": true,
-      "sites": 33,
-      "new_sites": 28,
-      "new_cms": 4,
-      "lives": 0,
       "parses": 0
     },
     {
@@ -109,18 +85,6 @@
       "new_cms": 0,
       "lives": 2,
       "parses": 4
-    },
-    {
-      "url": "https://gh-proxy.com/raw.githubusercontent.com/gaotianliuyun/gao/master/js.json",
-      "sources": [
-        "多仓聚合"
-      ],
-      "ok": true,
-      "sites": 298,
-      "new_sites": 0,
-      "new_cms": 0,
-      "lives": 2,
-      "parses": 11
     }
   ],
   "failed_sample": [
@@ -128,14 +92,6 @@
       "url": "http://hz752.love:63/tk.json",
       "sources": [
         "scovis/TVBox"
-      ],
-      "ok": false,
-      "reason": "HTTP 0 / 非 TVBox 配置"
-    },
-    {
-      "url": "http://meowtv.top/tv",
-      "sources": [
-        "Zhou-Li-Bin/Tvbox-QingNing"
       ],
       "ok": false,
       "reason": "HTTP 0 / 非 TVBox 配置"
@@ -149,7 +105,7 @@
       "reason": "HTTP 0 / 非 TVBox 配置"
     },
     {
-      "url": "http://tt.iitvba.com/vip/tv.json",
+      "url": "http://meowtv.top/tv",
       "sources": [
         "Zhou-Li-Bin/Tvbox-QingNing"
       ],
@@ -165,6 +121,14 @@
       "reason": "HTTP 0 / 非 TVBox 配置"
     },
     {
+      "url": "http://tt.iitvba.com/vip/tv.json",
+      "sources": [
+        "Zhou-Li-Bin/Tvbox-QingNing"
+      ],
+      "ok": false,
+      "reason": "HTTP 0 / 非 TVBox 配置"
+    },
+    {
       "url": "http://tv.奥利给.top",
       "sources": [
         "Zhou-Li-Bin/Tvbox-QingNing"
@@ -173,7 +137,7 @@
       "reason": "HTTP 0 / 非 TVBox 配置"
     },
     {
-      "url": "http://tv.laohu.cool/tvbox.json",
+      "url": "http://cdn.qiaoji8.com/tvbox.json",
       "sources": [
         "Zhou-Li-Bin/Tvbox-QingNing"
       ],
@@ -213,7 +177,7 @@
       "reason": "HTTP 404 / 非 TVBox 配置"
     },
     {
-      "url": "http://cdn.qiaoji8.com/tvbox.json",
+      "url": "http://52pan.top:81/api/v3/file/get/174964/%E5%90%BE%E7%88%B1%E8%AF%84%E6%B5%8B.m3u?sign=rPssLoffquDXszCARt6UNF8MobSa1FA27XomzOluJBY%3D%3A0",
       "sources": [
         "Zhou-Li-Bin/Tvbox-QingNing"
       ],
@@ -229,20 +193,20 @@
       "reason": "HTTP 0 / 非 TVBox 配置"
     },
     {
-      "url": "http://fmys.top/fmys.json",
+      "url": "http://tv.laohu.cool/tvbox.json",
       "sources": [
         "Zhou-Li-Bin/Tvbox-QingNing"
       ],
       "ok": false,
-      "reason": "HTTP 404 / 非 TVBox 配置"
+      "reason": "HTTP 0 / 非 TVBox 配置"
     },
     {
-      "url": "http://tvbox.clbug.com/",
+      "url": "http://ww.weidonglong.com/ysc50311.json",
       "sources": [
-        "noimank/tvbox"
+        "Zhou-Li-Bin/Tvbox-QingNing"
       ],
       "ok": false,
-      "reason": "HTTP 200 / 非 TVBox 配置"
+      "reason": "HTTP 0 / 非 TVBox 配置"
     },
     {
       "url": "http://www.饭太硬.cc/tv",

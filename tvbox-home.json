@@ -1,7 +1,7 @@
 {
   "_meta": {
     "updated": "2026-11-10 05:28:11 UTC",
-    "sites": 1148,
+    "sites": 1136,
     "sites_dropped_dead": 0,
     "sites_in_observation": 161,
     "dead_policy": "连续失败 3 次才淘汰",
@@ -39,17 +39,17 @@
     "sources_failed": [],
     "probe_env": {
       "env": "github-actions",
-      "runner": "42767224031",
+      "runner": "42768327656",
       "proxy": false,
-      "generated": "2026-11-10 06:19:39 UTC"
+      "generated": "2026-11-10 06:29:26 UTC"
     },
     "note": "仅保留经首页数据探测确认可显示主界面推荐的站点",
     "home_grades": {
       "unknown": 137,
-      "likely": 1021,
-      "fail": 848,
-      "ok": 104,
-      "classes_only": 23
+      "likely": 1022,
+      "fail": 860,
+      "ok": 103,
+      "classes_only": 11
     },
     "home_inferred": 529
   },
@@ -5031,15 +5031,6 @@
       "changeable": 1
     },
     {
-      "key": "live042",
-      "name": "采集集合+",
-      "type": 1,
-      "api": "https://zhangqun1818.serv00.net/cj/cjjh.php",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
       "key": "live034",
       "name": "量子影视",
       "type": 1,
@@ -6025,6 +6016,21 @@
         "url_key": "FeiMaoUC"
       },
       "jar": "https://img2.gelonghui.com/library/6a396-4e09c48e-c9bc-4313-b788-8d5120f90e5d.png;md5;6a396033ae45efee57ba789f91d7123e"
+    },
+    {
+      "key": "AppRJ",
+      "name": "⚡秒播┃1080P",
+      "type": 3,
+      "api": "csp_AppRJ",
+      "searchable": 1,
+      "quickSearch": 1,
+      "timeout": 12,
+      "ext": {
+        "site": "http://v.rbotv.cn",
+        "danmu": true,
+        "danmu_api": "https://dm.211.li/nonay"
+      },
+      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
     },
     {
       "key": "88看球",
@@ -18362,33 +18368,6 @@
       "filterable": 1
     },
     {
-      "key": "live029",
-      "name": "CNTV低分辨",
-      "type": 1,
-      "api": "https://zhangqun1818.serv00.net/cctv.php",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "live063",
-      "name": "js集合",
-      "type": 1,
-      "api": "https://zhangqun1818.serv00.net/js.php",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "live122",
-      "name": "php集合",
-      "type": 1,
-      "api": "https://zhangqun1818.serv00.net/php.php",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
       "key": "live072",
       "name": "⚽┃酷克┃体育",
       "type": 1,
@@ -18416,82 +18395,10 @@
       "filterable": 1
     },
     {
-      "key": "live058",
-      "name": "影视播放",
-      "type": 1,
-      "api": "https://zhangqun1818.serv00.net/zh/2243.php",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "live041",
-      "name": "旺旺短剧",
-      "type": 1,
-      "api": "https://zhangqun1818.serv00.net/ww.php",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "live061",
-      "name": "服务器油管",
-      "type": 1,
-      "api": "https://zhangqun1818.serv00.net/yt/yt0021.php",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "live059",
-      "name": "油管播放列表1",
-      "type": 1,
-      "api": "https://zhangqun1818.serv00.net/ytlb.php",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "live057",
-      "name": "油管播放列表2",
-      "type": 1,
-      "api": "https://zhangqun1818.serv00.net/ytlb1.php",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "live060",
-      "name": "油管清单播放",
-      "type": 1,
-      "api": "https://zhangqun1818.serv00.net/zh/yt/2243.php",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "live068",
-      "name": "爱瓜TV",
-      "type": 1,
-      "api": "https://zhangqun1818.serv00.net/aigua1.php",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
       "key": "live062",
       "name": "移动｜星源",
       "type": 1,
       "api": "https://xy.183933.xyz/php/pt.php/provide/vod",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "live064",
-      "name": "老张影视",
-      "type": 1,
-      "api": "https://zhangqun1818.serv00.net/zh/2242.php",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -18510,15 +18417,6 @@
       "name": "👭人人2👭",
       "type": 1,
       "api": "https://jiduo.3116598.xyz/PHP/rrsp.php",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "live073",
-      "name": "👭克隆👭",
-      "type": 1,
-      "api": "https://zhangqun1818.serv00.net/klhj.php",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1

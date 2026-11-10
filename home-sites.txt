@@ -2,7 +2,7 @@
 # 等级：ok=首页影片列表实测非空 / likely=爬虫jar与首页配置均有效(含同jar推断) /
 #       classes_only=只返回分类（首页可能空）
 # 判定环境：github-actions | 同 jar 推断召回：529
-# 生成时间：2026-11-10 06:19 UTC
+# 生成时间：2026-11-10 06:29 UTC
 
 ok            | 11-暴风 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 14-量子 | 首页影片 20 条 via ac=list
@@ -67,7 +67,6 @@ ok            | 艾旦 | 采集 | 首页影片 20 条 via ac=list
 ok            | 艾旦影视(聚) | 首页影片 20 条 via ac=list
 ok            | 速优 | 首页影片 20 条 via ac=list
 ok            | 速播 | 采集 | 首页影片 20 条 via ac=list
-ok            | 采集集合+ | 首页影片 20 条 via ac=list
 ok            | 量子影视 | 首页影片 20 条 via ac=list
 ok            | 量子资源 | 首页影片 20 条 via ac=list
 ok            | 金鹰 | 采集 | 首页影片 20 条 via ac=list
@@ -96,7 +95,7 @@ ok            | 👭播剧影视👭 | 首页影片 20 条 via ac=list
 ok            | 👭赤铜👭 | 首页影片 20 条 via ac=list
 ok            | 💝分享爬虫 | 首页影片 20 条 via ac=list
 ok            | 💝分享迷你 | 首页影片 20 条 via ac=list
-ok            | 📡 HD(SN) | 首页影片 20 条 via ac=detail&pg=1
+ok            | 📡 HD(SN) | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 📡 U酷 | 首页影片 20 条 via ac=list
 ok            | 📡 光速 | 首页影片 20 条 via ac=list
 ok            | 📡 樱花 | 首页影片 20 条 via ac=videolist&pg=1
@@ -136,9 +135,10 @@ likely        | ☺凌云影视 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | ⚔️荐片┃手机 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ⚔️｜配置｜中心 | jar:HTTP 200 (zip) ext:json list 11
 likely        | ⚡┃闪电┃优汐 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | ⚡秒播┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ⚽88┃看球 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ⚽┃说球┃回放 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | ⚽┆看球┆体育 | jar:HTTP 200 (zip) ext:text 58634 chars
+likely        | ⚽┆看球┆体育 | jar:HTTP 200 (zip) ext:text 58704 chars
 likely        | ⚽叭叭┃体育 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ⚽瓜子┃体育 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ⚽瓜子┃看球 | jar:HTTP 200 (zip) ext:内嵌配置
@@ -1132,23 +1132,11 @@ likely        | 🫠┆上头┆4K | jar:HTTP 200 (zip) ext:同 jar 已有可用
 classes_only  | 57-飞马 | 仅分类 4 组
 classes_only  | A站｜星源 | 仅分类 51 组
 classes_only  | CCTV | 仅分类 69 组
-classes_only  | CNTV低分辨 | 仅分类 69 组
-classes_only  | js集合 | 仅分类 15 组
-classes_only  | php集合 | 仅分类 5 组
 classes_only  | ⚽┃酷克┃体育 | 仅分类 4 组
 classes_only  | 咪咕｜音乐 | 仅分类 3 组
 classes_only  | 小乐｜星源 | 仅分类 5 组
-classes_only  | 影视播放 | 仅分类 20 组
-classes_only  | 旺旺短剧 | 仅分类 38 组
-classes_only  | 服务器油管 | 仅分类 17 组
-classes_only  | 油管播放列表1 | 仅分类 20 组
-classes_only  | 油管播放列表2 | 仅分类 26 组
-classes_only  | 油管清单播放 | 仅分类 19 组
-classes_only  | 爱瓜TV | 仅分类 5 组
 classes_only  | 移动｜星源 | 仅分类 16 组
-classes_only  | 老张影视 | 仅分类 10 组
 classes_only  | 酷我｜音乐 | 仅分类 3 组
 classes_only  | 👭人人2👭 | 仅分类 5 组
-classes_only  | 👭克隆👭 | 仅分类 4 组
 classes_only  | 👭苹果视频👭 | 仅分类 5 组
 classes_only  | 🛫if101影视 | 仅分类 4 组

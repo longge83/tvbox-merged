@@ -1780,7 +1780,7 @@
     }
   ],
   "_meta": {
-    "updated": "2026-11-10 10:54:10 UTC",
+    "updated": "2026-11-10 12:41:29 UTC",
     "sites": 90,
     "sites_dropped_dead": 0,
     "sites_in_observation": 161,
@@ -1802,9 +1802,9 @@
     "sources_failed": [],
     "probe_env": {
       "env": "github-actions",
-      "runner": "42802230777",
+      "runner": "42817070821",
       "proxy": false,
-      "generated": "2026-11-10 10:54:10 UTC"
+      "generated": "2026-11-10 12:41:29 UTC"
     },
     "note": "稳定版：不追新源，适合长期不折腾的设备；随历史天数自动变严格",
     "polish": {
@@ -1821,12 +1821,12 @@
       "ext_normalized": 395,
       "wallpaper_removed": true,
       "order": {
-        "usable": 565,
-        "unknown": 319,
-        "degraded": 1190
+        "usable": 648,
+        "unknown": 222,
+        "degraded": 1204
       },
       "degraded_reason": {
-        "grade_fail": 677,
+        "grade_fail": 691,
         "csp_no_ext": 513
       },
       "jar_free": false,
@@ -1848,7 +1848,7 @@
       "history_days": 1
     },
     "home_first_count": null,
-    "home_first_note": "前 911 个站点按「今日首页等级 > 近 7 天可用天数 > 端到端可播得分」排序，其余节点保持原顺序，未删减",
+    "home_first_note": "前 882 个站点按「今日首页等级 > 近 7 天可用天数 > 端到端可播得分」排序，其余节点保持原顺序，未删减",
     "ranking": "home_days_7 > ok_days_7 > play_score > home_grade",
     "play_rate": 0.2333,
     "play_sampled": 30,
@@ -1870,7 +1870,7 @@
     "evidence": {
       "home_report": true,
       "home_graded": 2074,
-      "home_inferred": 294,
+      "home_inferred": 266,
       "play_sampled": 30,
       "play_rate": 0.2333,
       "playable_sites": 7,
@@ -1878,7 +1878,7 @@
       "stability_records": 2074,
       "parses_alive": 5,
       "parses_dead": 15,
-      "revived": 21
+      "revived": 22
     },
     "spider_dropped": "无 jar 依赖"
   },
@@ -2215,16 +2215,6 @@
       "name": "🍀非凡线路1",
       "type": 1,
       "api": "https://ffzy1.tv/api.php/provide/vod",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "jar": ""
-    },
-    {
-      "key": "live065",
-      "name": "👭赤铜👭",
-      "type": 1,
-      "api": "https://pg.cttv.vip/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
@@ -3290,6 +3280,16 @@
       "name": "👭播剧影视👭",
       "type": 1,
       "api": "https://www.ysxq.cc/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "jar": ""
+    },
+    {
+      "key": "live065",
+      "name": "👭赤铜👭",
+      "type": 1,
+      "api": "https://pg.cttv.vip/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,

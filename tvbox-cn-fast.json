@@ -964,7 +964,7 @@
     }
   ],
   "_meta": {
-    "updated": "2026-11-10 10:54:10 UTC",
+    "updated": "2026-11-10 12:41:29 UTC",
     "sites": 98,
     "sites_dropped_dead": 0,
     "sites_in_observation": 161,
@@ -982,9 +982,9 @@
     "sources_failed": [],
     "probe_env": {
       "env": "github-actions",
-      "runner": "42802230777",
+      "runner": "42817070821",
       "proxy": false,
-      "generated": "2026-11-10 10:54:10 UTC"
+      "generated": "2026-11-10 12:41:29 UTC"
     },
     "note": "极速版：老盒子 / 国内直连首选，牺牲覆盖面换开屏速度",
     "polish": {
@@ -1000,11 +1000,11 @@
       "wallpaper_removed": true,
       "order": {
         "usable": 90,
-        "unknown": 110,
-        "degraded": 249
+        "unknown": 101,
+        "degraded": 258
       },
       "degraded_reason": {
-        "grade_fail": 249
+        "grade_fail": 258
       },
       "jar_free": true,
       "spider_removed": true,
@@ -1049,7 +1049,7 @@
     "evidence": {
       "home_report": true,
       "home_graded": 2074,
-      "home_inferred": 294,
+      "home_inferred": 266,
       "play_sampled": 30,
       "play_rate": 0.2333,
       "playable_sites": 7,
@@ -1057,7 +1057,7 @@
       "stability_records": 2074,
       "parses_alive": 5,
       "parses_dead": 15,
-      "revived": 21
+      "revived": 22
     }
   },
   "sites": [
@@ -1393,16 +1393,6 @@
       "name": "🍀非凡线路1",
       "type": 1,
       "api": "https://ffzy1.tv/api.php/provide/vod",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "jar": ""
-    },
-    {
-      "key": "live065",
-      "name": "👭赤铜👭",
-      "type": 1,
-      "api": "https://pg.cttv.vip/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
@@ -2474,6 +2464,16 @@
       "jar": ""
     },
     {
+      "key": "live065",
+      "name": "👭赤铜👭",
+      "type": 1,
+      "api": "https://pg.cttv.vip/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "jar": ""
+    },
+    {
       "key": "live076",
       "name": "💝分享爬虫",
       "type": 1,
@@ -2599,45 +2599,6 @@
       "jar": ""
     },
     {
-      "key": "live073",
-      "name": "👭克隆👭",
-      "type": 1,
-      "api": "https://zhangqun1818.serv00.net/klhj.php",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "jar": ""
-    },
-    {
-      "key": "live132",
-      "name": "爱奇艺 · iqiyizyapi.com",
-      "type": 0,
-      "api": "https://iqiyizyapi.com/api.php/provide/vod/at/xml",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "jar": ""
-    },
-    {
-      "key": "乐活影视",
-      "name": "乐活影视(优)",
-      "type": 1,
-      "api": "https://lehootv.com/api.php/provide/vod/",
-      "searchable": 1,
-      "quickSearch": 1,
-      "jar": ""
-    },
-    {
-      "key": "live091",
-      "name": "巨量资源网",
-      "type": 0,
-      "api": "https://api.juliang.live/api/provide/vod/at/xml",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "jar": ""
-    },
-    {
       "key": "卧龙资源-2",
       "name": "影视 • 卧龙资源[直连]",
       "type": 1,
@@ -2657,23 +2618,61 @@
       "jar": ""
     },
     {
-      "key": "live094",
-      "name": "量子影视(2)",
+      "key": "live087",
+      "name": "暴风影视",
       "type": 0,
-      "api": "https://cj.lziapi.com/api.php/provide/vod/from/lzm3u8/at/xml",
+      "api": "https://by.bfzyapi.com/api.php/provide/vod/at/xml",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
       "jar": ""
     },
     {
-      "key": "live130",
-      "name": "🔥量子🔥",
+      "key": "live136",
+      "name": "极速",
       "type": 0,
-      "api": "https://cj.lziapi.com/api.php/provide/vod/from/liangzi/at/xml",
+      "api": "https://jszyapi.com/api.php/provide/vod/from/jsyun/at/xml",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
+      "jar": ""
+    },
+    {
+      "key": "看看资源",
+      "name": "看看资源(优)",
+      "type": 1,
+      "api": "https://zy.hikan.xyz/api.php/provide/vod/",
+      "searchable": 1,
+      "quickSearch": 1,
+      "jar": ""
+    },
+    {
+      "key": "live084",
+      "name": "金鹰影视",
+      "type": 0,
+      "api": "https://jyzyapi.com/provide/vod/from/jinyingm3u8/at/xml",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "jar": ""
+    },
+    {
+      "api": "https://ys.cxkjg.cn/api/provide/vod?source=4118858385",
+      "filterable": 1,
+      "key": "source_4118858385",
+      "name": "📡 WS",
+      "quickSearch": 1,
+      "searchable": 1,
+      "type": 1,
+      "jar": ""
+    },
+    {
+      "key": "初恋资源",
+      "name": "🧡┃初恋┃官源",
+      "type": 1,
+      "api": "https://video.adminqt.cn/api.php/provide/vod/",
+      "searchable": 1,
+      "quickSearch": 1,
       "jar": ""
     }
   ]

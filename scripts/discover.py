@@ -109,19 +109,25 @@ def evaluate(item, keys, apis, timeout=15):
     if not isinstance(cfg, dict) or not cfg.get("sites"):
         return {"url": url, "sources": sorted(srcs), "ok": False,
                 "reason": "HTTP %s / 非 TVBox 配置" % st}
+    # 上游大量使用 ./js/x.js 这类相对路径。不做绝对化会把「同一份配置的
+    # 代理镜像」当成几百个新站点（实测 gh-proxy 的 gao 镜像曾虚报 +219）。
+    # 这里与 build.py 用同一套规则，边际贡献才有可比性。
+    base = url.rsplit("/", 1)[0] + "/"
     new = new_api = 0
     for s in cfg.get("sites", []):
         if not isinstance(s, dict):
             continue
-        api = str(s.get("api") or "")
+        api = build_mod.absolutize(str(s.get("api") or ""), base)
         ext = s.get("ext")
+        if isinstance(ext, str):
+            ext = build_mod.absolutize(ext, base)
         ek = ext if isinstance(ext, str) else json.dumps(ext, ensure_ascii=False, sort_keys=True)[:60]
         tail = (ek or api).rsplit("/", 1)[-1][:40]
         k = build_mod.norm_name(s.get("name")) + "|" + tail
-        if k in keys or (api.startswith("http") and api in apis):
+        if k in keys or (str(api).startswith("http") and api in apis):
             continue
         new += 1
-        if api.startswith("http"):
+        if str(api).startswith("http"):
             new_api += 1
     return {"url": url, "sources": sorted(srcs), "ok": True,
             "sites": len(cfg.get("sites", [])),

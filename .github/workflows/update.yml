@@ -131,8 +131,11 @@ jobs:
                 "https://purge.jsdelivr.net/gh/${{ github.repository }}@main/$f" \
                 || echo "purge @main/$f failed (non-fatal)"
             done
-            [ "$pass" = "1" ] && sleep 8
+            if [ "$pass" = "1" ]; then sleep 8; fi
           done
+          # `[ cond ] && cmd` 在最后一轮会返回 1，在 bash -e 下会把整个步骤判失败
+          echo "CDN purge 完成"
+          exit 0
 
   # 短 TTL 备用线路 + 健康页。Pages 的缓存远短于 jsDelivr，且不受 purge 影响。
   pages:

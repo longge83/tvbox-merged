@@ -2,18 +2,18 @@
   "date": "2026-11-10",
   "env": {
     "env": "github-actions",
-    "runner": "42785641080",
+    "runner": "42788441750",
     "proxy": false,
-    "generated": "2026-11-10 08:55:05 UTC"
+    "generated": "2026-11-10 09:15:40 UTC"
   },
   "versions": [
     {
       "file": "tvbox-quality.json",
       "label": "精播版",
       "note": "只留实测可播 / 首页实测有影片的节点，宁缺毋滥",
-      "sites": 619,
+      "sites": 593,
       "home_first": null,
-      "bytes": 333988,
+      "bytes": 319540,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-quality.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-quality.json"
     },
@@ -21,9 +21,9 @@
       "file": "tvbox-cn-fast.json",
       "label": "国内极速版",
       "note": "国内直连、无 spider jar、按质量取前 120 个，老盒子开屏最快",
-      "sites": 93,
+      "sites": 95,
       "home_first": null,
-      "bytes": 73072,
+      "bytes": 75061,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-cn-fast.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-cn-fast.json"
     },
@@ -31,9 +31,9 @@
       "file": "tvbox-stable7.json",
       "label": "7 天稳定版",
       "note": "近 7 天多次可用且当前无连败，不追新源、不随上游抖动",
-      "sites": 89,
+      "sites": 90,
       "home_first": null,
-      "bytes": 106243,
+      "bytes": 107978,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-stable7.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-stable7.json"
     },
@@ -42,8 +42,8 @@
       "label": "全量 + 首页优先",
       "note": "功能最全，推荐桌面/高性能盒子",
       "sites": 2074,
-      "home_first": 1161,
-      "bytes": 823278,
+      "home_first": 1088,
+      "bytes": 831410,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-full-homefirst.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-full-homefirst.json"
     },
@@ -52,8 +52,8 @@
       "label": "精简 + 首页优先",
       "note": "不依赖 spider jar，低性能盒子首选",
       "sites": 483,
-      "home_first": 114,
-      "bytes": 182964,
+      "home_first": 112,
+      "bytes": 191139,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-lite-homefirst.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-lite-homefirst.json"
     },
@@ -62,8 +62,8 @@
       "label": "网络优化 + 首页优先",
       "note": "不依赖境外代码托管，国内直连最稳",
       "sites": 449,
-      "home_first": 114,
-      "bytes": 166878,
+      "home_first": 112,
+      "bytes": 174476,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-network-homefirst.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-network-homefirst.json"
     },
@@ -71,9 +71,9 @@
       "file": "tvbox-home.json",
       "label": "首页版",
       "note": "只保留能出主界面推荐的节点",
-      "sites": 1161,
+      "sites": 1088,
       "home_first": null,
-      "bytes": 518738,
+      "bytes": 492046,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-home.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-home.json"
     },
@@ -83,7 +83,7 @@
       "note": "全部节点，原始顺序",
       "sites": 2074,
       "home_first": null,
-      "bytes": 822911,
+      "bytes": 831043,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox.json"
     },
@@ -93,7 +93,7 @@
       "note": "仅 http 站点",
       "sites": 483,
       "home_first": null,
-      "bytes": 182628,
+      "bytes": 190803,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-lite.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-lite.json"
     },
@@ -103,7 +103,7 @@
       "note": "仅国内直连友好站点",
       "sites": 449,
       "home_first": null,
-      "bytes": 166557,
+      "bytes": 174155,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-network.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-network.json"
     }
@@ -374,24 +374,24 @@
   "sources_ok": 29,
   "sources_failed": [],
   "home_grades": {
-    "likely": 1047,
-    "ok": 91,
-    "unknown": 123,
-    "fail": 790,
-    "classes_only": 23
+    "likely": 976,
+    "ok": 90,
+    "fail": 874,
+    "classes_only": 22,
+    "unknown": 112
   },
-  "home_inferred": 533,
+  "home_inferred": 486,
   "play": {
     "sampled": 30,
     "list_rate": 0.8,
     "detail_rate": 0.8,
-    "play_rate": 0.3667,
-    "search_rate": 0.6333,
-    "playable": 11,
-    "parses_alive_rate": 0.15,
+    "play_rate": 0.2333,
+    "search_rate": 0.7667,
+    "playable": 7,
+    "parses_alive_rate": 0.2,
     "parses_total": 187
   },
-  "false_kill_rate": 0.28,
+  "false_kill_rate": 0.26,
   "assert_passed": true,
   "assert_pass_streak": 1,
   "stable": {
@@ -405,10 +405,10 @@
       "sites": 2133,
       "lite": 505,
       "network": 470,
-      "home_sites": 1161,
-      "home_ok": 91,
-      "play_rate": 0.3667,
-      "false_kill_rate": 0.28,
+      "home_sites": 1088,
+      "home_ok": 90,
+      "play_rate": 0.2333,
+      "false_kill_rate": 0.26,
       "sources_ok": 29,
       "assert_passed": true
     }

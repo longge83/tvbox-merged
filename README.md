@@ -1,35 +1,53 @@
 # TVBox 聚合配置（自动更新）
 
-自动聚合多个公开 TVBox 配置源，去重、修复相对路径、每日存活复检后输出**全量版与精简版**两份可直接使用的配置。
+自动聚合多个公开 TVBox 配置源，去重、修复相对路径、每日存活复检与首页推荐探测后，输出**全量 / 精简 / 首页版 / 首页优先**共五份可直接使用的配置。
 
-## 配置地址
+## 配置地址（国内推荐直接复制下面整行链接）
 
-**全量版**（约 1900+ 站点，功能最全，依赖 spider jar，适合性能较好的设备）：
+五个版本按用途挑**一个**填进「设置 → 配置地址」即可。建议优先用带 `homefirst` 的两个：节点一个不少，但能出首页推荐的源被排到了最前面，开机默认就落在有内容的源上。
+
+| 文件 | 站点数 | 用途 |
+|---|---|---|
+| `tvbox-full-homefirst.json` | 1971 | **全量 + 首页优先**（前 351 个可用），功能最全，依赖 spider jar |
+| `tvbox-lite-homefirst.json` | 344 | **精简 + 首页优先**（前 127 个可用），不依赖 jar，低性能盒子首选 |
+| `tvbox-home.json` | 351 | 只保留首页可用节点，最干净 |
+| `tvbox.json` | 1971 | 全量版，原始顺序 |
+| `tvbox-lite.json` | 344 | 精简版，原始顺序 |
+
+### 国内线路（jsDelivr，每条都是完整地址，可整行复制）
 
 ```
+https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-full-homefirst.json
+https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-lite-homefirst.json
+https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-home.json
+https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox.json
+https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-lite.json
+```
+
+### 备用节点（主域名被污染 / 访问慢时，换成 fastly 或 gcore）
+
+```
+https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-full-homefirst.json
+https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-lite-homefirst.json
+https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-home.json
+https://gcore.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-lite-homefirst.json
+```
+
+其余文件同理，把 `cdn` 换成 `fastly` / `gcore` / `testingcf` 即可。
+
+### 官方源 raw（实时性最好，但国内直连常超时，需代理）
+
+```
+https://raw.githubusercontent.com/dimogu/tvbox-merged/main/tvbox-full-homefirst.json
+https://raw.githubusercontent.com/dimogu/tvbox-merged/main/tvbox-lite-homefirst.json
+https://raw.githubusercontent.com/dimogu/tvbox-merged/main/tvbox-home.json
 https://raw.githubusercontent.com/dimogu/tvbox-merged/main/tvbox.json
-```
-
-**精简版**（约 340 个 http 站点，采集源均已探活，不依赖 spider jar，适合低性能盒子）：
-
-```
 https://raw.githubusercontent.com/dimogu/tvbox-merged/main/tvbox-lite.json
 ```
 
-国内直连 raw 不稳定时，用 jsDelivr 镜像（把 `tvbox.json` 换成 `tvbox-lite.json` 即为精简版）：
+### 关于首页优先版
 
-```
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox.json
-```
-
-备用 CDN 端点（同一份内容，节点不同，主域名异常时可换）：
-
-```
-https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox.json
-https://gcore.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox.json
-```
-
-TVBox / 影视仓 → 设置 → 配置地址，粘贴其中之一保存即可。
+两个 `homefirst` 版本**不删任何节点**，只重排顺序：把 `scripts/home_probe.py` 实测能出首页推荐的节点（按 `ok` → `likely` → `classes_only` 的可靠度）提到最前，其余节点保持原顺序。`_meta.home_first_count` 记录了置顶数量。适合「想保留全部源、又不想一进来首页空白」的场景；若只想要干净的首页源列表，用 `tvbox-home.json`。
 
 ### 关于 jsDelivr 缓存
 
@@ -74,7 +92,7 @@ https://raw.githubusercontent.com/dimogu/tvbox-merged/main/tvbox-home.json
 https://raw.githubusercontent.com/dimogu/tvbox-merged/main/home-sites.txt
 ```
 
-国内访问同样可套 `cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/` 前缀，每日构建后会自动清 CDN 缓存。
+国内访问的完整 jsDelivr 链接见上文「配置地址」，每日构建后会自动清 CDN 缓存。
 
 > 坑：不少作者把 jar 伪装成 `.jpg` / `.png` 传到图床（实测返回 `PK\x03\x04` ZIP 魔数）。判断 jar 是否有效**只能看内容**，按后缀判会误杀几百个节点。
 
@@ -95,7 +113,7 @@ https://raw.githubusercontent.com/dimogu/tvbox-merged/main/home-sites.txt
 
 - **每天北京时间 04:00** 由 GitHub Actions 自动构建（`.github/workflows/update.yml`）
 - 也可在 Actions 页面点 `Run workflow` 手动触发
-- 构建流程：读取 `sources.txt` → 并行拉取上游 → 绝对化相对路径 → spider jar 下沉到站点 → 跨源去重 → 内容过滤（剔除成人/违规站点）→ 采集源 `?ac=list` 探活 → 剔除失效 → 输出全量版 + 精简版 → 提交
+- 构建流程：读取 `sources.txt` → 并行拉取上游 → 绝对化相对路径 → spider jar 下沉到站点 → 跨源去重 → 内容过滤（剔除成人/违规站点）→ 采集源 `?ac=list` 探活 → 剔除失效 → 输出全量版 + 精简版 → 云端探测首页推荐能力 → 生成首页版与两个首页优先版 → 提交
 - 内容无实质变化时**不提交**，避免无意义的历史记录
 - 提交后自动清除 jsDelivr CDN 缓存，避免镜像滞留旧配置
 
@@ -112,6 +130,8 @@ https://raw.githubusercontent.com/dimogu/tvbox-merged/main/home-sites.txt
 
 ```bash
 python scripts/build.py          # 生成 tvbox.json（全量）与 tvbox-lite.json（精简）
+python scripts/home_probe.py     # 云端逐站探测首页推荐，生成 tvbox-home.json / home-sites.txt
+python scripts/rank_home.py      # 生成全量/精简的「首页优先」版（只重排，不删节点）
 ```
 
 仅依赖 Python 3 标准库，无需 pip 安装。`scripts/` 下另有 `harvest.py`（挖接口）、`scan_repos.py`（扫仓库）、`eval_sources.py`（算边际贡献），用于后续继续扩容。

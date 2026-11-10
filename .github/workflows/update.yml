@@ -38,11 +38,18 @@ jobs:
             --input tvbox.json --workers 50 \
             --report home_report.json --output tvbox-home.json
 
+      # 全量/精简版保持完整节点，只把已探活的首页节点排到最前面，
+      # 让客户端默认落在能出推荐的源上，同时不牺牲搜索与其它源。
+      - name: 生成首页优先版
+        continue-on-error: true
+        run: python scripts/rank_home.py
+
       - name: 有变更则提交
         id: commit
         run: |
           git add tvbox.json tvbox-lite.json 2>/dev/null || true
           git add tvbox-home.json home-sites.txt 2>/dev/null || true
+          git add tvbox-full-homefirst.json tvbox-lite-homefirst.json 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "配置无变化，跳过提交"
             echo "changed=false" >> $GITHUB_OUTPUT
@@ -63,7 +70,8 @@ jobs:
           echo "本次是否有提交: ${{ steps.commit.outputs.changed }}"
           # GitHub raw 传播有短暂延迟，等几秒再清缓存，避免 CDN 回源拉到旧文件
           sleep 10
-          for f in tvbox.json tvbox-lite.json tvbox-home.json; do
+          for f in tvbox.json tvbox-lite.json tvbox-home.json \
+                   tvbox-full-homefirst.json tvbox-lite-homefirst.json; do
             echo "--- purge $f ---"
             curl -fsS --max-time 30 \
               "https://purge.jsdelivr.net/gh/${{ github.repository }}@main/$f" \

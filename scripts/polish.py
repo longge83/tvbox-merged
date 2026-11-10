@@ -129,6 +129,10 @@ def clean_site(site):
 
     s["key"] = str(s.get("key") or "").strip()
 
+    # jar 同样要去掉前后空白：上游把 jar 写成 "  http://...fan.txt " 这种带
+    # 空格的串，startswith("http") 会判错，更会让客户端拉 jar 直接 404。
+    s["jar"] = str(s.get("jar") or "").strip()
+
     # ext 必须是一段字符串。上游有 382 个站点把 ext 写成 JSON 对象，
     # Gson 严格解析的客户端（TVBox 原版）会直接判定整份配置非法。
     ext = s.get("ext")

@@ -68,12 +68,17 @@ jobs:
         if: always()
         run: |
           echo "本次是否有提交: ${{ steps.commit.outputs.changed }}"
-          # GitHub raw 传播有短暂延迟，等几秒再清缓存，避免 CDN 回源拉到旧文件
-          sleep 10
-          for f in tvbox.json tvbox-lite.json tvbox-home.json \
-                   tvbox-full-homefirst.json tvbox-lite-homefirst.json; do
-            echo "--- purge $f ---"
-            curl -fsS --max-time 30 \
-              "https://purge.jsdelivr.net/gh/${{ github.repository }}@main/$f" \
-              || echo "purge $f failed (non-fatal)"
+          # GitHub raw 全球传播有延迟，太早清缓存会让 CDN 回源拉到旧 blob
+          # 并重新缓存（曾出现镜像滞留上一轮配置）。等 30s + 两轮 purge。
+          sleep 30
+          FILES="tvbox.json tvbox-lite.json tvbox-home.json tvbox-full-homefirst.json tvbox-lite-homefirst.json"
+          for pass in 1 2; do
+            echo "=== purge 第 $pass 轮 ==="
+            for f in $FILES; do
+              echo "--- purge $f ---"
+              curl -fsS --max-time 30 \
+                "https://purge.jsdelivr.net/gh/${{ github.repository }}@main/$f" \
+                || echo "purge $f failed (non-fatal)"
+            done
+            [ "$pass" = "1" ] && sleep 8
           done

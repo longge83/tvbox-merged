@@ -1,8 +1,8 @@
 # 能显示主界面推荐（首页）的节点
 # 等级：ok=首页影片列表实测非空 / likely=爬虫jar与首页配置均有效(含同jar推断) /
 #       classes_only=只返回分类（首页可能空）
-# 判定环境：github-actions | 同 jar 推断召回：491
-# 生成时间：2026-11-10 06:49 UTC
+# 判定环境：github-actions | 同 jar 推断召回：500
+# 生成时间：2026-11-10 06:59 UTC
 
 ok            | 11-暴风 | 首页影片 20 条 via ac=list
 ok            | 14-量子 | 首页影片 20 条 via ac=list
@@ -57,6 +57,7 @@ ok            | 暴風 | 采集 | 首页影片 20 条 via ac=list
 ok            | 暴风资源2 | 首页影片 20 条 via ac=list
 ok            | 淘片资源 | 首页影片 30 条 via ac=detail&pg=1
 ok            | 百度资源(切) | 首页影片 20 条 via ac=list
+ok            | 索尼 | 采集 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 艾旦 | 采集 | 首页影片 20 条 via ac=list
 ok            | 艾旦影视(聚) | 首页影片 20 条 via ac=list
 ok            | 速优 | 首页影片 20 条 via ac=list
@@ -93,23 +94,26 @@ ok            | 🔷U酷 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 🥑┃量子┃资源 | 首页影片 20 条 via ac=list
 ok            | 🦊火狐采集 | 首页影片 20 条 via ac=list
 ok            | 🧞无广┃[采集] | 首页影片 20 条 via ac=list
-ok            | 索尼 | 采集 | 首页影片 20 条 via ac=videolist&pg=1
 likely        | 234|弹幕 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 360|弹幕 | jar:HTTP 200 (zip) ext:json keys:class,list
-likely        | AList · AweSomeGuard | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | CHNNETFILX | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | New6V • 磁力 | jar:HTTP 200 (zip) ext:text 46507 chars
 likely        | ☁️风云┃多线 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ☄️｜AGE｜动漫 | jar:HTTP 200 (zip) ext:text 2408 chars
+likely        | ☕️咖啡┃秒播短剧 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ☘️我的┃百度 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ☘️短视频 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | ☺FREEOK | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | ☺TVB云播 | jar:HTTP 200 (zip) ext:text 7639 chars
+likely        | ☺凌云影视 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | ☺大米星球 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | ☺看一看 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | ⚔️荐片┃手机 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ⚔️｜配置｜中心 | jar:HTTP 200 (zip) ext:json list 11
 likely        | ⚡┃闪电┃优汐 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | ⚡秒播┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ⚽88┃看球 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ⚽┃说球┃回放 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | ⚽┆看球┆体育 | jar:HTTP 200 (zip) ext:text 58648 chars
+likely        | ⚽┆看球┆体育 | jar:HTTP 200 (zip) ext:text 58616 chars
 likely        | ⚽叭叭┃体育 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ⚽瓜子┃体育 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ⚽瓜子┃看球 | jar:HTTP 200 (zip) ext:内嵌配置
@@ -145,7 +149,6 @@ likely        | 二小｜4K | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 云盘配置 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 人人影视 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 修罗|弹幕 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 傻样|4k网盘 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 全网看 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 八零 • 4K | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 养生｜知识 | jar:HTTP 200 (zip) ext:text 1118 chars
@@ -257,15 +260,15 @@ likely        | 雪糕|弹幕 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 雷静|盘搜 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 飞宇影院 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 飞快影视 | jar:HTTP 200 (zip) ext:json keys:首页,分类
-likely        | 饭团 · fantuanhd.com | jar: ext:text 2611 chars
 likely        | 马猴 • APP | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 高中 • 课堂 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ️💢奇优 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🅱‍哔哩┃合集🅱‍ | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🅱‍哔哩┃戏曲🅱‍ | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🅱‍哔哩┃歌曲🅱‍ | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🅱┃️哔哩┃合集 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🅱哔哔┃合集🅱 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🅱哔哔┃歌曲🅱 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🅱哔哔合集┃弹幕 · BiliGuard | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🅱哔哔演唱会┃弹幕 · BiliGuard | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🅱哔哩┃合集 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🅱哔哩┃小品 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🅱哔哩┃影视 | jar:HTTP 200 (zip) ext:内嵌配置
@@ -273,6 +276,7 @@ likely        | 🅱哔哩┃歌曲 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🅱哔哩┃相声 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🅱️初中 | jar:HTTP 200 (zip) ext:text 54984 chars
 likely        | 🅱️高中 | jar:HTTP 200 (zip) ext:text 52438 chars
+likely        | 🌀咕噜┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🌂123┃4K | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🌂我的┃123 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🌈┆七味┆4K | jar:HTTP 200 (zip) ext:内嵌配置
@@ -289,10 +293,16 @@ likely        | 🌈｜哔哩｜音乐 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🌈｜小学｜课堂 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🌈｜少儿｜教育 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🌈｜高中｜课堂 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🌍世界┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🌏海外┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🌐云播┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🌕️┆片单┆精选 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🌙┃夸克┃影视 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🌞半日┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🌟星丫┃短剧 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🌟立播┃不卡 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🌱┆Seed┆4K | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🌱麦豆TV | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 🌶️抠抠┃搜搜 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🌷我的┃115 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🌸┆花卷┆4K | jar:HTTP 200 (zip) ext:内嵌配置
@@ -300,16 +310,28 @@ likely        | 🌸甜圈┃短剧 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🌸｜咕咕｜动漫 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🌸｜方舟丨动漫 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🌸｜曼波｜动漫 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🌹花花 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 🌺文才┃弹幕 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🌻瓜子┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🌾农民┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🌿木兮┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🍀┆多多┆4K | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🍅┆红红┆短剧 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🍉瓜子┃弹幕 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🍊云集┃4K弹幕 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🍊橘子┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🍊蒙太奇┃秒播4K | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🍎花卷┃网盘不卡4K | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🍏苹果┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🍒咖啡┃老剧 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🍒果果┃弹幕短剧 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🍓┆热播┆APP | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🍓糯米┃弹幕 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🍙┆糯米┆影视 | jar:HTTP 200 (zip) ext:text 415 chars
 likely        | 🍚┃干饭┃APP | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🍚下饭┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🍭┆Tiu6┆搜索 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🎃南瓜┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🎈盘搜┃四盘 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🎉┆笔璃┆合集 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🎉┆笔璃┆歌曲 | jar:HTTP 200 (zip) ext:内嵌配置
@@ -324,7 +346,11 @@ likely        | 🎧易听┃音乐 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🎧爱听┃音乐 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🎨┆笔触┆琉璃 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🎬┆流映┆4K | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🎶明星┃MV · BiliGuard | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🎬豆瓣┃推荐反馈群：https://t.me/diaos | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🎭剧圈┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🎮游戏┃直播 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🎯荐片┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🎵库库┃音乐 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🎸世界┃听书 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🎸盘他┃4K | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🎸酷奇MV | jar:HTTP 200 (zip) ext:内嵌配置
@@ -339,10 +365,10 @@ likely        | 🏭厂长 | jar:HTTP 200 (zip) ext:text 2069 chars
 likely        | 🐅┆虎斑┆4K | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🐌┆蜗牛┆4K | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🐌盘她┃夸父 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🐍一龙影视 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 🐕酷狗┃音乐 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🐞盘他┃嘟嘟 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🐯虎斑┃4K弹幕 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🐯虎牙┃直播 · AweSomeGuard | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🐱我的┃阿里 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🐳雷鲸┃4K | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🐴神马影院 | jar:HTTP 200 (zip) ext:json keys:分类
@@ -356,8 +382,8 @@ likely        | 👠蜡笔┃4K弹幕 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 👦二小┃4K弹幕 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 👨‍🍳‍配置┃中心 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 👽玩偶┃4K弹幕 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 👽玩偶哥哥┃4K弹幕 · WoGGGuard | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 👽️┆玩偶┆4K | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 💃糖豆┃舞蹈 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 💌至臻┃4K弹幕 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 💓Emby001┃4K💓 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 💓｜火狐｜APP | jar:HTTP 200 (zip) ext:内嵌配置
@@ -396,6 +422,7 @@ likely        | 💥零七┃秒播💥 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 💥黄人┃秒播💥 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 💥｜热播｜影视 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 💫┆八零┆4K | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 💵土豪影视 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 📐┆初中┆课堂 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 📚┃初中┃课堂 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 📚┃小学┃课堂 | jar:HTTP 200 (zip) ext:内嵌配置
@@ -403,43 +430,55 @@ likely        | 📚┃少儿┃教育 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 📚┃高中┃课堂 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 📚┆小学┆课堂 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 📚初中┃教育 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 📚初中┃课堂 · AweSomeGuard | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 📚初中┃课堂 · BiliGuard | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 📚初中┃课堂📚 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 📚小学┃教育 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 📚小学┃课堂 · AweSomeGuard | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 📚小学┃课堂 · BiliGuard | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 📚小学┃课堂📚 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 📚少儿┃教育 · AweSomeGuard | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 📚少儿┃教育 · BiliAmns | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 📚少儿┃教育 · BiliGuard | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 📚少儿┃教育📚 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 📚高中┃教育 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 📚高中┃课堂 · AweSomeGuard | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 📚高中┃课堂 · BiliGuard | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 📚高中┃课堂📚 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 📤推送┃授权 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 📱MiNO┃秒播4K | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 📷量子┃弹幕 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 📺┆立播┆4K | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 📺哔哩┃番剧 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 📺热播┃弹幕 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 📺电视┃直播 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🔍剧搜┃搜索 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🔧网盘┃授权扫码 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🖍︎┃蜡笔┃影视 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🗂我的云盘┃我配置 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🗂我的云盘┃配置 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🗽我的┃夸克 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 😀243影视网 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😀孜然影视 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😀思古影视 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😀臭蛋蛋 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😁明帝影视 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😃400影视 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😃巨人影院5.26跑路 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😃蓝光电影网 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😆双十 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😆哆咪 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😆稀饭 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😆端木 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😆素白白 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😆霹雳影视 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😉┆光鸭┆4K | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 😉大师兄影视（bug版） | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😉网飞TV | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😊23影视 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😋COKEMV | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😋伊人追剧 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😋热播之家 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😋皮皮鸭 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😌┃行动┃APP | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 😍人人影视p | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😍城市电影 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😍影视工场 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😍快看影视 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😍慢大浪 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😍胖虎影视 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😍达达龟 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😍饭团 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😎┆123┆4K | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 😎快手┃直播 | jar:HTTP 200 (zip) ext:内嵌配置
@@ -447,111 +486,29 @@ likely        | 😐188kan | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😐小鹿影视 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😐无名小站 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😐歪片星球 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😐爱看影院 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😐秋霞影视 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😐豆巴影视 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😑西瓜影视 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😔假低端 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😔鸭奈非 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😔鸭奈非4K | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😗NIKETV | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😗NO视频 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😗免费思古 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😗八蛋影视 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😗影视之家 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😗批哩㕷哩 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😗星空影视 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😗映迷影院 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😗爱迪影视 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😗看了么 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😗简单影视 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😗西屋影视 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😗酷绘 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😗酷茶影视 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😗野菊花电影网 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😗首播影视 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😮冷曦影视 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😮奇优影视 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😵音范丝 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😼我的┃UC | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🙄WZ影视 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🙄YOHUTV | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🙄乌龟影院 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🙄九九影院 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🙄全能影视 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🙄咖啡影院 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🙄我爱跟剧 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🙄洞庭影视 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🚌巴士┃动漫 · AweSomeGuard | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🛒┆网盘┆市场 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🛴手机┃推送 · AweSomeGuard | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🛴手机┃推送 · PushGuard | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🤓公众号┃不会唱歌的鱼妖 (关注不迷路) | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🤓趣盘┃搜索 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🤖木偶┃4K弹幕 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🤣┃动漫┃巴士 | jar:HTTP 200 (zip) ext:text 34274 chars
-likely        | 🤨91美剧 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🤨AUETE影视 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🤨八戒影院 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🤨在线之家 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🤨天空影视 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🤨奈落影院 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🤨无极影院 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🤨白狐影视 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🤨看看剧 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🤩6v电影 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🤩久久美剧网 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🤩人人美剧（网站有问题） | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🤩厂长 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🤩天天影院 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🤩美剧天堂 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🤩美剧窝 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🤩美剧网 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🤭┆傻样┆4K | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🥇️┃金牌┃影视 | jar:HTTP 200 (zip) ext:text 59730 chars
-likely        | 🥝农民 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🥣┃一碗┃APP | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🥰骚火影视 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🦄韩圈┃弹幕 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🦋易搜┃四盘 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🦓盒马┃短剧 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🧒┆少儿┆教育 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🧲新6V | jar:HTTP 200 (zip) ext:text 46507 chars
-likely        | 🧲新6V┃磁力 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🧲荐片 | jar:HTTP 200 (zip) ext:text 1056 chars
-likely        | 🧽我的┃天逸 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🪵┆木偶┆4K | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🫐┆三六┆影视 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | ☺FREEOK | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | ☺TVB云播 | jar:HTTP 200 (zip) ext:text 7639 chars
-likely        | ☺凌云影视 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | ☺大米星球 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | ☺看一看 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🅱‍哔哩┃合集🅱‍ | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🅱‍哔哩┃戏曲🅱‍ | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🅱‍哔哩┃歌曲🅱‍ | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🌱麦豆TV | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🌹花花 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🌿木兮┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🐍一龙影视 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 💵土豪影视 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 📱MiNO┃秒播4K | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 😀孜然影视 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😀思古影视 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😀臭蛋蛋 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😆双十 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😆哆咪 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😆稀饭 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😆素白白 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😆霹雳影视 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😊23影视 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😋COKEMV | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😋伊人追剧 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😋热播之家 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😍人人影视p | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😍快看影视 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😍胖虎影视 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😍达达龟 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😐爱看影院 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😐豆巴影视 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😔假低端 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😗NIKETV | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😗八蛋影视 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 😗看了么 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😘Vidhub | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😘libvio | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😘voflix | jar:HTTP 200 (zip) ext:json keys:分类
@@ -563,50 +520,93 @@ likely        | 😙蓝光影院 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😚影渣渣 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😦白嫖影视 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 😦看看电影 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😮冷曦影视 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😮奇优影视 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😵音范丝 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 😼我的┃UC | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🙄WZ影视 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🙄YOHUTV | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🙄乌龟影院 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🙄九九影院 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🙄全能影视 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 🙄八戒影院 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 🙄北川影视 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🙄咖啡影院 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 🙄小狗影院 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🙄我爱跟剧 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🙄洞庭影视 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 🙄独播库 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🚑急救┃知识 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🛒┆网盘┆市场 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🤑金曼TV | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🤓公众号┃不会唱歌的鱼妖 (关注不迷路) | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🤓趣盘┃搜索 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🤖木偶┃4K弹幕 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🤞朴樱影视 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🤣┃动漫┃巴士 | jar:HTTP 200 (zip) ext:text 34274 chars
+likely        | 🤨91美剧 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🤨AUETE影视 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🤨八戒影院 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🤨在线之家 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🤨天空影视 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🤨奈落影院 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🤨无极影院 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🤨白狐影视 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🤨看看剧 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 🤩555 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 🤩6080 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🤩6v电影 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 🤩万博剧院 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🤩久久美剧网 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 🤩人人筷子 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | 🥵麻花影视 | jar:HTTP 200 (zip) ext:json keys:分类
-likely        | ☕️咖啡┃秒播短剧 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🌀咕噜┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🌍世界┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🌏海外┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🌐云播┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🌞半日┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🌟星丫┃短剧 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🌻瓜子┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🌾农民┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🍊橘子┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🍊蒙太奇┃秒播4K | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🍎花卷┃网盘不卡4K | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🍏苹果┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🍒咖啡┃老剧 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🍒果果┃弹幕短剧 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🍚下饭┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🎃南瓜┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🎬豆瓣┃推荐反馈群：https://t.me/diaos | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🎭剧圈┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🎮游戏┃直播 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🎯荐片┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🎵库库┃音乐 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 💃糖豆┃舞蹈 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 💗｜夸社｜网盘 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 📤推送┃授权 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 📺哔哩┃番剧 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 📺电视┃直播 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🔧网盘┃授权扫码 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | 🚑急救┃知识 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🤩人人美剧（网站有问题） | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🤩厂长 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🤩天天影院 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🤩美剧天堂 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🤩美剧窝 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🤩美剧网 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🤭┆傻样┆4K | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🥇️┃金牌┃影视 | jar:HTTP 200 (zip) ext:text 59730 chars
+likely        | 🥝农民 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🥣┃一碗┃APP | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🥣稀饭┃动漫 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🥤汽水┃音乐 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🥰骚火影视 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🥵麻花影视 | jar:HTTP 200 (zip) ext:json keys:分类
+likely        | 🦄韩圈┃弹幕 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🦋易搜┃四盘 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🦓盒马┃短剧 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🦢大鹅┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🧒┆少儿┆教育 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🧚次元┃动漫 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🧲新6V | jar:HTTP 200 (zip) ext:text 46507 chars
+likely        | 🧲新6V┃磁力 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🧲荐片 | jar:HTTP 200 (zip) ext:text 1056 chars
+likely        | 🧽我的┃天逸 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🪵┆木偶┆4K | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🫐┆三六┆影视 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | AList · AweSomeGuard | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 饭团 · fantuanhd.com | jar: ext:text 2611 chars
+likely        | 🅱哔哔合集┃弹幕 · BiliGuard | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🅱哔哔演唱会┃弹幕 · BiliGuard | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🎶明星┃MV · BiliGuard | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🐯虎牙┃直播 · AweSomeGuard | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 👽玩偶哥哥┃4K弹幕 · WoGGGuard | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 📚初中┃课堂 · AweSomeGuard | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 📚初中┃课堂 · BiliGuard | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 📚小学┃课堂 · AweSomeGuard | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 📚小学┃课堂 · BiliGuard | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 📚少儿┃教育 · AweSomeGuard | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 📚少儿┃教育 · BiliAmns | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 📚少儿┃教育 · BiliGuard | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 📚高中┃课堂 · AweSomeGuard | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 📚高中┃课堂 · BiliGuard | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🚌巴士┃动漫 · AweSomeGuard | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🛴手机┃推送 · AweSomeGuard | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 🛴手机┃推送 · PushGuard | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 大猫 | jar: ext:text 4320 chars
+likely        | 看剧吧(萝卜) | jar:HTTP 200 (zip) ext:text 4320 chars
+likely        | 💗｜夸社｜网盘 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | QQ频道：肥猫宝贝 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | ☁️Sed┃4K | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | ☁️七味┃4K | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
@@ -629,7 +629,6 @@ likely        | 奶酪｜秒播 | jar:HTTP 200 (zip) ext:同 jar 已有可用站
 likely        | 小纸条 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 应用|更新 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 弹幕 | 南瓜[jar] | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
-likely        | 推送 · PushAgent | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 播客多线 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 更新日期:【侏罗纪】 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 热播｜多线 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
@@ -667,6 +666,7 @@ likely        | 🐞易搜盘 | jar:HTTP 200 (zip) ext:同 jar 已有可用站�
 likely        | 🐟猫猫┃多线 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🐢┆慢点┆4K | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🐤┆咕咕┆动漫 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
+likely        | 🐷小猪┃秒播4K | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🐻剧圈┃多线 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 👀爱影┃多线 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 👀萌米 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
@@ -692,6 +692,7 @@ likely        | 📦衔梦┃APP | jar:HTTP 200 (zip) ext:同 jar 已有可用�
 likely        | 📦衔石┃APP | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 📦鸣泉┃APP | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 📺热播┃多线 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
+likely        | 📺追剧┃秒播 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 📽️嗷嗚┃短剧 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🔥短剧┃推荐 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🔥经典┃推荐 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
@@ -711,13 +712,16 @@ likely        | 🤪┆摆烂┆4K | jar:HTTP 200 (zip) ext:同 jar 已有可用
 likely        | 🥝花花┃多线 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🦊播客┃多线 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🧀奶酪┃秒播 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
+likely        | 🧸玩偶┃网盘不卡4K | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🪑┆板凳┆4K | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🪔┆香篆┆APP | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🫖┆歇会┆4K | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🫠┆上头┆4K | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
+likely        | 推送 · PushAgent | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 123 • 云盘 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 1905 • 影视 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 360｜视频 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
+likely        | 6V|弹幕 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 88 • 看球 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | Aki动漫|弹幕 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | Auete | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
@@ -756,15 +760,21 @@ likely        | ❤️｜我的┃天懿 | jar:HTTP 200 (zip) ext:同 jar 已有
 likely        | ⭐爱看┃采集 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | ⭕┃韩圈 ┃APP | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 一起 • APP | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
+likely        | 一起|弹幕 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 七七 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 七猫 • 短剧 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
+likely        | 东厂|弹幕 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
+likely        | 五漫|弹幕 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 人人｜4K | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
+likely        | 仅用作学习交流使用，请于24小时之内进行清除 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
+likely        | 体育|实时 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 光鸭 • 云盘 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 免费分享 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 兔小贝 • 儿童 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 公众号|不会唱歌的鱼妖 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 公众号｜不会唱歌的鱼妖 (关注不迷路) | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 养生 • 知识 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
+likely        | 剧下|弹幕 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 博看 • 听书 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 卡卡 • 4K | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 即刻 • 4K | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
@@ -775,6 +785,7 @@ likely        | 呦呦 • DJ | jar:HTTP 200 (zip) ext:同 jar 已有可用站�
 likely        | 咕噜 • APP | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 咖啡 • 体育 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 围观 • 短剧 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
+likely        | 土豆|搜索 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 在线之家 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 天翼 • 云盘 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 夸克 • 网盘 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
@@ -782,7 +793,13 @@ likely        | 奥特┃多线 | jar:HTTP 200 (zip) ext:同 jar 已有可用站
 likely        | 好看 • 短剧 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 小宝影院 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 小苹果 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
+likely        | 山楂|弹幕 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 巴士 • 动漫 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
+likely        | 巴士|弹幕 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
+likely        | 布布|弹幕 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
+likely        | 师兄|弹幕 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
+likely        | 开心|在线 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
+likely        | 异世界|动漫 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 快看 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 急救 • 教学 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 戏曲 • 多多 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
@@ -907,7 +924,6 @@ likely        | 🎠给力┃百度🎠 | jar:HTTP 200 (zip) ext:同 jar 已有�
 likely        | 🎤KTV┃音乐🎤 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🎧┆听友┆有声 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🎧┆爱听┆音乐 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
-likely        | 🎧听书┃有声 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🎧有声┃小说 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🎭┆短剧┆聚合 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🎯┆独播┆影视 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
@@ -949,7 +965,6 @@ likely        | 🐱牛来┃动漫 | jar:HTTP 200 (zip) ext:同 jar 已有可�
 likely        | 🐱魔都┃动漫 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🐳斗鱼┃直播🐳 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🐷乐猪影视 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
-likely        | 🐷小猪┃秒播4K | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🐼┃QQ频道：肥猫宝贝┃ | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🐼┃豆瓣┃预告 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🐼┃配置┃中心 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
@@ -1048,14 +1063,11 @@ likely        | 📚｜海盗｜听书 | jar:HTTP 200 (zip) ext:同 jar 已有�
 likely        | 📡Bili┃Live | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 📡虎牙┃Live | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 📢｜推送｜中心 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
-likely        | 📦师兄┃秒播 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 📮异世界 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 📶┆移动┆4K | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 📺┃360┃官源 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 📺┆小北┆云视 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 📺低端 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
-likely        | 📺追剧┃秒播 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
-likely        | 📼懂片┃1080P | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 📽️喵喵┃短剧 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 📽️围观┃短剧 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 📽️在线直播 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
@@ -1082,7 +1094,6 @@ likely        | 🚀荐影┃预告片 | jar:HTTP 200 (zip) ext:同 jar 已有�
 likely        | 🚀金牌┃秒播 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🚀韩剧┃秒播 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🚌巴士┃动漫 · Dm84Guard | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
-likely        | 🚩共和国┃动漫 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🛩️新6V┃P2P🛩 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🛫唐人街(墙外) | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🛴推送┃播放 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
@@ -1095,9 +1106,7 @@ likely        | 🥇Alist┃DIY🥇 | jar:HTTP 200 (zip) ext:同 jar 已有可�
 likely        | 🥇全能┃DIY🥇 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🥜┆瓜子┆体育 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🥝荐片┃多线 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
-likely        | 🦸影侠┃1080P | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🧲┆荐片┆磁力 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
-likely        | 🧸玩偶┃网盘不卡4K | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 classes_only  | 57-飞马 | 仅分类 4 组
 classes_only  | A站｜星源 | 仅分类 51 组
 classes_only  | CCTV | 仅分类 69 组
@@ -1109,3 +1118,6 @@ classes_only  | 酷我｜音乐 | 仅分类 3 组
 classes_only  | 👭人人2👭 | 仅分类 5 组
 classes_only  | 👭苹果视频👭 | 仅分类 5 组
 classes_only  | 🛫if101影视 | 仅分类 4 组
+classes_only  | 旺旺短剧 | 仅分类 38 组
+classes_only  | 服务器油管 | 仅分类 17 组
+classes_only  | 油管播放列表1 | 仅分类 20 组

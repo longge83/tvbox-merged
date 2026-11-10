@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""
-检测 TVBox 配置里哪些站点能显示「主界面推荐（首页）」。
+# -*- coding: utf-8 -*-
+"""检测 TVBox 配置里哪些站点能显示「主界面推荐（首页）」。
 
 原理：TVBox 首页推荐 ≠ 搜索，两者走不同接口。
   - CMS 采集源 (type=0/1)：首页来自 ?ac=videolist / ?ac=detail / ?ac=list
@@ -9,11 +9,18 @@
     规则常放在 ext 指向的 JSON 文件里。jar 或 ext 失效 -> 首页空白但搜索可能仍可用。
   - 纯 http js 源：取决于 js 脚本本身，只做可达性检查，标 unknown。
 
-输出：
-  home_report.json   每个站点的判定明细
-  tvbox-home.json    只保留「确认能出首页」的站点，按可靠度排序
+v2 新增：
+  - 结果写入判定环境（云端 / 本机 / 是否走代理），本机结果不会被误当作线上结论；
+  - 同 jar 推断：一个 jar 下已有站点判 ok/likely，则同 jar 的 unknown 大概率
+    也能出首页（依赖 jar 内置 homeContent），升级为 likely 并单独标记；
+  - 本地试跑保护：非 Actions 环境只写 _local-* 文件。
 
-用法：python scripts/home_probe.py [--limit N] [--input tvbox.json]
+输出：
+  home_report.json   每个站点的判定明细（含 env）
+  tvbox-home.json    只保留「确认能出首页」的站点，按可靠度排序
+  home-sites.txt     人可读清单
+
+用法：python scripts/home_probe.py [--limit N] [--input tvbox.json] [--no-infer]
 """
 import argparse
 import json
@@ -26,6 +33,9 @@ import time
 import urllib.request
 from urllib.parse import quote, urlsplit, urlunsplit
 from concurrent.futures import ThreadPoolExecutor, as_completed
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import common
 
 CTX = ssl.create_default_context()
 CTX.check_hostname = False
@@ -56,6 +66,9 @@ _LOCK = threading.Lock()
 
 def fetch(url, timeout=7, limit_bytes=60000, use_cache=True):
     """返回 (status, bytes)。同一 URL 只请求一次（大量站点共享 jar/ext）。"""
+    # TVBox jar/ext 的 "url;md5;hash" 后缀必须剥离后再请求，否则全是 404
+    if ";md5;" in url:
+        url = url.split(";", 1)[0]
     url = safe_url(url)
     if use_cache:
         with _LOCK:
@@ -215,6 +228,30 @@ def probe(site, idx=0):
     }
 
 
+def infer_by_jar(results, sites):
+    """同一个 jar 由相同的 homeContent() 提供首页；若已有站点判可用，
+    其余「无 ext」的 unknown 站点大概率也能出首页，低成本召回。"""
+    good = set()
+    for r in results:
+        if r["grade"] in ("ok", "likely"):
+            i = r.get("idx")
+            j = str(sites[i].get("jar") or "") if isinstance(i, int) and i < len(sites) else ""
+            if j.startswith("http"):
+                good.add(j)
+    n = 0
+    for r in results:
+        if r["grade"] != "unknown":
+            continue
+        i = r.get("idx")
+        j = str(sites[i].get("jar") or "") if isinstance(i, int) and i < len(sites) else ""
+        if j in good:
+            r["grade"] = "likely"
+            r["inferred"] = True
+            r.setdefault("detail", {})["ext"] = "同 jar 已有可用站点，推断内置首页可用"
+            n += 1
+    return n
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--input", default="tvbox.json")
@@ -222,7 +259,17 @@ def main():
     ap.add_argument("--workers", type=int, default=40)
     ap.add_argument("--report", default="home_report.json")
     ap.add_argument("--output", default="tvbox-home.json")
+    ap.add_argument("--list-file", default="home-sites.txt")
+    ap.add_argument("--no-infer", action="store_true", help="关闭同 jar 推断")
     args = ap.parse_args()
+
+    # 本地试跑保护：绝不覆盖线上配置
+    local = not (common.IS_CI or os.environ.get("ALLOW_LOCAL_WRITE") == "1")
+    if local:
+        args.report = "_local-home_report.json"
+        args.output = "_local-home.json"
+        args.list_file = "_local-home-sites.txt"
+        print("本地试跑：输出重定向到 _local-home*，不覆盖线上文件", flush=True)
 
     cfg = json.load(open(args.input, encoding="utf-8"))
     sites = cfg["sites"][: args.limit] if args.limit else cfg["sites"]
@@ -240,14 +287,17 @@ def main():
             if i % 200 == 0:
                 print("  已检测 %d/%d ... %.0fs" % (i, len(sites), time.time() - t0), flush=True)
 
+    inferred = 0 if args.no_infer else infer_by_jar(results, sites)
+
     by_grade, by_kind = {}, {}
     for r in results:
         by_grade[r["grade"]] = by_grade.get(r["grade"], 0) + 1
-        k = r["kind"]
+        k = r.get("kind", "other")
         by_kind.setdefault(k, {})
         by_kind[k][r["grade"]] = by_kind[k].get(r["grade"], 0) + 1
 
-    print("\n=== 判定统计（共 %d，耗时 %.0fs）===" % (len(results), time.time() - t0))
+    print("\n=== 判定统计（共 %d，耗时 %.0fs，同 jar 推断召回 %d）===" %
+          (len(results), time.time() - t0, inferred))
     for g in ("ok", "likely", "classes_only", "unknown", "fail"):
         if g in by_grade:
             print("  %-13s %d" % (g, by_grade[g]))
@@ -255,9 +305,14 @@ def main():
     for k, v in sorted(by_kind.items()):
         print("    %-8s %s" % (k, dict(v)))
 
-    with open(args.report, "w", encoding="utf-8") as f:
-        json.dump({"scanned": len(results), "grades": by_grade, "sites": results},
-                  f, ensure_ascii=False, indent=2)
+    common.write_json(args.report, {
+        "env": common.env_info(),
+        "scanned": len(results),
+        "grades": by_grade,
+        "inferred_count": inferred,
+        "elapsed_sec": round(time.time() - t0, 1),
+        "sites": results,
+    }, skip_unchanged=False)
 
     if not args.limit:
         # 只保留确认有首页数据的站点；ok 排最前，其次 likely
@@ -265,38 +320,42 @@ def main():
         # 按站点下标匹配，避免不同源复用同一个 key 时把无关站点一起带进来
         grades = {r["idx"]: rank[r["grade"]] for r in results if r["grade"] in rank}
         pairs = sorted([(grades[i], i, s) for i, s in enumerate(cfg["sites"]) if i in grades],
-                       key=lambda t: t[0])
+                       key=lambda t: (t[0], t[1]))
         kept = [s for _, _, s in pairs]
         out = {k: v for k, v in cfg.items() if k != "sites"}
         meta = dict(cfg.get("_meta", {}))
         meta["sites"] = len(kept)
         meta["note"] = "仅保留经首页数据探测确认可显示主界面推荐的站点"
         meta["home_grades"] = by_grade
+        meta["home_inferred"] = inferred
+        meta["probe_env"] = common.env_info()
         out["_meta"] = meta
         out["sites"] = kept
-        with open(args.output, "w", encoding="utf-8") as f:
-            json.dump(out, f, ensure_ascii=False, indent=2)
+        common.write_json(args.output, out, skip_unchanged=False)
         print("\n已生成 %s：%d 个站点（%.1f KB）" %
               (args.output, len(kept), os.path.getsize(args.output) / 1024))
 
         # 人可读清单：等级 | 站点名 | 判定依据
         by_key = {r["idx"]: r for r in results}
         lines = ["# 能显示主界面推荐（首页）的节点",
-                 "# 等级：ok=首页影片列表实测非空 / likely=爬虫jar与首页配置均有效 /",
+                 "# 等级：ok=首页影片列表实测非空 / likely=爬虫jar与首页配置均有效(含同jar推断) /",
                  "#       classes_only=只返回分类（首页可能空）",
+                 "# 判定环境：%s | 同 jar 推断召回：%d" %
+                 (common.env_info()["env"], inferred),
                  "# 生成时间：%s" % time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime()), ""]
         for _, idx, s in pairs:
             r = by_key.get(idx, {})
             d = r.get("detail", {})
             why = ("首页影片 %s 条 via %s" % (d.get("videos"), d.get("via"))
                    if r.get("grade") == "ok" else
-                   "jar:%s ext:%s" % (d.get("jar", "-"), d.get("ext", "-"))
+                   "jar:%s ext:%s%s" % (d.get("jar", "-"), d.get("ext", "-"),
+                                        " [推断]" if r.get("inferred") else "")
                    if r.get("grade") == "likely" else "仅分类 %s 组" % d.get("classes"))
             lines.append("%-13s | %s | %s" % (r.get("grade", "?"),
                                              str(s.get("name", "")).strip()[:28], why[:70]))
-        with open("home-sites.txt", "w", encoding="utf-8") as f:
+        with open(args.list_file, "w", encoding="utf-8") as f:
             f.write("\n".join(lines) + "\n")
-        print("已生成 home-sites.txt（可读清单）")
+        print("已生成 %s（可读清单）" % args.list_file)
     print("明细：%s" % args.report)
 
 

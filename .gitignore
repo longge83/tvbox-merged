@@ -1,5 +1,23 @@
 *.pyc
 __pycache__/
 .DS_Store
-home_report.json
+
+# 本地试跑 / 中间报告（下划线前缀与 report 类文件永不入库）
 _*.json
+*.tmp
+home_report.json
+play_report.json
+play_summary.json
+recheck.json
+
+# ── 生成产物：只由 GitHub Actions 用 git add -f 提交，本地一律只读 ──
+# 本地试跑必须输出到 _local-*.json 等临时文件，避免覆盖线上配置。
+/tvbox*.json
+/home-sites.txt
+/health.json
+/quality.json
+/stable.json
+/history/
+/archive/
+/reports/
+/site/

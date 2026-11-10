@@ -1,0 +1,43 @@
+name: discover-upstreams
+
+# 每周一次候选上游发现：29 个源会自然衰减，靠人工想起来才补不现实。
+# 产出「去重后边际贡献」报告并自动提交，人工看一眼后一键并入 sources.txt。
+on:
+  schedule:
+    - cron: '0 21 * * 1'   # 每周一 UTC 21:00（北京时间周二 05:00）
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: discover-upstreams
+  cancel-in-progress: false
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 准备 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 挖候选 + 计算边际贡献
+        run: python scripts/discover.py --max 80 --workers 16
+
+      - name: 提交候选报告
+        run: |
+          git add -f reports/candidates.json reports/candidates-*.md 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "报告无变化，跳过提交"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: 周级上游候选报告 $(date -u +%Y-%m-%d)"
+          git push

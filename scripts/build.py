@@ -1,12 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-TVBox 多源聚合 + 存活复检
-- 拉取多个上游 TVBox 配置
+TVBox 多源聚合 + 存活复检（每日 Actions 主构建）
+
+- 拉取 sources.txt 里的多个上游配置
 - 相对路径绝对化（./js/x.js → 绝对 URL）、spider jar 下沉到站点级 jar 字段
-- 跨源去重（归一化名称+脚本标识 / 相同 http api）
-- 对 http 采集源做 ?ac=list 探活，连续失败的剔除
-- 输出 tvbox.json（内容无变化时不写文件，避免无意义提交）
+- 跨源去重（归一化名称 + 脚本标识 / 相同 http api）
+- 关键词外置（blocklist.txt），站点 / 直播 / 解析全量过滤
+- parses 规范化去重
+- CMS 采集源 ?ac=list 探活；连续失败 N 次才淘汰（读 quality.json，避免上游抖动）
+- 输出全量 / 精简 / 网络优化三份配置，并把判定环境写进 _meta
+
+安全约束：非 Actions 环境默认只写 `_local-*.json` 临时文件，
+绝不覆盖线上配置（曾因本地试跑把 lite 版覆盖成单源版）。
+需要显式写正式文件时设置 ALLOW_LOCAL_WRITE=1。
+
 仅用 Python 标准库，无第三方依赖。
 """
 import json, os, re, ssl, sys, time, socket
@@ -14,16 +22,16 @@ import urllib.request, urllib.error
 from urllib.parse import urljoin
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import common
+
 socket.setdefaulttimeout(12)
 CTX = ssl.create_default_context()
 CTX.check_hostname = False
 CTX.verify_mode = ssl.CERT_NONE
 UA = "okhttp/4.9.0"
-OUT = os.environ.get("OUT_FILE", "tvbox.json")
 
-# 默认上游（sources.txt 不存在时使用）。实际运行时优先读仓库根目录的 sources.txt，
-# 每行格式：名称|URL[|相对路径基准]；# 开头为注释。
-# 第三列用于上游把 ./xxx 写成「相对仓库根目录」、但配置文件却在子目录里的情况。
+# 默认上游（sources.txt 不存在时使用）。每行 名称|URL[|相对路径基准]，# 为注释。
 SOURCES = [
     ("qist/js",  "https://raw.githubusercontent.com/qist/tvbox/master/js.json", ""),
     ("qist/jsm", "https://raw.githubusercontent.com/qist/tvbox/master/jsm.json", ""),
@@ -35,6 +43,13 @@ SOURCES = [
     ("gao/js",   "https://raw.githubusercontent.com/gaotianliuyun/gao/master/js.json", ""),
     ("clun",     "https://clun.top/box.json", ""),
 ]
+
+FALLBACK_BLOCK = [r"成人", r"伦理", r"无码", r"番号", r"色情", r"情色",
+                  r"porn", r"hentai", r"91porn", r"4kav"]
+
+# 依赖境外代码托管的 jar/ext，国内盒子常常拉不到，网络优化版要排除
+OFFSHORE = ("raw.githubusercontent.com", "github.com", "gitlab.com",
+            "gitee.com", "gist.githubusercontent.com", "jsdelivr.net")
 
 
 def load_sources():
@@ -54,6 +69,32 @@ def load_sources():
     return out or SOURCES
 
 
+def load_blocklist():
+    path = os.environ.get("BLOCKLIST_FILE", "blocklist.txt")
+    pats = []
+    if os.path.exists(path):
+        for line in open(path, encoding="utf-8"):
+            line = line.strip()
+            if line and not line.startswith("#"):
+                pats.append(line)
+    else:
+        pats = FALLBACK_BLOCK
+    try:
+        rx = re.compile("|".join("(?:%s)" % p for p in pats), re.I)
+    except re.error as e:
+        print("blocklist 正则有误(%s)，回退内置关键词" % e, file=sys.stderr)
+        rx = re.compile("|".join(FALLBACK_BLOCK), re.I)
+    return rx, len(pats)
+
+
+BLOCK_RX, BLOCK_COUNT = load_blocklist()
+
+
+def blocked(obj, fields=("name", "api", "ext", "jar", "url", "urls", "group")):
+    text = " ".join(str(obj.get(f, ""))[:200] for f in fields)
+    return bool(BLOCK_RX.search(text))
+
+
 def url_alive(url, timeout=6):
     """只取少量字节判断 URL 是否存在（用于校验 spider jar 的基准路径）"""
     try:
@@ -68,11 +109,9 @@ def url_alive(url, timeout=6):
 def choose_base(url, cfg, hint=""):
     """确定 ./ 相对路径的基准目录。
 
-    多数上游把 ./x.js 写作「相对配置文件所在目录」，按 url 的目录拼接即可。
-    但也有上游（如 yw88075/tvbox 的 XBPQ/yw.json）把 ./yw530.jar 写成
-    「相对仓库根目录」——按目录拼会得到 XBPQ/yw530.jar（404），导致整批
-    csp 站点的 jar / ext 全部失效，表现为首页推荐一片空白。
-    这里用 spider jar 做一次探测，自动挑出能命中的基准。
+    多数上游把 ./x.js 写作「相对配置文件所在目录」；也有上游（yw88075）写成
+    「相对仓库根目录」。拼错会得到 XBPQ/yw530.jar 这类 404，整批爬虫节点首页空白。
+    这里用 spider jar 探测，自动挑出能命中的基准。
     """
     dir_base = url.rsplit("/", 1)[0] + "/"
     if hint:
@@ -122,15 +161,10 @@ def norm_name(name):
     return re.sub(r"[\s\[\]（）()【】┃｜|·•・\-—_*]+", "", str(name or ""))
 
 
-# 内容过滤：剔除明确的成人/违规资源站点（大小写不敏感，用词边界避免误伤 WebDAV 等）
-BLOCK_NAME = re.compile(
-    r"成人|伦理|无码|有码|番号|麻豆|色情|情色|十八禁|18禁|性爱|啪啪|"
-    r"(?<![a-z])javdb(?![a-z])|4kav|91porn|porn|xxx|hentai", re.I)
-
-
-def blocked(site):
-    text = str(site.get("name", "")) + " " + str(site.get("api", ""))
-    return bool(BLOCK_NAME.search(text))
+def parse_key(p):
+    """解析通道去重键：按 URL 归一化（解析是否生效只取决于 url，不取决于名字）"""
+    u = str(p.get("url", "")).split(";")[0].strip().lower().rstrip("/")
+    return re.sub(r"^https?://", "", u)
 
 
 def probe(site):
@@ -154,11 +188,26 @@ def probe(site):
     return False
 
 
+def output_paths():
+    """本地试跑只写 _local-*.json；Actions 才写正式文件名。"""
+    if common.IS_CI or os.environ.get("ALLOW_LOCAL_WRITE") == "1":
+        return (os.environ.get("OUT_FILE", "tvbox.json"),
+                os.environ.get("LITE_FILE", "tvbox-lite.json"),
+                os.environ.get("NETWORK_FILE", "tvbox-network.json"))
+    print("!" * 66, flush=True)
+    print("! 本地试跑保护：输出重定向到 _local-*.json，不会覆盖线上配置。", flush=True)
+    print("! 确实要写正式文件时，设置 ALLOW_LOCAL_WRITE=1 再运行。", flush=True)
+    print("!" * 66, flush=True)
+    return ("_local-tvbox.json", "_local-tvbox-lite.json", "_local-tvbox-network.json")
+
+
 def build():
+    out_path, lite_path, network_path = output_paths()
     merged, seen_key, seen_api = [], set(), set()
     flat_lives, seen_live, parses, seen_parse = [], set(), [], set()
     wallpaper, global_spider, stats = None, None, []
-    blocked_n = 0
+    blocked_n, blocked_live_n, blocked_parse_n = 0, 0, 0
+    parse_dup = 0
 
     for tag, url, hint in load_sources():
         try:
@@ -172,6 +221,14 @@ def build():
         spider = absolutize(cfg.get("spider"), base)
         if spider and not global_spider:
             global_spider = spider
+        # 同源 jar 兜底：有些上游没写全局 spider，只在少数站点写了 jar。
+        # 用同源里第一个有效 jar 补齐该源其它 csp 站点，避免整批首页空白。
+        src_jar = spider
+        if not src_jar:
+            for _s in cfg.get("sites", []):
+                if isinstance(_s, dict) and str(_s.get("jar") or "").startswith("http"):
+                    src_jar = absolutize(_s["jar"], base)
+                    break
         added = dup = 0
         for s in cfg.get("sites", []):
             if not isinstance(s, dict):
@@ -197,8 +254,8 @@ def build():
             ns["api"] = api
             if ext is not None:
                 ns["ext"] = ext
-            if spider and str(api).startswith("csp_") and not ns.get("jar"):
-                ns["jar"] = spider
+            if src_jar and str(api).startswith("csp_") and not ns.get("jar"):
+                ns["jar"] = src_jar
             if ns.get("jar"):
                 ns["jar"] = absolutize(ns["jar"], base)
             merged.append(ns)
@@ -207,9 +264,14 @@ def build():
         for g in cfg.get("lives", []):
             if not isinstance(g, dict):
                 continue
+            if blocked(g):
+                blocked_live_n += 1
+                continue
             if "channels" in g:                       # 旧版嵌套
                 for ch in g.get("channels", []):
-                    if not isinstance(ch, dict):
+                    if not isinstance(ch, dict) or blocked(ch):
+                        if isinstance(ch, dict) and blocked(ch):
+                            blocked_live_n += 1
                         continue
                     u = (ch.get("urls") or [""])[0]
                     ck = norm_name(ch.get("name")) + "|" + str(u)[:80]
@@ -230,11 +292,17 @@ def build():
         for p in cfg.get("parses", []):
             if not isinstance(p, dict):
                 continue
-            pk = str(p.get("url", ""))[:100] + "|" + str(p.get("name", ""))
-            if pk in seen_parse:
+            if blocked(p):
+                blocked_parse_n += 1
+                continue
+            np_ = dict(p)
+            np_["url"] = absolutize(np_.get("url"), base)
+            pk = parse_key(np_)
+            if not pk or pk in seen_parse:
+                parse_dup += 1
                 continue
             seen_parse.add(pk)
-            parses.append(p)
+            parses.append(np_)
 
         if not wallpaper and cfg.get("wallpaper"):
             wallpaper = cfg["wallpaper"]
@@ -252,75 +320,126 @@ def build():
             futs = {ex.submit(probe, s): s for s in probeable}
             for f in as_completed(futs):
                 alive[id(futs[f])] = f.result()
-    dropped = [s for s in merged if id(s) in alive and not alive[id(s)]]
-    kept = [s for s in merged if id(s) not in alive or alive[id(s)]]
 
-    # 稳定排序，便于 diff
-    kept.sort(key=lambda x: (str(x.get("name", "")), str(x.get("api", ""))))
-    out = {
-        "_meta": {
-            "updated": time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime()),
-            "sites": len(kept),
-            "sites_dropped_dead": len(dropped),
-            "sites_blocked": blocked_n,
-            "lives": len(flat_lives),
-            "parses": len(parses),
-            "sources_ok": sum(1 for t, a, d, n in stats if n == "ok"),
-            "sources_failed": [t for t, a, d, n in stats if n != "ok"],
-        },
-        "sites": kept,
+    # 多日判定：连续失败达到阈值才真正淘汰，避免上游一次抖动就改动线上配置。
+    quality = common.load_json("quality.json", {}) or {}
+    fail_streaks = quality.get("probe_fail_streak", {})
+    has_history = bool(quality.get("updated"))
+    dead_after = int(os.environ.get("DEAD_AFTER_FAILS", "3"))
+    dead_sigs, kept, observed = [], [], 0
+    observed_ids = set()
+    for s in merged:
+        if id(s) not in alive or alive[id(s)]:
+            kept.append(s)
+            continue
+        sg = common.sig(s)
+        streak = int(fail_streaks.get(sg, 0)) + 1
+        dead_sigs.append(sg)
+        if has_history and streak < dead_after:
+            observed += 1                        # 观察期：暂时保留，不写额外字段
+            observed_ids.add(id(s))
+            kept.append(s)
+    dropped_n = len(dead_sigs) - observed
+
+    # 稳定排序，便于 diff；观察期（连败但未达阈值）的站点沉到末尾，
+    # 避免客户端默认落在刚探活失败的源上。
+    kept.sort(key=lambda x: (1 if id(x) in observed_ids else 0,
+                             str(x.get("name", "")), str(x.get("api", ""))))
+
+    # jar 分级：统计依赖，供健康页与网络优化版使用
+    jar_groups = {}
+    for s in kept:
+        j = str(s.get("jar") or "")
+        if j:
+            jar_groups[j] = jar_groups.get(j, 0) + 1
+
+    meta = {
+        "updated": time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime()),
+        "sites": len(kept),
+        "sites_dropped_dead": dropped_n,
+        "sites_in_observation": observed,
+        "dead_policy": ("连续失败 %d 次才淘汰" % dead_after) if has_history else "首轮构建：单日失败即淘汰",
+        "sites_blocked": blocked_n,
+        "lives_blocked": blocked_live_n,
+        "parses_blocked": blocked_parse_n,
+        "parses_deduped": parse_dup,
+        "blocklist_rules": BLOCK_COUNT,
+        "lives": len(flat_lives),
+        "parses": len(parses),
+        "jar_count": len(jar_groups),
+        "jar_top": sorted(jar_groups.items(), key=lambda x: -x[1])[:5],
+        "sources_ok": sum(1 for t, a, d, n in stats if n == "ok"),
+        "sources_failed": [t for t, a, d, n in stats if n != "ok"],
+        "probe_env": common.env_info(),
     }
-    if global_spider:
-        out["spider"] = global_spider
-    if wallpaper:
-        out["wallpaper"] = wallpaper
-    if parses:
-        out["parses"] = parses
-    if flat_lives:
-        out["lives"] = flat_lives
 
-    # 内容未变（忽略 updated 时间戳）则不写文件
-    changed = True
-    if os.path.exists(OUT):
-        try:
-            old = json.load(open(OUT, encoding="utf-8"))
-            a, b = dict(old), dict(out)
-            a.pop("_meta", None); b.pop("_meta", None)
-            changed = json.dumps(a, ensure_ascii=False, sort_keys=True) != \
-                      json.dumps(b, ensure_ascii=False, sort_keys=True)
-        except Exception:
-            changed = True
+    def make(sites, note=None):
+        out = {"_meta": dict(meta, sites=len(sites)), "sites": sites}
+        if global_spider:
+            out["spider"] = global_spider
+        if wallpaper:
+            out["wallpaper"] = wallpaper
+        if parses:
+            out["parses"] = parses
+        if flat_lives:
+            out["lives"] = flat_lives
+        if note:
+            out["_meta"]["note"] = note
+        return out
 
-    if changed:
-        with open(OUT, "w", encoding="utf-8") as f:
-            json.dump(out, f, ensure_ascii=False, indent=2)
-
-    # ---- 精简版：仅保留不依赖 spider jar 的 http 站点，供低性能设备使用 ----
-    lite_path = os.environ.get("LITE_FILE", "tvbox-lite.json")
+    # 精简版：仅保留不依赖 spider jar 的 http 站点
     lite_sites = [s for s in kept if str(s.get("api", "")).startswith("http")]
-    lite = {k: v for k, v in out.items() if k not in ("sites", "_meta")}
-    lite["_meta"] = dict(out["_meta"], sites=len(lite_sites), note="仅 http 站点，不依赖 spider jar")
-    lite["sites"] = lite_sites
-    lite_changed = True
-    if os.path.exists(lite_path):
-        try:
-            old = json.load(open(lite_path, encoding="utf-8"))
-            a, b = dict(old), dict(lite)
-            a.pop("_meta", None); b.pop("_meta", None)
-            lite_changed = json.dumps(a, ensure_ascii=False, sort_keys=True) != \
-                           json.dumps(b, ensure_ascii=False, sort_keys=True)
-        except Exception:
-            lite_changed = True
-    if lite_changed:
-        with open(lite_path, "w", encoding="utf-8") as f:
-            json.dump(lite, f, ensure_ascii=False, indent=2)
+    # 网络优化版：连 jar/ext 也不落在境外代码托管上，国内直连最稳、体积最小
+    def network_ok(s):
+        api = str(s.get("api", ""))
+        if not api.startswith("http"):
+            return False
+        if any(h in api for h in OFFSHORE):
+            return False
+        for f in ("jar", "ext"):
+            v = str(s.get(f) or "")
+            if v.startswith("http") and any(h in v for h in OFFSHORE):
+                return False
+        return True
+
+    network_sites = [s for s in lite_sites if network_ok(s)]
+
+    written = {
+        out_path: common.write_json(out_path, make(kept, "全量版")),
+        lite_path: common.write_json(lite_path, make(lite_sites, "仅 http 站点，不依赖 spider jar")),
+        network_path: common.write_json(network_path, make(network_sites, "国内直连优化：不依赖境外代码托管的 jar/ext")),
+    }
+
+    # 供 history.py / health.py 消费的中间数据（下划线前缀，不入库）
+    common.write_json("_build_stats.json", {
+        "date": common.today(),
+        "env": common.env_info(),
+        "sources": [{"tag": t, "added": a, "dup": d, "note": n} for t, a, d, n in stats],
+        "sources_failed": meta["sources_failed"],
+        "sources_ok": meta["sources_ok"],
+        "sites": len(kept),
+        "lite": len(lite_sites),
+        "network": len(network_sites),
+        "probed": len(probeable),
+        "dead_sigs": dead_sigs,
+        "dropped": dropped_n,
+        "observation": observed,
+        "parses": len(parses),
+        "parses_deduped": parse_dup,
+        "lives": len(flat_lives),
+        "jar_count": len(jar_groups),
+        "blocked": {"sites": blocked_n, "lives": blocked_live_n, "parses": blocked_parse_n},
+        "files_changed": [k for k, v in written.items() if v],
+    }, skip_unchanged=False)
 
     for tag, added, dup, note in stats:
         print(f"  {tag:10} 采纳 {added:>4}  去重 {dup:>4}  {note}")
-    print(f"\n结果: 站点 {len(kept)}（剔除失效 {len(dropped)}）| 直播 {len(flat_lives)} | 解析 {len(parses)}")
-    print(f"探活站点: {len(probeable)} | 精简版站点: {len(lite_sites)}")
-    print(f"CHANGED={'true' if (changed or lite_changed) else 'false'}")
-    return changed
+    print(f"\n结果: 站点 {len(kept)}（淘汰失效 {dropped_n}，观察期保留 {observed}）"
+          f"| 直播 {len(flat_lives)} | 解析 {len(parses)}（去重 {parse_dup}）")
+    print(f"探活站点: {len(probeable)} | 精简版: {len(lite_sites)} | 网络优化版: {len(network_sites)}")
+    print(f"jar 种类: {len(jar_groups)} | 过滤: 站点 {blocked_n} 直播 {blocked_live_n} 解析 {blocked_parse_n}")
+    print("CHANGED=%s" % ("true" if any(written.values()) else "false"))
+    return any(written.values())
 
 
 if __name__ == "__main__":

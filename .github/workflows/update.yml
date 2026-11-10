@@ -8,6 +8,8 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 concurrency:
   group: update-tvbox-config
@@ -16,21 +18,24 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - name: 检出仓库
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: 准备 Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: 聚合 + 存活复检
+      # ── 1. 生成配置 ─────────────────────────────────────────────
+      - name: 聚合 + 存活复检（含多日判定、外置过滤、parses 去重）
         run: python scripts/build.py
 
-      # 首页推荐 ≠ 搜索：分别探测 CMS 首页影片列表、爬虫 jar 与 ext 首页配置，
-      # 生成只含「能出首页」节点的 tvbox-home.json。云端直连，避免本机网络误判。
+      # 首页推荐 ≠ 搜索：分别探测 CMS 首页影片列表、爬虫 jar 与 ext 首页配置。
+      # 云端直连，避免本机网络误判；结果里会写明判定环境。
       - name: 首页推荐能力探测
         continue-on-error: true
         run: |
@@ -38,51 +43,106 @@ jobs:
             --input tvbox.json --workers 50 \
             --report home_report.json --output tvbox-home.json
 
-      # 全量/精简版保持完整节点，只把已探活的首页节点排到最前面，
-      # 让客户端默认落在能出推荐的源上，同时不牺牲搜索与其它源。
-      - name: 生成首页优先版
+      - name: 误杀率复核（真实 TVBox UA 抽 50 个 fail 重测）
+        continue-on-error: true
+        run: python scripts/recheck.py --sample 50 --workers 20
+
+      - name: 端到端可播率探测（列表→详情→播放地址 + 搜索 + parses）
+        continue-on-error: true
+        run: python scripts/play_probe.py --sample 30 --parse-sample 20 --workers 24
+
+      - name: 生成首页优先版（等级 > 近7天可用天数 > 可播得分）
         continue-on-error: true
         run: python scripts/rank_home.py
 
-      - name: 有变更则提交
+      # ── 2. 保险丝：任一硬检查失败就中止，线上保持上一版 ──────────
+      - name: 回归断言（失败则不提交）
+        run: python scripts/assertions.py --jar-sample 20 --ext-sample 20
+
+      # ── 3. 时间维度 ─────────────────────────────────────────────
+      - name: 写入判定历史与质量指标
+        run: python scripts/history.py --days 14
+
+      # 先提交一次：让 stable 的不可变 tag 指向「含当天全部配置文件」的提交。
+      # 生成产物已被 .gitignore 忽略，这里统一用 -f 由 Actions 独家提交。
+      - name: 提交配置与判定历史
         id: commit
         run: |
-          git add tvbox.json tvbox-lite.json 2>/dev/null || true
-          git add tvbox-home.json home-sites.txt 2>/dev/null || true
-          git add tvbox-full-homefirst.json tvbox-lite-homefirst.json 2>/dev/null || true
+          git add -f \
+            tvbox.json tvbox-lite.json tvbox-network.json tvbox-home.json \
+            tvbox-full-homefirst.json tvbox-lite-homefirst.json \
+            tvbox-network-homefirst.json \
+            home-sites.txt quality.json history/ 2>/dev/null || true
           if git diff --cached --quiet; then
-            echo "配置无变化，跳过提交"
+            echo "配置与历史无变化，跳过本次提交"
             echo "changed=false" >> $GITHUB_OUTPUT
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "chore: 更新聚合配置 $(date -u +%Y-%m-%d)"
-          git push
           echo "changed=true" >> $GITHUB_OUTPUT
 
-      # jsDelivr 对 @分支 的响应带 s-maxage=43200（CDN 缓存 12 小时），
-      # 不主动清缓存的话，每天生成的新配置要等最多 12 小时才能被镜像取到，
-      # 且各边缘节点不同步，会出现"有的设备新、有的设备旧"。
+      - name: 归档 + 稳定版指针 + 不可变 tag
+        run: python scripts/stable.py --min-streak 3 --keep-days 7
+
+      # ── 4. 可观测性 ─────────────────────────────────────────────
+      - name: 生成健康页与 Pages 配置镜像
+        run: python scripts/health.py
+
+      - name: 上传 Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/
+
+      - name: 提交归档、指针与健康数据
+        run: |
+          git add -f archive/ stable.json health.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "归档与指针无变化"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: 归档与稳定版指针 $(date -u +%Y-%m-%d)"
+
+      - name: 推送（含不可变稳定版 tag）
+        run: |
+          git push
+          git push --tags || echo "tag 推送失败（非致命）"
+
+      # ── 5. CDN 缓存治理 ─────────────────────────────────────────
+      # jsDelivr 对分支引用 s-maxage=43200（12h）且不感知 commit 变化，
+      # 不清缓存新配置要等最多 12 小时、各边缘还不同步。
       - name: 刷新 jsDelivr CDN 缓存
-        if: always()
         run: |
           echo "本次是否有提交: ${{ steps.commit.outputs.changed }}"
-          # GitHub raw 全球传播有延迟，太早清缓存会让 CDN 回源拉到旧 blob
-          # 并重新缓存（曾出现镜像滞留上一轮配置）。等 30s + 两轮 purge。
           sleep 30
-          FILES="tvbox.json tvbox-lite.json tvbox-home.json tvbox-full-homefirst.json tvbox-lite-homefirst.json"
+          FILES="tvbox.json tvbox-lite.json tvbox-network.json tvbox-home.json \
+                 tvbox-full-homefirst.json tvbox-lite-homefirst.json \
+                 tvbox-network-homefirst.json home-sites.txt health.json stable.json"
           for pass in 1 2; do
             echo "=== purge 第 $pass 轮 ==="
             for f in $FILES; do
-              # 主推链接（无版本号，直接解析最新提交）
               curl -fsS --max-time 30 \
                 "https://purge.jsdelivr.net/gh/${{ github.repository }}/$f" \
                 || echo "purge $f failed (non-fatal)"
-              # 兼容旧的 @main 链接（分支别名有独立缓存，也要清）
               curl -fsS --max-time 30 \
                 "https://purge.jsdelivr.net/gh/${{ github.repository }}@main/$f" \
                 || echo "purge @main/$f failed (non-fatal)"
             done
             [ "$pass" = "1" ] && sleep 8
           done
+
+  # 短 TTL 备用线路 + 健康页。Pages 的缓存远短于 jsDelivr，且不受 purge 影响。
+  pages:
+    needs: build
+    if: success()
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 部署 GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -26,11 +26,15 @@ import os
 import random
 import re
 import sys
+from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from urllib.parse import urlsplit
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import common
+import polish as polish_mod
+
+API_RX = re.compile(r"^(?:https?://\S+|csp_\S+)$", re.I)
 
 CONFIGS = [
     "tvbox.json", "tvbox-lite.json", "tvbox-network.json", "tvbox-home.json",
@@ -79,6 +83,9 @@ def load_strict(path):
 
 def check_url(url, want_zip=False):
     st, raw = common.fetch(url, timeout=8, limit_bytes=64)
+    # 不少上游把 JS 爬虫也写进 jar 槽（qu.ax/xxx.js），按 PK 魔数会全判成坏链
+    if want_zip and url.split("?")[0].lower().endswith((".js", ".mjs")):
+        want_zip = False
     ok = st == 200 and (raw[:2] == b"PK" if want_zip else len(raw) > 0)
     return {"url": url[:130], "status": st, "ok": ok}
 
@@ -208,6 +215,63 @@ def main():
             if isinstance(o, dict) and build_mod.blocked(o):
                 dirty.append("%s:%s" % (group, str(o.get("name", ""))[:18]))
     record("content_filter_clean", not dirty, "; ".join(dirty[:5]) or "站点/直播/解析均无命中")
+
+    # 9) 成品卫生：polish.py 的验收口径。这些瑕疵不会让构建崩，但会直接
+    #    变成用户列表里的空条目、重复条目，所以同样按硬检查处理。
+    hygiene = []
+    for f in CONFIGS + OPTIONAL_CONFIGS:
+        c = cfgs.get(f)
+        if not c:
+            continue
+        names = Counter(str(s.get("name") or "") for s in c.get("sites", []))
+        dupn = sum(v - 1 for v in names.values() if v > 1)
+        if dupn:
+            hygiene.append("%s 重名 %d" % (f, dupn))
+        for s in c.get("sites", []):
+            if not API_RX.match(str(s.get("api") or "").strip()):
+                hygiene.append("%s 非法api:%s" % (f, str(s.get("name"))[:14]))
+                break
+        for p in c.get("parses", []):
+            if not re.match(r"^https?://", str(p.get("url") or "")):
+                hygiene.append("%s 解析url非法" % f)
+                break
+        for g in c.get("lives", []):
+            if not isinstance(g.get("type"), int):
+                hygiene.append("%s 直播type非整数" % f)
+                break
+    record("structure_clean", not hygiene,
+           "; ".join(hygiene[:4]) or "无空/非法 api、无重名、解析 url 合法、type 均为整数")
+
+    # 10) 精简版 / 网络优化版必须真的「不加载 jar」
+    jarbad = []
+    for f in ("tvbox-lite.json", "tvbox-network.json",
+              "tvbox-lite-homefirst.json", "tvbox-network-homefirst.json"):
+        c = cfgs.get(f)
+        if not c:
+            continue
+        if c.get("spider"):
+            jarbad.append("%s:spider" % f)
+        for s in c.get("sites", []):
+            if str(s.get("jar") or "").strip() or \
+                    str(s.get("api", "")).lower().startswith("csp_"):
+                jarbad.append("%s:%s" % (f, str(s.get("name"))[:14]))
+                break
+    record("lite_network_jar_free", not jarbad,
+           "; ".join(jarbad[:4]) or "精简版/网络版 0 个 jar 依赖")
+
+    # 11) 网络优化版不得残留境外代码托管 / 反代平台
+    offbad = []
+    for f in ("tvbox-network.json", "tvbox-network-homefirst.json"):
+        c = cfgs.get(f)
+        if not c:
+            continue
+        for s in c.get("sites", []):
+            h = polish_mod.offshore_host(s, deep=True)
+            if h:
+                offbad.append("%s:%s=%s" % (f, str(s.get("name"))[:12], h))
+                break
+    record("network_no_offshore", not offbad,
+           "; ".join(offbad[:4]) or "网络优化版无境外托管依赖")
 
     # 8) 抽样 jar / ext 可达性
     rng = random.Random(common.today())

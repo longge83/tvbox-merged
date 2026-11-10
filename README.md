@@ -1,6 +1,6 @@
 # TVBox 聚合配置（自动更新 · 可观测 · 可回滚）
 
-自动聚合多个公开 TVBox 配置源，去重、修复相对路径、内容过滤、每日存活复检、首页推荐探测、**端到端可播率探测**、多日稳定性判定与回归断言后，输出 10 份可直接使用的配置（7 份基础/排序版 + 3 份场景版）。每天北京时间 04:00 由 GitHub Actions 重建并提交。
+自动聚合多个公开 TVBox 配置源，去重、修复相对路径、内容过滤、每日存活复检、**成品卫生清理与可用性排序**、首页推荐探测、**端到端可播率探测**、多日稳定性判定与回归断言后，输出 10 份可直接使用的配置（7 份基础/排序版 + 3 份场景版）。每天北京时间 04:00 由 GitHub Actions 重建并提交，同时产出一份[复查报告](https://raw.githubusercontent.com/dimogu/tvbox-merged/main/reports/audit-latest.md)。
 
 > 功能之外，这套流水线还回答三个问题：**源到底能不能播**、**今天的判定可信吗**、**生成了坏版本怎么退回**。
 
@@ -15,13 +15,13 @@
 | `tvbox-quality.json` | 视实测结果 | **精播版**：只留实测可播 / 首页实测有影片 / jar 实测有效的节点，宁缺毋滥 |
 | `tvbox-cn-fast.json` | ≤ 120 | **国内极速版**：国内直连、无 spider jar、无爬虫源，按质量取前 120 个，开屏最快 |
 | `tvbox-stable7.json` | 视历史累积 | **7 天稳定版**：近 7 天多次可用且当前无连败，不追新源、不随上游抖动 |
-| `tvbox-full-homefirst.json` | 约 1970 | **全量 + 首页优先**（前 ~1130 个可用），功能最全，依赖 spider jar |
-| `tvbox-lite-homefirst.json` | 约 340 | **精简 + 首页优先**（前 ~115 个可用），不依赖 jar，低性能盒子首选 |
-| `tvbox-network-homefirst.json` | 约 310 | **网络优化 + 首页优先**（前 ~115 个可用），不依赖境外代码托管，国内直连最稳 |
-| `tvbox-home.json` | 约 1130 | 只保留首页可用节点（含同 jar 推断，推断项排在实测之后） |
-| `tvbox.json` | 约 1970 | 全量版，原始顺序 |
-| `tvbox-lite.json` | 约 340 | 精简版，原始顺序 |
-| `tvbox-network.json` | 约 300 | 网络优化版，原始顺序 |
+| `tvbox-full-homefirst.json` | 约 2070 | **全量 + 首页优先**（前 ~620 个实测可用），功能最全，依赖 spider jar |
+| `tvbox-lite-homefirst.json` | 约 480 | **精简 + 首页优先**，真·不加载 jar，低性能盒子首选 |
+| `tvbox-network-homefirst.json` | 约 445 | **网络优化 + 首页优先**，无 jar、无境外托管，国内直连最稳 |
+| `tvbox-home.json` | 约 1140 | 只保留首页可用节点（含同 jar 推断，推断项排在实测之后） |
+| `tvbox.json` | 约 2070 | 全量版，按「可用 → 未知 → 降级」排序 |
+| `tvbox-lite.json` | 约 480 | 精简版，按「可用 → 未知 → 降级」排序 |
+| `tvbox-network.json` | 约 445 | 网络优化版，按「可用 → 未知 → 降级」排序 |
 
 精确值看配置里的 `_meta.sites`、`_meta.home_first_count`，或打开[健康页](#四健康页与失败告警)。
 
@@ -38,6 +38,32 @@
 降级保护：首页探测报告缺失时按 `tvbox-home.json` 顺序视为 likely；筛选结果低于 60 个时保底给出首页版节点；任何情况下都不会产出空配置，是否降级写在 `_meta.filter.history_fallback` / `home_fallback` / `_meta.evidence` 里。
 
 > 口径边界：端到端可播率每天只抽样 30 站，**未抽样站点是「首页实测通过」而非「实测能播」**。精播版是「去掉已知坏节点」，不是「保证每个节点都能播」。稳定版在历史累积到 3 天之前等同于今日实测，之后会自动收紧 —— 这一点 `_meta.filter.history_days` 会如实写明。两种口径都排除同 jar 推断项：否则推断节点在历史里同样会被记成「连续可用」，历史满 3 天那天版本会从百来个实测节点暴涨到上千个没实测过的节点。
+
+### 三份基础配置的复查（每天自动出一份报告）
+
+`scripts/polish.py` 在聚合之后、首页探测之前跑一遍，`scripts/audit.py` 再把结果独立复核成 [`reports/audit-latest.md`](https://raw.githubusercontent.com/dimogu/tvbox-merged/main/reports/audit-latest.md)。查的是「会让用户直接踩坑、但不至于让构建崩」的那类瑕疵：
+
+| 查什么 | 复查前（2026-11-10 实测） | 现在 |
+|---|---|---|
+| 空 api 的占位站点 | 8 个 `--- 1 ---` 分隔符被当成站点 | 0 |
+| 非法 api | 7 个（不是 http:// 或 csp_ 开头） | 0 |
+| 同名节点 | 21 组 55 个，列表里三条一模一样的「AList」 | 0（追加域名后缀） |
+| 参数级重复接口 | 43 个同一接口的不同写法 | 0 |
+| ext 是整数的畸形站点 | 1 个 | 0 |
+| 解析 url 非法 | `Demo` 这类占位 5 个 | 0 |
+| 解析 `type` 写成字符串 | 1 个 | 0 |
+| 直播 `type` 非整数 / 重名 | 15 / 42 | 0（归一 + 加后缀） |
+| 精简版是否真不依赖 jar | 带全局 spider + 6 个 jar 站点 | 0 |
+| 网络版是否真无境外依赖 | spider 指向 `raw.githubusercontent.com`，另有 `repl.co` 漏网 | 0 |
+| 排序 | 按名称拼音排，昨日 860 个实测失败节点在最前面 | 可用 622 / 未知 196 / 降级 1256 |
+
+三条原则：
+
+- **只沉底不删除**：降级层（昨日首页实测失败、csp 爬虫缺 ext）仍留在配置里 —— 误杀率有 36%~52%，所以只排到后面；次日探活恢复会自动回到前排。昨日被真实 TVBox UA 复核复活的节点直接进「未知」层，不背这口锅。
+- **改名不动数据**：同名节点追加 ` · 域名`（csp 源用爬虫类名或 ext 域名）。代价是该节点当天的历史签名断链、回落到「未知」层，次日自动接回。
+- **「不依赖 jar」现在可验证**：`type=3` 里 api 是 `.js` / `.py` 的属于 JS / Python 爬虫，不需要 jar，予以保留；真正要 jar 的（`csp_*` 与带 `jar` 字段的站点）已从精简版 / 网络版剔除。
+
+这些口径已经变成断言（`structure_clean` / `lite_network_jar_free` / `network_no_offshore`）：下次构建再出现空条目、重名或境外 spider 会直接阻断提交，线上保持上一版。
 
 ### 国内主线路（jsDelivr，整行复制）
 
@@ -183,7 +209,10 @@ TVBox 的**主界面推荐**和**搜索**是两套数据，能搜到片子不代
 
 - 所有配置是合法 JSON、**无重复 key**
 - `_meta.sites` 与实际站点数一致；站点数不低于上一版的 60%（防骤降 / 空配置）
+- **成品卫生**：无空 / 非法 api、无重名节点、解析 url 合法、直播与解析的 `type` 都是整数
 - 每个 `csp_*` 站点必须有 http `jar`
+- **精简版 / 网络版 0 个 jar 依赖**（无全局 `spider`、无 `jar` 字段、无 `csp_*`）
+- **网络优化版不得残留境外代码托管与反代平台**（含 ghproxy / gitmirror / vercel / netlify / pages.dev / repl.co 等）
 - 无残留 `./` `../`、无成批 `XBPQ/XBPQ/` 类重复路径段
 - 首页版 ⊆ 全量版；三个 homefirst 版本站点数与对应源完全一致；已生成的场景版也必须是全量版子集
 - 过滤后站点 / 直播 / 解析均无违规关键词残留
@@ -233,7 +262,7 @@ python scripts/stable.py --rollback stable-20261109
 ## 七、自动化机制
 
 - **每天北京时间 04:00** 由 `.github/workflows/update.yml` 构建；**每周一**由 `discover.yml` 找新源；两者都支持手动 `Run workflow`。
-- 主流程：`build.py` → `home_probe.py` → `recheck.py` → `play_probe.py` → `rank_home.py` → `variants.py`（三个场景版）→ **`assertions.py`（失败即停）** → `history.py` → 提交配置与历史 → `stable.py`（归档 + 不可变 tag）→ `health.py` → 上传 Pages artifact → 提交归档与指针 → push → 两轮 purge CDN → 部署 Pages。
+- 主流程：`build.py` → **`polish.py`（卫生 / 去重 / 消歧 / 排序）** → **`audit.py`（复查报告）** → `home_probe.py` → `recheck.py` → `play_probe.py` → `rank_home.py` → `variants.py`（三个场景版）→ **`assertions.py`（失败即停）** → `history.py` → 提交配置与历史 → `stable.py`（归档 + 不可变 tag）→ `health.py` → 上传 Pages artifact → 提交归档与指针 → push → 两轮 purge CDN → 部署 Pages。
 - 内容无实质变化时不写文件；判定历史每天仍会留痕，便于看趋势。
 - 首页探测、误杀复核、可播率探测为 `continue-on-error`（单点网络抖动不影响主配置产出），只有**回归断言是硬阻断**。
 
@@ -250,6 +279,8 @@ python scripts/stable.py --rollback stable-20261109
 
 ```bash
 python scripts/build.py          # 本地只写 _local-*.json
+python scripts/polish.py         # 只处理 _local-*.json（卫生 / 去重 / 消歧 / 排序）
+python scripts/audit.py          # 复查报告 → reports/audit-latest.md
 python scripts/home_probe.py     # 本地只写 _local-home*
 python scripts/rank_home.py      # 本地只写 _local-*-homefirst.json
 python scripts/variants.py       # 本地只写 _local-tvbox-*.json（三个场景版）

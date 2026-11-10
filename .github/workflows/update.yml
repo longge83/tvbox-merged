@@ -34,6 +34,17 @@ jobs:
       - name: 聚合 + 存活复检（含多日判定、外置过滤、parses 去重）
         run: python scripts/build.py
 
+      # build.py 只负责「把上游合起来」。这一步按每份版本自己的目标做卫生清理
+      # （空/非法 api、占位符、整型 ext）、接口级去重、同名消歧与可用性排序，
+      # 文件名与线上链接都不变。必须跑在首页探测之前：探测结果按站点下标回填，
+      # 顺序变了就全错位。
+      - name: 三份基础配置后处理（卫生 / 去重 / 消歧 / 可用性排序）
+        run: python scripts/polish.py
+
+      - name: 三份配置复查报告（不阻断，产物 reports/audit-latest.md）
+        continue-on-error: true
+        run: python scripts/audit.py
+
       # 首页推荐 ≠ 搜索：分别探测 CMS 首页影片列表、爬虫 jar 与 ext 首页配置。
       # 云端直连，避免本机网络误判；结果里会写明判定环境。
       - name: 首页推荐能力探测
@@ -78,6 +89,8 @@ jobs:
             tvbox-full-homefirst.json tvbox-lite-homefirst.json \
             tvbox-network-homefirst.json \
             home-sites.txt quality.json history/ 2>/dev/null || true
+          # 复查报告给用户看「这台机器今天改进/删掉了什么」
+          if [ -f reports/audit-latest.md ]; then git add -f reports/audit-latest.md; fi
           # 场景版可能尚未产出（首日 / 探测失败），逐个判断，
           # 否则 git add 遇到不存在的 pathspec 会整体失败并吞掉上面所有文件
           for f in tvbox-quality.json tvbox-cn-fast.json tvbox-stable7.json; do

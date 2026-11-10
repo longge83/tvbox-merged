@@ -1,60 +1,60 @@
 {
   "date": "2026-11-10",
-  "commit": "df978d11dc916ac211355e05efe64a8b9394bfe3",
+  "commit": "00feeacdbd742b8875dbad972179585a2ba5aba1",
   "env": {
     "env": "github-actions",
-    "runner": "42770613536",
+    "runner": "42771666719",
     "proxy": false,
-    "generated": "2026-11-10 06:50:45 UTC"
+    "generated": "2026-11-10 07:00:10 UTC"
   },
   "files": {
     "tvbox-full-homefirst.json": {
-      "sha256": "301651c2ab825a21",
+      "sha256": "0711ce523f266857",
       "bytes": 851642,
       "sites": 2074
     },
     "tvbox-lite-homefirst.json": {
-      "sha256": "82bbc2a6f2902fcb",
+      "sha256": "2722418667915ef5",
       "bytes": 182377,
       "sites": 483
     },
     "tvbox-network-homefirst.json": {
-      "sha256": "7c78f7cf89f2b510",
+      "sha256": "f1157b87402daaba",
       "bytes": 167502,
       "sites": 447
     },
     "tvbox-home.json": {
-      "sha256": "0e9aee5c8166cc44",
-      "bytes": 530686,
-      "sites": 1105
+      "sha256": "879f9f3897bd8175",
+      "bytes": 533363,
+      "sites": 1117
     },
     "tvbox.json": {
-      "sha256": "6ea7050ffc17c363",
+      "sha256": "2738a5a0e2f00f4d",
       "bytes": 851275,
       "sites": 2074
     },
     "tvbox-lite.json": {
-      "sha256": "c619a28f719c6b3e",
+      "sha256": "945326a2edc59d9f",
       "bytes": 182041,
       "sites": 483
     },
     "tvbox-network.json": {
-      "sha256": "e0fb6bccb5342ded",
+      "sha256": "a9912a56aac60da9",
       "bytes": 167181,
       "sites": 447
     },
     "tvbox-quality.json": {
-      "sha256": "8364a5b2e0eb3006",
-      "bytes": 358915,
-      "sites": 619
+      "sha256": "b76705499d96f8ee",
+      "bytes": 361840,
+      "sites": 628
     },
     "tvbox-cn-fast.json": {
-      "sha256": "3fe4f6d7c0c93874",
-      "bytes": 73861,
-      "sites": 95
+      "sha256": "1e4d60d3874ba697",
+      "bytes": 75792,
+      "sites": 99
     },
     "tvbox-stable7.json": {
-      "sha256": "e3f7d40ec7a5fb28",
+      "sha256": "2d3ce27da468c5fc",
       "bytes": 124238,
       "sites": 90
     }
@@ -62,6 +62,6 @@
   "assert_passed": true,
   "assert_pass_streak": 1,
   "play_rate": 0.2333,
-  "false_kill_rate": 0.32,
+  "false_kill_rate": 0.5,
   "sources_failed": []
 }

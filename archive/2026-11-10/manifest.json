@@ -1,60 +1,60 @@
 {
   "date": "2026-11-10",
-  "commit": "2c90d832593fd95e9fb897d9340afcd4fa1da609",
+  "commit": "a90a35f4dd2fbf74d8946c4c2be1e60f87938aac",
   "env": {
     "env": "github-actions",
-    "runner": "42802230777",
+    "runner": "42817070821",
     "proxy": false,
-    "generated": "2026-11-10 10:54:51 UTC"
+    "generated": "2026-11-10 12:42:13 UTC"
   },
   "files": {
     "tvbox-full-homefirst.json": {
-      "sha256": "371191363830de78",
+      "sha256": "f780121bcc86e33b",
       "bytes": 793959,
       "sites": 2074
     },
     "tvbox-lite-homefirst.json": {
-      "sha256": "41eb3e1bc9c5ea3c",
+      "sha256": "9131d4dc0b31df8d",
       "bytes": 191515,
       "sites": 484
     },
     "tvbox-network-homefirst.json": {
-      "sha256": "8b6caba78b96f55a",
+      "sha256": "cf587738aeef03eb",
       "bytes": 174512,
       "sites": 449
     },
     "tvbox-home.json": {
-      "sha256": "fceb189218c3a4bb",
-      "bytes": 428386,
-      "sites": 911
+      "sha256": "64a5218f92d78c8e",
+      "bytes": 418236,
+      "sites": 882
     },
     "tvbox.json": {
-      "sha256": "b41aa55ced67886d",
+      "sha256": "ed236056ff7f85db",
       "bytes": 793594,
       "sites": 2074
     },
     "tvbox-lite.json": {
-      "sha256": "29c2cca62518a6b1",
+      "sha256": "09addf429f5fc677",
       "bytes": 191179,
       "sites": 484
     },
     "tvbox-network.json": {
-      "sha256": "7d3e63f75123236f",
+      "sha256": "0f8e503110693bdb",
       "bytes": 174191,
       "sites": 449
     },
     "tvbox-quality.json": {
-      "sha256": "91c19f8bf88ddd30",
-      "bytes": 330936,
+      "sha256": "29d6f335d7eab8a6",
+      "bytes": 331106,
       "sites": 627
     },
     "tvbox-cn-fast.json": {
-      "sha256": "9e9c53537fb25440",
-      "bytes": 75888,
+      "sha256": "40b3bc0cc45468d4",
+      "bytes": 75857,
       "sites": 98
     },
     "tvbox-stable7.json": {
-      "sha256": "90714aacfe3275a3",
+      "sha256": "45955fa83cb2e0f1",
       "bytes": 107978,
       "sites": 90
     }
@@ -62,6 +62,6 @@
   "assert_passed": true,
   "assert_pass_streak": 1,
   "play_rate": 0.2333,
-  "false_kill_rate": 0.42,
+  "false_kill_rate": 0.44,
   "sources_failed": []
 }

@@ -16,7 +16,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - name: 检出仓库
         uses: actions/checkout@v4
@@ -29,17 +29,27 @@ jobs:
       - name: 聚合 + 存活复检
         run: python scripts/build.py
 
+      # 首页推荐 ≠ 搜索：分别探测 CMS 首页影片列表、爬虫 jar 与 ext 首页配置，
+      # 生成只含「能出首页」节点的 tvbox-home.json。云端直连，避免本机网络误判。
+      - name: 首页推荐能力探测
+        continue-on-error: true
+        run: |
+          python scripts/home_probe.py \
+            --input tvbox.json --workers 50 \
+            --report home_report.json --output tvbox-home.json
+
       - name: 有变更则提交
         id: commit
         run: |
-          if git diff --quiet -- tvbox.json tvbox-lite.json; then
+          git add tvbox.json tvbox-lite.json 2>/dev/null || true
+          git add tvbox-home.json home-sites.txt 2>/dev/null || true
+          if git diff --cached --quiet; then
             echo "配置无变化，跳过提交"
             echo "changed=false" >> $GITHUB_OUTPUT
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add tvbox.json tvbox-lite.json
           git commit -m "chore: 更新聚合配置 $(date -u +%Y-%m-%d)"
           git push
           echo "changed=true" >> $GITHUB_OUTPUT
@@ -53,7 +63,7 @@ jobs:
           echo "本次是否有提交: ${{ steps.commit.outputs.changed }}"
           # GitHub raw 传播有短暂延迟，等几秒再清缓存，避免 CDN 回源拉到旧文件
           sleep 10
-          for f in tvbox.json tvbox-lite.json; do
+          for f in tvbox.json tvbox-lite.json tvbox-home.json; do
             echo "--- purge $f ---"
             curl -fsS --max-time 30 \
               "https://purge.jsdelivr.net/gh/${{ github.repository }}@main/$f" \

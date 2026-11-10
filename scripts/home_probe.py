@@ -31,15 +31,15 @@ CTX = ssl.create_default_context()
 CTX.check_hostname = False
 CTX.verify_mode = ssl.CERT_NONE
 
-# 本机直连 GitHub raw 常超时，这类域名走本地代理；国内采集源直连更快
-PROXY = os.environ.get("HOME_PROXY", "http://127.0.0.1:7890")
+# GitHub Actions 云端可直连所有域名；本机直连 raw 常超时，设 HOME_PROXY 走本地代理
+PROXY = os.environ.get("HOME_PROXY", "")
 GH_HOSTS = ("raw.githubusercontent.com", "github.com", "gist.githubusercontent.com",
             "gitlab.com", "jihulab.com", "agit.ai", "gitee.com")
 DIRECT = urllib.request.build_opener(urllib.request.HTTPSHandler(context=CTX))
-VIA_PROXY = urllib.request.build_opener(
+VIA_PROXY = (urllib.request.build_opener(
     urllib.request.HTTPSHandler(context=CTX),
     urllib.request.ProxyHandler({"http": PROXY, "https": PROXY}),
-)
+) if PROXY else DIRECT)
 UA = {"User-Agent": "okhttp/4.9.0", "Accept": "*/*"}
 
 
@@ -151,12 +151,17 @@ def probe_csp(site):
     ext = site.get("ext")
     detail = {"jar": "", "ext": "", "status": 0}
 
-    # jar 是爬虫本体，失效则整个站点（含首页）不可用
+    # jar 是爬虫本体，失效则整个站点（含首页）不可用。
+    # 必须是 zip/jar（PK 魔数）；不少上游把图片 URL 写进 spider，200 但不是 jar。
     jar_alive = True
     if jar.startswith("http"):
-        st, raw = fetch(jar, limit_bytes=64)
-        jar_alive = st == 200
-        detail["jar"] = "HTTP %s%s" % (st, " (zip)" if raw[:2] == b"PK" else "")
+        if re.search(r"\.(png|jpe?g|gif|webp|bmp)(\?|#|$)", jar, re.I):
+            jar_alive = False
+            detail["jar"] = "图片 URL，非 jar"
+        else:
+            st, raw = fetch(jar, limit_bytes=64)
+            jar_alive = st == 200 and raw[:2] == b"PK"
+            detail["jar"] = "HTTP %s%s" % (st, " (zip)" if raw[:2] == b"PK" else " (非zip)")
 
     # ext 常是首页分类配置；内嵌或为空则依赖 jar 内置 homeContent
     if isinstance(ext, str) and ext.startswith("http"):
@@ -273,6 +278,25 @@ def main():
             json.dump(out, f, ensure_ascii=False, indent=2)
         print("\n已生成 %s：%d 个站点（%.1f KB）" %
               (args.output, len(kept), os.path.getsize(args.output) / 1024))
+
+        # 人可读清单：等级 | 站点名 | 判定依据
+        by_key = {r["key"]: r for r in results}
+        lines = ["# 能显示主界面推荐（首页）的节点",
+                 "# 等级：ok=首页影片列表实测非空 / likely=爬虫jar与首页配置均有效 /",
+                 "#       classes_only=只返回分类（首页可能空）",
+                 "# 生成时间：%s" % time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime()), ""]
+        for s in kept:
+            r = by_key.get(s.get("key"), {})
+            d = r.get("detail", {})
+            why = ("首页影片 %s 条 via %s" % (d.get("videos"), d.get("via"))
+                   if r.get("grade") == "ok" else
+                   "jar:%s ext:%s" % (d.get("jar", "-"), d.get("ext", "-"))
+                   if r.get("grade") == "likely" else "仅分类 %s 组" % d.get("classes"))
+            lines.append("%-13s | %s | %s" % (r.get("grade", "?"),
+                                             str(s.get("name", "")).strip()[:28], why[:70]))
+        with open("home-sites.txt", "w", encoding="utf-8") as f:
+            f.write("\n".join(lines) + "\n")
+        print("已生成 home-sites.txt（可读清单）")
     print("明细：%s" % args.report)
 
 

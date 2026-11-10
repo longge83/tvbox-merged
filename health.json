@@ -1,0 +1,394 @@
+{
+  "date": "2026-11-10",
+  "env": {
+    "env": "github-actions",
+    "runner": "42761378359",
+    "proxy": false,
+    "generated": "2026-11-10 05:24:42 UTC"
+  },
+  "versions": [
+    {
+      "file": "tvbox-full-homefirst.json",
+      "label": "全量 + 首页优先",
+      "note": "功能最全，推荐桌面/高性能盒子",
+      "sites": 1972,
+      "home_first": 1134,
+      "bytes": 825860,
+      "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-full-homefirst.json",
+      "pages": "https://dimogu.github.io/tvbox-merged/tvbox-full-homefirst.json"
+    },
+    {
+      "file": "tvbox-lite-homefirst.json",
+      "label": "精简 + 首页优先",
+      "note": "不依赖 spider jar，低性能盒子首选",
+      "sites": 344,
+      "home_first": 114,
+      "bytes": 189366,
+      "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-lite-homefirst.json",
+      "pages": "https://dimogu.github.io/tvbox-merged/tvbox-lite-homefirst.json"
+    },
+    {
+      "file": "tvbox-network-homefirst.json",
+      "label": "网络优化 + 首页优先",
+      "note": "不依赖境外代码托管，国内直连最稳",
+      "sites": 308,
+      "home_first": 114,
+      "bytes": 177901,
+      "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-network-homefirst.json",
+      "pages": "https://dimogu.github.io/tvbox-merged/tvbox-network-homefirst.json"
+    },
+    {
+      "file": "tvbox-home.json",
+      "label": "首页版",
+      "note": "只保留能出主界面推荐的节点",
+      "sites": 1134,
+      "home_first": null,
+      "bytes": 531052,
+      "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-home.json",
+      "pages": "https://dimogu.github.io/tvbox-merged/tvbox-home.json"
+    },
+    {
+      "file": "tvbox.json",
+      "label": "全量（原序）",
+      "note": "全部节点，原始顺序",
+      "sites": 1972,
+      "home_first": null,
+      "bytes": 825496,
+      "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox.json",
+      "pages": "https://dimogu.github.io/tvbox-merged/tvbox.json"
+    },
+    {
+      "file": "tvbox-lite.json",
+      "label": "精简（原序）",
+      "note": "仅 http 站点",
+      "sites": 344,
+      "home_first": null,
+      "bytes": 189033,
+      "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-lite.json",
+      "pages": "https://dimogu.github.io/tvbox-merged/tvbox-lite.json"
+    },
+    {
+      "file": "tvbox-network.json",
+      "label": "网络优化（原序）",
+      "note": "仅国内直连友好站点",
+      "sites": 308,
+      "home_first": null,
+      "bytes": 177583,
+      "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-network.json",
+      "pages": "https://dimogu.github.io/tvbox-merged/tvbox-network.json"
+    }
+  ],
+  "sources": [
+    {
+      "tag": "apaodh/aowu",
+      "added": 80,
+      "dup": 0,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "apaodh/fm",
+      "added": 39,
+      "dup": 2,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "apaodh/vox",
+      "added": 70,
+      "dup": 12,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "apaodh/w2x",
+      "added": 100,
+      "dup": 0,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "apaodh/xhb",
+      "added": 91,
+      "dup": 9,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "apaodh/xm",
+      "added": 45,
+      "dup": 0,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "clun",
+      "added": 99,
+      "dup": 1,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "cyao/m",
+      "added": 13,
+      "dup": 8,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "cyao/ok",
+      "added": 65,
+      "dup": 0,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "cyao/xs",
+      "added": 19,
+      "dup": 47,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "dongli/api",
+      "added": 86,
+      "dup": 7,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "fish2018",
+      "added": 107,
+      "dup": 0,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "gao/js",
+      "added": 2,
+      "dup": 296,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "hkf/merged",
+      "added": 125,
+      "dup": 12,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "juhe-subhub",
+      "added": 80,
+      "dup": 143,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "jundie/top98",
+      "added": 22,
+      "dup": 2,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "jyoketsu/m",
+      "added": 47,
+      "dup": 11,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "noimank",
+      "added": 41,
+      "dup": 23,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "qist/ds",
+      "added": 0,
+      "dup": 159,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "qist/js",
+      "added": 77,
+      "dup": 221,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "qist/jsm",
+      "added": 133,
+      "dup": 25,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "ssr/ct",
+      "added": 67,
+      "dup": 7,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "ssr/ts888",
+      "added": 228,
+      "dup": 5,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "ysc/4k",
+      "added": 37,
+      "dup": 16,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "ysc/laoliubei",
+      "added": 181,
+      "dup": 53,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "ysc/wangerxiao",
+      "added": 39,
+      "dup": 24,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "ysc/xiaohezi",
+      "added": 48,
+      "dup": 6,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "ysc/xiaoma",
+      "added": 32,
+      "dup": 30,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    },
+    {
+      "tag": "yw88075",
+      "added": 160,
+      "dup": 149,
+      "note": "ok",
+      "failed": false,
+      "fail_streak": 0,
+      "alert": false
+    }
+  ],
+  "sources_ok": 29,
+  "sources_failed": [],
+  "home_grades": {
+    "unknown": 138,
+    "likely": 1020,
+    "fail": 700,
+    "ok": 103,
+    "classes_only": 11
+  },
+  "home_inferred": 529,
+  "play": {
+    "sampled": 30,
+    "list_rate": 0.9,
+    "detail_rate": 0.9,
+    "play_rate": 0.3,
+    "search_rate": 0.8,
+    "playable": 9,
+    "parses_alive_rate": 0.3,
+    "parses_total": 192
+  },
+  "false_kill_rate": 0.52,
+  "assert_passed": true,
+  "assert_pass_streak": 1,
+  "stable": {
+    "tag": "stable-20261110",
+    "commit": "4e83a87b598085073d6541458a7f71d859ad2d9d",
+    "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@stable-20261110/tvbox-full-homefirst.json"
+  },
+  "trend": [
+    {
+      "date": "2026-11-10",
+      "sites": 1972,
+      "lite": 344,
+      "network": 308,
+      "home_sites": 1134,
+      "home_ok": 103,
+      "play_rate": 0.3,
+      "false_kill_rate": 0.52,
+      "sources_ok": 29,
+      "assert_passed": true
+    }
+  ],
+  "dedupe": {
+    "parses_deduped": 513,
+    "blocked": {
+      "sites": 3,
+      "lives": 1,
+      "parses": 0
+    }
+  }
+}

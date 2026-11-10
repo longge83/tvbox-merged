@@ -1,0 +1,57 @@
+{
+  "updated": "2026-11-10",
+  "tag": "stable-20261110",
+  "commit": "4e83a87b598085073d6541458a7f71d859ad2d9d",
+  "repo": "dimogu/tvbox-merged",
+  "bootstrap": true,
+  "assert_pass_streak": 1,
+  "min_streak_to_advance": 3,
+  "policy": "回归断言连续通过 3 天才推进；坏版本可用 --rollback 退回历史 tag",
+  "files": {
+    "tvbox-full-homefirst.json": {
+      "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@stable-20261110/tvbox-full-homefirst.json",
+      "raw": "https://raw.githubusercontent.com/dimogu/tvbox-merged/stable-20261110/tvbox-full-homefirst.json",
+      "fastly": "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@stable-20261110/tvbox-full-homefirst.json"
+    },
+    "tvbox-lite-homefirst.json": {
+      "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@stable-20261110/tvbox-lite-homefirst.json",
+      "raw": "https://raw.githubusercontent.com/dimogu/tvbox-merged/stable-20261110/tvbox-lite-homefirst.json",
+      "fastly": "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@stable-20261110/tvbox-lite-homefirst.json"
+    },
+    "tvbox-network-homefirst.json": {
+      "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@stable-20261110/tvbox-network-homefirst.json",
+      "raw": "https://raw.githubusercontent.com/dimogu/tvbox-merged/stable-20261110/tvbox-network-homefirst.json",
+      "fastly": "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@stable-20261110/tvbox-network-homefirst.json"
+    },
+    "tvbox-home.json": {
+      "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@stable-20261110/tvbox-home.json",
+      "raw": "https://raw.githubusercontent.com/dimogu/tvbox-merged/stable-20261110/tvbox-home.json",
+      "fastly": "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@stable-20261110/tvbox-home.json"
+    },
+    "tvbox.json": {
+      "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@stable-20261110/tvbox.json",
+      "raw": "https://raw.githubusercontent.com/dimogu/tvbox-merged/stable-20261110/tvbox.json",
+      "fastly": "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@stable-20261110/tvbox.json"
+    },
+    "tvbox-lite.json": {
+      "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@stable-20261110/tvbox-lite.json",
+      "raw": "https://raw.githubusercontent.com/dimogu/tvbox-merged/stable-20261110/tvbox-lite.json",
+      "fastly": "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@stable-20261110/tvbox-lite.json"
+    },
+    "tvbox-network.json": {
+      "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@stable-20261110/tvbox-network.json",
+      "raw": "https://raw.githubusercontent.com/dimogu/tvbox-merged/stable-20261110/tvbox-network.json",
+      "fastly": "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@stable-20261110/tvbox-network.json"
+    }
+  },
+  "history": [
+    {
+      "date": "2026-11-10",
+      "tag": "stable-20261110",
+      "commit": "4e83a87b598085073d6541458a7f71d859ad2d9d",
+      "sites": 1972
+    }
+  ],
+  "rollback_hint": "python scripts/stable.py --rollback <上一个 tag>",
+  "readme": "把 files.<版本>.cdn 整行粘进 TVBox 配置地址即可；tag 固定，内容永不变化"
+}

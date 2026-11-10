@@ -1,5 +1,7 @@
 # TVBox 聚合上游清单
-# 格式：名称|URL（# 为注释）。每日构建会逐个拉取，失败自动跳过，不影响其它源。
+# 格式：名称|URL[|相对路径基准]（# 为注释）。每日构建会逐个拉取，失败自动跳过，不影响其它源。
+# 第三列可选：上游把 ./xxx 写成「相对仓库根目录」但配置文件在子目录时，
+# 在这里填仓库根 URL，避免拼出 XBPQ/XBPQ/xxx.json 这类 404 路径（会导致整批爬虫节点首页空白）。
 # 修改后提交即生效，无需改代码。
 
 # ---- 首批 9 源（2026-11-09 实测）----
@@ -14,7 +16,7 @@ gao/js|https://raw.githubusercontent.com/gaotianliuyun/gao/master/js.json
 clun|https://clun.top/box.json
 
 # ---- 第二批扩容（2026-11-10 从 80 条候选中实测筛出）----
-yw88075|https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw.json
+yw88075|https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw.json|https://raw.githubusercontent.com/yw88075/tvbox/main/
 ssr/ts888|https://raw.githubusercontent.com/davidlee6628/ssr/main/ts888.json
 ysc/laoliubei|https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/laoliubei.json
 juhe-subhub|https://raw.githubusercontent.com/zhuzhuyule/juhe-subhub/main/docs/tvbox.json

@@ -22,17 +22,18 @@ UA = "okhttp/4.9.0"
 OUT = os.environ.get("OUT_FILE", "tvbox.json")
 
 # 默认上游（sources.txt 不存在时使用）。实际运行时优先读仓库根目录的 sources.txt，
-# 每行格式：名称|URL  或  直接写 URL；# 开头为注释。
+# 每行格式：名称|URL[|相对路径基准]；# 开头为注释。
+# 第三列用于上游把 ./xxx 写成「相对仓库根目录」、但配置文件却在子目录里的情况。
 SOURCES = [
-    ("qist/js",  "https://raw.githubusercontent.com/qist/tvbox/master/js.json"),
-    ("qist/jsm", "https://raw.githubusercontent.com/qist/tvbox/master/jsm.json"),
-    ("qist/ds",  "https://raw.githubusercontent.com/qist/tvbox/master/dianshi.json"),
-    ("cyao/ok",  "https://raw.githubusercontent.com/cyao2q/files/master/ok.json"),
-    ("cyao/xs",  "https://raw.githubusercontent.com/cyao2q/files/master/xs.json"),
-    ("cyao/m",   "https://raw.githubusercontent.com/cyao2q/files/master/m.json"),
-    ("noimank",  "https://gitlab.com/noimank/tvbox/-/raw/main/tvbox1.json"),
-    ("gao/js",   "https://raw.githubusercontent.com/gaotianliuyun/gao/master/js.json"),
-    ("clun",     "https://clun.top/box.json"),
+    ("qist/js",  "https://raw.githubusercontent.com/qist/tvbox/master/js.json", ""),
+    ("qist/jsm", "https://raw.githubusercontent.com/qist/tvbox/master/jsm.json", ""),
+    ("qist/ds",  "https://raw.githubusercontent.com/qist/tvbox/master/dianshi.json", ""),
+    ("cyao/ok",  "https://raw.githubusercontent.com/cyao2q/files/master/ok.json", ""),
+    ("cyao/xs",  "https://raw.githubusercontent.com/cyao2q/files/master/xs.json", ""),
+    ("cyao/m",   "https://raw.githubusercontent.com/cyao2q/files/master/m.json", ""),
+    ("noimank",  "https://gitlab.com/noimank/tvbox/-/raw/main/tvbox1.json", ""),
+    ("gao/js",   "https://raw.githubusercontent.com/gaotianliuyun/gao/master/js.json", ""),
+    ("clun",     "https://clun.top/box.json", ""),
 ]
 
 
@@ -45,12 +46,51 @@ def load_sources():
         line = line.strip()
         if not line or line.startswith("#"):
             continue
-        if "|" in line:
-            tag, url = line.split("|", 1)
-            out.append((tag.strip(), url.strip()))
+        cols = [c.strip() for c in line.split("|")]
+        if len(cols) >= 2:
+            out.append((cols[0], cols[1], cols[2] if len(cols) > 2 else ""))
         else:
-            out.append((line.rsplit("/", 1)[-1][:12], line))
+            out.append((line.rsplit("/", 1)[-1][:12], line, ""))
     return out or SOURCES
+
+
+def url_alive(url, timeout=6):
+    """只取少量字节判断 URL 是否存在（用于校验 spider jar 的基准路径）"""
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": UA, "Range": "bytes=0-63"})
+        with urllib.request.urlopen(req, timeout=timeout, context=CTX) as r:
+            r.read(64)
+            return r.status in (200, 206)
+    except Exception:
+        return False
+
+
+def choose_base(url, cfg, hint=""):
+    """确定 ./ 相对路径的基准目录。
+
+    多数上游把 ./x.js 写作「相对配置文件所在目录」，按 url 的目录拼接即可。
+    但也有上游（如 yw88075/tvbox 的 XBPQ/yw.json）把 ./yw530.jar 写成
+    「相对仓库根目录」——按目录拼会得到 XBPQ/yw530.jar（404），导致整批
+    csp 站点的 jar / ext 全部失效，表现为首页推荐一片空白。
+    这里用 spider jar 做一次探测，自动挑出能命中的基准。
+    """
+    dir_base = url.rsplit("/", 1)[0] + "/"
+    if hint:
+        return hint.rstrip("/") + "/"
+    m = re.match(r"https://raw\.githubusercontent\.com/([^/]+)/([^/]+)/([^/]+)/(.+)", url)
+    if not m:
+        return dir_base
+    root_base = "https://raw.githubusercontent.com/%s/%s/%s/" % m.group(1, 2, 3)
+    if root_base == dir_base or "/" not in m.group(4):
+        return dir_base
+    sp = str(cfg.get("spider") or "").split(";")[0]
+    if not re.match(r"^\.{0,2}/", sp):
+        return dir_base
+    if url_alive(urljoin(dir_base, sp)):
+        return dir_base
+    if url_alive(urljoin(root_base, sp)):
+        return root_base
+    return dir_base
 
 
 def fetch(url, tries=3, timeout=25):
@@ -120,13 +160,15 @@ def build():
     wallpaper, global_spider, stats = None, None, []
     blocked_n = 0
 
-    for tag, url in load_sources():
+    for tag, url, hint in load_sources():
         try:
             cfg = json.loads(fetch(url))
         except Exception as e:
             stats.append((tag, 0, 0, f"拉取失败:{type(e).__name__}"))
             continue
-        base = url.rsplit("/", 1)[0] + "/"
+        base = choose_base(url, cfg, hint)
+        if base != url.rsplit("/", 1)[0] + "/":
+            print("  %s: 相对路径基准改用仓库根 %s" % (tag, base), flush=True)
         spider = absolutize(cfg.get("spider"), base)
         if spider and not global_spider:
             global_spider = spider

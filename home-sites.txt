@@ -1,7 +1,7 @@
 # 能显示主界面推荐（首页）的节点
 # 等级：ok=首页影片列表实测非空 / likely=爬虫jar与首页配置均有效 /
 #       classes_only=只返回分类（首页可能空）
-# 生成时间：2026-11-10 04:11 UTC
+# 生成时间：2026-11-10 04:27 UTC
 
 ok            | 11-暴风 | 首页影片 20 条 via ac=list
 ok            | 14-量子 | 首页影片 20 条 via ac=list
@@ -17,7 +17,6 @@ ok            | 6-非凡 | 首页影片 20 条 via ac=list
 ok            | 62-秒播 | 首页影片 20 条 via ac=list
 ok            | 66-360* | 首页影片 20 条 via ac=list
 ok            | 7-非凡 | 首页影片 20 条 via ac=list
-ok            | 9-非凡 | 首页影片 20 条 via ac=list
 ok            | U酷资源(优) | 首页影片 20 条 via ac=list
 ok            | [137ms|zy] 🍊极品 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | dd资源 | 首页影片 20 条 via ac=list
@@ -52,7 +51,6 @@ ok            | 影视 • 极速[直连] | 首页影片 20 条 via ac=list
 ok            | 影视 • 率率[直连] | 首页影片 20 条 via ac=list
 ok            | 影视 • 电影天堂 | 首页影片 20 条 via ac=list
 ok            | 影视 • 量子[直连] | 首页影片 20 条 via ac=list
-ok            | 影视 • 非凡[直连] | 首页影片 20 条 via ac=list
 ok            | 新浪 | 采集 | 首页影片 20 条 via ac=list
 ok            | 新浪资源(切) | 首页影片 20 条 via ac=list
 ok            | 无尽 | 采集 | 首页影片 20 条 via ac=list
@@ -66,7 +64,6 @@ ok            | 艾旦 | 采集 | 首页影片 20 条 via ac=list
 ok            | 艾旦影视(聚) | 首页影片 20 条 via ac=list
 ok            | 速优 | 首页影片 20 条 via ac=list
 ok            | 速播 | 采集 | 首页影片 20 条 via ac=list
-ok            | 采集集合+ | 首页影片 20 条 via ac=list
 ok            | 量子影视 | 首页影片 20 条 via ac=list
 ok            | 量子资源 | 首页影片 20 条 via ac=list
 ok            | 金鹰 | 采集 | 首页影片 20 条 via ac=list
@@ -84,7 +81,6 @@ ok            | 🍀┃非凡┃资源 | 首页影片 20 条 via ac=list
 ok            | 🍀天涯海角 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 🍀暴风APP | 首页影片 20 条 via ac=list
 ok            | 🍀非凡API | 首页影片 20 条 via ac=list
-ok            | 🍀非凡线路1 | 首页影片 20 条 via ac=list
 ok            | 🍀｜360｜采集 | 首页影片 20 条 via ac=list
 ok            | 🍀｜天堂｜采集 | 首页影片 20 条 via ac=list
 ok            | 🎥┃豪华┃资源 | 首页影片 20 条 via ac=list
@@ -104,7 +100,6 @@ ok            | 📡 速博 | 首页影片 20 条 via ac=list
 ok            | 🔥360資源資源 | 首页影片 20 条 via ac=list
 ok            | 🔷U酷 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 🥑┃量子┃资源 | 首页影片 20 条 via ac=list
-ok            | 🥗┃非凡┃资源 | 首页影片 20 条 via ac=list
 ok            | 🦊火狐采集 | 首页影片 20 条 via ac=list
 ok            | 🧞无广┃[采集] | 首页影片 20 条 via ac=list
 likely        | ☺FREEOK | jar:HTTP 200 (zip) ext:json keys:分类
@@ -351,6 +346,5 @@ classes_only  | 移动｜星源 | 仅分类 16 组
 classes_only  | 老张影视 | 仅分类 10 组
 classes_only  | 酷我｜音乐 | 仅分类 3 组
 classes_only  | 👭人人2👭 | 仅分类 5 组
-classes_only  | 👭克隆👭 | 仅分类 4 组
 classes_only  | 👭苹果视频👭 | 仅分类 5 组
 classes_only  | 🛫if101影视 | 仅分类 4 组

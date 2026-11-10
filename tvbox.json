@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "updated": "2026-11-10 03:53:43 UTC",
-    "sites": 1971,
-    "sites_dropped_dead": 161,
+    "updated": "2026-11-10 04:24:00 UTC",
+    "sites": 1967,
+    "sites_dropped_dead": 165,
     "sites_blocked": 4,
     "lives": 109,
     "parses": 330,
@@ -602,15 +602,6 @@
         "type": "list"
       },
       "jar": "https://raw.githubusercontent.com/qist/tvbox/master/jar/spider.jar;md5;2fe5d9e9b6a9cb76f1d1dd3d8b68290d"
-    },
-    {
-      "key": "live052",
-      "name": "9-非凡",
-      "type": 1,
-      "api": "https://www.ffzy.tv/api.php/provide/vod",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
     },
     {
       "key": "csp_XBPQ_98影院",
@@ -6114,40 +6105,6 @@
       "name": "影视 • 量子[直连]",
       "type": 1,
       "api": "https://cj.lziapi.com/api.php/provide/vod/",
-      "searchable": 1,
-      "categories": [
-        "动作片",
-        "喜剧片",
-        "爱情片",
-        "科幻片",
-        "恐怖片",
-        "剧情片",
-        "战争片",
-        "国产剧",
-        "香港剧",
-        "韩国剧",
-        "欧美剧",
-        "记录片",
-        "台湾剧",
-        "日本剧",
-        "海外剧",
-        "泰国剧",
-        "大陆综艺",
-        "港台综艺",
-        "日韩综艺",
-        "欧美综艺",
-        "国产动漫",
-        "日韩动漫",
-        "欧美动漫",
-        "港台动漫",
-        "海外动漫"
-      ]
-    },
-    {
-      "key": "非凡",
-      "name": "影视 • 非凡[直连]",
-      "type": 1,
-      "api": "http://ffzy.tv/api.php/provide/vod/",
       "searchable": 1,
       "categories": [
         "动作片",
@@ -12885,15 +12842,6 @@
       "name": "🍀非凡API",
       "type": 1,
       "api": "https://api.ffzyapi.com/api.php/provide/vod",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "live048",
-      "name": "🍀非凡线路1",
-      "type": 1,
-      "api": "https://ffzy1.tv/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -23096,43 +23044,6 @@
         "动作片",
         "爱情片",
         "喜剧片"
-      ]
-    },
-    {
-      "key": "csp_非凡资源",
-      "name": "🥗┃非凡┃资源",
-      "type": 1,
-      "api": "http://ffzy1.tv/api.php/provide/vod/",
-      "playurl": "json:http://jx.84jia.com/m3u8ts.php?url=",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "categories": [
-        "动作片",
-        "喜剧片",
-        "科幻片",
-        "恐怖片",
-        "爱情片",
-        "剧情片",
-        "战争片",
-        "记录片",
-        "国产剧",
-        "欧美剧",
-        "香港剧",
-        "韩国剧",
-        "台湾剧",
-        "日本剧",
-        "海外剧",
-        "泰国剧",
-        "国产动漫",
-        "日韩动漫",
-        "欧美动漫",
-        "港台动漫",
-        "海外动漫",
-        "大陆综艺",
-        "港台综艺",
-        "日韩综艺",
-        "欧美综艺"
       ]
     },
     {

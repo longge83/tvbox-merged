@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "updated": "2026-11-10 03:53:43 UTC",
-    "sites": 351,
-    "sites_dropped_dead": 161,
+    "updated": "2026-11-10 04:24:00 UTC",
+    "sites": 345,
+    "sites_dropped_dead": 165,
     "sites_blocked": 4,
     "lives": 109,
     "parses": 330,
@@ -11,10 +11,10 @@
     "note": "仅保留经首页数据探测确认可显示主界面推荐的站点",
     "home_grades": {
       "unknown": 210,
-      "fail": 1410,
+      "fail": 1412,
       "likely": 224,
-      "ok": 104,
-      "classes_only": 23
+      "ok": 99,
+      "classes_only": 22
     }
   },
   "spider": "https://raw.githubusercontent.com/qist/tvbox/master/jar/pg_upgraded.jar;md5;e58c3a2975d24db4978065ab895cf297",
@@ -6162,15 +6162,6 @@
       "filterable": 1
     },
     {
-      "key": "live052",
-      "name": "9-非凡",
-      "type": 1,
-      "api": "https://www.ffzy.tv/api.php/provide/vod",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
       "key": "U酷资源",
       "name": "U酷资源(优)",
       "type": 1,
@@ -6935,40 +6926,6 @@
       ]
     },
     {
-      "key": "非凡",
-      "name": "影视 • 非凡[直连]",
-      "type": 1,
-      "api": "http://ffzy.tv/api.php/provide/vod/",
-      "searchable": 1,
-      "categories": [
-        "动作片",
-        "喜剧片",
-        "爱情片",
-        "科幻片",
-        "恐怖片",
-        "剧情片",
-        "战争片",
-        "国产剧",
-        "香港剧",
-        "韩国剧",
-        "欧美剧",
-        "记录片",
-        "台湾剧",
-        "日本剧",
-        "海外剧",
-        "泰国剧",
-        "大陆综艺",
-        "港台综艺",
-        "日韩综艺",
-        "欧美综艺",
-        "国产动漫",
-        "日韩动漫",
-        "欧美动漫",
-        "港台动漫",
-        "海外动漫"
-      ]
-    },
-    {
       "key": "新浪",
       "name": "新浪 | 采集",
       "type": 1,
@@ -7124,15 +7081,6 @@
       "quickSearch": 1,
       "searchable": 1,
       "changeable": 1
-    },
-    {
-      "key": "live042",
-      "name": "采集集合+",
-      "type": 1,
-      "api": "https://zhangqun1818.serv00.net/cj/cjjh.php",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
     },
     {
       "key": "live034",
@@ -7321,15 +7269,6 @@
       "name": "🍀非凡API",
       "type": 1,
       "api": "https://api.ffzyapi.com/api.php/provide/vod",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "live048",
-      "name": "🍀非凡线路1",
-      "type": 1,
-      "api": "https://ffzy1.tv/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -7627,43 +7566,6 @@
         "动作片",
         "爱情片",
         "喜剧片"
-      ]
-    },
-    {
-      "key": "csp_非凡资源",
-      "name": "🥗┃非凡┃资源",
-      "type": 1,
-      "api": "http://ffzy1.tv/api.php/provide/vod/",
-      "playurl": "json:http://jx.84jia.com/m3u8ts.php?url=",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "categories": [
-        "动作片",
-        "喜剧片",
-        "科幻片",
-        "恐怖片",
-        "爱情片",
-        "剧情片",
-        "战争片",
-        "记录片",
-        "国产剧",
-        "欧美剧",
-        "香港剧",
-        "韩国剧",
-        "台湾剧",
-        "日本剧",
-        "海外剧",
-        "泰国剧",
-        "国产动漫",
-        "日韩动漫",
-        "欧美动漫",
-        "港台动漫",
-        "海外动漫",
-        "大陆综艺",
-        "港台综艺",
-        "日韩综艺",
-        "欧美综艺"
       ]
     },
     {
@@ -10677,15 +10579,6 @@
       "name": "👭人人2👭",
       "type": 1,
       "api": "https://jiduo.3116598.xyz/PHP/rrsp.php",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "live073",
-      "name": "👭克隆👭",
-      "type": 1,
-      "api": "https://zhangqun1818.serv00.net/klhj.php",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1

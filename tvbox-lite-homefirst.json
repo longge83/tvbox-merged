@@ -6018,17 +6018,17 @@
     }
   ],
   "_meta": {
-    "updated": "2026-11-10 03:53:43 UTC",
-    "sites": 344,
-    "sites_dropped_dead": 161,
+    "updated": "2026-11-10 04:24:00 UTC",
+    "sites": 340,
+    "sites_dropped_dead": 165,
     "sites_blocked": 4,
     "lives": 109,
     "parses": 330,
     "sources_ok": 29,
     "sources_failed": [],
     "note": "精简版，首页可用节点已置顶",
-    "home_first_count": 127,
-    "home_first_note": "前 127 个站点经首页推荐探测确认可用（ok/likely/classes_only 依次排序），其余节点保持原顺序，未删减"
+    "home_first_count": 121,
+    "home_first_note": "前 121 个站点经首页推荐探测确认可用（ok/likely/classes_only 依次排序），其余节点保持原顺序，未删减"
   },
   "sites": [
     {
@@ -6152,15 +6152,6 @@
       "name": "7-非凡",
       "type": 1,
       "api": "https://ffzy4.tv/api.php/provide/vod",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "live052",
-      "name": "9-非凡",
-      "type": 1,
-      "api": "https://www.ffzy.tv/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -6930,40 +6921,6 @@
       ]
     },
     {
-      "key": "非凡",
-      "name": "影视 • 非凡[直连]",
-      "type": 1,
-      "api": "http://ffzy.tv/api.php/provide/vod/",
-      "searchable": 1,
-      "categories": [
-        "动作片",
-        "喜剧片",
-        "爱情片",
-        "科幻片",
-        "恐怖片",
-        "剧情片",
-        "战争片",
-        "国产剧",
-        "香港剧",
-        "韩国剧",
-        "欧美剧",
-        "记录片",
-        "台湾剧",
-        "日本剧",
-        "海外剧",
-        "泰国剧",
-        "大陆综艺",
-        "港台综艺",
-        "日韩综艺",
-        "欧美综艺",
-        "国产动漫",
-        "日韩动漫",
-        "欧美动漫",
-        "港台动漫",
-        "海外动漫"
-      ]
-    },
-    {
       "key": "新浪",
       "name": "新浪 | 采集",
       "type": 1,
@@ -7119,15 +7076,6 @@
       "quickSearch": 1,
       "searchable": 1,
       "changeable": 1
-    },
-    {
-      "key": "live042",
-      "name": "采集集合+",
-      "type": 1,
-      "api": "https://zhangqun1818.serv00.net/cj/cjjh.php",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
     },
     {
       "key": "live034",
@@ -7316,15 +7264,6 @@
       "name": "🍀非凡API",
       "type": 1,
       "api": "https://api.ffzyapi.com/api.php/provide/vod",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "live048",
-      "name": "🍀非凡线路1",
-      "type": 1,
-      "api": "https://ffzy1.tv/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -7625,43 +7564,6 @@
       ]
     },
     {
-      "key": "csp_非凡资源",
-      "name": "🥗┃非凡┃资源",
-      "type": 1,
-      "api": "http://ffzy1.tv/api.php/provide/vod/",
-      "playurl": "json:http://jx.84jia.com/m3u8ts.php?url=",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "categories": [
-        "动作片",
-        "喜剧片",
-        "科幻片",
-        "恐怖片",
-        "爱情片",
-        "剧情片",
-        "战争片",
-        "记录片",
-        "国产剧",
-        "欧美剧",
-        "香港剧",
-        "韩国剧",
-        "台湾剧",
-        "日本剧",
-        "海外剧",
-        "泰国剧",
-        "国产动漫",
-        "日韩动漫",
-        "欧美动漫",
-        "港台动漫",
-        "海外动漫",
-        "大陆综艺",
-        "港台综艺",
-        "日韩综艺",
-        "欧美综艺"
-      ]
-    },
-    {
       "key": "火狐",
       "name": "🦊火狐采集",
       "type": 1,
@@ -7910,15 +7812,6 @@
       "name": "👭人人2👭",
       "type": 1,
       "api": "https://jiduo.3116598.xyz/PHP/rrsp.php",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "live073",
-      "name": "👭克隆👭",
-      "type": 1,
-      "api": "https://zhangqun1818.serv00.net/klhj.php",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -9295,6 +9188,15 @@
       "api": "https://clun.top/py/8kvod.py"
     },
     {
+      "key": "live042",
+      "name": "采集集合+",
+      "type": 1,
+      "api": "https://zhangqun1818.serv00.net/cj/cjjh.php",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
       "key": "live079",
       "name": "量子┃采集",
       "type": 0,
@@ -9914,6 +9816,15 @@
         "ratio": 1.33
       },
       "changeable": 1
+    },
+    {
+      "key": "live073",
+      "name": "👭克隆👭",
+      "type": 1,
+      "api": "https://zhangqun1818.serv00.net/klhj.php",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
     },
     {
       "key": "live066",

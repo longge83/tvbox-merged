@@ -112,6 +112,17 @@ https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-lite.json
 https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-network.json
 ```
 
+**国内镜像（fastly / gcore）**：当 `cdn.jsdelivr.net` 被污染或慢时，把上面链接里的 `cdn` 换成 `fastly` 或 `gcore` 即可（同样带 `@main`，已实测可用）。常用几份的镜像直链：
+
+```
+https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-quality.json
+https://gcore.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-quality.json
+https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-cn-fast.json
+https://gcore.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-cn-fast.json
+https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-stable7.json
+https://gcore.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-stable7.json
+```
+
 > ⚠️ **不要用不带 `@main` 的链接**（即 `cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox.json`）。
 > jsDelivr 对「不带版本号」的路径有独立的 12h 边缘缓存，purge 经常清不掉、会回退到旧版本——
 > 本次就出现主线挂着旧版（851KB，含已修掉的壁纸 / junk），而 `@main` 与 Pages 已是新版（822KB）。
@@ -251,7 +262,7 @@ python scripts/stable.py --rollback stable-20261109
 ## 六、上游可持续与体积治理
 
 - `sources.txt` 存 29 个源（每行 `名称|URL[|相对路径基准]`，`#` 为注释），改文件提交即可增删，**不用改代码**。单个源失效只跳过它。
-- **周级候选发现**（`.github/workflows/discover.yml`）：每周一自动跑 `scripts/discover.py`，挖导航仓库 README / 仓库 tree / 多仓聚合，相对**线上真实配置**算「去重后边际贡献」，产出 `reports/candidates-YYYY-MM-DD.md` 与 `candidates.json`。人工看一眼后一键并入：
+- **候选发现（约每 3 天）**（`.github/workflows/discover.yml`）：约每 3 天自动跑 `scripts/discover.py`，挖导航仓库 README / 仓库 tree / 多仓聚合，相对**线上真实配置**算「去重后边际贡献」，产出 `reports/candidates-YYYY-MM-DD.md` 与 `candidates.json`。人工看一眼后一键并入：
 
   ```bash
   python scripts/merge_candidates.py --take 5 --dry-run   # 先看会加什么
@@ -278,7 +289,7 @@ python scripts/stable.py --rollback stable-20261109
 
 ## 七、自动化机制
 
-- **每天北京时间 04:00** 由 `.github/workflows/update.yml` 构建；**每周一**由 `discover.yml` 找新源；两者都支持手动 `Run workflow`。
+- **每天北京时间 04:00** 由 `.github/workflows/update.yml` 构建；**约每 3 天**由 `discover.yml` 找新源；两者都支持手动 `Run workflow`。
 - 主流程：`build.py` → **`polish.py`（卫生 / 去重 / 消歧 / 排序）** → **`audit.py`（复查报告）** → `home_probe.py` → `recheck.py` → `play_probe.py` → `rank_home.py` → `variants.py`（三个场景版）→ **`assertions.py`（失败即停）** → `history.py` → 提交配置与历史 → `stable.py`（归档 + 不可变 tag）→ `health.py` → 上传 Pages artifact → 提交归档与指针 → push → 两轮 purge CDN → 部署 Pages。
 - 内容无实质变化时不写文件；判定历史每天仍会留痕，便于看趋势。
 - 首页探测、误杀复核、可播率探测为 `continue-on-error`（单点网络抖动不影响主配置产出），只有**回归断言是硬阻断**。

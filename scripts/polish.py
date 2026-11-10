@@ -231,13 +231,15 @@ def policy_drop(site, pol):
     return None
 
 
-def tier_of(site, stab, revived=(), jar_fail=None):
+def tier_of(site, stab, revived=(), jar_fail=None, ext_fail=None):
     """0 可用 / 1 未知 / 2 已判定失败或首页必空白。
 
-    jar_fail 是 quality.json 里的「jar 连续失败天数」映射（按 jar URL 计）。
-    csp 站点靠 jar 跑 spider：jar 连败 ≥2 天直接沉底，与 api 探活的口径一致。
+    jar_fail / ext_fail 是 quality.json 里的「连续失败天数」映射（按 jar / ext
+    URL 计）。csp 站点靠 jar 跑 spider、靠远程 ext 出首页配置：jar 或远程 ext
+    任一连败 ≥2 天直接沉底，与 api 探活的口径一致（单日探测有噪声，连败才可信）。
     """
     jar_fail = jar_fail or {}
+    ext_fail = ext_fail or {}
     sg = common.sig(site)
     st = stab.get(sg) or {}
     try:
@@ -246,12 +248,19 @@ def tier_of(site, stab, revived=(), jar_fail=None):
         streak = 0
     grade = str(st.get("last_grade") or "")
     api = str(site.get("api", "")).lower()
+    ext = str(site.get("ext") or "")
     if api.startswith("csp_"):
-        if not site.get("ext"):
+        if not ext:
             return 2, "csp_no_ext"
         jurl = str(site.get("jar") or "").split(";", 1)[0]
         if jurl and jar_fail.get(jurl, 0) >= 2:
             return 2, "jar_dead"
+    # 远程 ext 配置（json / spider 首页配置）连败 ≥2 天：站点首页 / 解析依赖它，
+    # 死了等于整页空白。仅当 ext 是 http(s) 远程地址时才算（本地 JSON 配置串不算）。
+    if ext.lower().startswith("http"):
+        eurl = ext.split(";", 1)[0]
+        if eurl and ext_fail.get(eurl, 0) >= 2:
+            return 2, "ext_dead"
     if streak >= 2:
         return 2, "fail_streak"
     if grade == "fail":
@@ -466,6 +475,7 @@ def main():
     quality = common.load_json("quality.json", {}) or {}
     stab = quality.get("site_stability", {}) or {}
     jar_fail = quality.get("jar_fail_streak") or {}
+    ext_fail = quality.get("ext_fail_streak") or {}
     revived = load_revived()
 
     paths = target_paths()
@@ -528,7 +538,7 @@ def main():
 
         tiers, tags = {}, Counter()
         for s in uniq:
-            t, why = tier_of(s, stab, revived, jar_fail)
+            t, why = tier_of(s, stab, revived, jar_fail, ext_fail)
             tiers[id(s)] = t
             if t == 2:
                 tags[why] += 1

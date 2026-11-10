@@ -134,8 +134,8 @@ def summarize(snaps):
     for sg in revived:
         probe_fail.pop(sg, None)
 
-    # jar / ext 连续失败：死 jar 会让依赖它的 csp 站点整页空白，但单日探测有噪声，
-    # 同样要走「连续 N 天失败才沉底」；复活机制对 jar 暂不适用（无 UA 复核）。
+    # jar / ext 连续失败：死 jar / 死远程 ext 都会让依赖它的站点整页空白，但单日
+    # 探测有噪声，同样要走「连续 N 天失败才沉底」；复活机制暂不适用（无 UA 复核）。
     jar_fail = {}
     for u in {x for s in recent7 for x in s.get("build", {}).get("jar_dead_today", [])}:
         streak = 0
@@ -145,6 +145,16 @@ def summarize(snaps):
             else:
                 break
         jar_fail[u] = streak
+
+    ext_fail = {}
+    for u in {x for s in recent7 for x in s.get("build", {}).get("ext_dead_today", [])}:
+        streak = 0
+        for s in reversed(recent7):
+            if u in s.get("build", {}).get("ext_dead_today", []):
+                streak += 1
+            else:
+                break
+        ext_fail[u] = streak
 
     source_fail = {}
     for tag in {t for s in recent7 for t in s.get("build", {}).get("sources_failed", [])}:
@@ -188,6 +198,7 @@ def summarize(snaps):
         "site_stability": site_stability,
         "probe_fail_streak": probe_fail,
         "jar_fail_streak": jar_fail,
+        "ext_fail_streak": ext_fail,
         "source_fail_streak": source_fail,
         "assert_pass_streak": assert_streak,
         "false_kill_rate": (last.get("recheck") or {}).get("false_kill_rate"),

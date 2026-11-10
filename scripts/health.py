@@ -54,6 +54,71 @@ def bar(value, maximum, color):
     return '<span class="bar"><i style="width:%d%%;background:%s"></i></span>' % (w, color)
 
 
+def trend_chart(trend):
+    """近 N 天「端到端可播率 / 误杀率」双折线 SVG（纯静态，无外部依赖）。"""
+    if not trend:
+        return ""
+    W, H = 1000, 260
+    pad_l, pad_r, pad_t, pad_b = 50, 18, 18, 30
+    plot_w = W - pad_l - pad_r
+    plot_h = H - pad_t - pad_b
+    n = len(trend)
+
+    def x(i):
+        return pad_l + (plot_w * i / (n - 1)) if n > 1 else pad_l + plot_w / 2
+
+    def y(v):
+        v = 0.0 if v is None else float(v)
+        return pad_t + plot_h * (1 - max(0.0, min(1.0, v)))
+
+    grid = []
+    for g in (0, 0.25, 0.5, 0.75, 1.0):
+        yy = y(g)
+        grid.append("<line x1='%g' y1='%g' x2='%g' y2='%g' stroke='#e3e9f2' stroke-width='1'/>"
+                    % (pad_l, yy, W - pad_r, yy))
+        grid.append("<text x='%g' y='%g' fill='#5c6b82' font-size='11' text-anchor='end'>%d%%</text>"
+                    % (pad_l - 6, yy + 4, round(g * 100)))
+    xlabels = []
+    for i in (0, n // 2, n - 1):
+        if 0 <= i < n:
+            d = str(trend[i].get("date") or "")[5:]
+            xlabels.append("<text x='%g' y='%g' fill='#5c6b82' font-size='11' text-anchor='middle'>%s</text>"
+                           % (x(i), H - 8, esc(d)))
+
+    def segments(key):
+        runs, cur = [], []
+        for i, t in enumerate(trend):
+            v = t.get(key)
+            if v is None:
+                if cur:
+                    runs.append(cur)
+                    cur = []
+            else:
+                cur.append((i, v))
+        if cur:
+            runs.append(cur)
+        return runs
+
+    def polylines(runs, color):
+        out = []
+        for run in runs:
+            pts = " ".join("%g,%g" % (x(i), y(v)) for i, v in run)
+            out.append("<polyline points='%s' fill='none' stroke='%s' stroke-width='2.5' "
+                       "stroke-linejoin='round' stroke-linecap='round'/>" % (pts, color))
+            for i, v in run:
+                out.append("<circle cx='%g' cy='%g' r='2.5' fill='%s'/>" % (x(i), y(v), color))
+        return "".join(out)
+
+    play = polylines(segments("play_rate"), "#0d9f6e")
+    kill = polylines(segments("false_kill_rate"), "#e08a00")
+    chart = ("<svg viewBox='0 0 %d %d' role='img' aria-label='可播率与误杀率趋势'>"
+             "%s%s%s%s</svg>" % (W, H, "".join(grid), "".join(xlabels), kill, play))
+    legend = ("<div class='legend'>"
+              "<span><i style='background:#0d9f6e'></i>端到端可播率</span>"
+              "<span><i style='background:#e08a00'></i>误杀率下界</span></div>")
+    return chart + legend
+
+
 def main():
     q = common.load_json("quality.json", {}) or {}
     st = common.load_json("_build_stats.json", {}) or {}
@@ -73,6 +138,7 @@ def main():
             "home_first": (cfg.get("_meta") or {}).get("home_first_count"),
             "bytes": os.path.getsize(f) if os.path.exists(f) else 0,
             "cdn": "https://cdn.jsdelivr.net/gh/%s/%s" % (REPO, f),
+            "mirror": "https://fastly.jsdelivr.net/gh/%s/%s" % (REPO, f),
             "pages": "https://%s.github.io/%s/%s" %
                      (REPO.split("/")[0], REPO.split("/")[1], f),
         })
@@ -186,6 +252,10 @@ def main():
     .note{background:#fff8e8;border:1px solid #f4dfae;border-radius:10px;padding:12px 16px;
           font-size:13px;color:#7a5b12;margin:16px 0}
     footer{margin-top:40px;color:var(--sub);font-size:12px}
+    svg{max-width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:12px}
+    .legend{font-size:12px;color:var(--sub);margin:8px 0 0}
+    .legend span{display:inline-block;margin-right:16px}
+    .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:middle}
     @media(max-width:640px){.wrap{padding:20px 12px}table{font-size:12px}th,td{padding:7px 8px}}
     """
     p = []
@@ -241,15 +311,17 @@ def main():
 
     # 版本与直链
     p.append("<h2>配置版本与完整直链</h2><table><tr><th>版本</th><th>站点数</th>"
-             "<th>置顶</th><th>用途</th><th>大小</th><th>国内直链（jsDelivr）</th><th>Pages 备用</th></tr>")
+             "<th>置顶</th><th>用途</th><th>大小</th><th>国内直链（jsDelivr）</th>"
+             "<th>fastly 镜像</th><th>Pages 备用</th></tr>")
     for v in versions:
         p.append("<tr><td><b>%s</b><br><code>%s</code></td><td>%d</td><td>%s</td>"
                  "<td>%s</td><td>%.0f KB</td><td class='links'><a href='%s'>%s</a></td>"
+                 "<td class='links'><a href='%s'>fastly</a></td>"
                  "<td class='links'><a href='%s'>Pages</a></td></tr>" %
                  (esc(v["label"]), esc(v["file"]), v["sites"],
                   esc(v["home_first"] if v["home_first"] is not None else "—"),
                   esc(v["note"]), v["bytes"] / 1024, esc(v["cdn"]), esc(v["file"]),
-                  esc(v["pages"])))
+                  esc(v["mirror"]), esc(v["pages"])))
     p.append("</table>")
     p.append("<div class='sub'>今日三份基础配置的复查明细（删了什么、改了什么名、为什么这样排序）："
              "<a href='audit-latest.md'>reports/audit-latest.md</a></div>")
@@ -289,16 +361,19 @@ def main():
 
     # jar / ext 健康（每日探活盲区）
     jh2 = health["jar_health"]
+    jh2["ext_fail_streak"] = len(q.get("ext_fail_streak") or {})
     if jh2["probed"]:
         p.append("<h2>jar / ext 健康</h2>")
         p.append("<div class='note'>spider jar 与远程 ext 是旧流程的探活盲区（每日只查 api 接口），"
-                 "失效的 jar 会一直留在配置里、用户点开就空。现已接入逐日探测：今日 死 jar "
+                 "失效的 jar / ext 会一直留在配置里、用户点开就空。现已接入逐日探测：今日 死 jar "
                  "<b>%s</b> / 唯一 %s（可用率 %s）；死 ext <b>%s</b> / 唯一 %s；"
-                 "多日连败（≥2 天）的死 jar 共 <b>%d</b> 个，其依赖的 csp 站点已被自动沉底。"
+                 "多日连败（≥2 天）的死 jar 共 <b>%d</b> 个、死 ext 共 <b>%d</b> 个，"
+                 "其依赖的站点已被自动沉底。"
                  "</div>" % (jh2["jar_dead"] if jh2["jar_dead"] is not None else "—",
                              jh2["jar_total"], pct(jh2["jar_alive_rate"]),
                              jh2["ext_dead"] if jh2["ext_dead"] is not None else "—",
-                             jh2["ext_total"], jh2["jar_fail_streak"]))
+                             jh2["ext_total"], jh2["jar_fail_streak"],
+                             jh2["ext_fail_streak"]))
     else:
         p.append("<h2>jar / ext 健康</h2><div class='sub'>本次未执行网络探测（本地试跑或探测步骤跳过）。</div>")
 
@@ -318,6 +393,7 @@ def main():
     # 趋势
     p.append("<h2>近 %d 天趋势</h2>" % len(trend))
     if trend:
+        p.append(trend_chart(trend))
         maxsites = max([t.get("sites") or 0 for t in trend] + [1])
         p.append("<table><tr><th>日期</th><th>全量站点</th><th>首页可用</th>"
                  "<th>可播率</th><th>误杀率</th><th>上游 OK</th><th>断言</th></tr>")

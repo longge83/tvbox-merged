@@ -38,17 +38,23 @@ def collect():
     return jars, exts
 
 
-def reachable(url):
+def reachable(url, want_zip=False):
+    """jar 必须是 ZIP：图床 / CDN 错误页返回 200 + HTML 也算「活着」的话，
+    死 jar 永远进不了 fail_streak，依赖它的 csp 站点就不会被沉底。
+    口径与 assertions.check_url / home_probe.probe_csp 一致（.js/.mjs 例外）。
+    """
     st, raw = common.fetch(url, timeout=8, limit_bytes=64)
-    return st == 200 and len(raw) > 0
+    if want_zip and url.split("?", 1)[0].lower().endswith((".js", ".mjs")):
+        want_zip = False
+    return st == 200 and (raw[:2] == b"PK" if want_zip else len(raw) > 0)
 
 
-def probe_all(pool):
+def probe_all(pool, want_zip=False):
     dead = []
     if not pool:
         return dead
     with ThreadPoolExecutor(max_workers=24) as ex:
-        futs = {ex.submit(reachable, u): u for u in sorted(pool)}
+        futs = {ex.submit(reachable, u, want_zip): u for u in sorted(pool)}
         for f in as_completed(futs):
             u = futs[f]
             try:
@@ -73,7 +79,7 @@ def main():
               % (len(jars), len(exts)))
         return 0
 
-    jdead = probe_all(jars)
+    jdead = probe_all(jars, want_zip=True)
     edead = probe_all(exts)
     out["jars"] = {"unique": len(jars), "dead_count": len(jdead), "dead": jdead}
     out["exts"] = {"unique": len(exts), "dead_count": len(edead), "dead": edead}

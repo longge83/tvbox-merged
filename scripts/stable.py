@@ -70,6 +70,23 @@ def tag_contains(tag, f):
         return False
 
 
+def tag_commit(tag):
+    """tag 实际指向的 commit。
+
+    同一天重复运行时 tag 会复用，此时它仍指向当天第一次构建的提交；
+    stable.json 的 commit / history[].commit 必须写这个不可变 commit，
+    否则指针里的 commit 与用户实际下载到的内容对不上，回滚排查会被误导。
+    """
+    try:
+        r = subprocess.run(["git", "rev-list", "-n", "1", tag],
+                           capture_output=True, text=True, timeout=20)
+        if r.returncode == 0 and r.stdout.strip():
+            return r.stdout.strip()
+    except Exception:
+        pass
+    return ""
+
+
 def links(repo, tag, f):
     return {
         "cdn": "https://cdn.jsdelivr.net/gh/%s@%s/%s" % (repo, tag, f),
@@ -127,14 +144,16 @@ def archive(manifest, keep_days=KEEP_DAYS):
 
 
 def write_pointer(state, repo, tag, manifest, bootstrap=False):
+    linked = tag_commit(tag) or manifest["commit"]
     history = [h for h in state.get("history", []) if h.get("tag") != tag]
     history.append({"date": common.today(), "tag": tag,
-                    "commit": manifest["commit"],
+                    "commit": linked,
                     "sites": (manifest["files"].get("tvbox.json") or {}).get("sites", 0)})
     out = {
         "updated": common.today(),
         "tag": tag,
-        "commit": manifest["commit"],
+        "commit": linked,
+        "last_check_commit": manifest["commit"],
         "repo": repo,
         "bootstrap": bootstrap,
         "assert_pass_streak": manifest["assert_pass_streak"],

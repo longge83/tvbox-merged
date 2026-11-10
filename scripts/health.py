@@ -28,7 +28,7 @@ import common
 
 FILES = [
     ("tvbox-quality.json", "精播版", "只留实测可播 / 首页实测有影片的节点，宁缺毋滥"),
-    ("tvbox-cn-fast.json", "国内极速版", "国内直连、无 spider jar、按质量取前 120 个，老盒子开屏最快"),
+    ("tvbox-cn-fast.json", "国内极速版", "国内直连、无 spider jar、最多取前 120 个，老盒子开屏最快"),
     ("tvbox-stable7.json", "7 天稳定版", "近 7 天多次可用且当前无连败，不追新源、不随上游抖动"),
     ("tvbox-full-homefirst.json", "全量 + 首页优先", "功能最全，推荐桌面/高性能盒子"),
     ("tvbox-lite-homefirst.json", "精简 + 首页优先", "不依赖 spider jar，低性能盒子首选"),
@@ -49,9 +49,58 @@ def pct(v):
     return "—" if v is None else "%.1f%%" % (float(v) * 100)
 
 
+def streak_ge2(d):
+    """连败 ≥2 天的条目数。
+
+    history.py 的 xxx_fail_streak 是「当前仍在连败的全部条目」，首日单点失败
+    也会记 1 条，直接取 len() 会把「今天刚死一次」说成「已连续多日失败、
+    依赖站点已沉底」—— 与 polish.tier_of 的 >=2 沉底口径不一致。
+    """
+    return sum(1 for v in (d or {}).values()
+               if isinstance(v, (int, float)) and not isinstance(v, bool) and v >= 2)
+
+
 def bar(value, maximum, color):
     w = 0 if not maximum else max(2, min(100, round(100 * value / maximum)))
     return '<span class="bar"><i style="width:%d%%;background:%s"></i></span>' % (w, color)
+
+
+# 线路新鲜度自检（浏览器侧）。用常量 + 占位符替换，避免 % 格式化与 JS 引号
+# 互相干扰；__CFG__ 由 main() 填入本次构建的期望站点数与四条待测线路。
+CDN_PROBE_JS = """
+(function(){
+  var cfg=__CFG__, box=document.getElementById('cdnprobe');
+  function esc(s){
+    return String(s).replace(/[&<>"]/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];
+    });
+  }
+  function badge(cls, txt){ return "<span class='pill " + cls + "'>" + esc(txt) + "</span>"; }
+  function check(ep){
+    return fetch(ep[1], {cache:'no-store'}).then(function(r){
+      if(!r.ok){ throw new Error('HTTP ' + r.status); }
+      return r.arrayBuffer();
+    }).then(function(buf){
+      var j = JSON.parse(new TextDecoder('utf-8').decode(buf));
+      var n = (j.sites || []).length;
+      var ok = (n === cfg.expected);
+      var detail = n + ' 站点 / ' + Math.round(buf.byteLength / 1024) + ' KB';
+      if(!ok){ detail = detail + '（期望 ' + cfg.expected + '）'; }
+      return {name: ep[0], ok: ok, state: ok ? '最新' : '滞后', detail: detail};
+    }).catch(function(e){
+      return {name: ep[0], ok: null, state: '无法检测',
+              detail: String(e.message || e).slice(0, 70)};
+    });
+  }
+  Promise.all(cfg.endpoints.map(check)).then(function(rows){
+    box.innerHTML = rows.map(function(r){
+      var cls = (r.ok === true) ? 'ok' : ((r.ok === false) ? 'bad' : 'warn');
+      return '<div><b>' + esc(r.name) + '</b>' + badge(cls, r.state) +
+             ' ' + esc(r.detail) + '</div>';
+    }).join('');
+  });
+})();
+"""
 
 
 def trend_chart(trend):
@@ -137,8 +186,10 @@ def main():
             "sites": len(cfg.get("sites", [])),
             "home_first": (cfg.get("_meta") or {}).get("home_first_count"),
             "bytes": os.path.getsize(f) if os.path.exists(f) else 0,
-            "cdn": "https://cdn.jsdelivr.net/gh/%s/%s" % (REPO, f),
-            "mirror": "https://fastly.jsdelivr.net/gh/%s/%s" % (REPO, f),
+            # 必须带 @main：无版本号路径有独立 12h 边缘缓存，purge 常清不掉，
+            # 会滞留含对象型 style 的旧版，用户复制过去就导入失败（历史反复踩过）。
+            "cdn": "https://cdn.jsdelivr.net/gh/%s@main/%s" % (REPO, f),
+            "mirror": "https://fastly.jsdelivr.net/gh/%s@main/%s" % (REPO, f),
             "pages": "https://%s.github.io/%s/%s" %
                      (REPO.split("/")[0], REPO.split("/")[1], f),
         })
@@ -204,6 +255,19 @@ def main():
         })
     health["hygiene"] = hygiene
 
+    # 全历史问题回归复核（regression.py 的产物，缺失时按「未执行」显示）
+    rg = common.load_json("_regression.json", {}) or {}
+    health["regression"] = {
+        "ran": bool(rg.get("total")),
+        "passed": bool(rg.get("passed")),
+        "ok": rg.get("ok", 0), "total": rg.get("total", 0),
+        "failed": rg.get("failed", 0),
+        "hard_failed": rg.get("hard_failed", []),
+        "failed_checks": [{"id": r.get("id"), "title": r.get("title"),
+                           "detail": r.get("detail")}
+                          for r in (rg.get("checks") or []) if r.get("ok") is False][:6],
+    }
+
     # jar / ext 健康：每日探活的盲区（旧流程只查 api 接口），现在逐日探测并展示
     jh = common.load_json("_jar_health.json", {}) or {}
     jd, ed = jh.get("jars") or {}, jh.get("exts") or {}
@@ -214,6 +278,9 @@ def main():
         "jar_total": jar_total, "jar_dead": jar_dead, "jar_alive_rate": jar_alive_rate,
         "ext_total": ed.get("unique") or 0, "ext_dead": ed.get("dead_count"),
         "jar_fail_streak": len(q.get("jar_fail_streak") or {}),
+        "jar_fail_ge2": streak_ge2(q.get("jar_fail_streak")),
+        "ext_fail_streak": len(q.get("ext_fail_streak") or {}),
+        "ext_fail_ge2": streak_ge2(q.get("ext_fail_streak")),
     }
     common.write_json("health.json", health, skip_unchanged=False)
 
@@ -224,9 +291,10 @@ def main():
         if os.path.exists(f):
             shutil.copyfile(f, os.path.join("site", f))
     # 复查报告也放进 Pages：jsDelivr 对 .md 只做 301 转 raw，不如 Pages 直接可读
-    audit = os.path.join("reports", "audit-latest.md")
-    if os.path.exists(audit):
-        shutil.copyfile(audit, os.path.join("site", "audit-latest.md"))
+    for name in ("audit-latest.md", "regression-latest.md"):
+        src = os.path.join("reports", name)
+        if os.path.exists(src):
+            shutil.copyfile(src, os.path.join("site", name))
 
     css = """
     :root{--bg:#f6f8fb;--card:#fff;--ink:#152238;--sub:#5c6b82;--line:#e3e9f2;
@@ -260,6 +328,9 @@ def main():
     .legend{font-size:12px;color:var(--sub);margin:8px 0 0}
     .legend span{display:inline-block;margin-right:16px}
     .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:middle}
+    .probe{margin:10px 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px}
+    .probe div{background:#fff;border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:12px}
+    .probe b{display:block;font-size:12px;color:var(--sub);font-weight:600;margin-bottom:4px}
     @media(max-width:640px){.wrap{padding:20px 12px}table{font-size:12px}th,td{padding:7px 8px}}
     """
     p = []
@@ -293,11 +364,15 @@ def main():
         ("回归断言", status_txt, "连续通过 %d 天" % health["assert_pass_streak"], status_cls),
         ("jar 健康", (pct(health["jar_health"]["jar_alive_rate"])
                       if health["jar_health"]["probed"] else "未探测"),
-         "死 %s / 唯一 %s · 连败 %d" %
+         "死 %s / 唯一 %s · 连败≥2天 %d（已沉底）" %
          (health["jar_health"]["jar_dead"] if health["jar_health"]["jar_dead"] is not None else "—",
-          health["jar_health"]["jar_total"], health["jar_health"]["jar_fail_streak"]),
+          health["jar_health"]["jar_total"], health["jar_health"]["jar_fail_ge2"]),
          "ok" if (not health["jar_health"]["probed"] or
                   (health["jar_health"]["jar_alive_rate"] or 0) >= 0.5) else "warn"),
+        ("历史问题复核", ("%d/%d" % (health["regression"]["ok"], health["regression"]["total"]))
+         if health["regression"]["ran"] else "未执行",
+         "九轮历史故障逐条复验",
+         "ok" if (health["regression"]["ran"] and health["regression"]["passed"]) else "warn"),
     ]
     for k, v, n, cls in cards:
         p.append("<div class='card'><div class='k'>%s</div><div class='v %s'>%s</div>"
@@ -328,7 +403,29 @@ def main():
                   esc(v["mirror"]), esc(v["pages"])))
     p.append("</table>")
     p.append("<div class='sub'>今日三份基础配置的复查明细（删了什么、改了什么名、为什么这样排序）："
-             "<a href='audit-latest.md'>reports/audit-latest.md</a></div>")
+             "<a href='audit-latest.md'>audit-latest.md</a> · "
+             "全部历史问题的复核清单：<a href='regression-latest.md'>regression-latest.md</a></div>")
+
+    # 线路新鲜度自检：历史上反复出现「仓库已更新、CDN 仍挂几个版本前的旧配置」，
+    # 用户照着旧链接填就报 IllegalStateException / 拿到旧站点数。静态页无法知道
+    # CDN 边缘节点此刻挂的是哪一版，交给浏览器实时取回比对站点数，一眼可辨。
+    probe_target = "tvbox-full-homefirst.json"
+    probe_cfg = json.dumps({
+        "expected": (by_file.get(probe_target) or {}).get("sites", 0),
+        "endpoints": [
+            ["GitHub Pages（主线路）", "./" + probe_target],
+            ["jsDelivr @main", "https://cdn.jsdelivr.net/gh/%s@main/%s" % (REPO, probe_target)],
+            ["fastly @main", "https://fastly.jsdelivr.net/gh/%s@main/%s" % (REPO, probe_target)],
+            ["无版本号路径（不推荐）", "https://cdn.jsdelivr.net/gh/%s/%s" % (REPO, probe_target)],
+        ],
+    }, ensure_ascii=False)
+    p.append("<h2>线路新鲜度自检 <span class='sub' style='margin:0'>（浏览器实时检测）</span></h2>")
+    p.append("<div class='sub'>以 <code>%s</code> 的本次构建站点数 <b>%d</b> 为基准，"
+             "逐条取回线上文件比对。若某条线路显示「滞后」，说明它的 CDN 边缘节点还挂着旧版，"
+             "请改用 GitHub Pages 主线路；检测失败通常是网络或 CORS 限制，不代表配置异常。</div>" %
+             (probe_target, (by_file.get(probe_target) or {}).get("sites", 0)))
+    p.append("<div class='probe' id='cdnprobe'><div><b>检测中…</b>正在取回各线路配置</div></div>")
+    p.append("<script>" + CDN_PROBE_JS.replace("__CFG__", probe_cfg) + "</script>")
 
     # 今日体检：结构性问题（客户端看不见站点 / 整份配置解析失败）的可核对数字
     if health.get("hygiene"):
@@ -356,6 +453,23 @@ def main():
                  "ext 归一：对象型 `ext` 会让严格解析的客户端判定整份配置非法；"
                  "境外直播沉底：走 GitHub / 反代的直播源在国内必然是空频道，排到列表末尾。</div>")
 
+    # 全历史问题回归复核：一张表看清「以前修过的东西现在还好吗」
+    rgd = health["regression"]
+    p.append("<h2>全历史问题回归复核</h2>")
+    if rgd["ran"]:
+        p.append("<div class='note'><b>%d/%d 项通过</b>（未通过 %d 项，其中阻断 %d 项）· "
+                 "逐条对照九轮迭代里真实出现过的故障复验。"
+                 "<a href='regression-latest.md'>查看完整复核报告</a></div>" %
+                 (rgd["ok"], rgd["total"], rgd["failed"], len(rgd["hard_failed"])))
+        if rgd["failed_checks"]:
+            p.append("<table><tr><th>#</th><th>复核项</th><th>结果</th></tr>")
+            for r in rgd["failed_checks"]:
+                p.append("<tr><td><code>%s</code></td><td>%s</td><td class='bad'>%s</td></tr>" %
+                         (esc(r["id"]), esc(r["title"]), esc(r["detail"])))
+            p.append("</table>")
+    else:
+        p.append("<div class='sub'>本次未执行 regression.py（本地试跑或步骤跳过）。</div>")
+
     # 上游健康
     p.append("<h2>上游源健康</h2><table><tr><th>源</th><th>今日采纳</th><th>去重</th>"
              "<th>状态</th><th>连续失败</th></tr>")
@@ -370,23 +484,29 @@ def main():
                  (esc(s["tag"]), s["added"], s["dup"], badge,
                   ("<b class='bad'>%d 天（建议更换）</b>" % s["fail_streak"]) if s["alert"]
                   else ("%d 天" % s["fail_streak"])))
-        p.append("</table>")
+    # 表格闭合必须在循环外：写进循环体时第一行之后就 </table>，浏览器会把
+    # 其余 28 个上游的 <tr> 当孤立标签丢掉（线上实测 33 个闭合 / 5 个开标签）。
+    p.append("</table>")
 
     # jar / ext 健康（每日探活盲区）
     jh2 = health["jar_health"]
-    jh2["ext_fail_streak"] = len(q.get("ext_fail_streak") or {})
     if jh2["probed"]:
+        # 沉底口径是「连败 ≥2 天」，首日单点失败不能说成「已沉底」。
+        sink = ("多日连败（≥2 天）的死 jar 共 <b>%d</b> 个、死 ext 共 <b>%d</b> 个，"
+                "其依赖的站点已被自动沉底。" %
+                (jh2["jar_fail_ge2"], jh2["ext_fail_ge2"])
+                if (jh2["jar_fail_ge2"] or jh2["ext_fail_ge2"]) else
+                "当前跟踪到死 jar %d 个、死 ext %d 个，均为首日单点失败；"
+                "按「连续 2 天才沉底」口径今天排序不变，明天仍失败才生效。" %
+                (jh2["jar_fail_streak"], jh2["ext_fail_streak"]))
         p.append("<h2>jar / ext 健康</h2>")
         p.append("<div class='note'>spider jar 与远程 ext 是旧流程的探活盲区（每日只查 api 接口），"
                  "失效的 jar / ext 会一直留在配置里、用户点开就空。现已接入逐日探测：今日 死 jar "
-                 "<b>%s</b> / 唯一 %s（可用率 %s）；死 ext <b>%s</b> / 唯一 %s；"
-                 "多日连败（≥2 天）的死 jar 共 <b>%d</b> 个、死 ext 共 <b>%d</b> 个，"
-                 "其依赖的站点已被自动沉底。"
+                 "<b>%s</b> / 唯一 %s（可用率 %s）；死 ext <b>%s</b> / 唯一 %s；%s"
                  "</div>" % (jh2["jar_dead"] if jh2["jar_dead"] is not None else "—",
                              jh2["jar_total"], pct(jh2["jar_alive_rate"]),
                              jh2["ext_dead"] if jh2["ext_dead"] is not None else "—",
-                             jh2["ext_total"], jh2["jar_fail_streak"],
-                             jh2["ext_fail_streak"]))
+                             jh2["ext_total"], sink))
     else:
         p.append("<h2>jar / ext 健康</h2><div class='sub'>本次未执行网络探测（本地试跑或探测步骤跳过）。</div>")
 

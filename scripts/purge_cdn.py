@@ -116,7 +116,7 @@ def main():
     time.sleep(20)
 
     pending = list(files)
-    done = {}
+    done, want_sha, less_sha = {}, {}, {}
     for attempt in range(1, args.attempts + 1):
         if not pending:
             break
@@ -130,8 +130,10 @@ def main():
             want = expected_sha(f)
             got_main, n_main = fetch_sha(repo, f, main=True)
             got_less, n_less = fetch_sha(repo, f, main=False)
+            want_sha[f] = want
             if got_main == want:
                 done[f] = attempt
+                less_sha[f] = got_less
                 note = "" if got_less == got_main else \
                     "（⚠ 无版本号路径仍滞后，建议用户改用 @main 或 Pages 链接）"
                 print("  [OK]   %-32s %6d 字节（@main 第 %d 轮生效）%s" %
@@ -146,13 +148,16 @@ def main():
     print("\nCDN(@main) 刷新结果：%d/%d 已生效" % (ok, len(files)), flush=True)
     if pending:
         print("仍未刷新（非致命，raw / Pages 两条线路不受影响）：%s" % ", ".join(pending))
-    lag = [f for f in done if fetch_sha(repo, f, main=False)[0] !=
-           fetch_sha(repo, f, main=True)[0]]
+    # 复用本轮已经取回的 sha：旧实现在这里对每个文件再发 4 次请求，而且
+    # 任一侧取回失败返回 None 时两边相等会漏报 / 误报。
+    lag = [f for f in done
+           if less_sha.get(f) is not None and less_sha[f] != want_sha.get(f)]
     if lag:
         print("无版本号路径仍滞后（≤12h 自愈，不影响 @main / Pages）：%s" % ", ".join(lag))
     common.write_json("_cdn_purge.json", {
         "date": common.today(), "env": common.env_info(),
         "files": len(files), "refreshed": sorted(done), "stale": pending,
+        "noversion_stale": lag,
         "attempts": args.attempts,
     }, skip_unchanged=False)
     return 0

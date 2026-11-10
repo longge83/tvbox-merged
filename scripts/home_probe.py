@@ -33,6 +33,7 @@ import time
 import urllib.request
 from urllib.parse import quote, urlsplit, urlunsplit
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from collections import Counter
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import common
@@ -66,8 +67,9 @@ _LOCK = threading.Lock()
 
 def fetch(url, timeout=7, limit_bytes=60000, use_cache=True):
     """返回 (status, bytes)。同一 URL 只请求一次（大量站点共享 jar/ext）。"""
-    # TVBox jar/ext 的 "url;md5;hash" 后缀必须剥离后再请求，否则全是 404
-    if ";md5;" in url:
+    # TVBox jar/ext 的 "url;md5;hash" 后缀必须剥离后再请求，否则全是 404。
+    # 与 common.fetch / content_url 统一按分号切，别只认字面 ";md5;"。
+    if ";" in url:
         url = url.split(";", 1)[0]
     url = safe_url(url)
     if use_cache:
@@ -235,7 +237,7 @@ def infer_by_jar(results, sites):
     for r in results:
         if r["grade"] in ("ok", "likely"):
             i = r.get("idx")
-            j = str(sites[i].get("jar") or "") if isinstance(i, int) and i < len(sites) else ""
+            j = str(sites[i].get("jar") or "") if isinstance(i, int) and 0 <= i < len(sites) else ""
             if j.startswith("http"):
                 good.add(j)
     n = 0
@@ -331,6 +333,12 @@ def main():
         meta["home_grades"] = by_grade
         meta["home_inferred"] = inferred
         meta["probe_env"] = common.env_info()
+        # 首页版是全量的子集，jar 统计必须按这一份重算（曾出现实际 19 个、
+        # meta 仍写 53 个的情况，客户端 / 排查时会误判依赖面）。
+        jars = Counter(str(s.get("jar") or "").split(";", 1)[0] for s in kept
+                       if str(s.get("jar") or "").startswith("http"))
+        meta["jar_count"] = len(jars)
+        meta["jar_top"] = dict(jars.most_common(5))
         out["_meta"] = meta
         out["sites"] = kept
         common.write_json(args.output, out, skip_unchanged=False)

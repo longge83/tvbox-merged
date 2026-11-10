@@ -24,6 +24,7 @@ import argparse
 import json
 import os
 import sys
+from collections import Counter
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import common
@@ -124,14 +125,32 @@ class Context:
         }
 
 
+# 这些字段描述的是「build.py 怎么把 29 个上游合成全量版」，筛选版照抄会撒谎：
+# 实测三份场景版曾都带着 jar_count=53 / jar_top=yw530.jar×136，而各自实际只有
+# 19 / 0 / 0 个唯一 jar；还有 sites_blocked、sources_ok、polish 等全量版口径。
+BUILD_ONLY_META = (
+    "sites_blocked", "lives_blocked", "parses_blocked", "parses_deduped",
+    "blocklist_rules", "sources_ok", "sources_failed", "dead_policy",
+    "sites_dropped_dead", "dropped", "observation", "polish",
+    "home_first_count", "home_first_note", "home_grades", "home_inferred",
+    "ranking", "note", "history_days",
+)
+
+
 def pack(cfg, sites, meta, parses=None, lives=None):
     out = {k: v for k, v in cfg.items() if k not in ("sites", "_meta")}
     m = dict(cfg.get("_meta") or {})
+    for k in BUILD_ONLY_META:
+        m.pop(k, None)
     m["sites"] = len(sites)
-    m["home_first_count"] = None      # 这三个版本是「筛选」而非「不删节点只重排」
     m.update(meta)
     m["updated"] = common.env_info()["generated"]
     m["probe_env"] = common.env_info()
+    # 按这一份自己的站点重算 jar 统计；照抄全量版的 53 会让「有几个 jar 依赖」看不出来
+    jars = Counter(str(s.get("jar") or "").split(";", 1)[0] for s in sites
+                   if str(s.get("jar") or "").startswith("http"))
+    m["jar_count"] = len(jars)
+    m["jar_top"] = dict(jars.most_common(5))
     out["_meta"] = m
     out["sites"] = sites
     if parses is not None:

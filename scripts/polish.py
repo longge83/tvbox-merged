@@ -570,9 +570,18 @@ def main():
             else:
                 taken.add(s["name"])
 
-        lives, live_stat = fix_lives(cfg.get("lives", []) or [], live_dup)
-        parses, parse_stat = fix_parses(cfg.get("parses", []) or [],
-                                        pol["parse_types"], pol["parse_cap"])
+        raw_lives = cfg.get("lives", []) or []
+        raw_parses = cfg.get("parses", []) or []
+        lives, live_stat = fix_lives(raw_lives, live_dup)
+        parses, parse_stat = fix_parses(raw_parses, pol["parse_types"], pol["parse_cap"])
+        # 与 sites 同样的半量兜底：万一 lives/parses 口径写错被清空，out 里干脆
+        # 不写这两个键，_meta 记 0，断言用 0 == 0 放行 —— 坏配置会静默上线。
+        collections_aborted = ((raw_lives and len(lives) < len(raw_lives) * 0.5) or
+                               (raw_parses and len(parses) < len(raw_parses) * 0.5))
+        if collections_aborted:
+            print("  %-24s 直播/解析被削掉一半以上（%d/%d, %d/%d），回退为原始列表（疑似口径写错）"
+                  % (base, len(lives), len(raw_lives), len(parses), len(raw_parses)))
+            lives, parses = list(raw_lives), list(raw_parses)
         keys_renamed = fix_keys(uniq)
 
         spider = cfg.get("spider")
@@ -614,7 +623,8 @@ def main():
             "jar_top": dict(jars.most_common(3)),
         })
         out["_meta"]["polish"] = {
-            "version": 2,
+            "version": 3,
+            "collections_aborted": collections_aborted,
             "label": pol["label"],
             "removed": {k: v for k, v in sorted(reasons.items())},
             "renamed": renamed,

@@ -158,7 +158,8 @@ def main():
     prev = next((t["sites"] for t in reversed(trend) if t.get("sites")), 0)
     ratio_ok = (not prev) or len(sites) >= prev * args.min_ratio
     record("no_site_collapse", ratio_ok,
-           "今日 %d，昨日 %d，下限 %.0f%%" % (len(sites), prev, args.min_ratio * 100))
+           "今日 %d，昨日 %d（build 口径，polish 前），下限 %.0f%%" %
+           (len(sites), prev, args.min_ratio * 100))
 
     # 3) csp 必须有 jar；4) 无相对路径；5) 无重复路径段
     no_jar, rel_left, dup_paths, jar_media = [], [], [], []
@@ -223,6 +224,23 @@ def main():
            "; ".join(var_bad[:4]) if var_bad else
            "已生成的 %d 个场景版均为全量版子集" %
            sum(1 for f in OPTIONAL_CONFIGS if f in cfgs))
+
+    # 6.5) 十份配置整体 ⊆ 全量版。sig() 含 name，polish 对每份基础配置独立做
+    #      同名消歧，个别站点跨版本会被改名（实测精简版 2/1212），所以用与名称
+    #      无关的 content_key 再做一次全覆盖比对，避免漏掉 lite/network/homefirst。
+    full_ck = {common.content_key(s) for s in sites}
+    subset_bad = []
+    for f, c in cfgs.items():
+        if f == "tvbox.json":
+            continue
+        extra = [str(s.get("name", ""))[:14] for s in c.get("sites", [])
+                 if common.content_key(s) not in full_ck][:3]
+        if extra:
+            subset_bad.append("%s:%s" % (f, ",".join(extra)))
+    record("all_versions_subset_of_full", not subset_bad,
+           "; ".join(subset_bad[:4]) if subset_bad else
+           "%d 份派生配置的站点均为全量版子集（按内容指向比对，不受改名影响）" %
+           (len(cfgs) - 1))
 
     # 7) 过滤残留
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -367,6 +385,25 @@ def main():
     record("site_key_unique", not key_bad, "; ".join(key_bad[:4]) or "主键唯一")
     record("ext_is_string", not ext_bad, "; ".join(ext_bad[:4]) or "sites/parses 的 ext 均为字符串")
     record("meta_counts_consistent", not count_bad, "; ".join(count_bad[:4]) or "直播/解析条数与元信息一致")
+
+    # 11.5) 筛选版不能照抄全量版的 jar 依赖统计。实测三份场景版都带着
+    #       jar_count=53（实际 19 / 0 / 0），排查「这份配置到底依不依赖 spider」
+    #       时会得出完全相反的结论；直播/解析被清空也不能靠 0 == 0 悄悄放行。
+    jar_meta_bad, empty_bad = [], []
+    for f, c in cfgs.items():
+        m = c.get("_meta") or {}
+        actual = len({str(s.get("jar") or "").split(";", 1)[0]
+                      for s in c.get("sites", [])
+                      if str(s.get("jar") or "").startswith("http")})
+        if m.get("jar_count") is not None and m["jar_count"] != actual:
+            jar_meta_bad.append("%s meta=%s actual=%s" % (f, m["jar_count"], actual))
+        for coll in ("lives", "parses"):
+            if not c.get(coll):
+                empty_bad.append("%s:%s" % (f, coll))
+    record("meta_jar_consistent", not jar_meta_bad,
+           "; ".join(jar_meta_bad[:4]) or "每份配置的 jar_count 都按自身站点重算")
+    record("collections_not_empty", not empty_bad,
+           "; ".join(empty_bad[:4]) or "每份配置的直播与解析通道都非空")
     record("parse_names_unique", not pname_bad, "; ".join(pname_bad[:4]) or "解析通道无重名")
     record("no_foreign_fields", not field_bad, "; ".join(field_bad[:4]) or "无客户端不认的字段")
 
@@ -383,8 +420,10 @@ def main():
 
     # 10) 精简版 / 网络优化版必须真的「不加载 jar」
     jarbad = []
+    # cn-fast 也宣称「0 jar / 0 爬虫」，必须与精简版/网络版一起守
     for f in ("tvbox-lite.json", "tvbox-network.json",
-              "tvbox-lite-homefirst.json", "tvbox-network-homefirst.json"):
+              "tvbox-lite-homefirst.json", "tvbox-network-homefirst.json",
+              "tvbox-cn-fast.json"):
         c = cfgs.get(f)
         if not c:
             continue
@@ -399,8 +438,11 @@ def main():
            "; ".join(jarbad[:4]) or "精简版/网络版 0 个 jar 依赖")
 
     # 11) 网络优化版不得残留「配置住在境外代码托管 / 反代上」的节点
+    # 只查 sites：lives 里的境外直播是「沉底不删除」的设计（有代理仍可用），
+    # 不该在这里被判失败。cn-fast 是三份里最强调国内直连的，一并纳入。
     offbad = []
-    for f in ("tvbox-network.json", "tvbox-network-homefirst.json"):
+    for f in ("tvbox-network.json", "tvbox-network-homefirst.json",
+              "tvbox-cn-fast.json"):
         c = cfgs.get(f)
         if not c:
             continue
@@ -414,9 +456,11 @@ def main():
 
     # 8) 抽样 jar / ext 可达性
     rng = random.Random(common.today())
-    jars = list({str(s.get("jar")) for s in sites
+    # 抽样前先按客户端口径剥掉 ;md5;hash：同一个 jar 挂不同 hash 会被当多个
+    # 样本，抽样偏向 hash 多的那个，且带后缀去请求必然 404。
+    jars = list({str(s.get("jar")).split(";", 1)[0] for s in sites
                  if str(s.get("jar") or "").startswith("http")})
-    exts = list({str(s.get("ext")) for s in sites
+    exts = list({str(s.get("ext")).split(";", 1)[0] for s in sites
                  if str(s.get("ext") or "").startswith("http")})
     rng.shuffle(jars); rng.shuffle(exts)
     jt, et = jars[:args.jar_sample], exts[:args.ext_sample]

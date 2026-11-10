@@ -132,7 +132,10 @@ def fetch(url, timeout=8, limit_bytes=200000, headers=None, method="GET",
         return 0, b"invalid url"
     # TVBox 的 jar / ext 常写成 "url;md5;hash"，客户端会剥离 md5 段再请求。
     # 探测时不剥离会把大量有效 jar 判成 404（实测抽样 4/4 全误杀）。
-    if ";md5;" in url:
+    # 只认字面 ";md5;" 会漏掉 "url;<32位md5>"、"url;md5" 以及把分号写在
+    # #fragment 之后的写法，与 content_url() / polish / jar_health 的口径也不一致；
+    # 统一按客户端行为 split(";")[0]。
+    if ";" in url:
         url = url.split(";", 1)[0]
     url = safe_url(url)
     ck = (url, method, json.dumps(headers or {}, sort_keys=True))

@@ -81,6 +81,13 @@ jobs:
         continue-on-error: true
         run: python scripts/jar_health.py
 
+      # 全历史问题复核：断言只决定「今天能不能提交」，这里回答「九轮里修过的
+      # 东西有没有悄悄坏掉」。产出 reports/regression-latest.md（进 Pages）与
+      # _regression.json（供 health.py 展示）。非阻断，失败会在健康页标红。
+      - name: 全历史问题回归复核
+        continue-on-error: true
+        run: python scripts/regression.py
+
       # ── 3. 时间维度 ─────────────────────────────────────────────
       - name: 写入判定历史与质量指标
         run: python scripts/history.py --days 14
@@ -90,17 +97,25 @@ jobs:
       - name: 提交配置与判定历史
         id: commit
         run: |
-          git add -f \
-            tvbox.json tvbox-lite.json tvbox-network.json tvbox-home.json \
-            tvbox-full-homefirst.json tvbox-lite-homefirst.json \
-            tvbox-network-homefirst.json \
-            home-sites.txt quality.json history/ 2>/dev/null || true
-          # 复查报告给用户看「这台机器今天改进/删掉了什么」
-          if [ -f reports/audit-latest.md ]; then git add -f reports/audit-latest.md; fi
-          # 场景版可能尚未产出（首日 / 探测失败），逐个判断，
-          # 否则 git add 遇到不存在的 pathspec 会整体失败并吞掉上面所有文件
-          for f in tvbox-quality.json tvbox-cn-fast.json tvbox-stable7.json; do
-            if [ -f "$f" ]; then git add -f "$f"; fi
+          # 必需产物缺失必须显式失败：否则线上会停在旧版，日志却显示构建成功。
+          for f in tvbox.json tvbox-lite.json tvbox-network.json \
+                   tvbox-home.json tvbox-full-homefirst.json; do
+            if [ ! -f "$f" ]; then
+              echo "::error::缺少必需产物 $f"
+              exit 1
+            fi
+          done
+          # 逐文件 git add -f：一条 git add 里只要有一个 pathspec 不存在，git 会
+          # 整体失败且不暂存任何文件；以前用 2>/dev/null || true 把错误吞掉，
+          # 当天全部配置/历史会静默不提交。生成物可能缺失（首日/探测失败），
+          # 所以先判断存在再单独 add。
+          for f in tvbox.json tvbox-lite.json tvbox-network.json tvbox-home.json \
+                   tvbox-full-homefirst.json tvbox-lite-homefirst.json \
+                   tvbox-network-homefirst.json \
+                   tvbox-quality.json tvbox-cn-fast.json tvbox-stable7.json \
+                   home-sites.txt quality.json history/ \
+                   reports/audit-latest.md reports/regression-latest.md; do
+            if [ -e "$f" ]; then git add -f "$f"; fi
           done
           if git diff --cached --quiet; then
             echo "配置与历史无变化，跳过本次提交"
@@ -119,6 +134,15 @@ jobs:
       - name: 生成健康页与 Pages 配置镜像
         run: python scripts/health.py
 
+      # 结构校验：曾把 </table> 写进 for 循环体，线上健康页只显示第一行数据。
+      # 部署前硬校验，坏页面绝不上 Pages。
+      - name: 健康页结构校验
+        run: |
+          python -c "import sys; h=open('site/index.html',encoding='utf-8').read(); \
+          a,b=h.count('<table>'),h.count('</table>'); \
+          print('健康页表格：%d 个开标签 / %d 个闭合' % (a,b)); \
+          sys.exit(0 if a and a==b else 1)"
+
       - name: 上传 Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -126,7 +150,9 @@ jobs:
 
       - name: 提交归档、指针与健康数据
         run: |
-          git add -f archive/ stable.json health.json 2>/dev/null || true
+          for f in archive/ stable.json health.json; do
+            if [ -e "$f" ]; then git add -f "$f"; fi
+          done
           if git diff --cached --quiet; then
             echo "归档与指针无变化"
             exit 0

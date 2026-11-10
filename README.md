@@ -12,20 +12,20 @@
 
 > ⚠️ **链接请一律复制下面「主线路（GitHub Pages）」里的 `https://dimogu.github.io/tvbox-merged/...`**。jsDelivr 的 `@main` 及各镜像有顽固的边缘缓存，实测曾同时挂着 4 个不同年代的旧版；旧版含客户端不兼容的 `style` 对象，导入会直接报 `IllegalStateException`。
 
-| 文件 | 站点数（每日浮动） | 用途 |
+| 文件 | 站点数（本轮快照，每日浮动） | 用途 |
 |---|---|---|
-| `tvbox-quality.json` | 视实测结果 | **精播版**：只留实测可播 / 首页实测有影片 / jar 实测有效的节点，宁缺毋滥 |
-| `tvbox-cn-fast.json` | ≤ 120 | **国内极速版**：国内直连、无 spider jar、无爬虫源，按质量取前 120 个，开屏最快 |
-| `tvbox-stable7.json` | 视历史累积 | **7 天稳定版**：近 7 天多次可用且当前无连败，不追新源、不随上游抖动 |
-| `tvbox-full-homefirst.json` | 约 2070 | **全量 + 首页优先**（前 ~620 个实测可用），功能最全，依赖 spider jar |
-| `tvbox-lite-homefirst.json` | 约 480 | **精简 + 首页优先**，真·不加载 jar，低性能盒子首选 |
-| `tvbox-network-homefirst.json` | 约 445 | **网络优化 + 首页优先**，无 jar、无境外托管，国内直连最稳 |
-| `tvbox-home.json` | 约 1140 | 只保留首页可用节点（含同 jar 推断，推断项排在实测之后） |
-| `tvbox.json` | 约 2070 | 全量版，按「可用 → 未知 → 降级」排序 |
-| `tvbox-lite.json` | 约 480 | 精简版，按「可用 → 未知 → 降级」排序 |
-| `tvbox-network.json` | 约 445 | 网络优化版，按「可用 → 未知 → 降级」排序 |
+| `tvbox-quality.json` | ≈ 655 | **精播版**：只留实测可播 / 首页实测有影片 / jar 实测有效的节点，宁缺毋滥 |
+| `tvbox-cn-fast.json` | ≤ 120（本轮 92） | **国内极速版**：国内直连、无 spider jar、无爬虫源，最多取前 120 个，开屏最快 |
+| `tvbox-stable7.json` | 视历史累积（本轮 89） | **7 天稳定版**：近 7 天多次可用且当前无连败，不追新源、不随上游抖动 |
+| `tvbox-full-homefirst.json` | ≈ 2960，前 ≈ 990 个实测可用 | **全量 + 首页优先**，功能最全，依赖 spider jar |
+| `tvbox-lite-homefirst.json` | ≈ 1210 | **精简 + 首页优先**，真·不加载 jar，低性能盒子首选 |
+| `tvbox-network-homefirst.json` | ≈ 520 | **网络优化 + 首页优先**，无 jar、无境外托管，国内直连最稳 |
+| `tvbox-home.json` | ≈ 990 | 只保留首页可用节点（含同 jar 推断，推断项排在实测之后） |
+| `tvbox.json` | ≈ 2960 | 全量版，按「可用 → 未知 → 降级」排序 |
+| `tvbox-lite.json` | ≈ 1210 | 精简版，按「可用 → 未知 → 降级」排序 |
+| `tvbox-network.json` | ≈ 520 | 网络优化版，按「可用 → 未知 → 降级」排序 |
 
-精确值看配置里的 `_meta.sites`、`_meta.home_first_count`，或打开[健康页](#四健康页与失败告警)。
+站点数随上游每天都在变，上表只是快照。**精确值看配置里的 `_meta.sites`、首页优先版的 `_meta.home_first_count`，或打开[健康页](#四健康页与失败告警)**（三个场景版是筛选版，没有 `home_first_count` 字段）。健康页还带**线路新鲜度自检**：浏览器实时取回 Pages / jsDelivr `@main` / 无版本号路径，比对本轮站点数，哪条线路还挂着旧版一眼可辨。
 
 > **「无境外托管」过滤的到底是什么？** 不是内容审查，也不看播什么片子。它只读节点的 `api` / `jar` / `ext` 三条字段里的**域名**，判断这份配置文件本身住在哪台服务器上：如果挂在 `raw.githubusercontent.com` 或 GitHub 反代上，国内盒子经常拉不到、首页一直转圈，所以网络版不收这类节点（它们在全量版和精简版里都还在）。`netflix.com` 这类影视站不在名单里；国内 `gitee.com` 与零命中的 `vercel` / `netlify` / `pages.dev` 也不收。
 
@@ -57,7 +57,7 @@
 | **解析通道同名** | **15 组**（`飞云`×2、`8090`×3…），用户根本分不出该选哪个 | 0（追加域名后缀） |
 | **元信息条数不符** | 精简版写「108 条直播 / 192 个解析」，实际 101 / 80；场景版更离谱（写 187 实际 170） | 0（每份按自身内容重算） |
 | **壁纸地址不可达** | `wallpaper-1tg.pages.dev` 国内实测超时，开屏先卡几秒再退回默认 | 已移除（客户端用内置背景） |
-| **直播源混排** | 101 条里 40 条走 `raw.githubusercontent` / GitHub 反代，国内必然是空频道，却排在最前面 | 境外托管稳定沉底（不删） |
+| **直播源混排** | 98 条里 37 条走 `raw.githubusercontent` / GitHub 反代，国内必然是空频道，却排在最前面 | 境外托管稳定沉底（不删） |
 | 参数级重复接口 | 43 个同一接口的不同写法 | 0 |
 | ext 是整数的畸形站点 | 1 个 | 0 |
 | 解析 url 非法 | `Demo` 这类占位 5 个 | 0 |
@@ -66,11 +66,11 @@
 | 精简版是否真不依赖 jar | 带全局 spider + 6 个 jar 站点 | 0 |
 | 网络版是否真无境外依赖 | spider 指向 `raw.githubusercontent.com`，另有 `repl.co` 漏网 | 0（名单已收敛，见下） |
 | 解析截断口径 | 按文件顺序砍前 N 条，先砍掉的是最好用的 json 聚合通道 | 60% json 聚合 + 40% webview 嗅探按配额截断 |
-| 排序 | 按名称拼音排，昨日 860 个实测失败节点在最前面 | 可用 707 / 未知 150 / 降级 1217 |
+| 排序 | 按名称拼音排，昨日 860 个实测失败节点在最前面 | 本轮可用 579 / 未知 1174 / 降级 1210（每日随探活变化） |
 
 三条原则：
 
-- **只沉底不删除**：降级层（昨日首页实测失败、csp 爬虫缺 ext）仍留在配置里 —— 误杀率有 36%~52%，所以只排到后面；次日探活恢复会自动回到前排。昨日被真实 TVBox UA 复核复活的节点直接进「未知」层，不背这口锅。直播源同理：境外托管的那 40 条只是排到末尾，没有删。
+- **只沉底不删除**：降级层（昨日首页实测失败、csp 爬虫缺 ext）仍留在配置里 —— 误杀率有 36%~52%，所以只排到后面；次日探活恢复会自动回到前排。昨日被真实 TVBox UA 复核复活的节点直接进「未知」层，不背这口锅。直播源同理：境外托管的那 37 条只是排到末尾，没有删。
 - **改名不动数据**：同名节点追加 ` · 域名`（csp 源用爬虫类名或 ext 域名）。代价是该节点当天的历史签名断链、回落到「未知」层，次日自动接回。
 - **身份签名 = 名称 + api + jar + ext**（不含 `key`，且 `ext` 先归一再哈希）：所以主键去重、`ext` 转字符串这类批量修复，不会让整批站点的历史一起断掉 —— 这是上一轮改 `key` 时踩到的坑。
 - **「不依赖 jar」现在可验证**：`type=3` 里 api 是 `.js` / `.py` 的属于 JS / Python 爬虫，不需要 jar，予以保留；真正要 jar 的（`csp_*` 与带 `jar` 字段的站点）已从精简版 / 网络版剔除。
@@ -293,7 +293,7 @@ cat stable.json
 python scripts/stable.py --rollback stable-20261109
 ```
 
-**3. 生成产物只由 Actions 提交**：所有 `tvbox*.json`、`health.json`、`quality.json`、`stable.json`、`home-sites.txt`、`history/`、`archive/` 都在 `.gitignore` 里（新文件不会被本地误提交），workflow 用 `git add -f` 独家提交。**已跟踪的旧配置不做 `git rm --cached`**：它们本身就是回退基线，一旦从索引移除，某天断言失败 Actions 不提交时线上直链会直接 404，连上一版都没得退。本地执行 `python scripts/local_readonly.py` 给这些文件加 `skip-worktree`，`git status` 便永远干净，不会再出现本地推送反复 pull/merge 冲突（`--status` 查看、`--undo` 解除）。
+**3. 生成产物只由 Actions 提交**：所有 `tvbox*.json`、`health.json`、`quality.json`、`stable.json`、`home-sites.txt`、`history/`、`archive/` 都在 `.gitignore` 里（新文件不会被本地误提交），workflow 用 `git add -f` 独家提交。**已跟踪的旧配置不做 `git rm --cached`**：它们本身就是回退基线，一旦从索引移除，某天断言失败 Actions 不提交时线上直链会直接 404，连上一版都没得退。本地执行 `python scripts/local_readonly.py` 给这些文件加 `skip-worktree`，`git status` 便永远干净（`--status` 查看、`--undo` 解除）。**但 Actions 每天会提交生成物，所以本地推送源码前仍必须先 `git pull --rebase origin main`**，否则会遇到非快进冲突；本机直连 GitHub 常超时，用 `git -c http.proxy=http://127.0.0.1:7890 pull --rebase origin main` 更稳。
 
 **4. 本地试跑保护**：非 Actions 环境下，所有脚本自动把输出改成 `_local-*.json`，绝不覆盖线上配置（曾因本地试跑把 lite 版覆盖成单源版）。确实要写正式文件时才设 `ALLOW_LOCAL_WRITE=1`。
 
@@ -321,8 +321,8 @@ python scripts/stable.py --rollback stable-20261109
 
   上游拉不到时继续用上次成功缓存，绝不返回空配置；提供 `/` 状态页、`/health`、ETag 与 CORS。
 
-- **已知限制：全局 `spider` jar 仍在 `raw.githubusercontent.com`。** 它是 1717 个 `type=3` 爬虫节点的运行底座（2.9 MB），国内直连拉不到就是整片空白。这个文件不能搬：jsDelivr 对 `.jar` 直接 403，自建镜像又属于再分发别人的产物，所以只如实标注、不做镜像。**国内直连请用 `tvbox-cn-fast.json` / `tvbox-network*.json`** —— 这两份 0 个 jar 依赖，`csp_*` 与带 `jar` 字段的站点在体检阶段就被剔掉了；全量 / 精播 / 7 天稳定版依赖代理或能直连 GitHub 的网络。
-- **已知限制：`lives` 的 40 条境外直播源只是沉底，没有删除。** 有代理的用户仍能用；只是不再挡在列表最前面。
+- **已知限制：全局 `spider` jar 仍在 `raw.githubusercontent.com`。** 它是本轮约 1744 个 `type=3` 爬虫节点的运行底座（2.9 MB），国内直连拉不到就是整片空白。这个文件不能搬：jsDelivr 对 `.jar` 直接 403，自建镜像又属于再分发别人的产物，所以只如实标注、不做镜像。**国内直连请用 `tvbox-cn-fast.json` / `tvbox-network*.json`** —— 这两份 0 个 jar 依赖，`csp_*` 与带 `jar` 字段的站点在体检阶段就被剔掉了；全量 / 精播 / 7 天稳定版依赖代理或能直连 GitHub 的网络。
+- **已知限制：`lives` 的 37 条境外直播源只是沉底，没有删除。** 有代理的用户仍能用；只是不再挡在列表最前面。
 
 
 ---
@@ -330,9 +330,37 @@ python scripts/stable.py --rollback stable-20261109
 ## 七、自动化机制
 
 - **每天北京时间 04:00** 由 `.github/workflows/update.yml` 构建；**约每 3 天**由 `discover.yml` 找新源；两者都支持手动 `Run workflow`。
-- 主流程：`build.py` → **`polish.py`（卫生 / 去重 / 消歧 / 排序）** → **`audit.py`（复查报告）** → `home_probe.py` → `recheck.py` → `play_probe.py` → `rank_home.py` → `variants.py`（三个场景版）→ **`assertions.py`（失败即停）** → `history.py` → 提交配置与历史 → `stable.py`（归档 + 不可变 tag）→ `health.py` → 上传 Pages artifact → 提交归档与指针 → push → 两轮 purge CDN → 部署 Pages。
+- 主流程：`build.py` → **`polish.py`（卫生 / 去重 / 消歧 / 排序）** → **`audit.py`（复查报告）** → `home_probe.py` → `recheck.py` → `play_probe.py` → `rank_home.py` → `variants.py`（三个场景版）→ **`assertions.py`（失败即停）** → `jar_health.py` → **`regression.py`（全历史问题复核）** → `history.py` → 提交配置与历史 → `stable.py`（归档 + 不可变 tag）→ `health.py` → 健康页结构校验 → 上传 Pages artifact → 提交归档与指针 → push → 最多 3 轮 purge CDN（含 sha256 校验）→ 部署 Pages。
 - 内容无实质变化时不写文件；判定历史每天仍会留痕，便于看趋势。
 - 首页探测、误杀复核、可播率探测为 `continue-on-error`（单点网络抖动不影响主配置产出），只有**回归断言是硬阻断**。
+
+## 八、全历史问题回归复核
+
+`assertions.py` 只回答「今天这份能不能提交」，管不到「三个月前修好的东西有没有被后续改动悄悄弄坏」。`scripts/regression.py` 把九轮迭代里真实出现过的故障逐条做成可复跑的检查，分三组：
+
+| 组 | 复核什么 | 例子 |
+|---|---|---|
+| 产物契约 | 10 份配置本身的字段、去重、元信息 | 对象型 `style` 导入报错、裸 `trim()` 字段 NPE 闪退、图片被当 jar、`jar_count` 照抄全量版、精简版偷偷带 spider |
+| 构建链路 | 工作流顺序、静默失败、缓存与文档口径 | polish 必须早于 home_probe、`git add -f` 不能整条吞失败、purge 双路径、stable tag 3 天门槛、README 与健康页线路口径 |
+| 线上线路（`--online`） | Pages / jsDelivr `@main` / 无版本号路径 | 逐条取回 sha256 与仓库 HEAD 比对，CDN 挂旧版当场暴露 |
+
+产出 [regression-latest.md](https://dimogu.github.io/tvbox-merged/regression-latest.md)（每次构建同步到 Pages）与 `_regression.json`，健康页有汇总卡片与未通过项列表。默认完全离线，改完代码随时可跑：
+
+```bash
+python scripts/regression.py                          # 离线复核
+python scripts/regression.py --online --proxy http://127.0.0.1:7890   # 本机加线上比对
+```
+
+> 与「健康页线路新鲜度自检」配合：自检是**用户打开页面那一刻**由浏览器实时取回比对，能发现 CI 校验之后才出现的边缘节点滞后；`--online` 是构建/排查时的服务端视角。历史上 CDN 曾同时挂着 4 个年代不同的旧配置，用户填旧链接就会报 `IllegalStateException`，这两道就是针对它的。
+
+### 本轮复核发现并修复的问题
+
+1. `update.yml` 主提交与归档提交把多个 pathspec 放在一条 `git add -f` 并用 `|| true` 吞错 —— 任一文件不存在就会静默不提交当天全部产物。已改成逐文件判断 + 必需产物显式报错。
+2. 健康页的 `</table>` 缩进写在 for 循环体内，线上 5 个开标签 / 33 个闭合，28 个上游源的行被浏览器丢弃。已移出循环，并在部署前加结构校验硬步骤。
+3. 健康页「国内直链 / fastly 镜像」给的是不带 `@main` 的路径，恰好是 README 明令禁用的最易滞留旧版的形式。已统一补 `@main`，并新增浏览器实时线路自检。
+4. 三个场景版（含首页版）整份继承全量版 `_meta`，`jar_count` 写 53 而实际只有 19 / 0，还有 `home_first_note`「未删减」等不实描述。已按各自站点重算并剔除 build 期字段，断言新增 `meta_jar_consistent` / `collections_not_empty` / `all_versions_subset_of_full`。
+5. `;md5;` 字面剥离与仓库其它地方的通用切分口径不一致，`url;<md5>` 写法会带后缀去请求被误判死链；`jar_health` 只判 HTTP 200，图床返回的 HTML 会被当成「jar 还活着」，死 jar 永远不沉底。已统一按客户端 `split(";")[0]` 并恢复 ZIP 魔数判定。
+6. 健康页把「当前连败条目数」说成「≥2 天连败、已沉底」；`stable.json` 在 tag 复用时把指针 commit 写成当前 HEAD。两处口径已修正，另修了 `purge_cdn` 的重复请求 / `None` 漏报与 `polish` 的 lives/parses 半量兜底。
 
 ## 合并时处理的坑
 
@@ -354,6 +382,7 @@ python scripts/rank_home.py      # 本地只写 _local-*-homefirst.json
 python scripts/variants.py       # 本地只写 _local-tvbox-*.json（三个场景版）
 python scripts/assertions.py     # 校验 _local-* 或正式文件（可用环境变量切换）
 python scripts/health.py         # 生成 site/index.html 预览健康页
+python scripts/regression.py     # 全历史问题复核 → reports/regression-latest.md
 python scripts/local_readonly.py # 把生成产物标记为本地只读（只需一次）
 python scripts/serve.py          # 起自托管入口
 ```

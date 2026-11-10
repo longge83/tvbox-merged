@@ -79,13 +79,21 @@ def build_priority():
             # 推断项同级内降权：让实测能出首页的节点先被客户端选中
             fallback_order.get(sg, i) + (10000 if sg in inferred_sigs else 0),
         )
+    # sig 含 name，而 polish 对三份基础配置各自独立做同名消歧：同一个站点在
+    # 精简 / 网络版可能被改名，导致证据静默丢失（实测 2/1212）。补一份与名称
+    # 无关的 content_key 索引作兜底，不动历史签名，避免整批历史断链。
+    by_content = {}
+    for i, s in enumerate(home.get("sites", [])):
+        sg = common.sig(s)
+        if sg in priority:
+            by_content.setdefault(common.content_key(s), priority[sg])
     return priority, {
         "home_sites": len(priority),
         "stability_days": quality.get("days_recorded", 0),
         "play_rate": play.get("play_rate"),
         "play_sampled": play.get("sampled", 0),
         "graded": len(grade_by_sig),
-    }
+    }, by_content
 
 
 def main():
@@ -93,7 +101,7 @@ def main():
     if local:
         print("本地试跑：输出重定向到 _local-*-homefirst.json", flush=True)
 
-    priority, info = build_priority()
+    priority, info, by_content = build_priority()
     if not priority:
         print("首页版无节点（探测未产出），跳过排序，不影响其它配置")
         return 0
@@ -115,6 +123,8 @@ def main():
         for i, s in enumerate(sites):
             p = priority.get(common.sig(s))
             if p is None:
+                p = by_content.get(common.content_key(s))
+            if p is None:
                 key = (1, 0, 0, 0, i)                    # 其余节点保持原顺序
             else:
                 band, days, score, order = p
@@ -122,7 +132,8 @@ def main():
             decorated.append((key, i, s))
         decorated.sort(key=lambda t: (t[0], t[1]))
         ordered = [s for _, _, s in decorated]
-        moved = sum(1 for s in ordered if common.sig(s) in priority)
+        moved = sum(1 for s in ordered
+                    if common.sig(s) in priority or common.content_key(s) in by_content)
 
         out = {k: v for k, v in cfg.items() if k not in ("sites", "_meta")}
         meta = dict(cfg.get("_meta", {}))

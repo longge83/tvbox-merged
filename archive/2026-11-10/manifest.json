@@ -1,67 +1,67 @@
 {
   "date": "2026-11-10",
-  "commit": "ef2bfacab165a4404386a48b789d8cb350880b9d",
+  "commit": "dcc1ffeaee2a41ab6cae93637fd494a814ce9465",
   "env": {
     "env": "github-actions",
-    "runner": "42779159970",
+    "runner": "42785641080",
     "proxy": false,
-    "generated": "2026-11-10 08:08:32 UTC"
+    "generated": "2026-11-10 08:55:05 UTC"
   },
   "files": {
     "tvbox-full-homefirst.json": {
-      "sha256": "35f54fc6522f9f1b",
+      "sha256": "db662bb373f3ad92",
       "bytes": 823278,
       "sites": 2074
     },
     "tvbox-lite-homefirst.json": {
-      "sha256": "72d67eadf02664c1",
+      "sha256": "310092c345f8ec89",
       "bytes": 182964,
       "sites": 483
     },
     "tvbox-network-homefirst.json": {
-      "sha256": "19fc59f870dc76d4",
+      "sha256": "0ee410d9fc8cb41b",
       "bytes": 166878,
       "sites": 449
     },
     "tvbox-home.json": {
-      "sha256": "f5b78d847fe8786a",
-      "bytes": 515131,
-      "sites": 1145
+      "sha256": "f3daf440917eebd4",
+      "bytes": 518738,
+      "sites": 1161
     },
     "tvbox.json": {
-      "sha256": "2a1cb47c431c9575",
+      "sha256": "6fcc1f9525ba396b",
       "bytes": 822911,
       "sites": 2074
     },
     "tvbox-lite.json": {
-      "sha256": "e72ee8c884bce35b",
+      "sha256": "d4f567742ffdf4bf",
       "bytes": 182628,
       "sites": 483
     },
     "tvbox-network.json": {
-      "sha256": "291d6eaacab9c6b0",
+      "sha256": "4bddfc0fa644df17",
       "bytes": 166557,
       "sites": 449
     },
     "tvbox-quality.json": {
-      "sha256": "3d98806c4af4bc66",
-      "bytes": 335586,
-      "sites": 622
+      "sha256": "43cd9f0a72c52bf2",
+      "bytes": 333988,
+      "sites": 619
     },
     "tvbox-cn-fast.json": {
-      "sha256": "f0bb44d756fd5052",
-      "bytes": 72635,
-      "sites": 91
+      "sha256": "8f339a2e67c9bf79",
+      "bytes": 73072,
+      "sites": 93
     },
     "tvbox-stable7.json": {
-      "sha256": "c74eec3de1ab302a",
-      "bytes": 105074,
-      "sites": 86
+      "sha256": "4ba7bd248d232d2d",
+      "bytes": 106243,
+      "sites": 89
     }
   },
   "assert_passed": true,
   "assert_pass_streak": 1,
-  "play_rate": 0.2667,
-  "false_kill_rate": 0.42,
+  "play_rate": 0.3667,
+  "false_kill_rate": 0.28,
   "sources_failed": []
 }

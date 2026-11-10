@@ -54,5 +54,5 @@
   ],
   "rollback_hint": "python scripts/stable.py --rollback <上一个 tag>",
   "readme": "把 files.<版本>.cdn 整行粘进 TVBox 配置地址即可；tag 固定，内容永不变化",
-  "last_check_commit": "ef2bfacab165a4404386a48b789d8cb350880b9d"
+  "last_check_commit": "dcc1ffeaee2a41ab6cae93637fd494a814ce9465"
 }

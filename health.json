@@ -2,9 +2,9 @@
   "date": "2026-11-10",
   "env": {
     "env": "github-actions",
-    "runner": "42762176239",
+    "runner": "42762963885",
     "proxy": false,
-    "generated": "2026-11-10 05:32:12 UTC"
+    "generated": "2026-11-10 05:40:29 UTC"
   },
   "versions": [
     {
@@ -12,7 +12,7 @@
       "label": "全量 + 首页优先",
       "note": "功能最全，推荐桌面/高性能盒子",
       "sites": 2133,
-      "home_first": 1135,
+      "home_first": 1057,
       "bytes": 872244,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-full-homefirst.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-full-homefirst.json"
@@ -22,7 +22,7 @@
       "label": "精简 + 首页优先",
       "note": "不依赖 spider jar，低性能盒子首选",
       "sites": 505,
-      "home_first": 114,
+      "home_first": 126,
       "bytes": 235757,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-lite-homefirst.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-lite-homefirst.json"
@@ -32,7 +32,7 @@
       "label": "网络优化 + 首页优先",
       "note": "不依赖境外代码托管，国内直连最稳",
       "sites": 469,
-      "home_first": 114,
+      "home_first": 126,
       "bytes": 224292,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-network-homefirst.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-network-homefirst.json"
@@ -41,9 +41,9 @@
       "file": "tvbox-home.json",
       "label": "首页版",
       "note": "只保留能出主界面推荐的节点",
-      "sites": 1135,
+      "sites": 1057,
       "home_first": null,
-      "bytes": 531207,
+      "bytes": 502316,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-home.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-home.json"
     },
@@ -344,24 +344,24 @@
   "sources_ok": 29,
   "sources_failed": [],
   "home_grades": {
-    "unknown": 138,
-    "likely": 1021,
-    "fail": 860,
+    "unknown": 151,
+    "likely": 931,
+    "fail": 925,
     "ok": 103,
-    "classes_only": 11
+    "classes_only": 23
   },
-  "home_inferred": 529,
+  "home_inferred": 474,
   "play": {
     "sampled": 30,
-    "list_rate": 0.9,
-    "detail_rate": 0.9,
+    "list_rate": 0.8333,
+    "detail_rate": 0.8333,
     "play_rate": 0.2667,
-    "search_rate": 0.8,
+    "search_rate": 0.7667,
     "playable": 8,
-    "parses_alive_rate": 0.4,
+    "parses_alive_rate": 0.35,
     "parses_total": 192
   },
-  "false_kill_rate": 0.26,
+  "false_kill_rate": 0.4,
   "assert_passed": true,
   "assert_pass_streak": 1,
   "stable": {
@@ -375,10 +375,10 @@
       "sites": 2133,
       "lite": 505,
       "network": 469,
-      "home_sites": 1135,
+      "home_sites": 1057,
       "home_ok": 103,
       "play_rate": 0.2667,
-      "false_kill_rate": 0.26,
+      "false_kill_rate": 0.4,
       "sources_ok": 29,
       "assert_passed": true
     }

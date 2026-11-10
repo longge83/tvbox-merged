@@ -36,6 +36,18 @@ SKIP_URL = ("18/xgg", "/xgg", "/r18", "/18/", "adult", "madou", "porn",
             "xgg.json", "jav", "hentai", "/av/")
 
 
+def is_mirror(u):
+    """gh-proxy / moeyy 之类只是把已收录的 GitHub raw 配置转了一层，
+    没有新内容；而且相对路径基准不同会让边际贡献虚高，容易误导并入决策。"""
+    try:
+        from urllib.parse import urlsplit
+        host = urlsplit(u).netloc
+    except Exception:
+        return False
+    return ("raw.githubusercontent.com" in u and
+            host not in ("raw.githubusercontent.com", ""))
+
+
 def run_script(name, timeout=240):
     path = os.path.join(ROOT, "scripts", name)
     try:
@@ -151,7 +163,8 @@ def main():
     cand = [(u, s) for u, s in found.items()
             if u.startswith("http") and u.rstrip("/") not in have
             and not build_mod.BLOCK_RX.search(u)
-            and not any(x in u.lower() for x in SKIP_URL)]
+            and not any(x in u.lower() for x in SKIP_URL)
+            and not is_mirror(u)]
     print("挖到候选 %d，去掉已收录后 %d，取前 %d 评估" %
           (len(found), len(cand), min(args.max, len(cand))), flush=True)
     cand.sort()

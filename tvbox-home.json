@@ -1,9 +1,9 @@
 {
   "_meta": {
-    "updated": "2026-11-10 07:42:19 UTC",
-    "sites": 1148,
+    "updated": "2026-11-10 07:52:59 UTC",
+    "sites": 1138,
     "sites_dropped_dead": 0,
-    "sites_in_observation": 161,
+    "sites_in_observation": 165,
     "dead_policy": "连续失败 3 次才淘汰",
     "sites_blocked": 3,
     "lives_blocked": 1,
@@ -22,9 +22,9 @@
     "sources_failed": [],
     "probe_env": {
       "env": "github-actions",
-      "runner": "42776984196",
+      "runner": "42778241174",
       "proxy": false,
-      "generated": "2026-11-10 07:45:46 UTC"
+      "generated": "2026-11-10 07:56:24 UTC"
     },
     "note": "仅保留经首页数据探测确认可显示主界面推荐的站点",
     "polish": {
@@ -41,12 +41,12 @@
       "ext_normalized": 395,
       "wallpaper_removed": true,
       "order": {
-        "usable": 687,
-        "unknown": 183,
-        "degraded": 1204
+        "usable": 695,
+        "unknown": 167,
+        "degraded": 1212
       },
       "degraded_reason": {
-        "grade_fail": 691,
+        "grade_fail": 699,
         "csp_no_ext": 513
       },
       "jar_free": false,
@@ -68,13 +68,13 @@
       "history_days": 1
     },
     "home_grades": {
-      "likely": 1047,
-      "ok": 90,
+      "likely": 1040,
+      "ok": 87,
+      "fail": 813,
       "unknown": 123,
-      "fail": 803,
       "classes_only": 11
     },
-    "home_inferred": 533
+    "home_inferred": 528
   },
   "spider": "https://raw.githubusercontent.com/qist/tvbox/master/jar/pg_upgraded.jar;md5;e58c3a2975d24db4978065ab895cf297",
   "parses": [
@@ -1984,15 +1984,6 @@
       "filterable": 1
     },
     {
-      "key": "live052",
-      "name": "9-非凡",
-      "type": 1,
-      "api": "https://www.ffzy.tv/api.php/provide/vod",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
       "key": "U酷资源",
       "name": "U酷资源(优)",
       "type": 1,
@@ -2703,40 +2694,6 @@
       ]
     },
     {
-      "key": "非凡",
-      "name": "影视 • 非凡[直连]",
-      "type": 1,
-      "api": "http://ffzy.tv/api.php/provide/vod/",
-      "searchable": 1,
-      "categories": [
-        "动作片",
-        "喜剧片",
-        "爱情片",
-        "科幻片",
-        "恐怖片",
-        "剧情片",
-        "战争片",
-        "国产剧",
-        "香港剧",
-        "韩国剧",
-        "欧美剧",
-        "记录片",
-        "台湾剧",
-        "日本剧",
-        "海外剧",
-        "泰国剧",
-        "大陆综艺",
-        "港台综艺",
-        "日韩综艺",
-        "欧美综艺",
-        "国产动漫",
-        "日韩动漫",
-        "欧美动漫",
-        "港台动漫",
-        "海外动漫"
-      ]
-    },
-    {
       "key": "新浪",
       "name": "新浪 | 采集",
       "type": 1,
@@ -2999,15 +2956,6 @@
       "name": "🍀非凡API",
       "type": 1,
       "api": "https://api.ffzyapi.com/api.php/provide/vod",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "live048",
-      "name": "🍀非凡线路1",
-      "type": 1,
-      "api": "https://ffzy1.tv/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -3485,6 +3433,17 @@
       "jar": "https://img2.gelonghui.com/library/6a396-4e09c48e-c9bc-4313-b788-8d5120f90e5d.png;md5;6a396033ae45efee57ba789f91d7123e"
     },
     {
+      "key": "AppRJ",
+      "name": "⚡秒播┃1080P",
+      "type": 3,
+      "api": "csp_AppRJ",
+      "searchable": 1,
+      "quickSearch": 1,
+      "timeout": 12,
+      "ext": "{\"danmu\":true,\"danmu_api\":\"https://dm.211.li/nonay\",\"site\":\"http://v.rbotv.cn\"}",
+      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
+    },
+    {
       "key": "88看球",
       "name": "⚽88┃看球",
       "type": 3,
@@ -3528,10 +3487,10 @@
       "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
     },
     {
-      "key": "瓜子体育",
-      "name": "⚽瓜子┃体育",
+      "key": "Kanqiu",
+      "name": "⚽叭叭┃体育",
       "type": 3,
-      "api": "csp_GuaziTY",
+      "api": "csp_KanQiu",
       "searchable": 0,
       "quickSearch": 0,
       "filterable": 1,
@@ -8520,6 +8479,20 @@
       "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
+      "key": "FirstAid-2",
+      "name": "🚑急救┃知识",
+      "type": 3,
+      "api": "csp_FirstAid",
+      "searchable": 0,
+      "quickSearch": 0,
+      "style": {
+        "type": "rect",
+        "ratio": 3.8
+      },
+      "ext": "{\"danmu\":true,\"danmu_api\":\"https://dm.211.li/nonay\"}",
+      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
+    },
+    {
       "key": "Market",
       "name": "🛒┆网盘┆市场",
       "type": 3,
@@ -8866,6 +8839,32 @@
       "jar": "https://img2.gelonghui.com/library/6a396-4e09c48e-c9bc-4313-b788-8d5120f90e5d.png;md5;6a396033ae45efee57ba789f91d7123e"
     },
     {
+      "key": "xifan",
+      "name": "🥣稀饭┃动漫",
+      "type": 3,
+      "api": "csp_XiFanAcg",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": "{\"email\":\"\",\"password\":\"\"}",
+      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
+    },
+    {
+      "key": "qishui",
+      "name": "🥤汽水┃音乐",
+      "type": 3,
+      "api": "csp_QiShui",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "changeable": 0,
+      "style": {
+        "type": "list"
+      },
+      "ext": "{\"danmu\":true,\"danmu_api\":\"https://dm.211.li/nonay\",\"site\":\"https://app.365ting.com\"}",
+      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
+    },
+    {
       "key": "骚火影视-2",
       "name": "🥰骚火影视",
       "type": 3,
@@ -8930,6 +8929,17 @@
       "jar": "https://raw.githubusercontent.com/cyao2q/files/master/jar/Rabbit.jar;md5;BC9F4388C057279D6EFDF338BC236A1E"
     },
     {
+      "key": "YunDuo",
+      "name": "🦢大鹅┃1080P",
+      "type": 3,
+      "api": "csp_YunDuo",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": "{\"aid\":\"com.web.player\",\"client\":\"8f3d2a1c7b6e5d4c9a0b1f2e3d4c5b6a\",\"danmu\":true,\"danmu_api\":\"https://dm.211.li/nonay\",\"finger\":\"WF-2c064bc5b3400788f31b848849bc3a60f835423ba2dfe69d7ea93974c216e4f2\",\"host\":\"https://323433ssdfd.top\",\"sign\":\"ddtvf65f3a83d6d9ad6f\",\"sk\":\"WEB-50a8e9c84a1dc05669a692ded99a2dac46527229e607a7be15db88dbc59059d1\"}",
+      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
+    },
+    {
       "key": "少儿教育-4",
       "name": "🧒┆少儿┆教育",
       "type": 3,
@@ -8943,6 +8953,17 @@
       "changeable": 0,
       "ext": "{\"json\":\"https://nos.netease.com/ysf/89370c8ddf36b5e1beb4d71adb921bda.txt\"}",
       "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
+    },
+    {
+      "key": "Ciyuancheng",
+      "name": "🧚次元┃动漫",
+      "type": 3,
+      "api": "csp_Ciyuancheng",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": "{\"danmu\":true,\"danmu_api\":\"https://dm.211.li/nonay\",\"password\":\"xiaomi888\",\"username\":\"nimasile\"}",
+      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
     },
     {
       "key": "csp_SixV-3",
@@ -9028,19 +9049,6 @@
       "ext": "{\"json\":\"file://TV/alist.json\",\"sp\":\"AList\"}",
       "timeout": 15,
       "jar": "https://szyyds.cn/tv/x.jpg;md5;4ce29ce27eeff6a73a230dd92d98ba0c"
-    },
-    {
-      "key": "咖啡·短剧",
-      "name": "☕️咖啡┃秒播短剧",
-      "type": 3,
-      "api": "csp_KaFeiDJ",
-      "searchable": 1,
-      "quickSearch": 0,
-      "filterable": 1,
-      "lang": "ds",
-      "genre": "短剧",
-      "ext": "{\"danmu_api\":\"https://dm.211.li/nonay\"}",
-      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
     },
     {
       "key": "csp_fantuan",
@@ -9300,97 +9308,6 @@
       "quickSearch": 0,
       "ext": "{\"Cloud-drive\":\"tvfan/Cloud-drive.txt\"}",
       "jar": "https://xiuxiu-pro-new.meitudata.com/posters/937f5abf1c7c4ff2f170d835c5c46c21.jpg"
-    },
-    {
-      "key": "AppRJ",
-      "name": "⚡秒播┃1080P",
-      "type": 3,
-      "api": "csp_AppRJ",
-      "searchable": 1,
-      "quickSearch": 1,
-      "timeout": 12,
-      "ext": "{\"danmu\":true,\"danmu_api\":\"https://dm.211.li/nonay\",\"site\":\"http://v.rbotv.cn\"}",
-      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
-    },
-    {
-      "key": "Kanqiu",
-      "name": "⚽叭叭┃体育",
-      "type": 3,
-      "api": "csp_KanQiu",
-      "searchable": 0,
-      "quickSearch": 0,
-      "filterable": 1,
-      "timeout": 12,
-      "changeable": 0,
-      "order_num": 0,
-      "style": {
-        "type": "rect",
-        "ratio": 1.333
-      },
-      "ext": "{\"danmu\":true,\"danmu_api\":\"https://dm.211.li/nonay\"}",
-      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
-    },
-    {
-      "key": "FirstAid-2",
-      "name": "🚑急救┃知识",
-      "type": 3,
-      "api": "csp_FirstAid",
-      "searchable": 0,
-      "quickSearch": 0,
-      "style": {
-        "type": "rect",
-        "ratio": 3.8
-      },
-      "ext": "{\"danmu\":true,\"danmu_api\":\"https://dm.211.li/nonay\"}",
-      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
-    },
-    {
-      "key": "xifan",
-      "name": "🥣稀饭┃动漫",
-      "type": 3,
-      "api": "csp_XiFanAcg",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "ext": "{\"email\":\"\",\"password\":\"\"}",
-      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
-    },
-    {
-      "key": "qishui",
-      "name": "🥤汽水┃音乐",
-      "type": 3,
-      "api": "csp_QiShui",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "changeable": 0,
-      "style": {
-        "type": "list"
-      },
-      "ext": "{\"danmu\":true,\"danmu_api\":\"https://dm.211.li/nonay\",\"site\":\"https://app.365ting.com\"}",
-      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
-    },
-    {
-      "key": "YunDuo",
-      "name": "🦢大鹅┃1080P",
-      "type": 3,
-      "api": "csp_YunDuo",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "ext": "{\"aid\":\"com.web.player\",\"client\":\"8f3d2a1c7b6e5d4c9a0b1f2e3d4c5b6a\",\"danmu\":true,\"danmu_api\":\"https://dm.211.li/nonay\",\"finger\":\"WF-2c064bc5b3400788f31b848849bc3a60f835423ba2dfe69d7ea93974c216e4f2\",\"host\":\"https://323433ssdfd.top\",\"sign\":\"ddtvf65f3a83d6d9ad6f\",\"sk\":\"WEB-50a8e9c84a1dc05669a692ded99a2dac46527229e607a7be15db88dbc59059d1\"}",
-      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
-    },
-    {
-      "key": "Ciyuancheng",
-      "name": "🧚次元┃动漫",
-      "type": 3,
-      "api": "csp_Ciyuancheng",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "ext": "{\"danmu\":true,\"danmu_api\":\"https://dm.211.li/nonay\",\"password\":\"xiaomi888\",\"username\":\"nimasile\"}",
-      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
     },
     {
       "key": "push_agent-3",
@@ -10541,6 +10458,18 @@
       "changeable": 0,
       "ext": "rfOIzPkSUkANv6AT2prC8en3+TzKx9TnlT8vaY37HhtYfAQe6C5xqrVuJPhQwYV6r3eRdMBGm3Qm6Th+BushR86B6KqJGXDsHazHw7alBG/7zUxkN1tK/NypRxnpBNoeUtpw4jcCGhytI75yO4g4zG6SOPA0RSwhksM0IF2friAkrHCWoW3v+0mdw6sjz4t4XB1Df7yL/R5cfaA/5LQYq3I8OkvMrJMU9Q1P7JXwx7NSF2zTyH/ANVmZ4u5m567DW1KVG7OuQjXPjZiOXTYk0+wjpfBRTf19yIq6q/C76k2Fs80joAMPw0ueDR+QHxtuDcTom2rmHkI1Fonkzi6BotbpUcbSi4PiIgmfdbvVwhG6Z+i4nvt+IYa48l5aLA7PLgDiERpuOs31aHaXlgFswT87XyTb8QaF4CuzKWJuXptwNTjvXAS9KHdxH49Ay+hfBAB2bCvUf4CMoldF2wZUv0mI2qY966erFpOFg+FOc7t88EUH8j8ACXQtHJiKC9RQ+SaLIF0=",
       "jar": "https://xiuxiu-pro-new.meitudata.com/posters/937f5abf1c7c4ff2f170d835c5c46c21.jpg"
+    },
+    {
+      "key": "csp_Wogg",
+      "name": "🧸玩偶┃网盘不卡4K",
+      "type": 3,
+      "api": "csp_Gege",
+      "quickSearch": 1,
+      "filterable": 1,
+      "timeout": 15,
+      "changeable": 0,
+      "ext": "ewogICJzaXRlX3VybHMiOiBbCiAgICAiaHR0cHM6Ly93d3cud29nZy5saXZlIiwKICAgICJodHRwczovL3dvZ2dwYW4uMzMzMjMyLnh5ei8iLAogICAgImh0dHBzOi8vd3d3LndvZ2cubmV0IgogIF0sCiAgInRva2VuIjogIiIsCiAgInVjQ29va2llIjogIiIsCiAgInF1YXJrQ29va2llIjogIiIKfQ==",
+      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
     },
     {
       "key": "bandeng",
@@ -12998,16 +12927,6 @@
       "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
     },
     {
-      "key": "tingshijie",
-      "name": "🎧听书┃有声",
-      "type": 3,
-      "api": "csp_TingShiJie",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0,
-      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
-    },
-    {
       "key": "有声小说",
       "name": "🎧有声┃小说",
       "type": 3,
@@ -14468,16 +14387,6 @@
       "jar": "https://raw.githubusercontent.com/chitue/dongliTV/main/jar/dongli-spider.jar"
     },
     {
-      "key": "AppV7_Dsx",
-      "name": "📦师兄┃秒播",
-      "type": 3,
-      "api": "csp_DaShiXiong",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
-    },
-    {
       "key": "csp_Ysj-2",
       "name": "📮异世界",
       "type": 3,
@@ -14524,16 +14433,6 @@
       "quickSearch": 1,
       "filterable": 0,
       "jar": "http://xhztv.top/xhz/Yoursmile.jar;md5;69DADB9A99A618EA9E2F4E2B92968E41"
-    },
-    {
-      "key": "dongpian",
-      "name": "📼懂片┃1080P",
-      "type": 3,
-      "api": "csp_DongPianDi",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
     },
     {
       "name": "📽️喵喵┃短剧",
@@ -14810,16 +14709,6 @@
       "jar": "https://xiuxiu-pro-new.meitudata.com/posters/937f5abf1c7c4ff2f170d835c5c46c21.jpg"
     },
     {
-      "key": "共和国",
-      "name": "🚩共和国┃动漫",
-      "type": 3,
-      "api": "csp_Dmghg",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
-    },
-    {
       "key": "新6V-3",
       "name": "🛩️新6V┃P2P🛩",
       "type": 3,
@@ -14937,16 +14826,6 @@
       "jar": "https://xiuxiu-pro-new.meitudata.com/posters/937f5abf1c7c4ff2f170d835c5c46c21.jpg"
     },
     {
-      "key": "dyx",
-      "name": "🦸影侠┃1080P",
-      "type": 3,
-      "api": "csp_DianYingXia",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0,
-      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
-    },
-    {
       "key": "Jianpian-2",
       "name": "🧲┆荐片┆磁力",
       "type": 3,
@@ -14954,18 +14833,6 @@
       "searchable": 1,
       "filterable": 1,
       "jar": "https://qiniu.gongxueyun.com/upload/2624916/2026-11-09/training_record/654477805_4_1794197377422.jar;md5;c91563ada7c35b4f33bd81c50c96eab5"
-    },
-    {
-      "key": "csp_Wogg",
-      "name": "🧸玩偶┃网盘不卡4K",
-      "type": 3,
-      "api": "csp_Gege",
-      "quickSearch": 1,
-      "filterable": 1,
-      "timeout": 15,
-      "changeable": 0,
-      "ext": "ewogICJzaXRlX3VybHMiOiBbCiAgICAiaHR0cHM6Ly93d3cud29nZy5saXZlIiwKICAgICJodHRwczovL3dvZ2dwYW4uMzMzMjMyLnh5ei8iLAogICAgImh0dHBzOi8vd3d3LndvZ2cubmV0IgogIF0sCiAgInRva2VuIjogIiIsCiAgInVjQ29va2llIjogIiIsCiAgInF1YXJrQ29va2llIjogIiIKfQ==",
-      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
     },
     {
       "key": "live075",

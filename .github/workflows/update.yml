@@ -135,31 +135,14 @@ jobs:
           git push --tags || echo "tag 推送失败（非致命）"
 
       # ── 5. CDN 缓存治理 ─────────────────────────────────────────
-      # jsDelivr 对分支引用 s-maxage=43200（12h）且不感知 commit 变化，
-      # 不清缓存新配置要等最多 12 小时、各边缘还不同步。
-      - name: 刷新 jsDelivr CDN 缓存
+      # jsDelivr 对分支引用 s-maxage=43200（12h）且不感知 commit 变化。
+      # 实测：purge 接口返回 finished，cdn 上仍是上一版 —— 用户复制的是主线
+      # 链接，改了拿不到等于没改。所以改成 purge 之后把文件取回来比对 sha256，
+      # 不一致就再 purge（最多 3 轮），并把结果写进 _cdn_purge.json。
+      - name: 刷新 jsDelivr CDN 缓存并校验
         run: |
           echo "本次是否有提交: ${{ steps.commit.outputs.changed }}"
-          sleep 30
-          FILES="tvbox.json tvbox-lite.json tvbox-network.json tvbox-home.json \
-                 tvbox-full-homefirst.json tvbox-lite-homefirst.json \
-                 tvbox-network-homefirst.json \
-                 tvbox-quality.json tvbox-cn-fast.json tvbox-stable7.json \
-                 home-sites.txt health.json stable.json"
-          for pass in 1 2; do
-            echo "=== purge 第 $pass 轮 ==="
-            for f in $FILES; do
-              curl -fsS --max-time 30 \
-                "https://purge.jsdelivr.net/gh/${{ github.repository }}/$f" \
-                || echo "purge $f failed (non-fatal)"
-              curl -fsS --max-time 30 \
-                "https://purge.jsdelivr.net/gh/${{ github.repository }}@main/$f" \
-                || echo "purge @main/$f failed (non-fatal)"
-            done
-            if [ "$pass" = "1" ]; then sleep 8; fi
-          done
-          # `[ cond ] && cmd` 在最后一轮会返回 1，在 bash -e 下会把整个步骤判失败
-          echo "CDN purge 完成"
+          python scripts/purge_cdn.py --attempts 3 || echo "CDN 刷新失败（非致命）"
           exit 0
 
   # 短 TTL 备用线路 + 健康页。Pages 的缓存远短于 jsDelivr，且不受 purge 影响。

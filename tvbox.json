@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "updated": "2026-11-10 03:12:16 UTC",
+    "updated": "2026-11-10 03:53:43 UTC",
     "sites": 1971,
     "sites_dropped_dead": 161,
     "sites_blocked": 4,
@@ -18,8 +18,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/freeok.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/freeok.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "大米星球",
@@ -29,8 +29,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/大米星球.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/大米星球.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "看一看",
@@ -40,8 +40,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/看一看.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/看一看.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "bilibili",
@@ -105,8 +105,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/麦豆TV.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/麦豆TV.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "csp_XBPQ_一龙影视",
@@ -116,8 +116,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/一龙影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/一龙影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "csp_AppRZ",
@@ -136,8 +136,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/臭蛋蛋.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/臭蛋蛋.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "朴樱影视",
@@ -147,8 +147,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/朴樱影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/朴樱影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "6080",
@@ -158,8 +158,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/6080.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/6080.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "人人筷子",
@@ -169,8 +169,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/人人筷子.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/人人筷子.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "麻花影视",
@@ -180,8 +180,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/麻花影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/麻花影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "1",
@@ -562,7 +562,7 @@
       "quickSearch": 1,
       "searchable": 1,
       "ext": "https://www.69mj.com/xgapp.php/v2/",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "6U资源",
@@ -783,8 +783,8 @@
       "name": "B站 | Bili[jar]",
       "type": 3,
       "api": "csp_Bili",
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/dr/js/音乐演唱.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/dr/js/音乐演唱.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "biliys",
@@ -842,8 +842,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/CHNNETFILX.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/CHNNETFILX.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "live029",
@@ -1582,8 +1582,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/TV云播.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/TV云播.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "凌云影视",
@@ -1593,8 +1593,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/凌云影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/凌云影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "CNTV",
@@ -2074,7 +2074,7 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "喵影视",
@@ -2084,8 +2084,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/喵影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/喵影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "野荷塘",
@@ -2095,8 +2095,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/野荷塘.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/野荷塘.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "锐行加速",
@@ -2106,8 +2106,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/锐行加速.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/锐行加速.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "Youtube",
@@ -2551,8 +2551,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/真不卡.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/真不卡.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "csp_xml_红牛",
@@ -3603,8 +3603,8 @@
       "key": "drpy_js_JRKAN直播",
       "name": "体育 | JRKAN直播 ",
       "type": 3,
-      "api": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/dr/lib/drpy.min.js",
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/dr/js/JRKAN直播.js"
+      "api": "https://raw.githubusercontent.com/yw88075/tvbox/main/dr/lib/drpy.min.js",
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/dr/js/JRKAN直播.js"
     },
     {
       "key": "drpy_js_JRKAN直播",
@@ -4386,7 +4386,7 @@
       "filterable": 0,
       "changeable": 0,
       "ext": "http://饭太硬.ga/x/json/bilibili.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "哔哩合集",
@@ -6276,7 +6276,7 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "csp_appysv2_快看影视",
@@ -8006,7 +8006,7 @@
       "quickSearch": 1,
       "filterable": 0,
       "ext": "http://47.104.99.175",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/dr/fix230320.jar"
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/dr/fix230320.jar"
     },
     {
       "key": "csp_appysv2_百淘影视",
@@ -8444,16 +8444,16 @@
       "key": "drpy_js_Alist",
       "name": "网盘 | Alist ",
       "type": 3,
-      "api": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/dr/lib/alist.min.js",
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/dr/js/alist.json"
+      "api": "https://raw.githubusercontent.com/yw88075/tvbox/main/dr/lib/alist.min.js",
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/dr/js/alist.json"
     },
     {
       "key": "AList",
       "name": "网盘 | Alist[jar]",
       "type": 3,
       "api": "csp_AList",
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/dr/js/alistjar.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/dr/js/alistjar.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "drpy_js_Alist",
@@ -8728,7 +8728,7 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "csp_xBPQ_胖虎",
@@ -9800,8 +9800,8 @@
       "name": "阿里 | UP云搜",
       "type": 3,
       "api": "csp_UpYun",
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/dr/lib/token.txt",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/dr/lib/token.txt",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "UP云搜",
@@ -9840,8 +9840,8 @@
       "name": "阿里 | 找資源",
       "type": 3,
       "api": "csp_Zhaozy",
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/dr/lib/token.txt",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/dr/lib/token.txt",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "找資源",
@@ -9859,16 +9859,16 @@
       "name": "阿里 | 推送",
       "type": 3,
       "api": "csp_Push",
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/dr/lib/token.txt",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/dr/lib/token.txt",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "易搜",
       "name": "阿里 | 易搜",
       "type": 3,
       "api": "csp_YiSo",
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/dr/lib/token.txt",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/dr/lib/token.txt",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "易搜",
@@ -9884,8 +9884,8 @@
       "name": "阿里 | 盘搜",
       "type": 3,
       "api": "csp_PanSou",
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/dr/lib/token.txt",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/dr/lib/token.txt",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "盘搜",
@@ -9912,8 +9912,8 @@
       "name": "阿里 | 纸条",
       "type": 3,
       "api": "csp_Paper",
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/dr/lib/token.txt",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/dr/lib/token.txt",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "Gitcafe",
@@ -12661,8 +12661,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/花花.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/花花.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "疏影",
@@ -16430,8 +16430,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/神马影院.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/神马影院.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "csp_HDmoli",
@@ -19050,8 +19050,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/土豪影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/土豪影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "光盘",
@@ -20912,8 +20912,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/243影视网.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/243影视网.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "csp_appys_如意4K",
@@ -20924,7 +20924,7 @@
       "quickSearch": 1,
       "filterable": 1,
       "ext": "http://cms.maoyingshi.cc/api.php/app/",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "孜然影视",
@@ -20934,8 +20934,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/孜然影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/孜然影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "思古影视",
@@ -20945,8 +20945,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/思古影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/思古影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "明帝影视",
@@ -20956,8 +20956,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/明帝影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/明帝影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "csp_Wogg",
@@ -20999,8 +20999,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/400影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/400影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "多米蓝光",
@@ -21011,7 +21011,7 @@
       "quickSearch": 1,
       "filterable": 1,
       "ext": "http://vod.dmdh.top:5680//api.php/app/",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "巨人影院",
@@ -21021,8 +21021,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/巨人影院.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/巨人影院.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "磁力熊1",
@@ -21032,8 +21032,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/磁力熊.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/dr/csp_XBPQ.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/磁力熊.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/dr/csp_XBPQ.jar"
     },
     {
       "key": "蓝光电影网",
@@ -21043,8 +21043,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/蓝光电影网.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/蓝光电影网.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "csp_appys_酷影",
@@ -21055,7 +21055,7 @@
       "quickSearch": 1,
       "filterable": 1,
       "ext": "http://kuyun.realku.cn/api.php/app/",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "双十",
@@ -21065,8 +21065,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/双十.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/双十.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "哆咪",
@@ -21076,8 +21076,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/哆咪.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/哆咪.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "稀饭",
@@ -21087,8 +21087,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/稀饭.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/稀饭.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "端木",
@@ -21098,8 +21098,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/端木.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/端木.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "素白白",
@@ -21109,8 +21109,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/素白白.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/素白白.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "霹雳影视",
@@ -21120,8 +21120,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/霹雳影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/霹雳影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "csp_Kan90",
@@ -21138,8 +21138,8 @@
       "key": "drpy_js_豆瓣",
       "name": "😈心魔自用😈 ",
       "type": 3,
-      "api": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/dr/lib/drpy2.min.js",
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/dr/js/drpy.js"
+      "api": "https://raw.githubusercontent.com/yw88075/tvbox/main/dr/lib/drpy2.min.js",
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/dr/js/drpy.js"
     },
     {
       "key": "PanWebShareGuangYa",
@@ -21170,8 +21170,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/大师兄影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/大师兄影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "网飞TV",
@@ -21181,8 +21181,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/网飞TV.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/网飞TV.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "23影视",
@@ -21192,8 +21192,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/23影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/23影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "csp_Config",
@@ -21222,8 +21222,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/COKEMV.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/COKEMV.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "KZN",
@@ -21242,8 +21242,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/伊人追剧.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/伊人追剧.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "热播之家",
@@ -21253,8 +21253,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/热播之家.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/热播之家.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "皮皮鸭",
@@ -21264,8 +21264,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/皮皮鸭.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/皮皮鸭.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "push_agent",
@@ -21314,8 +21314,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/人人影视p.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/人人影视p.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "城市电影",
@@ -21325,8 +21325,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/城市电影.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/城市电影.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "影视工场",
@@ -21336,8 +21336,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/影视工场.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/影视工场.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "快看影视",
@@ -21347,8 +21347,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/快看影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/快看影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "慢大浪",
@@ -21358,8 +21358,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/慢大浪.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/慢大浪.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "胖虎影视",
@@ -21369,8 +21369,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/胖虎影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/胖虎影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "达达龟",
@@ -21380,8 +21380,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/达达龟.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/达达龟.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "饭团",
@@ -21391,8 +21391,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/饭团.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/饭团.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "PanWebShare123",
@@ -21443,8 +21443,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/188kan.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/188kan.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "小鹿影视",
@@ -21454,8 +21454,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/小鹿影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/小鹿影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "无名小站",
@@ -21465,8 +21465,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/无名小站.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/无名小站.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "歪片星球",
@@ -21476,8 +21476,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/歪片星球.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/歪片星球.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "爱看影院",
@@ -21487,8 +21487,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/爱看影院.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/爱看影院.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "秋霞影视",
@@ -21498,8 +21498,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/秋霞影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/秋霞影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "豆巴影视",
@@ -21509,8 +21509,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/豆巴影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/豆巴影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "西瓜影视",
@@ -21520,8 +21520,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/西瓜影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/西瓜影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "假低端",
@@ -21531,8 +21531,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/假低端.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/假低端.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "鸭奈非",
@@ -21542,8 +21542,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/鸭奈非.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/鸭奈非.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "鸭奈非4K",
@@ -21553,8 +21553,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/鸭奈非4K.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/鸭奈非4K.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "NIKETV",
@@ -21564,8 +21564,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/NIKETV.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/NIKETV.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "NO视频",
@@ -21575,8 +21575,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/NO视频.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/NO视频.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "免费思古",
@@ -21586,8 +21586,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/免费思古.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/免费思古.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "八蛋影视",
@@ -21597,8 +21597,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/八蛋影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/八蛋影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "影视之家",
@@ -21608,8 +21608,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/影视之家.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/影视之家.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "批哩㕷哩",
@@ -21619,8 +21619,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/批哩㕷哩.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/批哩㕷哩.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "星空影视",
@@ -21630,8 +21630,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/星空影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/星空影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "映迷影院",
@@ -21641,8 +21641,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/映迷影院.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/映迷影院.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "爱迪影视",
@@ -21652,8 +21652,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/爱迪影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/爱迪影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "看了么",
@@ -21663,8 +21663,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/看了吗.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/看了吗.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "简单影视",
@@ -21674,8 +21674,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/简单影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/简单影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "西屋影视",
@@ -21685,8 +21685,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/西屋影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/西屋影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "酷绘",
@@ -21696,8 +21696,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/酷绘.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/酷绘.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "酷茶影视",
@@ -21707,8 +21707,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/酷茶影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/酷茶影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "野菊花电影网",
@@ -21718,8 +21718,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/野菊花电影网.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/野菊花电影网.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "首播影视",
@@ -21729,8 +21729,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/首播影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/首播影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "Vidhub",
@@ -21740,8 +21740,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/vidhub.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/vidhub.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "libvio",
@@ -21751,8 +21751,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/libvio.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/libvio.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "voflix",
@@ -21762,8 +21762,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/voflix.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/voflix.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "兄弟影视",
@@ -21773,8 +21773,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/兄弟影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/兄弟影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "多多网盘",
@@ -21800,8 +21800,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/落攻阁.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/落攻阁.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "野荷塘",
@@ -21811,8 +21811,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/野荷塘.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/野荷塘.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "莫扎兔",
@@ -21822,8 +21822,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/莫扎兔.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/莫扎兔.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "蓝光",
@@ -21833,8 +21833,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/蓝光影院.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/蓝光影院.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "影渣渣",
@@ -21844,8 +21844,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/影渣渣.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/影渣渣.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "csp_XBPQ",
@@ -21855,8 +21855,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/白嫖影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/白嫖影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "看看电影",
@@ -21866,8 +21866,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/看看电影.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/看看电影.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "冷曦影视",
@@ -21877,8 +21877,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/冷曦影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/冷曦影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "奇优影视",
@@ -21888,8 +21888,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/奇优影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/奇优影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "csp_JuTouShe",
@@ -21945,8 +21945,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/音范丝.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/音范丝.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "FaDai",
@@ -22043,8 +22043,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/WZ影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/WZ影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "YOHUTV",
@@ -22054,8 +22054,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/YOHUTV.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/YOHUTV.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "乌龟影院",
@@ -22065,8 +22065,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/乌龟影院.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/乌龟影院.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "九九影院",
@@ -22076,8 +22076,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/九九影院.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/九九影院.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "全能影视",
@@ -22087,8 +22087,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/全能影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/全能影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "八戒影院",
@@ -22098,8 +22098,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/八戒影院.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/八戒影院.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "北川影视",
@@ -22109,8 +22109,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/北川影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/北川影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "咖啡影院",
@@ -22120,8 +22120,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/咖啡影院.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/咖啡影院.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "小狗影院",
@@ -22131,8 +22131,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/小狗影院.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/小狗影院.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "我爱跟剧",
@@ -22142,8 +22142,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/我爱跟剧.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/我爱跟剧.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "木偶网盘",
@@ -22169,8 +22169,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/洞庭影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/洞庭影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "独播库",
@@ -22180,8 +22180,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/独播库.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/独播库.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "王子4K",
@@ -22617,8 +22617,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/金曼TV.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/金曼TV.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "闪电网盘",
@@ -22767,8 +22767,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/91美剧.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/91美剧.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "AUETE影视",
@@ -22778,8 +22778,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/AUETE影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/AUETE影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "八戒影院",
@@ -22789,8 +22789,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/八戒影院.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/八戒影院.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "在线之家",
@@ -22800,8 +22800,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/在线之家.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/在线之家.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "天空影视",
@@ -22811,8 +22811,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/天空影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/天空影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "奈落影院",
@@ -22822,8 +22822,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/奈落影院.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/奈落影院.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "无极影院",
@@ -22833,8 +22833,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/无极影院.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/无极影院.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "白狐影视",
@@ -22844,8 +22844,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/白狐影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/白狐影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "看看剧",
@@ -22855,8 +22855,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/看看剧.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/看看剧.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "555",
@@ -22866,8 +22866,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/555.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/555.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "6v电影",
@@ -22877,8 +22877,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/6v电影.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/6v电影.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "万博剧院",
@@ -22888,8 +22888,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/万博剧院.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/万博剧院.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "久久美剧网",
@@ -22899,8 +22899,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/久久美剧网.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/久久美剧网.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "人人美剧",
@@ -22910,8 +22910,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/人人美剧.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/人人美剧.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "厂长",
@@ -22921,8 +22921,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/厂长.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/厂长.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "天天影院",
@@ -22932,8 +22932,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/天天影院.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/天天影院.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "美剧天堂",
@@ -22943,8 +22943,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/美剧天堂.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/美剧天堂.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "美剧窝",
@@ -22954,8 +22954,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/美剧窝.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/美剧窝.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "美剧网",
@@ -22965,8 +22965,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/美剧网.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/美剧网.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "bl",
@@ -23288,8 +23288,8 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1,
-      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/XBPQ/骚火影视.json",
-      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw530.jar"
+      "ext": "https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/骚火影视.json",
+      "jar": "https://raw.githubusercontent.com/yw88075/tvbox/main/yw530.jar"
     },
     {
       "key": "csp_TgDouban",

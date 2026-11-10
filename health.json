@@ -2,18 +2,18 @@
   "date": "2026-11-10",
   "env": {
     "env": "github-actions",
-    "runner": "42771666719",
+    "runner": "42773778891",
     "proxy": false,
-    "generated": "2026-11-10 07:00:10 UTC"
+    "generated": "2026-11-10 07:18:53 UTC"
   },
   "versions": [
     {
       "file": "tvbox-quality.json",
       "label": "精播版",
       "note": "只留实测可播 / 首页实测有影片的节点，宁缺毋滥",
-      "sites": 628,
+      "sites": 617,
       "home_first": null,
-      "bytes": 361840,
+      "bytes": 357220,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-quality.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-quality.json"
     },
@@ -21,9 +21,9 @@
       "file": "tvbox-cn-fast.json",
       "label": "国内极速版",
       "note": "国内直连、无 spider jar、按质量取前 120 个，老盒子开屏最快",
-      "sites": 99,
+      "sites": 95,
       "home_first": null,
-      "bytes": 75792,
+      "bytes": 74184,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-cn-fast.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-cn-fast.json"
     },
@@ -42,7 +42,7 @@
       "label": "全量 + 首页优先",
       "note": "功能最全，推荐桌面/高性能盒子",
       "sites": 2074,
-      "home_first": 1117,
+      "home_first": 1147,
       "bytes": 851642,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-full-homefirst.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-full-homefirst.json"
@@ -52,7 +52,7 @@
       "label": "精简 + 首页优先",
       "note": "不依赖 spider jar，低性能盒子首选",
       "sites": 483,
-      "home_first": 104,
+      "home_first": 114,
       "bytes": 182377,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-lite-homefirst.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-lite-homefirst.json"
@@ -61,9 +61,9 @@
       "file": "tvbox-network-homefirst.json",
       "label": "网络优化 + 首页优先",
       "note": "不依赖境外代码托管，国内直连最稳",
-      "sites": 447,
-      "home_first": 104,
-      "bytes": 167502,
+      "sites": 449,
+      "home_first": 114,
+      "bytes": 168013,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-network-homefirst.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-network-homefirst.json"
     },
@@ -71,9 +71,9 @@
       "file": "tvbox-home.json",
       "label": "首页版",
       "note": "只保留能出主界面推荐的节点",
-      "sites": 1117,
+      "sites": 1147,
       "home_first": null,
-      "bytes": 533363,
+      "bytes": 539437,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-home.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-home.json"
     },
@@ -101,9 +101,9 @@
       "file": "tvbox-network.json",
       "label": "网络优化（原序）",
       "note": "仅国内直连友好站点",
-      "sites": 447,
+      "sites": 449,
       "home_first": null,
-      "bytes": 167181,
+      "bytes": 167692,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-network.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-network.json"
     }
@@ -374,24 +374,24 @@
   "sources_ok": 29,
   "sources_failed": [],
   "home_grades": {
-    "likely": 1013,
-    "ok": 90,
-    "unknown": 123,
-    "fail": 834,
-    "classes_only": 14
+    "likely": 1033,
+    "ok": 91,
+    "fail": 805,
+    "unknown": 122,
+    "classes_only": 23
   },
-  "home_inferred": 500,
+  "home_inferred": 526,
   "play": {
     "sampled": 30,
-    "list_rate": 0.8,
-    "detail_rate": 0.7667,
+    "list_rate": 0.8333,
+    "detail_rate": 0.8,
     "play_rate": 0.2333,
-    "search_rate": 0.7667,
+    "search_rate": 0.8,
     "playable": 7,
     "parses_alive_rate": 0.15,
     "parses_total": 187
   },
-  "false_kill_rate": 0.5,
+  "false_kill_rate": 0.38,
   "assert_passed": true,
   "assert_pass_streak": 1,
   "stable": {
@@ -404,11 +404,11 @@
       "date": "2026-11-10",
       "sites": 2133,
       "lite": 505,
-      "network": 469,
-      "home_sites": 1117,
-      "home_ok": 90,
+      "network": 470,
+      "home_sites": 1147,
+      "home_ok": 91,
       "play_rate": 0.2333,
-      "false_kill_rate": 0.5,
+      "false_kill_rate": 0.38,
       "sources_ok": 29,
       "assert_passed": true
     }

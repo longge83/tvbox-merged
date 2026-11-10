@@ -96,6 +96,27 @@ JUNK_FIELDS = ("类型",)
 FIELD_ALIAS = {"playurl": "playUrl"}      # 只认驼峰，小写那份等于没写
 EMPTY_EXT = ("", "0", "null", "none", "{}", "[]", '""')
 
+# 媒体 / 图片类扩展名：这些永远不可能是 TVBox 的 spider jar。上游却把 .jpg/.png
+# 之类塞进 jar 槽（实测 352 个站点），客户端照拉必崩。合法 jar 常以 .jar/.js/.txt/
+# .php/无扩展/动态端点出现，一律保留 —— 只看路径后缀，且忽略 ? 查询与 # 片段，
+# 避免 "getFile?id=xxx#.png" 这种动态端点被误判成图片。
+JAR_MEDIA_EXT = (".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp", ".svg",
+                 ".ico", ".mp4", ".css", ".html")
+
+
+def norm_jar(v):
+    """清洗 jar 值：去掉前后空白；媒体类（图片）当作「没有 jar」返回空串。"""
+    if not isinstance(v, str):
+        return ""
+    v = v.strip()
+    if not v:
+        return ""
+    base = v.split(";", 1)[0]               # 去掉可能的 ;md5;hash 后缀
+    path = urlsplit(base).path.lower()       # 只取路径，忽略 ? 与 #
+    if any(path.endswith(e) for e in JAR_MEDIA_EXT):
+        return ""
+    return v
+
 
 def clean_site(site):
     """返回 (清洗后的站点, 丢弃原因)。"""
@@ -129,9 +150,10 @@ def clean_site(site):
 
     s["key"] = str(s.get("key") or "").strip()
 
-    # jar 同样要去掉前后空白：上游把 jar 写成 "  http://...fan.txt " 这种带
-    # 空格的串，startswith("http") 会判错，更会让客户端拉 jar 直接 404。
-    s["jar"] = str(s.get("jar") or "").strip()
+    # jar 同样要去掉前后空白；并且「图片 / 媒体文件」不可能是 TVBox 的 spider
+    # jar，上游却把 .jpg/.png 之类塞进 jar 槽（实测 352 个站点），客户端照拉必崩。
+    # 这里把媒体类 jar 直接当「没有 jar」处理（保留合法 .jar/.js/.txt/.php 等）。
+    s["jar"] = norm_jar(s.get("jar") or "")
 
     # ext 必须是一段字符串。上游有 382 个站点把 ext 写成 JSON 对象，
     # Gson 严格解析的客户端（TVBox 原版）会直接判定整份配置非法。
@@ -209,8 +231,13 @@ def policy_drop(site, pol):
     return None
 
 
-def tier_of(site, stab, revived=()):
-    """0 可用 / 1 未知 / 2 已判定失败或首页必空白。"""
+def tier_of(site, stab, revived=(), jar_fail=None):
+    """0 可用 / 1 未知 / 2 已判定失败或首页必空白。
+
+    jar_fail 是 quality.json 里的「jar 连续失败天数」映射（按 jar URL 计）。
+    csp 站点靠 jar 跑 spider：jar 连败 ≥2 天直接沉底，与 api 探活的口径一致。
+    """
+    jar_fail = jar_fail or {}
     sg = common.sig(site)
     st = stab.get(sg) or {}
     try:
@@ -218,8 +245,13 @@ def tier_of(site, stab, revived=()):
     except (TypeError, ValueError):
         streak = 0
     grade = str(st.get("last_grade") or "")
-    if str(site.get("api", "")).lower().startswith("csp_") and not site.get("ext"):
-        return 2, "csp_no_ext"
+    api = str(site.get("api", "")).lower()
+    if api.startswith("csp_"):
+        if not site.get("ext"):
+            return 2, "csp_no_ext"
+        jurl = str(site.get("jar") or "").split(";", 1)[0]
+        if jurl and jar_fail.get(jurl, 0) >= 2:
+            return 2, "jar_dead"
     if streak >= 2:
         return 2, "fail_streak"
     if grade == "fail":
@@ -433,6 +465,7 @@ def main():
 
     quality = common.load_json("quality.json", {}) or {}
     stab = quality.get("site_stability", {}) or {}
+    jar_fail = quality.get("jar_fail_streak") or {}
     revived = load_revived()
 
     paths = target_paths()
@@ -495,7 +528,7 @@ def main():
 
         tiers, tags = {}, Counter()
         for s in uniq:
-            t, why = tier_of(s, stab, revived)
+            t, why = tier_of(s, stab, revived, jar_fail)
             tiers[id(s)] = t
             if t == 2:
                 tags[why] += 1

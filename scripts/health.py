@@ -133,6 +133,18 @@ def main():
             "wallpaper": bool(pol.get("wallpaper_removed")),
         })
     health["hygiene"] = hygiene
+
+    # jar / ext 健康：每日探活的盲区（旧流程只查 api 接口），现在逐日探测并展示
+    jh = common.load_json("_jar_health.json", {}) or {}
+    jd, ed = jh.get("jars") or {}, jh.get("exts") or {}
+    jar_total, jar_dead = jd.get("unique") or 0, jd.get("dead_count")
+    jar_alive_rate = None if (jar_dead is None or not jar_total) else (jar_total - jar_dead) / jar_total
+    health["jar_health"] = {
+        "probed": bool(jh.get("probed")),
+        "jar_total": jar_total, "jar_dead": jar_dead, "jar_alive_rate": jar_alive_rate,
+        "ext_total": ed.get("unique") or 0, "ext_dead": ed.get("dead_count"),
+        "jar_fail_streak": len(q.get("jar_fail_streak") or {}),
+    }
     common.write_json("health.json", health, skip_unchanged=False)
 
     # ---- GitHub Pages 目录：健康页 + 配置镜像（短 TTL 备用直链）----
@@ -205,6 +217,13 @@ def main():
         ("上游健康", "%d/%d" % (health["sources_ok"], health["sources_ok"] + len(health["sources_failed"])),
          "连续失败 ≥3 天自动标红", "ok" if not health["sources_failed"] else "warn"),
         ("回归断言", status_txt, "连续通过 %d 天" % health["assert_pass_streak"], status_cls),
+        ("jar 健康", (pct(health["jar_health"]["jar_alive_rate"])
+                      if health["jar_health"]["probed"] else "未探测"),
+         "死 %s / 唯一 %s · 连败 %d" %
+         (health["jar_health"]["jar_dead"] if health["jar_health"]["jar_dead"] is not None else "—",
+          health["jar_health"]["jar_total"], health["jar_health"]["jar_fail_streak"]),
+         "ok" if (not health["jar_health"]["probed"] or
+                  (health["jar_health"]["jar_alive_rate"] or 0) >= 0.5) else "warn"),
     ]
     for k, v, n, cls in cards:
         p.append("<div class='card'><div class='k'>%s</div><div class='v %s'>%s</div>"
@@ -266,7 +285,22 @@ def main():
                  (esc(s["tag"]), s["added"], s["dup"], badge,
                   ("<b class='bad'>%d 天（建议更换）</b>" % s["fail_streak"]) if s["alert"]
                   else ("%d 天" % s["fail_streak"])))
-    p.append("</table>")
+        p.append("</table>")
+
+    # jar / ext 健康（每日探活盲区）
+    jh2 = health["jar_health"]
+    if jh2["probed"]:
+        p.append("<h2>jar / ext 健康</h2>")
+        p.append("<div class='note'>spider jar 与远程 ext 是旧流程的探活盲区（每日只查 api 接口），"
+                 "失效的 jar 会一直留在配置里、用户点开就空。现已接入逐日探测：今日 死 jar "
+                 "<b>%s</b> / 唯一 %s（可用率 %s）；死 ext <b>%s</b> / 唯一 %s；"
+                 "多日连败（≥2 天）的死 jar 共 <b>%d</b> 个，其依赖的 csp 站点已被自动沉底。"
+                 "</div>" % (jh2["jar_dead"] if jh2["jar_dead"] is not None else "—",
+                             jh2["jar_total"], pct(jh2["jar_alive_rate"]),
+                             jh2["ext_dead"] if jh2["ext_dead"] is not None else "—",
+                             jh2["ext_total"], jh2["jar_fail_streak"]))
+    else:
+        p.append("<h2>jar / ext 健康</h2><div class='sub'>本次未执行网络探测（本地试跑或探测步骤跳过）。</div>")
 
     # 首页判定分布
     p.append("<h2>首页推荐判定分布</h2><table><tr><th>等级</th><th>数量</th><th>占比</th><th>含义</th></tr>")

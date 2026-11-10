@@ -38,6 +38,10 @@ import common
 
 API_RX = re.compile(r"^(?:https?://\S+|csp_\S+)$", re.I)
 
+# 与 polish.JAR_MEDIA_EXT 保持一致：这些扩展名永远不是合法的 spider jar。
+JAR_MEDIA_EXT = (".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp", ".svg",
+                 ".ico", ".mp4", ".css", ".html")
+
 CONFIGS = [
     "tvbox.json", "tvbox-lite.json", "tvbox-network.json", "tvbox-home.json",
     "tvbox-full-homefirst.json", "tvbox-lite-homefirst.json",
@@ -154,11 +158,16 @@ def main():
            "今日 %d，昨日 %d，下限 %.0f%%" % (len(sites), prev, args.min_ratio * 100))
 
     # 3) csp 必须有 jar；4) 无相对路径；5) 无重复路径段
-    no_jar, rel_left, dup_paths = [], [], []
+    no_jar, rel_left, dup_paths, jar_media = [], [], [], []
     for i, s in enumerate(sites):
         api = str(s.get("api", ""))
         if api.startswith("csp_") and not str(s.get("jar") or "").startswith("http"):
             no_jar.append("%d:%s" % (i, str(s.get("name", ""))[:16]))
+        jv = str(s.get("jar") or "")
+        if jv.startswith("http"):
+            jpath = urlsplit(jv.split(";", 1)[0]).path.lower()
+            if any(jpath.endswith(e) for e in JAR_MEDIA_EXT):
+                jar_media.append("%d:%s" % (i, str(s.get("name", ""))[:16]))
         for field in ("api", "jar", "ext"):
             v = s.get(field)
             if isinstance(v, str) and re.match(r"^\.{1,2}/", v):
@@ -178,6 +187,12 @@ def main():
     record("no_duplicate_path_segment", len(dup_paths) < 3,
            ("%d 处可疑重复段: " % len(dup_paths)) + "; ".join(dup_paths[:4])
            if dup_paths else "无 XBPQ/XBPQ 类重复路径段")
+
+    # 3.5) jar 绝不能是图片 / 媒体文件：上游把 .jpg/.png 塞进 jar 槽，
+    #      客户端照拉必崩（实测曾 352 个站点）。硬阻断，零容忍。
+    record("jar_not_media", not jar_media,
+           "%d 个站点 jar 是图片/媒体: %s" % (len(jar_media), ",".join(jar_media[:4]))
+           if jar_media else "无媒体类 jar")
 
     # 6) 版本间关系
     home = cfgs.get("tvbox-home.json", {}).get("sites", [])

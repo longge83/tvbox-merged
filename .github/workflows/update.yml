@@ -75,6 +75,12 @@ jobs:
       - name: 回归断言（失败则不提交）
         run: python scripts/assertions.py --jar-sample 20 --ext-sample 20
 
+      # jar / ext 可达性探测：补上「每日只查 api 接口」的盲区。非阻断，
+      # 只产出 _jar_health.json，由 history.py 并入多日连败计数、polish 据此沉底死 jar 站点。
+      - name: jar / ext 可达性探测（非阻断）
+        continue-on-error: true
+        run: python scripts/jar_health.py
+
       # ── 3. 时间维度 ─────────────────────────────────────────────
       - name: 写入判定历史与质量指标
         run: python scripts/history.py --days 14

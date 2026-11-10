@@ -45,6 +45,7 @@ def snapshot():
     recheck = common.load_json("recheck.json", {}) or {}
     play = common.load_json("play_summary.json", {}) or {}
     asserts = common.load_json("_assertions.json", {}) or {}
+    jh = common.load_json("_jar_health.json", {}) or {}
 
     grades = {}
     for r in rep.get("sites", []):
@@ -70,6 +71,9 @@ def snapshot():
             "lives": st.get("lives", 0),
             "blocked": st.get("blocked", {}),
             "sources": st.get("sources", []),
+            # jar / ext 可达性盲区：今日探测到的死 jar / 死 ext（由 jar_health.py 产出）
+            "jar_dead_today": (jh.get("jars") or {}).get("dead", []),
+            "ext_dead_today": (jh.get("exts") or {}).get("dead", []),
         },
         "home": {
             "grades": rep.get("grades", {}),
@@ -130,6 +134,18 @@ def summarize(snaps):
     for sg in revived:
         probe_fail.pop(sg, None)
 
+    # jar / ext 连续失败：死 jar 会让依赖它的 csp 站点整页空白，但单日探测有噪声，
+    # 同样要走「连续 N 天失败才沉底」；复活机制对 jar 暂不适用（无 UA 复核）。
+    jar_fail = {}
+    for u in {x for s in recent7 for x in s.get("build", {}).get("jar_dead_today", [])}:
+        streak = 0
+        for s in reversed(recent7):
+            if u in s.get("build", {}).get("jar_dead_today", []):
+                streak += 1
+            else:
+                break
+        jar_fail[u] = streak
+
     source_fail = {}
     for tag in {t for s in recent7 for t in s.get("build", {}).get("sources_failed", [])}:
         streak = 0
@@ -171,6 +187,7 @@ def summarize(snaps):
         "window_days": 7,
         "site_stability": site_stability,
         "probe_fail_streak": probe_fail,
+        "jar_fail_streak": jar_fail,
         "source_fail_streak": source_fail,
         "assert_pass_streak": assert_streak,
         "false_kill_rate": (last.get("recheck") or {}).get("false_kill_rate"),

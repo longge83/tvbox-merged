@@ -76,33 +76,9 @@
 这些口径已经变成断言（`structure_clean` / `site_key_unique` / `ext_is_string` / `meta_counts_consistent` / `parse_names_unique` / `no_foreign_fields` / `wallpaper_reachable` / `lite_network_jar_free` / `network_hosting_clean`）：下次构建再出现空条目、重名、重复主键、对象型 ext 或配置落回代码托管，会直接阻断提交，线上保持上一版。
 
 
-### 国内主线路（jsDelivr，整行复制）
+### 主线路（GitHub Pages，实时最新，推荐）
 
-```
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-quality.json
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-cn-fast.json
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-stable7.json
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-full-homefirst.json
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-lite-homefirst.json
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-network-homefirst.json
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-home.json
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox.json
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-lite.json
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-network.json
-```
-
-### 备用节点（主域名被污染 / 慢时，换前缀）
-
-把上面链接里的 `cdn` 换成 `fastly` / `gcore` / `testingcf` 即可，例如：
-
-```
-https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-full-homefirst.json
-https://gcore.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-lite-homefirst.json
-```
-
-### GitHub Pages（短 TTL，第二条独立线路）
-
-Pages 的缓存时间远短于 jsDelivr 的 12 小时，而且不受 purge 影响，可作为主线路之外的第二入口：
+Pages 的缓存只有几分钟、且每次构建自动重新部署，不受 CDN 12h 边缘缓存影响，是**最稳的「总是最新版」入口**，国内一般也能直连：
 
 ```
 https://dimogu.github.io/tvbox-merged/tvbox-quality.json
@@ -119,9 +95,31 @@ https://dimogu.github.io/tvbox-merged/tvbox-network.json
 
 > 首次使用需在仓库 Settings → Pages 把 Build and deployment 的 Source 设为 **GitHub Actions**（一次性操作），之后每次构建自动部署。
 
+### 备用线路（jsDelivr，国内通常更快）
+
+用带 `@main` 别名的链接（已实测能拿到最新版）；主域名被污染 / 慢时，把 `cdn` 换成 `fastly` / `gcore` / `testingcf`（同样带 `@main`）：
+
+```
+https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-quality.json
+https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-cn-fast.json
+https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-stable7.json
+https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-full-homefirst.json
+https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-lite-homefirst.json
+https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-network-homefirst.json
+https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-home.json
+https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox.json
+https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-lite.json
+https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-network.json
+```
+
+> ⚠️ **不要用不带 `@main` 的链接**（即 `cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox.json`）。
+> jsDelivr 对「不带版本号」的路径有独立的 12h 边缘缓存，purge 经常清不掉、会回退到旧版本——
+> 本次就出现主线挂着旧版（851KB，含已修掉的壁纸 / junk），而 `@main` 与 Pages 已是新版（822KB）。
+
 ### 官方源 raw（实时性最好，国内直连常需代理）
 
-把上面 jsDelivr 链接换成 `https://raw.githubusercontent.com/dimogu/tvbox-merged/main/<文件名>` 即可。
+把上面 jsDelivr 链接里的 `cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/` 换成
+`https://raw.githubusercontent.com/dimogu/tvbox-merged/main/` 即可（实时，无缓存）。
 
 ### 固定稳定版（内容永不变化，可回滚）
 
@@ -137,11 +135,13 @@ https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@stable-YYYYMMDD/tvbox-full-homef
 python scripts/stable.py --rollback stable-20261109
 ```
 
-### 关于 jsDelivr 缓存
+### 关于缓存（重要）
 
-jsDelivr 对分支引用返回 `Cache-Control: max-age=604800, s-maxage=43200`（CDN 边缘 12h、客户端 7 天），**且不会感知 commit 变化**。所以上面的国内链接都不带 `@main`（分支别名有独立的版本解析缓存，实测曾滞留上一轮构建）。Actions 每次提交后等待 30 秒、做两轮 purge。
+jsDelivr 对 GitHub 路径返回 `Cache-Control: max-age=604800, s-maxage=43200`（边缘 12h、客户端 7 天），且不会主动感知 commit 变化。两种写法（`/gh/user/repo/file` 与 `/gh/user/repo@main/file`）各有独立的边缘缓存，**都可能滞留上一轮构建**——本次实测是「无版本号」那条滞留旧版，过去也曾是 `@main` 那条滞留。Actions 每次提交后做 purge + 取回归 sha256 校验，但 purge 对边缘缓存并非 100% 生效。
 
-加 `?xxx=随机数` 对 jsDelivr 的 GitHub 路径**无效**（缓存键不含 query）。若怀疑拿到旧配置，看顶部 `_meta.updated` / `_meta.sites`，或手动访问 `https://purge.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox.json`。
+**结论**：把 GitHub Pages 链接当「总是最新」入口最稳；jsDelivr 链接用 `@main` 别名并允许偶尔滞后。
+`?随机数` 对 jsDelivr 的 GitHub 路径**无效**（缓存键不含 query）。若怀疑拿到旧配置，看配置顶部
+`_meta.updated` / `_meta.sites`，或对比 `https://raw.githubusercontent.com/dimogu/tvbox-merged/main/tvbox.json`（实时）。
 
 ---
 

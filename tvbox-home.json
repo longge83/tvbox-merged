@@ -1,9 +1,9 @@
 {
   "_meta": {
-    "updated": "2026-11-10 08:00:48 UTC",
-    "sites": 1145,
+    "updated": "2026-11-10 08:50:51 UTC",
+    "sites": 1161,
     "sites_dropped_dead": 0,
-    "sites_in_observation": 166,
+    "sites_in_observation": 161,
     "dead_policy": "连续失败 3 次才淘汰",
     "sites_blocked": 3,
     "lives_blocked": 1,
@@ -22,9 +22,9 @@
     "sources_failed": [],
     "probe_env": {
       "env": "github-actions",
-      "runner": "42779159970",
+      "runner": "42785641080",
       "proxy": false,
-      "generated": "2026-11-10 08:04:13 UTC"
+      "generated": "2026-11-10 08:54:15 UTC"
     },
     "note": "仅保留经首页数据探测确认可显示主界面推荐的站点",
     "polish": {
@@ -41,12 +41,12 @@
       "ext_normalized": 395,
       "wallpaper_removed": true,
       "order": {
-        "usable": 690,
-        "unknown": 169,
-        "degraded": 1215
+        "usable": 692,
+        "unknown": 173,
+        "degraded": 1209
       },
       "degraded_reason": {
-        "grade_fail": 702,
+        "grade_fail": 696,
         "csp_no_ext": 513
       },
       "jar_free": false,
@@ -68,11 +68,11 @@
       "history_days": 1
     },
     "home_grades": {
-      "likely": 1045,
-      "ok": 89,
+      "likely": 1047,
+      "ok": 91,
       "unknown": 123,
-      "fail": 806,
-      "classes_only": 11
+      "fail": 790,
+      "classes_only": 23
     },
     "home_inferred": 533
   },
@@ -1984,6 +1984,15 @@
       "filterable": 1
     },
     {
+      "key": "live052",
+      "name": "9-非凡",
+      "type": 1,
+      "api": "https://www.ffzy.tv/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
       "key": "U酷资源",
       "name": "U酷资源(优)",
       "type": 1,
@@ -2685,6 +2694,40 @@
       ]
     },
     {
+      "key": "非凡",
+      "name": "影视 • 非凡[直连]",
+      "type": 1,
+      "api": "http://ffzy.tv/api.php/provide/vod/",
+      "searchable": 1,
+      "categories": [
+        "动作片",
+        "喜剧片",
+        "爱情片",
+        "科幻片",
+        "恐怖片",
+        "剧情片",
+        "战争片",
+        "国产剧",
+        "香港剧",
+        "韩国剧",
+        "欧美剧",
+        "记录片",
+        "台湾剧",
+        "日本剧",
+        "海外剧",
+        "泰国剧",
+        "大陆综艺",
+        "港台综艺",
+        "日韩综艺",
+        "欧美综艺",
+        "国产动漫",
+        "日韩动漫",
+        "欧美动漫",
+        "港台动漫",
+        "海外动漫"
+      ]
+    },
+    {
       "key": "新浪",
       "name": "新浪 | 采集",
       "type": 1,
@@ -2947,6 +2990,15 @@
       "name": "🍀非凡API",
       "type": 1,
       "api": "https://api.ffzyapi.com/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "live048",
+      "name": "🍀非凡线路1",
+      "type": 1,
+      "api": "https://ffzy1.tv/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -3245,53 +3297,19 @@
       ]
     },
     {
-      "key": "live052",
-      "name": "9-非凡",
+      "key": "live067",
+      "name": "dd资源",
       "type": 1,
-      "api": "https://www.ffzy.tv/api.php/provide/vod",
+      "api": "https://dd.jzcbed.xyz/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
     },
     {
-      "key": "非凡",
-      "name": "影视 • 非凡[直连]",
+      "key": "live042",
+      "name": "采集集合+",
       "type": 1,
-      "api": "http://ffzy.tv/api.php/provide/vod/",
-      "searchable": 1,
-      "categories": [
-        "动作片",
-        "喜剧片",
-        "爱情片",
-        "科幻片",
-        "恐怖片",
-        "剧情片",
-        "战争片",
-        "国产剧",
-        "香港剧",
-        "韩国剧",
-        "欧美剧",
-        "记录片",
-        "台湾剧",
-        "日本剧",
-        "海外剧",
-        "泰国剧",
-        "大陆综艺",
-        "港台综艺",
-        "日韩综艺",
-        "欧美综艺",
-        "国产动漫",
-        "日韩动漫",
-        "欧美动漫",
-        "港台动漫",
-        "海外动漫"
-      ]
-    },
-    {
-      "key": "live048",
-      "name": "🍀非凡线路1",
-      "type": 1,
-      "api": "https://ffzy1.tv/api.php/provide/vod",
+      "api": "https://zhangqun1818.serv00.net/cj/cjjh.php",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -3355,6 +3373,19 @@
       "filterable": 1,
       "ext": "https://gh-proxy.org/https://raw.githubusercontent.com/xyq254245/xyqonlinerule/refs/heads/main/XYQHiker/age%E5%8A%A8%E6%BC%AB.json",
       "jar": "https://v6.gh-proxy.org/https://github.com/xyq254245/xyqonlinerule/blob/main/custom_spider.jar"
+    },
+    {
+      "key": "咖啡·短剧",
+      "name": "☕️咖啡┃秒播短剧",
+      "type": 3,
+      "api": "csp_KaFeiDJ",
+      "searchable": 1,
+      "quickSearch": 0,
+      "filterable": 1,
+      "lang": "ds",
+      "genre": "短剧",
+      "ext": "{\"danmu_api\":\"https://dm.211.li/nonay\"}",
+      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
     },
     {
       "key": "我的百度",
@@ -3534,6 +3565,24 @@
       "name": "⚽叭叭┃体育",
       "type": 3,
       "api": "csp_KanQiu",
+      "searchable": 0,
+      "quickSearch": 0,
+      "filterable": 1,
+      "timeout": 12,
+      "changeable": 0,
+      "order_num": 0,
+      "style": {
+        "type": "rect",
+        "ratio": 1.333
+      },
+      "ext": "{\"danmu\":true,\"danmu_api\":\"https://dm.211.li/nonay\"}",
+      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
+    },
+    {
+      "key": "瓜子体育",
+      "name": "⚽瓜子┃体育",
+      "type": 3,
+      "api": "csp_GuaziTY",
       "searchable": 0,
       "quickSearch": 0,
       "filterable": 1,
@@ -9331,35 +9380,26 @@
       "jar": "https://xiuxiu-pro-new.meitudata.com/posters/937f5abf1c7c4ff2f170d835c5c46c21.jpg"
     },
     {
-      "key": "咖啡·短剧",
-      "name": "☕️咖啡┃秒播短剧",
+      "key": "csp_appys_大猫",
+      "name": "大猫",
       "type": 3,
-      "api": "csp_KaFeiDJ",
+      "api": "csp_AppYsV2",
       "searchable": 1,
-      "quickSearch": 0,
+      "quickSearch": 1,
       "filterable": 1,
-      "lang": "ds",
-      "genre": "短剧",
-      "ext": "{\"danmu_api\":\"https://dm.211.li/nonay\"}",
-      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
+      "ext": "http://app.ishen520.com/api.php/v1.vod",
+      "jar": "  http://8.210.220.114/jar/fan.txt "
     },
     {
-      "key": "瓜子体育",
-      "name": "⚽瓜子┃体育",
+      "key": "csp_appysv2_看剧吧",
+      "name": "看剧吧(萝卜)",
       "type": 3,
-      "api": "csp_GuaziTY",
-      "searchable": 0,
-      "quickSearch": 0,
+      "api": "csp_AppYsV2",
+      "searchable": 1,
+      "quickSearch": 1,
       "filterable": 1,
-      "timeout": 12,
-      "changeable": 0,
-      "order_num": 0,
-      "style": {
-        "type": "rect",
-        "ratio": 1.333
-      },
-      "ext": "{\"danmu\":true,\"danmu_api\":\"https://dm.211.li/nonay\"}",
-      "jar": "https://cac.opple.com/yc-media/getFile?id=f61279a6953f4206bdcbd1c86a8804d3#.png;3130dcf9527d5aeaa37f4eb30f08ca26"
+      "ext": "http://app.ishen520.com/api.php/v1.vod",
+      "jar": "https://raw.githubusercontent.com/davidlee6628/ssr/main/custom_spider.jar"
     },
     {
       "key": "push_agent-3",
@@ -15031,6 +15071,114 @@
       "name": "🛫if101影视",
       "type": 1,
       "api": "https://rise.eu.org/api.php/provide/vod/from/if101",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "live029",
+      "name": "CNTV低分辨",
+      "type": 1,
+      "api": "https://zhangqun1818.serv00.net/cctv.php",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "live063",
+      "name": "js集合",
+      "type": 1,
+      "api": "https://zhangqun1818.serv00.net/js.php",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "live122",
+      "name": "php集合",
+      "type": 1,
+      "api": "https://zhangqun1818.serv00.net/php.php",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "live058",
+      "name": "影视播放",
+      "type": 1,
+      "api": "https://zhangqun1818.serv00.net/zh/2243.php",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "live041",
+      "name": "旺旺短剧",
+      "type": 1,
+      "api": "https://zhangqun1818.serv00.net/ww.php",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "live061",
+      "name": "服务器油管",
+      "type": 1,
+      "api": "https://zhangqun1818.serv00.net/yt/yt0021.php",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "live059",
+      "name": "油管播放列表1",
+      "type": 1,
+      "api": "https://zhangqun1818.serv00.net/ytlb.php",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "live057",
+      "name": "油管播放列表2",
+      "type": 1,
+      "api": "https://zhangqun1818.serv00.net/ytlb1.php",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "live060",
+      "name": "油管清单播放",
+      "type": 1,
+      "api": "https://zhangqun1818.serv00.net/zh/yt/2243.php",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "live068",
+      "name": "爱瓜TV",
+      "type": 1,
+      "api": "https://zhangqun1818.serv00.net/aigua1.php",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "live064",
+      "name": "老张影视",
+      "type": 1,
+      "api": "https://zhangqun1818.serv00.net/zh/2242.php",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "live073",
+      "name": "👭克隆👭",
+      "type": 1,
+      "api": "https://zhangqun1818.serv00.net/klhj.php",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1

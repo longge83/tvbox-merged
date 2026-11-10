@@ -2,7 +2,7 @@
 # 等级：ok=首页影片列表实测非空 / likely=爬虫jar与首页配置均有效(含同jar推断) /
 #       classes_only=只返回分类（首页可能空）
 # 判定环境：github-actions | 同 jar 推断召回：533
-# 生成时间：2026-11-10 08:04 UTC
+# 生成时间：2026-11-10 08:54 UTC
 
 ok            | 11-暴风 | 首页影片 20 条 via ac=list
 ok            | 14-量子 | 首页影片 20 条 via ac=videolist&pg=1
@@ -13,11 +13,12 @@ ok            | 19-量子 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 2-非凡 | 首页影片 20 条 via ac=list
 ok            | 20-量子 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 360 | 采集 | 首页影片 20 条 via ac=videolist&pg=1
-ok            | 360资源ZZ | 首页影片 20 条 via ac=list
+ok            | 360资源ZZ | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 6-非凡 | 首页影片 20 条 via ac=list
 ok            | 62-秒播 | 首页影片 20 条 via ac=list
 ok            | 66-360* | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 7-非凡 | 首页影片 20 条 via ac=list
+ok            | 9-非凡 | 首页影片 20 条 via ac=list
 ok            | U酷资源(优) | 首页影片 20 条 via ac=list
 ok            | [137ms|zy] 🍊极品 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | ikun | 采集 | 首页影片 20 条 via ac=list
@@ -26,18 +27,18 @@ ok            | ⚡非凡 | 首页影片 20 条 via ac=list
 ok            | ❤ckzy | 首页影片 20 条 via ac=videolist&pg=1
 ok            | ❤ikun资源 | 首页影片 20 条 via ac=list
 ok            | ❤优质资源 | 首页影片 20 条 via ac=videolist&pg=1
-ok            | ❤光速资源 | 首页影片 20 条 via ac=list
+ok            | ❤光速资源 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | ❤新浪资源 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | ❤无尽资源 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | ❤百度 | 首页影片 20 条 via ac=list
-ok            | ❤红牛资源 | 首页影片 20 条 via ac=detail&pg=1
+ok            | ❤红牛资源 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | ❤量子资源2 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | ❤闪电资源 | 首页影片 20 条 via ac=list
 ok            | ❤非凡资源 | 首页影片 20 条 via ac=list
 ok            | 优质 | 首页影片 20 条 via ac=list
 ok            | 优质 | 采集 | 首页影片 20 条 via ac=list
 ok            | 优质资源库 | 首页影片 20 条 via ac=videolist&pg=1
-ok            | 光速资源(切) | 首页影片 20 条 via ac=list
+ok            | 光速资源(切) | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 创享 | 采集 | 首页影片 20 条 via ac=list
 ok            | 天堂 | 采集 | 首页影片 20 条 via ac=list
 ok            | 天涯资源 | 首页影片 20 条 via ac=list
@@ -48,6 +49,7 @@ ok            | 影视 • 建安 | 首页影片 20 条 via ac=list
 ok            | 影视 • 暴風[直连] | 首页影片 20 条 via ac=list
 ok            | 影视 • 极速[直连] | 首页影片 20 条 via ac=list
 ok            | 影视 • 率率[直连] | 首页影片 20 条 via ac=videolist&pg=1
+ok            | 影视 • 非凡[直连] | 首页影片 20 条 via ac=list
 ok            | 新浪 | 采集 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 无尽 | 采集 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 暴風 | 采集 | 首页影片 20 条 via ac=list
@@ -58,9 +60,9 @@ ok            | 索尼 | 采集 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 艾旦 | 采集 | 首页影片 20 条 via ac=list
 ok            | 艾旦影视(聚) | 首页影片 20 条 via ac=list
 ok            | 速优 | 首页影片 20 条 via ac=videolist&pg=1
-ok            | 速播 | 采集 | 首页影片 20 条 via ac=list
+ok            | 速播 | 采集 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 量子影视 | 首页影片 20 条 via ac=videolist&pg=1
-ok            | 金鹰 | 采集 | 首页影片 20 条 via ac=detail&pg=1
+ok            | 金鹰 | 采集 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 闪电资源(切) | 首页影片 20 条 via ac=list
 ok            | ️天堂┃采集 | 首页影片 20 条 via ac=list
 ok            | 🌠全民┃影视 | 首页影片 20 条 via ac=list
@@ -71,6 +73,7 @@ ok            | 🍀┃如意┃资源 | 首页影片 20 条 via ac=list
 ok            | 🍀┃非凡┃资源 | 首页影片 20 条 via ac=list
 ok            | 🍀天涯海角 | 首页影片 20 条 via ac=list
 ok            | 🍀非凡API | 首页影片 20 条 via ac=list
+ok            | 🍀非凡线路1 | 首页影片 20 条 via ac=list
 ok            | 🎥┃豪华┃资源 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 🎬电影天堂 | 首页影片 20 条 via ac=list
 ok            | 🐯虎牙采集 | 首页影片 20 条 via ac=videolist&pg=1
@@ -81,24 +84,24 @@ ok            | 💝分享爬虫 | 首页影片 20 条 via ac=list
 ok            | 💝分享迷你 | 首页影片 20 条 via ac=list
 ok            | 📡 HD(SN) | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 📡 U酷 | 首页影片 20 条 via ac=list
-ok            | 📡 光速 | 首页影片 20 条 via ac=list
+ok            | 📡 光速 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 📡 樱花 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 📡 红牛 | 首页影片 20 条 via ac=videolist&pg=1
-ok            | 📡 速博 | 首页影片 20 条 via ac=list
-ok            | 🔥360資源資源 | 首页影片 20 条 via ac=list
-ok            | 🔷U酷 | 首页影片 20 条 via ac=videolist&pg=1
+ok            | 📡 速博 | 首页影片 20 条 via ac=videolist&pg=1
+ok            | 🔥360資源資源 | 首页影片 20 条 via ac=videolist&pg=1
+ok            | 🔷U酷 | 首页影片 20 条 via ac=list
 ok            | 🥑┃量子┃资源 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 🦊火狐采集 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 🧞无广┃[采集] | 首页影片 20 条 via ac=list
-ok            | 9-非凡 | 首页影片 20 条 via ac=list
-ok            | 影视 • 非凡[直连] | 首页影片 20 条 via ac=list
-ok            | 🍀非凡线路1 | 首页影片 20 条 via ac=list
+ok            | dd资源 | 首页影片 20 条 via ac=list
+ok            | 采集集合+ | 首页影片 20 条 via ac=list
 likely        | 234|弹幕 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 360|弹幕 | jar:HTTP 200 (zip) ext:json keys:class,list
 likely        | CHNNETFILX | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | New6V • 磁力 | jar:HTTP 200 (zip) ext:text 46507 chars
 likely        | ☁️风云┃多线 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ☄️｜AGE｜动漫 | jar:HTTP 200 (zip) ext:text 2408 chars
+likely        | ☕️咖啡┃秒播短剧 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ☘️我的┃百度 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ☘️短视频 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ☺FREEOK | jar:HTTP 200 (zip) ext:json keys:分类
@@ -114,6 +117,7 @@ likely        | ⚽88┃看球 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ⚽┃说球┃回放 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ⚽┆看球┆体育 | jar:HTTP 200 (zip) ext:text 58552 chars
 likely        | ⚽叭叭┃体育 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | ⚽瓜子┃体育 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ⚽瓜子┃看球 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ✌️┃再来┃APP | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ✨多多┃4K弹幕 | jar:HTTP 200 (zip) ext:内嵌配置
@@ -603,8 +607,8 @@ likely        | 📚高中┃课堂 · nos.netease.com | jar:HTTP 200 (zip) ext:
 likely        | 🚌巴士┃动漫 · AweSomeGuard | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🛴手机┃推送 · AweSomeGuard | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🛴手机┃推送 · PushGuard | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | ☕️咖啡┃秒播短剧 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | ⚽瓜子┃体育 | jar:HTTP 200 (zip) ext:内嵌配置
+likely        | 大猫 | jar: ext:text 4320 chars
+likely        | 看剧吧(萝卜) | jar:HTTP 200 (zip) ext:text 4320 chars
 likely        | QQ频道：肥猫宝贝 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | ☁️Sed┃4K | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | ☁️七味┃4K | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
@@ -1149,3 +1153,15 @@ classes_only  | 酷我｜音乐 | 仅分类 3 组
 classes_only  | 👭人人2👭 | 仅分类 5 组
 classes_only  | 👭苹果视频👭 | 仅分类 5 组
 classes_only  | 🛫if101影视 | 仅分类 4 组
+classes_only  | CNTV低分辨 | 仅分类 69 组
+classes_only  | js集合 | 仅分类 15 组
+classes_only  | php集合 | 仅分类 5 组
+classes_only  | 影视播放 | 仅分类 20 组
+classes_only  | 旺旺短剧 | 仅分类 38 组
+classes_only  | 服务器油管 | 仅分类 17 组
+classes_only  | 油管播放列表1 | 仅分类 20 组
+classes_only  | 油管播放列表2 | 仅分类 26 组
+classes_only  | 油管清单播放 | 仅分类 19 组
+classes_only  | 爱瓜TV | 仅分类 5 组
+classes_only  | 老张影视 | 仅分类 10 组
+classes_only  | 👭克隆👭 | 仅分类 4 组

@@ -1,9 +1,9 @@
 {
   "_meta": {
-    "updated": "2026-11-10 08:00:48 UTC",
+    "updated": "2026-11-10 08:50:51 UTC",
     "sites": 449,
     "sites_dropped_dead": 0,
-    "sites_in_observation": 166,
+    "sites_in_observation": 161,
     "dead_policy": "连续失败 3 次才淘汰",
     "sites_blocked": 3,
     "lives_blocked": 1,
@@ -18,9 +18,9 @@
     "sources_failed": [],
     "probe_env": {
       "env": "github-actions",
-      "runner": "42779159970",
+      "runner": "42785641080",
       "proxy": false,
-      "generated": "2026-11-10 08:00:48 UTC"
+      "generated": "2026-11-10 08:50:51 UTC"
     },
     "note": "国内直连优化：不依赖境外代码托管的 jar/ext",
     "polish": {
@@ -35,12 +35,12 @@
       "ext_normalized": 8,
       "wallpaper_removed": true,
       "order": {
-        "usable": 87,
-        "unknown": 99,
-        "degraded": 263
+        "usable": 89,
+        "unknown": 96,
+        "degraded": 264
       },
       "degraded_reason": {
-        "grade_fail": 263
+        "grade_fail": 264
       },
       "jar_free": true,
       "spider_removed": true,
@@ -191,6 +191,15 @@
       "filterable": 1
     },
     {
+      "key": "live052",
+      "name": "9-非凡",
+      "type": 1,
+      "api": "https://www.ffzy.tv/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
       "key": "U酷资源",
       "name": "U酷资源(优)",
       "type": 1,
@@ -203,15 +212,6 @@
       "name": "[137ms|zy] 🍊极品",
       "type": 1,
       "api": "https://jipinvip.com/api.php/provide/vod",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "live067",
-      "name": "dd资源",
-      "type": 1,
-      "api": "https://dd.jzcbed.xyz/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -901,6 +901,40 @@
       ]
     },
     {
+      "key": "非凡",
+      "name": "影视 • 非凡[直连]",
+      "type": 1,
+      "api": "http://ffzy.tv/api.php/provide/vod/",
+      "searchable": 1,
+      "categories": [
+        "动作片",
+        "喜剧片",
+        "爱情片",
+        "科幻片",
+        "恐怖片",
+        "剧情片",
+        "战争片",
+        "国产剧",
+        "香港剧",
+        "韩国剧",
+        "欧美剧",
+        "记录片",
+        "台湾剧",
+        "日本剧",
+        "海外剧",
+        "泰国剧",
+        "大陆综艺",
+        "港台综艺",
+        "日韩综艺",
+        "欧美综艺",
+        "国产动漫",
+        "日韩动漫",
+        "欧美动漫",
+        "港台动漫",
+        "海外动漫"
+      ]
+    },
+    {
       "key": "新浪",
       "name": "新浪 | 采集",
       "type": 1,
@@ -1163,6 +1197,15 @@
       "name": "🍀非凡API",
       "type": 1,
       "api": "https://api.ffzyapi.com/api.php/provide/vod",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "live048",
+      "name": "🍀非凡线路1",
+      "type": 1,
+      "api": "https://ffzy1.tv/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -1545,6 +1588,15 @@
       "api": "https://clun.top/js/apple.js"
     },
     {
+      "key": "live088",
+      "name": "iKun资源",
+      "type": 0,
+      "api": "https://ikunzyapi.com/api.php/provide/vod/at/xml",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
       "key": "爱听音乐py",
       "name": "♦｜爱听｜音乐",
       "type": 3,
@@ -1578,15 +1630,6 @@
       "quickSearch": 0,
       "filterable": 0,
       "ext": "https://qu.ax/GiK.json"
-    },
-    {
-      "key": "live111",
-      "name": "丫丫资源网采集接口",
-      "type": 0,
-      "api": "https://cj.yayazy.net/api.php/provide/vod/at/xml",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
     },
     {
       "key": "py_云端",
@@ -1727,15 +1770,6 @@
       "filterable": 1
     },
     {
-      "key": "live082",
-      "name": "如意资源网",
-      "type": 0,
-      "api": "https://cj.rycjapi.com/api.php/provide/vod/at/xml",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
       "key": "live071",
       "name": "小乐｜星源",
       "type": 1,
@@ -1781,24 +1815,6 @@
       "quickSearch": 1,
       "filterable": 1,
       "ext": "{\"site\":\"https://www.hkybqufgh.com,https://www.sizhengxt.com,https://0996zp.com,https://9zhoukj.com/,https://www.sizhengxt.com,https://www.tjrongze.com,https://www.jiabaide.cn,https://cqzuoer.com\"}"
-    },
-    {
-      "key": "live083",
-      "name": "新浪资源",
-      "type": 0,
-      "api": "https://api.xinlangapi.com/xinlangapi.php/provide/vod/at/xml",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "live108",
-      "name": "暴风资源网采集接口",
-      "type": 0,
-      "api": "https://bfzyapi.com/api.php/provide/vod/at/xml",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
     },
     {
       "key": "py_maple",
@@ -2012,15 +2028,6 @@
       "filterable": 0
     },
     {
-      "key": "live110",
-      "name": "豪华资源网采集接口地址",
-      "type": 0,
-      "api": "https://hhzyapi.com/api.php/provide/vod/at/xml",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
       "key": "py_8kvod",
       "name": "酷客[py]",
       "type": 3,
@@ -2068,6 +2075,14 @@
       "quickSearch": 1,
       "filterable": 1,
       "ext": "{\"host\":\"https://v.xl.in.ua\",\"pageFmt\":\"\"}"
+    },
+    {
+      "key": "首涂官采",
+      "name": "首涂官采(官)",
+      "type": 1,
+      "api": "http://zy.ishoutu.com/api.php/provide/vod/",
+      "searchable": 1,
+      "quickSearch": 1
     },
     {
       "key": "py_saohuo",
@@ -2526,15 +2541,6 @@
       "quickSearch": 1
     },
     {
-      "key": "live052",
-      "name": "9-非凡",
-      "type": 1,
-      "api": "https://www.ffzy.tv/api.php/provide/vod",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
       "key": "ASMR",
       "name": "ASMR(优)",
       "type": 1,
@@ -2662,10 +2668,10 @@
       "filterable": 1
     },
     {
-      "key": "live088",
-      "name": "iKun资源",
-      "type": 0,
-      "api": "https://ikunzyapi.com/api.php/provide/vod/at/xml",
+      "key": "live067",
+      "name": "dd资源",
+      "type": 1,
+      "api": "https://dd.jzcbed.xyz/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -3084,6 +3090,15 @@
       "quickSearch": 1
     },
     {
+      "key": "live111",
+      "name": "丫丫资源网采集接口",
+      "type": 0,
+      "api": "https://cj.yayazy.net/api.php/provide/vod/at/xml",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
       "key": "乐多资源",
       "name": "乐多资源(切)",
       "type": 0,
@@ -3438,6 +3453,15 @@
       "filterable": 1
     },
     {
+      "key": "live082",
+      "name": "如意资源网",
+      "type": 0,
+      "api": "https://cj.rycjapi.com/api.php/provide/vod/at/xml",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
       "key": "drpy_js_子子影视",
       "name": "子子",
       "type": 3,
@@ -3650,40 +3674,6 @@
       ]
     },
     {
-      "key": "非凡",
-      "name": "影视 • 非凡[直连]",
-      "type": 1,
-      "api": "http://ffzy.tv/api.php/provide/vod/",
-      "searchable": 1,
-      "categories": [
-        "动作片",
-        "喜剧片",
-        "爱情片",
-        "科幻片",
-        "恐怖片",
-        "剧情片",
-        "战争片",
-        "国产剧",
-        "香港剧",
-        "韩国剧",
-        "欧美剧",
-        "记录片",
-        "台湾剧",
-        "日本剧",
-        "海外剧",
-        "泰国剧",
-        "大陆综艺",
-        "港台综艺",
-        "日韩综艺",
-        "欧美综艺",
-        "国产动漫",
-        "日韩动漫",
-        "欧美动漫",
-        "港台动漫",
-        "海外动漫"
-      ]
-    },
-    {
       "key": "live058",
       "name": "影视播放",
       "type": 1,
@@ -3798,6 +3788,15 @@
       "filterable": 1
     },
     {
+      "key": "live083",
+      "name": "新浪资源",
+      "type": 0,
+      "api": "https://api.xinlangapi.com/xinlangapi.php/provide/vod/at/xml",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
       "key": "旋风云",
       "name": "旋风云(优)",
       "type": 1,
@@ -3895,6 +3894,15 @@
       "name": "暴风影视",
       "type": 0,
       "api": "https://by.bfzyapi.com/api.php/provide/vod/at/xml",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "live108",
+      "name": "暴风资源网采集接口",
+      "type": 0,
+      "api": "https://bfzyapi.com/api.php/provide/vod/at/xml",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -4473,6 +4481,15 @@
       "filterable": 1
     },
     {
+      "key": "live110",
+      "name": "豪华资源网采集接口地址",
+      "type": 0,
+      "api": "https://hhzyapi.com/api.php/provide/vod/at/xml",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
       "key": "超高清影视",
       "name": "超高清影视(聚)",
       "type": 1,
@@ -4698,14 +4715,6 @@
       "quickSearch": 1
     },
     {
-      "key": "首涂官采",
-      "name": "首涂官采(官)",
-      "type": 1,
-      "api": "http://zy.ishoutu.com/api.php/provide/vod/",
-      "searchable": 1,
-      "quickSearch": 1
-    },
-    {
       "key": "live085",
       "name": "魔都资源采集网",
       "type": 0,
@@ -4867,15 +4876,6 @@
       "type": 1,
       "api": "https://v.3412.net.cn/macapi.php/provide/vod",
       "playUrl": "https://player.3412.net.cn/?url=",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "live048",
-      "name": "🍀非凡线路1",
-      "type": 1,
-      "api": "https://ffzy1.tv/api.php/provide/vod",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1

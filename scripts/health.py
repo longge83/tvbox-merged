@@ -112,6 +112,27 @@ def main():
         "dedupe": {"parses_deduped": st.get("parses_deduped", 0),
                    "blocked": st.get("blocked", {})},
     }
+    # 今日体检：把「修了什么」变成可核对的数字，别只写在 commit message 里
+    hygiene = []
+    for f, label in (("tvbox.json", "全量版"), ("tvbox-lite.json", "精简版"),
+                     ("tvbox-network.json", "网络优化版")):
+        cfg = common.load_json(f, {}) or {}
+        pol = (cfg.get("_meta") or {}).get("polish") or {}
+        if not pol:
+            continue
+        lv, ps = pol.get("lives") or {}, pol.get("parses") or {}
+        hygiene.append({
+            "label": label,
+            "file": f,
+            "keys": pol.get("keys_renamed", 0),
+            "ext": pol.get("ext_normalized", 0),
+            "names": pol.get("renamed", 0),
+            "parse_renamed": ps.get("renamed", 0),
+            "parse_capped": ps.get("capped", 0),
+            "offshore_live": lv.get("offshore_moved", 0),
+            "wallpaper": bool(pol.get("wallpaper_removed")),
+        })
+    health["hygiene"] = hygiene
     common.write_json("health.json", health, skip_unchanged=False)
 
     # ---- GitHub Pages 目录：健康页 + 配置镜像（短 TTL 备用直链）----
@@ -213,6 +234,23 @@ def main():
     p.append("</table>")
     p.append("<div class='sub'>今日三份基础配置的复查明细（删了什么、改了什么名、为什么这样排序）："
              "<a href='audit-latest.md'>reports/audit-latest.md</a></div>")
+
+    # 今日体检：结构性问题（客户端看不见站点 / 整份配置解析失败）的可核对数字
+    if health.get("hygiene"):
+        p.append("<h2>今日配置体检</h2>")
+        p.append("<table><tr><th>版本</th><th>主键去重</th><th>ext 归一</th>"
+                 "<th>同名消歧</th><th>解析重名</th><th>解析截断</th>"
+                 "<th>境外直播沉底</th><th>壁纸</th></tr>")
+        for h in health["hygiene"]:
+            p.append("<tr><td><b>%s</b><br><code>%s</code></td><td>%d</td><td>%d</td>"
+                     "<td>%d</td><td>%d</td><td>%d</td><td>%d</td><td>%s</td></tr>" %
+                     (esc(h["label"]), esc(h["file"]), h["keys"], h["ext"],
+                      h["names"], h["parse_renamed"], h["parse_capped"],
+                      h["offshore_live"], "已移除" if h["wallpaper"] else "保留"))
+        p.append("</table>")
+        p.append("<div class='sub'>主键去重：`key` 是客户端唯一主键，重复会让后一个站点被顶掉；"
+                 "ext 归一：对象型 `ext` 会让严格解析的客户端判定整份配置非法；"
+                 "境外直播沉底：走 GitHub / 反代的直播源在国内必然是空频道，排到列表末尾。</div>")
 
     # 上游健康
     p.append("<h2>上游源健康</h2><table><tr><th>源</th><th>今日采纳</th><th>去重</th>"

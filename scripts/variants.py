@@ -138,6 +138,10 @@ def pack(cfg, sites, meta, parses=None, lives=None):
         out["parses"] = parses
     if lives is not None:
         out["lives"] = lives
+    # 元信息必须写这一份自己的实际条数：源配置是 187 条解析，精播版剔掉探活
+    # 失败后剩 170、极速版截断后剩 40，继续沿用 187 就是骗客户端
+    m["parses"] = len(out.get("parses", []))
+    m["lives"] = len(out.get("lives", []))
     return out
 
 

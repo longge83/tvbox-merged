@@ -34,6 +34,9 @@ build.py 只负责「把上游合起来」，它做的是结构性去重，不�
   9. 元信息：`_meta.sites/lives/parses/jar_count` 按本版本实际内容重算 —— 之前
      直接沿用全量版数字，精简版写着 108 条直播、实际只有 101 条
  10. 壁纸：地址拉不到就整段去掉，客户端退回内置背景，比开屏卡十秒好
+ 11. 直播：列表顺序就是客户端的显示顺序，没有排序功能。走 GitHub / 反代的
+     40 条国内必然空频道，稳定沉到末尾（不删）
+ 12. 解析截断：按「type=1 且带 ext」优先排序后再截，别一刀切掉最好用的通道
 
 安全：非 Actions 环境只处理 _local-* 临时文件；任何一份被削掉超过一半时
 直接放弃改动，避免一次误判把线上配置清空。
@@ -291,7 +294,15 @@ def fix_lives(lives, dup_names):
                 host = "内置"          # 本机代理类直播源，写 127.0.0.1 没有信息量
             ng["name"] = unique_name(ng["name"], host, taken)
             renamed += 1
-    return out, {"dropped": dropped, "type_fixed": type_fixed, "renamed": renamed}
+
+    # 直播列表在客户端里就是按配置顺序排的，没有「排序」概念。101 条里 40 条
+    # 走 raw.githubusercontent / GitHub 反代 —— 国内打开必然是空频道，却混在
+    # 最前面。按「境外托管 → 沉底」稳定排序，不删任何一条。
+    before = [ng["url"] for ng in out]
+    out.sort(key=lambda ng: 1 if common.hosting_host({"api": ng["url"]}, deep=True) else 0)
+    pushed = sum(1 for ng in out if common.hosting_host({"api": ng["url"]}, deep=True))
+    return out, {"dropped": dropped, "type_fixed": type_fixed, "renamed": renamed,
+                 "offshore_moved": pushed}
 
 
 def fix_parses(parses, types, cap):
@@ -343,12 +354,41 @@ def fix_parses(parses, types, cap):
         else:
             taken.add(base)
 
-    capped = 0
+    capped, cap_kept = 0, {}
     if cap and len(out) > cap:
-        capped = len(out) - cap
-        out = out[:cap]
+        # 截断不能按文件顺序截：上游把最好用的那一类通道排在后面，一刀切会先
+        # 砍掉它们；也不能全给 json —— webview 嗅探是采集站的主力。按配额分。
+        total = len(out)
+        out = cap_parses(out, cap)
+        capped = total - len(out)
+        cap_kept = dict(Counter(p.get("type") for p in out))
     return out, {"dropped": dropped, "type_fixed": fixed, "ext_fixed": ext_fixed,
-                 "renamed": renamed, "capped": capped}
+                 "renamed": renamed, "capped": capped, "cap_kept_types": cap_kept}
+
+
+def cap_parses(items, cap):
+    """按类型配额截断：json 聚合（type=1）拿 60% 名额，webview 嗅探（type=0）
+    拿剩下的，两边都不许把对方挤干净；还有空位再按原顺序补。"""
+    json_q = [p for p in items if parse_rank(p) <= 1]
+    web_q = [p for p in items if parse_rank(p) >= 2]
+    n_json = min(len(json_q), max(1, int(cap * 0.6)))
+    n_web = min(len(web_q), cap - n_json)
+    keep = json_q[:n_json] + web_q[:n_web]
+    if len(keep) < cap:
+        chosen = {id(p) for p in keep}
+        keep += [p for p in items if id(p) not in chosen][:cap - len(keep)]
+    return keep
+
+
+def parse_rank(p):
+    """解析通道的可用性排序：0 最好。type=1 是 json 聚合接口，带 ext 的能直接
+    拿到播放地址；type=0 是 webview 嗅探，依赖客户端把网页跑起来；其余少用。"""
+    t = p.get("type")
+    if t == 1:
+        return 0 if p.get("ext") else 1
+    if t == 0:
+        return 2
+    return 3
 
 
 def wallpaper_alive(url):
@@ -533,8 +573,9 @@ def main():
                  out["_meta"]["polish"]["order"]["usable"],
                  out["_meta"]["polish"]["order"]["unknown"],
                  out["_meta"]["polish"]["order"]["degraded"]))
-        print("  %-24s 直播 %d（修 type %d / 改名 %d）| 解析 %d（剔 %d 修 %d ext归一 %d 改名 %d 截 %d）| 去 spider %s | 去壁纸 %s"
+        print("  %-24s 直播 %d（修 type %d / 改名 %d / 境外沉底 %d）| 解析 %d（剔 %d 修 %d ext归一 %d 改名 %d 截 %d）| 去 spider %s | 去壁纸 %s"
               % ("", len(lives), live_stat["type_fixed"], live_stat["renamed"],
+                 live_stat["offshore_moved"],
                  len(parses), parse_stat["dropped"], parse_stat["type_fixed"],
                  parse_stat["ext_fixed"], parse_stat["renamed"],
                  parse_stat["capped"], spider_removed,

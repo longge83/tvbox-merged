@@ -1,0 +1,42 @@
+name: update-tvbox-config
+
+on:
+  schedule:
+    # 每天 UTC 20:00（北京时间次日 04:00）自动构建
+    - cron: '0 20 * * *'
+  workflow_dispatch: {}   # 支持手动触发
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-tvbox-config
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 准备 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 聚合 + 存活复检
+        run: python scripts/build.py
+
+      - name: 有变更则提交
+        run: |
+          if git diff --quiet -- tvbox.json; then
+            echo "配置无变化，跳过提交"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tvbox.json
+          git commit -m "chore: 更新聚合配置 $(date -u +%Y-%m-%d)"
+          git push

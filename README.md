@@ -12,10 +12,10 @@
 
 | 文件 | 站点数（每日浮动） | 用途 |
 |---|---|---|
-| `tvbox-full-homefirst.json` | 约 1970 | **全量 + 首页优先**，功能最全，依赖 spider jar |
-| `tvbox-lite-homefirst.json` | 约 340 | **精简 + 首页优先**，不依赖 jar，低性能盒子首选 |
-| `tvbox-network-homefirst.json` | 约 300 | **网络优化 + 首页优先**，不依赖境外代码托管，国内直连最稳 |
-| `tvbox-home.json` | 约 345+ | 只保留首页可用节点，最干净 |
+| `tvbox-full-homefirst.json` | 约 1970 | **全量 + 首页优先**（前 ~1130 个可用），功能最全，依赖 spider jar |
+| `tvbox-lite-homefirst.json` | 约 340 | **精简 + 首页优先**（前 ~115 个可用），不依赖 jar，低性能盒子首选 |
+| `tvbox-network-homefirst.json` | 约 310 | **网络优化 + 首页优先**（前 ~115 个可用），不依赖境外代码托管，国内直连最稳 |
+| `tvbox-home.json` | 约 1130 | 只保留首页可用节点（含同 jar 推断，推断项排在实测之后） |
 | `tvbox.json` | 约 1970 | 全量版，原始顺序 |
 | `tvbox-lite.json` | 约 340 | 精简版，原始顺序 |
 | `tvbox-network.json` | 约 300 | 网络优化版，原始顺序 |
@@ -100,7 +100,7 @@ TVBox 的**主界面推荐**和**搜索**是两套数据，能搜到片子不代
 |---|---|---|
 | `ok` | CMS 首页影片列表实测非空 | ✅ 排最前 |
 | `likely` | jar 有效且 ext 首页配置有效 | ✅ |
-| `likely`（同 jar 推断） | 同一 jar 下已有站点可用，其余「无 ext、依赖内置首页」的 `unknown` 召回 | ✅ |
+| `likely`（同 jar 推断） | 同一 jar 下已有站点可用，其余「无 ext、依赖内置首页」的 `unknown` 召回（实测首轮召回 529 个） | ✅ 同级内排实测之后 |
 | `classes_only` | 只返回分类、没返回影片 | ✅ 排最后 |
 | `unknown` | 依赖 jar 内置首页，HTTP 无法判定 | ❌ |
 | `fail` | jar 404/非 jar、ext 失效、接口连不上 | ❌ |

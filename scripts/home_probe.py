@@ -319,8 +319,10 @@ def main():
         rank = {"ok": 0, "likely": 1, "classes_only": 2}
         # 按站点下标匹配，避免不同源复用同一个 key 时把无关站点一起带进来
         grades = {r["idx"]: rank[r["grade"]] for r in results if r["grade"] in rank}
+        # 同 jar 推断出来的 likely 没有实测依据，排在同级实测节点之后
+        inferred_idx = {r["idx"] for r in results if r.get("inferred")}
         pairs = sorted([(grades[i], i, s) for i, s in enumerate(cfg["sites"]) if i in grades],
-                       key=lambda t: (t[0], t[1]))
+                       key=lambda t: (t[0], 1 if t[1] in inferred_idx else 0, t[1]))
         kept = [s for _, _, s in pairs]
         out = {k: v for k, v in cfg.items() if k != "sites"}
         meta = dict(cfg.get("_meta", {}))

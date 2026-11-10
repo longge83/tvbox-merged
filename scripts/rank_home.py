@@ -51,11 +51,14 @@ def build_priority():
     full_sites = full.get("sites", [])
 
     # home_report 的 idx 是「全量配置」的下标，用它换算出 sig -> 等级
-    grade_by_sig = {}
+    grade_by_sig, inferred_sigs = {}, set()
     for r in rep.get("sites", []):
         i = r.get("idx")
         if isinstance(i, int) and 0 <= i < len(full_sites) and r.get("grade") in BAND:
-            grade_by_sig[common.sig(full_sites[i])] = r["grade"]
+            sg = common.sig(full_sites[i])
+            grade_by_sig[sg] = r["grade"]
+            if r.get("inferred"):
+                inferred_sigs.add(sg)
 
     # 若没有 home_report（例如本地只拿到 home 配置），退化为按 home 文件顺序
     fallback_order = {}
@@ -73,7 +76,8 @@ def build_priority():
             band,
             int(stab.get(sg, {}).get("home_days_7", 0)),
             int(scores.get(sg, 0)),
-            fallback_order.get(sg, i),
+            # 推断项同级内降权：让实测能出首页的节点先被客户端选中
+            fallback_order.get(sg, i) + (10000 if sg in inferred_sigs else 0),
         )
     return priority, {
         "home_sites": len(priority),

@@ -142,6 +142,13 @@ def pack(cfg, sites, meta, parses=None, lives=None):
     # 失败后剩 170、极速版截断后剩 40，继续沿用 187 就是骗客户端
     m["parses"] = len(out.get("parses", []))
     m["lives"] = len(out.get("lives", []))
+    # 整份配置里已经没有站点需要 jar 了，就别留全局 spider：客户端会照拉不误，
+    # 2.9 MB 的 jar 在国内拉不到会让开屏多等十几秒（稳定版 90 个站全是采集源）
+    if out.get("spider") and not any(
+            str(s.get("jar") or "").strip() or
+            str(s.get("api", "")).lower().startswith("csp_") for s in sites):
+        out.pop("spider", None)
+        m["spider_dropped"] = "无 jar 依赖"
     return out
 
 

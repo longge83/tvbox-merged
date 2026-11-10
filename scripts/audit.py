@@ -143,6 +143,7 @@ def main():
             L.append("- 主键去重 **%d** 个：`key` 是客户端唯一主键，重复会让后一个站点"
                      "顶掉前一个（列表里少站点、收藏串号），保留第一个、其余加稳定后缀"
                      % p["keys_renamed"])
+        lv, ps = p.get("lives") or {}, p.get("parses") or {}
         if ps.get("ext_fixed") or p.get("ext_normalized"):
             L.append("- `ext` 归一 **%d** 个站点 / **%d** 个解析通道：上游把 ext 写成 JSON "
                      "对象，严格解析的客户端会判定整份配置非法，统一改成字符串"
@@ -154,14 +155,18 @@ def main():
         if sp:
             L.append("- 移除全局 `spider` 字段（原指向 `raw.githubusercontent.com`，"
                      "国内盒子拉不到会让所有爬虫节点首页空白）")
-        lv, ps = p.get("lives") or {}, p.get("parses") or {}
-        if lv.get("type_fixed") or lv.get("renamed"):
-            L.append("- 直播：修正 `type` 非整数 %d 个、重名消歧 %d 个"
-                     % (lv.get("type_fixed", 0), lv.get("renamed", 0)))
+        if lv.get("type_fixed") or lv.get("renamed") or lv.get("offshore_moved"):
+            L.append("- 直播：修正 `type` 非整数 %d 个、重名消歧 %d 个、"
+                     "境外托管沉底 %d 条"
+                     % (lv.get("type_fixed", 0), lv.get("renamed", 0),
+                        lv.get("offshore_moved", 0)))
         if ps.get("dropped") or ps.get("type_fixed") or ps.get("capped"):
+            kept = ps.get("cap_kept_types") or {}
             L.append("- 解析：剔除 url 非法/重复 %d 个、`type` 归一 %d 个、"
-                     "截断到上限 %d 个"
-                     % (ps.get("dropped", 0), ps.get("type_fixed", 0), ps.get("capped", 0)))
+                     "按配额截断 %d 个%s"
+                     % (ps.get("dropped", 0), ps.get("type_fixed", 0), ps.get("capped", 0),
+                        ("（保留 json %d / webview %d）" %
+                         (kept.get("1", 0), kept.get("0", 0))) if kept else ""))
         dr = p.get("degraded_reason") or {}
         if dr:
             L.append("- 排序：`%s` 这类节点沉到末尾但**不删除**，误杀可在次日复核复活"

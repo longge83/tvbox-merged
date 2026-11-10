@@ -152,16 +152,13 @@ def probe_csp(site):
     detail = {"jar": "", "ext": "", "status": 0}
 
     # jar 是爬虫本体，失效则整个站点（含首页）不可用。
-    # 必须是 zip/jar（PK 魔数）；不少上游把图片 URL 写进 spider，200 但不是 jar。
+    # 一律按内容魔数判断：不少作者把 jar 伪装成 .jpg/.png 上传图床，
+    # 按后缀判会误杀几百个站点；必须是 200 且以 PK(zip) 开头。
     jar_alive = True
     if jar.startswith("http"):
-        if re.search(r"\.(png|jpe?g|gif|webp|bmp)(\?|#|$)", jar, re.I):
-            jar_alive = False
-            detail["jar"] = "图片 URL，非 jar"
-        else:
-            st, raw = fetch(jar, limit_bytes=64)
-            jar_alive = st == 200 and raw[:2] == b"PK"
-            detail["jar"] = "HTTP %s%s" % (st, " (zip)" if raw[:2] == b"PK" else " (非zip)")
+        st, raw = fetch(jar, limit_bytes=64)
+        jar_alive = st == 200 and raw[:2] == b"PK"
+        detail["jar"] = "HTTP %s%s" % (st, " (zip)" if raw[:2] == b"PK" else " (非zip)")
 
     # ext 常是首页分类配置；内嵌或为空则依赖 jar 内置 homeContent
     if isinstance(ext, str) and ext.startswith("http"):
@@ -197,7 +194,7 @@ def classify(site):
     return "other"
 
 
-def probe(site):
+def probe(site, idx=0):
     kind = classify(site)
     if kind == "cms":
         grade, detail = probe_cms(site)
@@ -208,6 +205,7 @@ def probe(site):
     else:
         grade, detail = "unknown", {"reason": "未知类型"}
     return {
+        "idx": idx,
         "key": site.get("key"),
         "name": site.get("name"),
         "kind": kind,
@@ -231,13 +229,13 @@ def main():
     t0 = time.time()
     results = []
     with ThreadPoolExecutor(max_workers=args.workers) as ex:
-        futs = {ex.submit(probe, s): s for s in sites}
+        futs = {ex.submit(probe, s, i): (s, i) for i, s in enumerate(sites)}
         for i, f in enumerate(as_completed(futs), 1):
             try:
                 results.append(f.result())
             except Exception as e:
-                s = futs[f]
-                results.append({"key": s.get("key"), "name": s.get("name"),
+                s, idx = futs[f]
+                results.append({"idx": idx, "key": s.get("key"), "name": s.get("name"),
                                 "grade": "fail", "detail": {"error": str(e)[:80]}})
             if i % 200 == 0:
                 print("  已检测 %d/%d ... %.0fs" % (i, len(sites), time.time() - t0), flush=True)
@@ -264,9 +262,11 @@ def main():
     if not args.limit:
         # 只保留确认有首页数据的站点；ok 排最前，其次 likely
         rank = {"ok": 0, "likely": 1, "classes_only": 2}
-        keys = {r["key"]: rank[r["grade"]] for r in results if r["grade"] in rank}
-        kept = [s for s in cfg["sites"] if s.get("key") in keys]
-        kept.sort(key=lambda s: keys.get(s.get("key"), 99))
+        # 按站点下标匹配，避免不同源复用同一个 key 时把无关站点一起带进来
+        grades = {r["idx"]: rank[r["grade"]] for r in results if r["grade"] in rank}
+        pairs = sorted([(grades[i], i, s) for i, s in enumerate(cfg["sites"]) if i in grades],
+                       key=lambda t: t[0])
+        kept = [s for _, _, s in pairs]
         out = {k: v for k, v in cfg.items() if k != "sites"}
         meta = dict(cfg.get("_meta", {}))
         meta["sites"] = len(kept)
@@ -280,13 +280,13 @@ def main():
               (args.output, len(kept), os.path.getsize(args.output) / 1024))
 
         # 人可读清单：等级 | 站点名 | 判定依据
-        by_key = {r["key"]: r for r in results}
+        by_key = {r["idx"]: r for r in results}
         lines = ["# 能显示主界面推荐（首页）的节点",
                  "# 等级：ok=首页影片列表实测非空 / likely=爬虫jar与首页配置均有效 /",
                  "#       classes_only=只返回分类（首页可能空）",
                  "# 生成时间：%s" % time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime()), ""]
-        for s in kept:
-            r = by_key.get(s.get("key"), {})
+        for _, idx, s in pairs:
+            r = by_key.get(idx, {})
             d = r.get("detail", {})
             why = ("首页影片 %s 条 via %s" % (d.get("videos"), d.get("via"))
                    if r.get("grade") == "ok" else

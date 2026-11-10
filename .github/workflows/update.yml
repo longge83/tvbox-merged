@@ -30,9 +30,11 @@ jobs:
         run: python scripts/build.py
 
       - name: 有变更则提交
+        id: commit
         run: |
           if git diff --quiet -- tvbox.json tvbox-lite.json; then
             echo "配置无变化，跳过提交"
+            echo "changed=false" >> $GITHUB_OUTPUT
             exit 0
           fi
           git config user.name "github-actions[bot]"
@@ -40,3 +42,20 @@ jobs:
           git add tvbox.json tvbox-lite.json
           git commit -m "chore: 更新聚合配置 $(date -u +%Y-%m-%d)"
           git push
+          echo "changed=true" >> $GITHUB_OUTPUT
+
+      # jsDelivr 对 @分支 的响应带 s-maxage=43200（CDN 缓存 12 小时），
+      # 不主动清缓存的话，每天生成的新配置要等最多 12 小时才能被镜像取到，
+      # 且各边缘节点不同步，会出现"有的设备新、有的设备旧"。
+      - name: 刷新 jsDelivr CDN 缓存
+        if: always()
+        run: |
+          echo "本次是否有提交: ${{ steps.commit.outputs.changed }}"
+          # GitHub raw 传播有短暂延迟，等几秒再清缓存，避免 CDN 回源拉到旧文件
+          sleep 10
+          for f in tvbox.json tvbox-lite.json; do
+            echo "--- purge $f ---"
+            curl -fsS --max-time 30 \
+              "https://purge.jsdelivr.net/gh/${{ github.repository }}@main/$f" \
+              || echo "purge $f failed (non-fatal)"
+          done

@@ -16,13 +16,32 @@ https://raw.githubusercontent.com/dimogu/tvbox-merged/main/tvbox.json
 https://raw.githubusercontent.com/dimogu/tvbox-merged/main/tvbox-lite.json
 ```
 
-国内直连 raw 不稳定时，用 jsDelivr 镜像（有缓存，非实时）：
+国内直连 raw 不稳定时，用 jsDelivr 镜像（把 `tvbox.json` 换成 `tvbox-lite.json` 即为精简版）：
 
 ```
 https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox.json
 ```
 
+备用 CDN 端点（同一份内容，节点不同，主域名异常时可换）：
+
+```
+https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox.json
+https://gcore.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox.json
+```
+
 TVBox / 影视仓 → 设置 → 配置地址，粘贴其中之一保存即可。
+
+### 关于 jsDelivr 缓存
+
+jsDelivr 对 `@main` 这类**分支引用**返回的响应头是 `Cache-Control: max-age=604800, s-maxage=43200`，即 CDN 边缘缓存 12 小时、客户端缓存 7 天，**且不会感知 commit 变化**。所以镜像有可能比 raw 慢一拍，各边缘节点也可能不同步（曾出现主域名还是旧配置、fastly 已是新配置的情况）。
+
+为此 Actions 在每次构建提交后会调用 jsDelivr 的 `purge` 接口主动清缓存，正常情况下镜像与 raw 同步。若怀疑拿到旧配置，打开链接看顶部 `_meta.updated` 和 `_meta.sites`，与 raw 版本比对即可；需要手动强刷可访问：
+
+```
+https://purge.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox.json
+```
+
+注意加 `?xxx=随机数` 之类的查询参数对 jsDelivr 的 GitHub 路径**无效**（缓存键不含 query），别用这个办法破缓存。
 
 ## 上游源
 
@@ -43,6 +62,7 @@ TVBox / 影视仓 → 设置 → 配置地址，粘贴其中之一保存即可�
 - 也可在 Actions 页面点 `Run workflow` 手动触发
 - 构建流程：读取 `sources.txt` → 并行拉取上游 → 绝对化相对路径 → spider jar 下沉到站点 → 跨源去重 → 内容过滤（剔除成人/违规站点）→ 采集源 `?ac=list` 探活 → 剔除失效 → 输出全量版 + 精简版 → 提交
 - 内容无实质变化时**不提交**，避免无意义的历史记录
+- 提交后自动清除 jsDelivr CDN 缓存，避免镜像滞留旧配置
 
 ## 合并时处理的坑
 

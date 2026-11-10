@@ -120,6 +120,10 @@ def main():
     for f, _, _ in FILES:
         if os.path.exists(f):
             shutil.copyfile(f, os.path.join("site", f))
+    # 复查报告也放进 Pages：jsDelivr 对 .md 只做 301 转 raw，不如 Pages 直接可读
+    audit = os.path.join("reports", "audit-latest.md")
+    if os.path.exists(audit):
+        shutil.copyfile(audit, os.path.join("site", "audit-latest.md"))
 
     css = """
     :root{--bg:#f6f8fb;--card:#fff;--ink:#152238;--sub:#5c6b82;--line:#e3e9f2;
@@ -207,6 +211,8 @@ def main():
                   esc(v["note"]), v["bytes"] / 1024, esc(v["cdn"]), esc(v["file"]),
                   esc(v["pages"])))
     p.append("</table>")
+    p.append("<div class='sub'>今日三份基础配置的复查明细（删了什么、改了什么名、为什么这样排序）："
+             "<a href='audit-latest.md'>reports/audit-latest.md</a></div>")
 
     # 上游健康
     p.append("<h2>上游源健康</h2><table><tr><th>源</th><th>今日采纳</th><th>去重</th>"

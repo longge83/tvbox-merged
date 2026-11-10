@@ -105,7 +105,7 @@ def main():
             ("%d 台主机" % len(r["offshore_hosts"])) if r["offshore_hosts"] else "无",
             r["empty_api"] + r["illegal_api"], r["dup_names"]))
 
-    L.append("\n## 本轮修掉的问题\n")
+    L.append("\n## 本轮修掉的问题")
     for r in rows:
         p = r["polish"]
         removed = p.get("removed") or {}

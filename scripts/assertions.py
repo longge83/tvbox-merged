@@ -32,7 +32,6 @@ from urllib.parse import urlsplit
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import common
-import polish as polish_mod
 
 API_RX = re.compile(r"^(?:https?://\S+|csp_\S+)$", re.I)
 
@@ -259,19 +258,19 @@ def main():
     record("lite_network_jar_free", not jarbad,
            "; ".join(jarbad[:4]) or "精简版/网络版 0 个 jar 依赖")
 
-    # 11) 网络优化版不得残留境外代码托管 / 反代平台
+    # 11) 网络优化版不得残留「配置住在境外代码托管 / 反代上」的节点
     offbad = []
     for f in ("tvbox-network.json", "tvbox-network-homefirst.json"):
         c = cfgs.get(f)
         if not c:
             continue
         for s in c.get("sites", []):
-            h = polish_mod.offshore_host(s, deep=True)
+            h = common.hosting_host(s, deep=True)
             if h:
                 offbad.append("%s:%s=%s" % (f, str(s.get("name"))[:12], h))
                 break
-    record("network_no_offshore", not offbad,
-           "; ".join(offbad[:4]) or "网络优化版无境外托管依赖")
+    record("network_hosting_clean", not offbad,
+           "; ".join(offbad[:4]) or "网络优化版无境外代码托管依赖")
 
     # 8) 抽样 jar / ext 可达性
     rng = random.Random(common.today())

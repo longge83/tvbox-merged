@@ -47,9 +47,8 @@ SOURCES = [
 FALLBACK_BLOCK = [r"成人", r"伦理", r"无码", r"番号", r"色情", r"情色",
                   r"porn", r"hentai", r"91porn", r"4kav"]
 
-# 依赖境外代码托管的 jar/ext，国内盒子常常拉不到，网络优化版要排除
-OFFSHORE = ("raw.githubusercontent.com", "github.com", "gitlab.com",
-            "gitee.com", "gist.githubusercontent.com", "jsdelivr.net")
+# 网络优化版要排除「配置住在境外代码托管 / GitHub 反代」上的节点，
+# 名单只此一份（common.HOSTING_*），只看 api/jar/ext 的域名，与片源内容无关。
 
 
 def load_sources():
@@ -391,16 +390,8 @@ def build():
     lite_sites = [s for s in kept if str(s.get("api", "")).startswith("http")]
     # 网络优化版：连 jar/ext 也不落在境外代码托管上，国内直连最稳、体积最小
     def network_ok(s):
-        api = str(s.get("api", ""))
-        if not api.startswith("http"):
-            return False
-        if any(h in api for h in OFFSHORE):
-            return False
-        for f in ("jar", "ext"):
-            v = str(s.get(f) or "")
-            if v.startswith("http") and any(h in v for h in OFFSHORE):
-                return False
-        return True
+        return (str(s.get("api", "")).startswith("http")
+                and not common.hosting_host(s, deep=True))
 
     network_sites = [s for s in lite_sites if network_ok(s)]
 

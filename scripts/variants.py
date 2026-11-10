@@ -28,9 +28,8 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import common
 
-# 与 build.py 的 OFFSHORE 保持一致
-OFFSHORE = ("raw.githubusercontent.com", "github.com", "gitlab.com",
-            "gitee.com", "gist.githubusercontent.com", "jsdelivr.net")
+# 「配置托管地」名单只此一份（common.HOSTING_*），只看 api/jar/ext 的域名
+
 GOOD_GRADES = ("ok", "likely")
 BAND = {"ok": 0, "likely": 1, "classes_only": 2, "unknown": 3, "fail": 4}
 
@@ -40,11 +39,8 @@ def load(path, default=None):
 
 
 def offshore(site):
-    for f in ("api", "jar", "ext"):
-        v = str(site.get(f) or "")
-        if v.startswith("http") and any(h in v for h in OFFSHORE):
-            return True
-    return False
+    """配置是否住在境外代码托管 / GitHub 反代上（与片源内容无关）。"""
+    return bool(common.hosting_host(site, deep=True))
 
 
 class Context:
@@ -251,7 +247,7 @@ def fast_version(ctx, pool, cfg, limit, floor):
     }, parses=parses)
     # 全局 spider 常指向境外 jar，客户端仍会去拉一次；这里整份不依赖 jar，直接去掉
     sp = str(out.get("spider") or "")
-    if sp and any(h in sp for h in OFFSHORE):
+    if sp and common.hosting_host({"api": sp}, deep=True):
         out.pop("spider", None)
         out["_meta"]["filter"]["spider_removed"] = True
     return out

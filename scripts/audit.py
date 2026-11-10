@@ -18,7 +18,6 @@ from urllib.parse import urlsplit
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import common
-import polish as polish_mod
 
 TARGETS = ["tvbox.json", "tvbox-lite.json", "tvbox-network.json"]
 API_RX = re.compile(r"^(?:https?://\S+|csp_\S+)$", re.I)
@@ -61,11 +60,11 @@ def audit_file(path):
     }
     hosts = set()
     for s in sites:
-        h = polish_mod.offshore_host(s, deep=True)
+        h = common.hosting_host(s, deep=True)
         if h:
             hosts.add(h)
-    r["offshore_hosts"] = sorted(hosts)
-    r["offshore_n"] = sum(1 for s in sites if polish_mod.offshore_host(s, deep=True))
+    r["hosting_hosts"] = sorted(hosts)
+    r["hosting_n"] = sum(1 for s in sites if common.hosting_host(s, deep=True))
     # 首页必空白的节点占比（全量版里最影响观感的一类）
     r["csp_no_ext_ratio"] = (r["csp_no_ext"] / r["sites"]) if r["sites"] else 0
     return r
@@ -91,7 +90,7 @@ def main():
 
     L.append("## 一目了然\n")
     L.append("| 版本 | 站点 | 体积 | 剔除 | 改名 | 可用 / 未知 / 降级 | "
-             "依赖 jar | 境外托管 | 空或非法 api | 重名 |")
+             "依赖 jar | 配置托管在境外 | 空或非法 api | 重名 |")
     L.append("|---|---|---|---|---|---|---|---|---|---|")
     for r in rows:
         p = r["polish"]
@@ -102,7 +101,7 @@ def main():
             order.get("usable", "-"), order.get("unknown", "-"),
             order.get("degraded", "-"),
             "是" if (r["spider"] or r["jar_sites"]) else "否",
-            ("%d 台主机" % len(r["offshore_hosts"])) if r["offshore_hosts"] else "无",
+            ("%d 台主机" % len(r["hosting_hosts"])) if r["hosting_hosts"] else "无",
             r["empty_api"] + r["illegal_api"], r["dup_names"]))
 
     L.append("\n## 本轮修掉的问题")
@@ -121,7 +120,7 @@ def main():
             "no_name": "名称为空且 api 里取不到域名",
             "dup_api": "同一接口的不同写法（参数顺序/大小写差异）重复收录",
             "jar_dep": "依赖 jar 的站点，与「不加载 jar」的版本目标冲突",
-            "offshore": "api / jar / ext 落在境外代码托管或反代平台",
+            "hosting": "api / jar / ext 落在境外代码托管或 GitHub 反代（与片源内容无关）",
         }
         for k, v in removed.items():
             L.append("- 剔除 **%d** 个：%s" % (v, meaning.get(k, k)))
@@ -165,8 +164,8 @@ def main():
     L.append("| 带 jar 站点 | %s |" % " | ".join(str(r["jar_sites"]) for r in rows))
     L.append("| csp 缺 ext（首页多为空） | %s |" % " | ".join(
         "%d（%.0f%%）" % (r["csp_no_ext"], r["csp_no_ext_ratio"] * 100) for r in rows))
-    L.append("| 境外托管主机 | %s |" % " | ".join(
-        (str(len(r["offshore_hosts"]))) if r["offshore_hosts"] else "0" for r in rows))
+    L.append("| 配置托管在境外的主机 | %s |" % " | ".join(
+        (str(len(r["hosting_hosts"]))) if r["hosting_hosts"] else "0" for r in rows))
 
     L.append("\n## 怎么读这份报告\n")
     L.append("- **可用 / 未知 / 降级** 是排序分层，不是删除：降级层只是排到后面，"
@@ -185,11 +184,11 @@ def main():
     print("=== 复查摘要 ===")
     for r in rows:
         p = r["polish"]
-        print("  %-6s %-24s 站点 %4d | 剔除 %2d | 改名 %2d | jar %s | 境外 %d | 重名 %d"
+        print("  %-6s %-24s 站点 %4d | 剔除 %2d | 改名 %2d | jar %s | 托管境外 %d | 重名 %d"
               % (r["label"], r["file"], r["sites"],
                  sum((p.get("removed") or {}).values()), p.get("renamed", 0),
                  "有" if (r["spider"] or r["jar_sites"]) else "无",
-                 len(r["offshore_hosts"]), r["dup_names"]))
+                 len(r["hosting_hosts"]), r["dup_names"]))
     print("报告已写入 %s" % args.output)
     return 0
 

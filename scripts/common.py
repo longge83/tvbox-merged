@@ -10,6 +10,7 @@
 import hashlib
 import json
 import os
+import re
 import ssl
 import threading
 import time
@@ -21,6 +22,28 @@ ENV = "github-actions" if IS_CI else "local"
 PROXY = os.environ.get("HOME_PROXY", "")
 GH_HOSTS = ("raw.githubusercontent.com", "github.com", "gist.githubusercontent.com",
             "gitlab.com", "jihulab.com", "agit.ai", "gitee.com")
+
+# ── 配置托管地黑名单（唯一口径，build / variants / polish / assertions 共用）──
+# 只检查 api / jar / ext 三条字段里的「域名」，判断这份配置住在哪台服务器上，
+# 与片源内容、播放什么片子完全无关（netflix.com 之类的影视站一律不在此列）。
+#
+# 收进来的标准：有实测命中的「境外代码托管」与「GitHub 反代」两类。
+# 没有任何站点命中的平台（vercel / netlify / pages.dev / herokuapp 等）不收 ——
+# 它们跟影视无关、又容易误伤正常站点，等真出现再按实测加。
+HOSTING_BASE = (
+    "githubusercontent.com",   # 含 raw.githubusercontent.com / gist.
+    "github.com",
+    "github.io",
+    "gitlab.com",
+    "gitlab.io",
+    "bitbucket.org",
+    "sourceforge.net",
+)
+# GitHub 反代：域名换来换去但都带这些字样（gh-proxy.com / ghproxy.net / moeyy.xyz …）
+HOSTING_KEYS = ("ghproxy", "gh-proxy", "gitmirror", "fastgit", "kgithub", "moeyy",
+                "repl.co")  # repl.co 是目前唯一有实测命中的非 GitHub 平台
+
+HOST_RX = re.compile(r"https?://([^/\s\"'<>:,#]+)")
 
 CTX = ssl.create_default_context()
 CTX.check_hostname = False
@@ -42,6 +65,32 @@ _VIA_PROXY = (urllib.request.build_opener(
     urllib.request.HTTPSHandler(context=CTX),
     urllib.request.ProxyHandler({"http": PROXY, "https": PROXY}),
 ) if PROXY else _DIRECT)
+
+
+def hosts_of(obj, fields=("api", "jar", "ext")):
+    """把 api / jar / ext 里出现的所有域名抽出来（ext 可能是 dict）。"""
+    out = set()
+    for field in fields:
+        v = obj.get(field)
+        if isinstance(v, (dict, list)):
+            v = json.dumps(v, ensure_ascii=False)
+        for h in HOST_RX.findall(str(v or "")):
+            out.add(h.lower())
+    return out
+
+
+def hosting_host(obj, deep=False):
+    """配置托管地是否属于「国内不稳」的那类，命中返回域名，否则 None。
+
+    deep=False 只认代码托管平台（GitHub/GitLab 等）；
+    deep=True 连 GitHub 反代一起算。注意只看配置住在哪，不看播什么。
+    """
+    for h in hosts_of(obj):
+        if any(h == d or h.endswith("." + d) for d in HOSTING_BASE):
+            return h
+        if deep and any(k in h for k in HOSTING_KEYS):
+            return h
+    return None
 
 
 def env_info():

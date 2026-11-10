@@ -11,7 +11,7 @@ build.py 只负责「把上游合起来」，它做的是结构性去重，不�
            而且整份按名称拼音排序 —— 昨日实测失败的 860 个节点排在最前面。
   精简版   号称「不依赖 jar」，却仍带 spider 全局 jar 与 6 个 jar 站点。
   网络优化版  同一个 spider 指向 raw.githubusercontent.com，等于所有爬虫节点
-           都要去境外拉 jar；另有 repl.co 这类反代域名漏网。
+           都要去拉代码托管上的 jar；另有 repl.co 这类反代域名漏网。
 
 本脚本按「每份版本自己的目标」做后处理，文件名与线上链接保持不变：
 
@@ -23,8 +23,9 @@ build.py 只负责「把上游合起来」，它做的是结构性去重，不�
      次日复核复活；根因是「按拼音排」会让用户第一屏全是死节点
   5. 精简 / 网络版：真正去掉 spider 与所有 jar 依赖。注意 type=3 里 api 是
      .js/.py 的属于 JS / Python 爬虫，不需要 jar，保留
-  6. 网络版：境外托管黑名单加严（ghproxy / gitmirror / vercel / netlify /
-     pages.dev / repl.co 等反代与托管平台）
+  6. 网络版：按「配置托管地」过滤 —— 只留 api/jar/ext 都不落在境外代码托管
+     （GitHub / GitLab 等）与 GitHub 反代上的节点。判断的是「配置住在哪」，
+     与片源内容无关，影视站本身（含 Netflix 类）不在过滤范围
 
 安全：非 Actions 环境只处理 _local-* 临时文件；任何一份被削掉超过一半时
 直接放弃改动，避免一次误判把线上配置清空。
@@ -50,67 +51,32 @@ POLICIES = {
     "tvbox.json": {
         "label": "全量版",
         "jar_free": False,          # 保留 spider 与所有 jar 站点
-        "strict_offshore": False,   # 不管代码托管在哪，功能优先
+        "hosting_strict": False,    # 不管配置托管在哪，功能优先
         "parse_types": None,        # 解析通道全留（含 fork 私有类型）
         "parse_cap": None,
     },
     "tvbox-lite.json": {
         "label": "精简版",
         "jar_free": True,           # 真·不加载 jar，低性能盒子才不会卡首页
-        "strict_offshore": False,
+        "hosting_strict": False,
         "parse_types": (0, 1),      # 只留通用 webview / json 解析
         "parse_cap": 80,
     },
     "tvbox-network.json": {
         "label": "网络优化版",
         "jar_free": True,
-        "strict_offshore": True,    # 国内直连最稳
+        "hosting_strict": True,     # 国内直连最稳：配置不落在代码托管/反代上
         "parse_types": (0, 1),
         "parse_cap": 60,
     },
 }
 
-# 代码托管类：命中即视为需要「翻出去」才能拉到 jar / ext
-OFFSHORE_BASE = (
-    "raw.githubusercontent.com", "githubusercontent.com", "github.com",
-    "gitlab.com", "gitee.com", "jsdelivr.net", "github.io", "gitlab.io",
-    "bitbucket.org", "sourceforge.net", "raw.gitmirror.com",
-)
-# 反代 / 免费托管平台：域名本身不在上面，但同样是国内不稳的境外设施
-OFFSHORE_KEYS = (
-    "ghproxy", "gh-proxy", "gitmirror", "fastgit", "kgithub", "moeyy",
-    "vercel.app", "netlify.app", "pages.dev", "workers.dev", "herokuapp",
-    "glitch.me", "repl.co", "onrender.com", "fly.dev", "surge.sh",
-    "azurewebsites.net", "appspot.com", "deno.dev", "val.town",
-    "ngrok", "serveo.net", "localtunnel",
-)
+# 配置托管地黑名单已收敛到 common.py（唯一口径，build / variants / 本脚本共用）。
+# 这里只检查 api / jar / ext 的域名，与片源内容无关。
+hosts_of = common.hosts_of
 
 API_RX = re.compile(r"^(?:https?://\S+|csp_\S+)$", re.I)
 PLACEHOLDER_RX = re.compile(r"^(?:[-—=_*·\s]{2,}\d*[-—=_*·\s]*|\d+)$")
-HOST_RX = re.compile(r"https?://([^/\s\"'<>:,#]+)")
-
-
-def hosts_of(site):
-    """把 api / jar / ext 里出现的所有域名抽出来（ext 可能是 dict）。"""
-    out = set()
-    for field in ("api", "jar", "ext"):
-        v = site.get(field)
-        if isinstance(v, (dict, list)):
-            v = json.dumps(v, ensure_ascii=False)
-        v = str(v or "")
-        for h in HOST_RX.findall(v):
-            out.add(h.lower())
-    return out
-
-
-def offshore_host(site, deep=False):
-    """命中境外托管返回域名，否则 None。deep=True 时连反代 / 免费托管一起算。"""
-    for h in hosts_of(site):
-        if any(h == d or h.endswith("." + d) for d in OFFSHORE_BASE):
-            return h
-        if deep and any(k in h for k in OFFSHORE_KEYS):
-            return h
-    return None
 
 
 def clean_site(site):
@@ -167,8 +133,8 @@ def policy_drop(site, pol):
             return "jar_dep"
         if api.lower().startswith("csp_"):
             return "jar_dep"
-    if pol["strict_offshore"] and offshore_host(site, deep=True):
-        return "offshore"
+    if pol["hosting_strict"] and common.hosting_host(site, deep=True):
+        return "hosting"
     return None
 
 

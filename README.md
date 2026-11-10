@@ -25,6 +25,8 @@
 
 精确值看配置里的 `_meta.sites`、`_meta.home_first_count`，或打开[健康页](#四健康页与失败告警)。
 
+> **「无境外托管」过滤的到底是什么？** 不是内容审查，也不看播什么片子。它只读节点的 `api` / `jar` / `ext` 三条字段里的**域名**，判断这份配置文件本身住在哪台服务器上：如果挂在 `raw.githubusercontent.com` 或 GitHub 反代上，国内盒子经常拉不到、首页一直转圈，所以网络版不收这类节点（它们在全量版和精简版里都还在）。`netflix.com` 这类影视站不在名单里；国内 `gitee.com` 与零命中的 `vercel` / `netlify` / `pages.dev` 也不收。
+
 ### 三个场景版：怎么筛出来的
 
 `scripts/variants.py` 把同一天的 5 份探测报告按站点签名对齐，产出三份「按用途直接选」的成品：
@@ -54,7 +56,7 @@
 | 解析 `type` 写成字符串 | 1 个 | 0 |
 | 直播 `type` 非整数 / 重名 | 15 / 42 | 0（归一 + 加后缀） |
 | 精简版是否真不依赖 jar | 带全局 spider + 6 个 jar 站点 | 0 |
-| 网络版是否真无境外依赖 | spider 指向 `raw.githubusercontent.com`，另有 `repl.co` 漏网 | 0 |
+| 网络版是否真无境外依赖 | spider 指向 `raw.githubusercontent.com`，另有 `repl.co` 漏网 | 0（名单已收敛，见下） |
 | 排序 | 按名称拼音排，昨日 860 个实测失败节点在最前面 | 可用 622 / 未知 196 / 降级 1256 |
 
 三条原则：
@@ -63,7 +65,7 @@
 - **改名不动数据**：同名节点追加 ` · 域名`（csp 源用爬虫类名或 ext 域名）。代价是该节点当天的历史签名断链、回落到「未知」层，次日自动接回。
 - **「不依赖 jar」现在可验证**：`type=3` 里 api 是 `.js` / `.py` 的属于 JS / Python 爬虫，不需要 jar，予以保留；真正要 jar 的（`csp_*` 与带 `jar` 字段的站点）已从精简版 / 网络版剔除。
 
-这些口径已经变成断言（`structure_clean` / `lite_network_jar_free` / `network_no_offshore`）：下次构建再出现空条目、重名或境外 spider 会直接阻断提交，线上保持上一版。
+这些口径已经变成断言（`structure_clean` / `lite_network_jar_free` / `network_hosting_clean`）：下次构建再出现空条目、重名或配置落回代码托管，会直接阻断提交，线上保持上一版。
 
 ### 国内主线路（jsDelivr，整行复制）
 
@@ -212,7 +214,7 @@ TVBox 的**主界面推荐**和**搜索**是两套数据，能搜到片子不代
 - **成品卫生**：无空 / 非法 api、无重名节点、解析 url 合法、直播与解析的 `type` 都是整数
 - 每个 `csp_*` 站点必须有 http `jar`
 - **精简版 / 网络版 0 个 jar 依赖**（无全局 `spider`、无 `jar` 字段、无 `csp_*`）
-- **网络优化版不得残留境外代码托管与反代平台**（含 ghproxy / gitmirror / vercel / netlify / pages.dev / repl.co 等）
+- **网络优化版不得残留「配置住在境外代码托管 / 反代上」的节点**。名单只收两类、且都有实测命中：代码托管平台（`githubusercontent.com` / `github.com` / `github.io` / `gitlab.com` / `gitlab.io` / `bitbucket.org` / `sourceforge.net`）与 GitHub 反代（`ghproxy` / `gh-proxy` / `gitmirror` / `fastgit` / `kgithub` / `moeyy`、`repl.co`）。**检查的是 `api`/`jar`/`ext` 的域名，与片源内容无关** —— 播什么片子不受影响，`netflix` 这类影视站不在名单里；`gitee.com`（国内）与 `vercel`/`netlify`/`pages.dev` 等零命中平台也不再收
 - 无残留 `./` `../`、无成批 `XBPQ/XBPQ/` 类重复路径段
 - 首页版 ⊆ 全量版；三个 homefirst 版本站点数与对应源完全一致；已生成的场景版也必须是全量版子集
 - 过滤后站点 / 直播 / 解析均无违规关键词残留

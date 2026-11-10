@@ -2,18 +2,18 @@
   "date": "2026-11-10",
   "env": {
     "env": "github-actions",
-    "runner": "42776984196",
+    "runner": "42778241174",
     "proxy": false,
-    "generated": "2026-11-10 07:46:52 UTC"
+    "generated": "2026-11-10 07:57:24 UTC"
   },
   "versions": [
     {
       "file": "tvbox-quality.json",
       "label": "精播版",
       "note": "只留实测可播 / 首页实测有影片的节点，宁缺毋滥",
-      "sites": 619,
+      "sites": 618,
       "home_first": null,
-      "bytes": 334681,
+      "bytes": 333269,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-quality.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-quality.json"
     },
@@ -21,9 +21,9 @@
       "file": "tvbox-cn-fast.json",
       "label": "国内极速版",
       "note": "国内直连、无 spider jar、按质量取前 120 个，老盒子开屏最快",
-      "sites": 96,
+      "sites": 93,
       "home_first": null,
-      "bytes": 74432,
+      "bytes": 72371,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-cn-fast.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-cn-fast.json"
     },
@@ -31,9 +31,9 @@
       "file": "tvbox-stable7.json",
       "label": "7 天稳定版",
       "note": "近 7 天多次可用且当前无连败，不追新源、不随上游抖动",
-      "sites": 90,
+      "sites": 87,
       "home_first": null,
-      "bytes": 106527,
+      "bytes": 105276,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-stable7.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-stable7.json"
     },
@@ -42,7 +42,7 @@
       "label": "全量 + 首页优先",
       "note": "功能最全，推荐桌面/高性能盒子",
       "sites": 2074,
-      "home_first": 1148,
+      "home_first": 1138,
       "bytes": 823275,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-full-homefirst.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-full-homefirst.json"
@@ -52,8 +52,8 @@
       "label": "精简 + 首页优先",
       "note": "不依赖 spider jar，低性能盒子首选",
       "sites": 483,
-      "home_first": 101,
-      "bytes": 182961,
+      "home_first": 98,
+      "bytes": 182959,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-lite-homefirst.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-lite-homefirst.json"
     },
@@ -62,8 +62,8 @@
       "label": "网络优化 + 首页优先",
       "note": "不依赖境外代码托管，国内直连最稳",
       "sites": 449,
-      "home_first": 101,
-      "bytes": 166876,
+      "home_first": 98,
+      "bytes": 166874,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-network-homefirst.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-network-homefirst.json"
     },
@@ -71,9 +71,9 @@
       "file": "tvbox-home.json",
       "label": "首页版",
       "note": "只保留能出主界面推荐的节点",
-      "sites": 1148,
+      "sites": 1138,
       "home_first": null,
-      "bytes": 515974,
+      "bytes": 512233,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-home.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-home.json"
     },
@@ -374,24 +374,24 @@
   "sources_ok": 29,
   "sources_failed": [],
   "home_grades": {
-    "likely": 1047,
-    "ok": 90,
+    "likely": 1040,
+    "ok": 87,
+    "fail": 813,
     "unknown": 123,
-    "fail": 803,
     "classes_only": 11
   },
-  "home_inferred": 533,
+  "home_inferred": 528,
   "play": {
     "sampled": 30,
-    "list_rate": 0.8667,
+    "list_rate": 0.8333,
     "detail_rate": 0.8,
-    "play_rate": 0.2,
-    "search_rate": 0.8,
-    "playable": 6,
-    "parses_alive_rate": 0.25,
+    "play_rate": 0.3,
+    "search_rate": 0.6333,
+    "playable": 9,
+    "parses_alive_rate": 0.5,
     "parses_total": 187
   },
-  "false_kill_rate": 0.3,
+  "false_kill_rate": 0.38,
   "assert_passed": true,
   "assert_pass_streak": 1,
   "stable": {
@@ -405,10 +405,10 @@
       "sites": 2133,
       "lite": 505,
       "network": 470,
-      "home_sites": 1148,
-      "home_ok": 90,
-      "play_rate": 0.2,
-      "false_kill_rate": 0.3,
+      "home_sites": 1138,
+      "home_ok": 87,
+      "play_rate": 0.3,
+      "false_kill_rate": 0.38,
       "sources_ok": 29,
       "assert_passed": true
     }

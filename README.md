@@ -19,20 +19,20 @@
 ### 国内线路（jsDelivr，每条都是完整地址，可整行复制）
 
 ```
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-full-homefirst.json
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-lite-homefirst.json
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-home.json
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox.json
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-lite.json
+https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-full-homefirst.json
+https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-lite-homefirst.json
+https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-home.json
+https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox.json
+https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-lite.json
 ```
 
 ### 备用节点（主域名被污染 / 访问慢时，换成 fastly 或 gcore）
 
 ```
-https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-full-homefirst.json
-https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-lite-homefirst.json
-https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-home.json
-https://gcore.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-lite-homefirst.json
+https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-full-homefirst.json
+https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-lite-homefirst.json
+https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-home.json
+https://gcore.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox-lite-homefirst.json
 ```
 
 其余文件同理，把 `cdn` 换成 `fastly` / `gcore` / `testingcf` 即可。
@@ -53,12 +53,14 @@ https://raw.githubusercontent.com/dimogu/tvbox-merged/main/tvbox-lite.json
 
 ### 关于 jsDelivr 缓存
 
-jsDelivr 对 `@main` 这类**分支引用**返回的响应头是 `Cache-Control: max-age=604800, s-maxage=43200`，即 CDN 边缘缓存 12 小时、客户端缓存 7 天，**且不会感知 commit 变化**。所以镜像有可能比 raw 慢一拍，各边缘节点也可能不同步（曾出现主域名还是旧配置、fastly 已是新配置的情况）。
+jsDelivr 对分支引用返回的响应头是 `Cache-Control: max-age=604800, s-maxage=43200`，即 CDN 边缘缓存 12 小时、客户端缓存 7 天，**且不会感知 commit 变化**。所以镜像有可能比 raw 慢一拍，各边缘节点也可能不同步。
+
+**因此上面给出的国内链接都不带 `@main`**：实测 `@main` 这个分支别名有独立的版本解析缓存，曾出现清缓存后仍滞留上一轮配置；而省略版本号的路径直接解析到最新提交。两种形式的清缓存 Actions 都会做，旧链接继续可用。
 
 为此 Actions 在每次构建提交后会等待 30 秒、做两轮 `purge` 主动清缓存，绝大多数情况下镜像与 raw 同步。偶发情况（CDN 回源时 GitHub raw 尚未全球生效）某个文件可能滞后一轮构建，站点数只差几个、完全可用，次日通常自愈。若怀疑拿到旧配置，打开链接看顶部 `_meta.updated` 和 `_meta.sites`，与 raw 版本比对即可；需要手动强刷可访问：
 
 ```
-https://purge.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox.json
+https://purge.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox.json
 ```
 
 注意加 `?xxx=随机数` 之类的查询参数对 jsDelivr 的 GitHub 路径**无效**（缓存键不含 query），别用这个办法破缓存。

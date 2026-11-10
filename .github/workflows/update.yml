@@ -75,10 +75,14 @@ jobs:
           for pass in 1 2; do
             echo "=== purge 第 $pass 轮 ==="
             for f in $FILES; do
-              echo "--- purge $f ---"
+              # 主推链接（无版本号，直接解析最新提交）
+              curl -fsS --max-time 30 \
+                "https://purge.jsdelivr.net/gh/${{ github.repository }}/$f" \
+                || echo "purge $f failed (non-fatal)"
+              # 兼容旧的 @main 链接（分支别名有独立缓存，也要清）
               curl -fsS --max-time 30 \
                 "https://purge.jsdelivr.net/gh/${{ github.repository }}@main/$f" \
-                || echo "purge $f failed (non-fatal)"
+                || echo "purge @main/$f failed (non-fatal)"
             done
             [ "$pass" = "1" ] && sleep 8
           done

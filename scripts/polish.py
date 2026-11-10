@@ -74,6 +74,7 @@ POLICIES = {
 # 配置托管地黑名单已收敛到 common.py（唯一口径，build / variants / 本脚本共用）。
 # 这里只检查 api / jar / ext 的域名，与片源内容无关。
 hosts_of = common.hosts_of
+HOST_RX = common.HOST_RX
 
 API_RX = re.compile(r"^(?:https?://\S+|csp_\S+)$", re.I)
 PLACEHOLDER_RX = re.compile(r"^(?:[-—=_*·\s]{2,}\d*[-—=_*·\s]*|\d+)$")

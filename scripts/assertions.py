@@ -19,6 +19,7 @@
   9. 壁纸若配置了就必须拉得到
   9.5 按「内容指向」判重后无重复站点 / 直播 / 解析（防换皮名与链接别名复燃）
   9.6 客户端字段兼容：style / header 不得是 JSON 对象，数字字段不得塞字符串
+  9.7 客户端会裸 .trim() 的 String 字段不得缺失 / null（播放期空指针防线）
 软检查（抽样，低于阈值才阻断）：
  10. 抽样 jar 必须是 200 + PK(zip)；抽样 ext 必须 200
      —— 允许个别抖动，但整体可用率不能塌
@@ -312,6 +313,26 @@ def main():
            ("; ".join(cbad[:4]) + (" 共 %d 处" % len(cbad)) if len(cbad) > 4
             else "; ".join(cbad)) if cbad else
            "站点/直播/解析字段均为各 TVBox 分支可解析的类型")
+
+    # 9.7) 播放期空指针防线。FongMi 的 Site.setExt / Live.setExt 是
+    #      `this.ext = ext.trim()`，UrlUtil.convert -> UriUtil.uri 第一行也是
+    #      `url.trim()`，都没有判空；Gson 对缺键不填默认值，字段留 null，
+    #      5.6.4 等老分支点播 / 切线路时会抛
+    #      NullPointerException: String.trim() on a null object reference。
+    nbad = []
+    for f, c in cfgs.items():
+        for coll, kind in (("sites", "site"), ("parses", "parse"), ("lives", "live")):
+            for o in c.get(coll, []):
+                if not isinstance(o, dict):
+                    continue
+                for k in common.client_string_fields(kind):
+                    v = o.get(k)
+                    if k not in o or v is None or not isinstance(v, str):
+                        nbad.append("%s %s:%s=%r" % (f, coll, k, v))
+    record("no_null_strings", not nbad,
+           ("; ".join(nbad[:4]) + (" 共 %d 处" % len(nbad)) if len(nbad) > 4
+            else "; ".join(nbad)) if nbad else
+           "客户端会裸 trim 的 String 字段均非 null（播放期不会空指针）")
 
     # 11) 客户端解析契约：key 唯一、ext 是字符串、_meta 计数对得上、解析不重名。
     #     这几条不会让构建崩，但会让用户在客户端里「看不见某些站点 / 整份配置

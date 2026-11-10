@@ -351,6 +351,8 @@ def main():
                  "删掉换皮重复；"
                  "兼容归一：`style` / `header` 写成 JSON 对象会让 TVBox 原版、影视仓"
                  "抛 `IllegalStateException` 导致整份配置导不进来，统一降级；"
+                 "同时把播放期会被裸 `trim()` 的 `ext` / `api` / `jar` 等 String 字段"
+                 "兜底成非 null，避免 5.6.4 等老分支点播时抛 `NullPointerException`；"
                  "ext 归一：对象型 `ext` 会让严格解析的客户端判定整份配置非法；"
                  "境外直播沉底：走 GitHub / 反代的直播源在国内必然是空频道，排到列表末尾。</div>")
 

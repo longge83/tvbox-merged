@@ -342,12 +342,40 @@ _CLIENT_OBJECT_FIELDS = ("style", "header")
 _CLIENT_INT_FIELDS = ("playerType", "gridview", "indexs", "timeout", "hide",
                       "order_num", "changeable")
 
+# 客户端在播放期会对这些裸 String 字段直接 .trim()：FongMi 的
+# Site.setExt() / Live.setExt() 是 `this.ext = ext.trim()`，
+# UrlUtil.convert() -> UriUtil.uri() 第一行也是 `url.trim()`，都没有判空。
+# Gson 遇到「缺键」不会填默认值，字段留 null；5.6.4 等老分支在点播 / 切线路
+# 重新初始化站点时就会抛 NullPointerException: String.trim() on a null object
+# reference。这些字段在所有分支都声明为 String，补空串不会引入类型冲突。
+# parses.ext 在 FongMi 是 Ext 对象、老版是 String，形态不统一，故不在此列。
+_CLIENT_REQUIRED_STRINGS = {
+    "site":  ("key", "name", "api", "ext", "jar"),
+    "parse": ("name", "url"),
+    "live":  ("name", "url", "api", "ext", "jar"),
+}
 
-def client_compat(obj):
+
+def client_string_fields(kind):
+    """该类型下必须保证非 null 的 String 字段（供断言复用同一口径）。"""
+    return _CLIENT_REQUIRED_STRINGS.get(kind, ())
+
+
+def _guess_client_kind(obj):
+    if "key" in obj and "api" in obj:
+        return "site"
+    if "channels" in obj or any(k in obj for k in ("epg", "logo", "pass", "boot", "ua")):
+        return "live"
+    return "parse"
+
+
+def client_compat(obj, kind=None):
     """把一条站点 / 直播 / 解析降级成任何 TVBox 分支都能解析的形式。
 
-    就地修改，返回被归一化的字段数。categories 是原版就支持的 ArrayList，
-    必须保留数组形态，不能一起降级。
+    就地修改，返回被归一化的字段数。两类问题一起处理：
+      1) 对象型 style / header、数字字段里的字符串 -> 导入期 IllegalStateException
+      2) 裸 String 字段缺失 / null -> 播放期 NullPointerException: trim()
+    categories 是原版就支持的 ArrayList，必须保留数组形态，不能一起降级。
     """
     if not isinstance(obj, dict):
         return 0
@@ -367,6 +395,18 @@ def client_compat(obj):
                 obj[k] = int(v.strip())
             except (TypeError, ValueError):
                 obj.pop(k, None)              # "0-0-4.1" 之类新版布局串，老版会崩
+            n += 1
+    # 播放期空指针防线：缺键 / null 一律补空串，非字符串一律降级成文本。
+    for k in client_string_fields(kind or _guess_client_kind(obj)):
+        v = obj.get(k)
+        if k not in obj or v is None:
+            obj[k] = ""
+            n += 1
+        elif not isinstance(v, str):
+            if isinstance(v, (dict, list)):
+                obj[k] = json.dumps(v, ensure_ascii=False, separators=(",", ":"))
+            else:
+                obj[k] = str(v)
             n += 1
     return n
 

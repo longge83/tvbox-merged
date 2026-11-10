@@ -150,6 +150,21 @@ https://gcore.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-stable7.json
 
 构建侧已做两道防护：上游常把 `style` / `header` 写成 JSON 对象，而 TVBox 原版、影视仓把这两个字段声明成 `String`，Gson 会抛 `IllegalStateException` 让整份配置导不进来 —— 现在统一降级（只影响卡片布局 / 请求头，不影响可播性），并由断言 `client_compat_clean` 硬阻断复燃；同时配置改为紧凑 JSON，同样内容体积少约四分之一。
 
+### 播放时闪退 / 重启（NullPointerException: String.trim()）怎么办
+
+这**和上面的导入失败是两个不同的问题**：导入失败是 `IllegalStateException`（Gson 字段类型不匹配），播放崩溃是 `java.lang.NullPointerException: Attempt to invoke virtual method 'java.lang.String.trim()' on a null object reference`，发生在 `VideoActivity` 的播放路径 —— 此时配置其实已经能正常导入了。
+
+根因在客户端一侧：FongMi / 影视仓 5.6.4 的 `Site.setExt()`、`Live.setExt()` 写成 `this.ext = ext.trim()`，`UrlUtil.convert()` → `UriUtil.uri()` 第一行也是 `url.trim()`，都没有判空；而 Gson 遇到配置里**缺失的 String 字段**不会填默认值，字段就是 `null`，点播 / 切线路重新初始化站点时直接抛异常让应用退出重启。
+
+按顺序试：
+
+1. **升级客户端到 5.6.8+**：新版已给 `Value.getV()`、`Vod` 各 getter 加了 `TextUtils.isEmpty` 判空，这是根治办法。
+2. **换精简线路**：`https://dimogu.github.io/tvbox-merged/tvbox-cn-fast.json`（92 个标准采集站、零 csp / 零 jar、仅 40 条解析），不走 spider，最不容易碰到上游返回的脏播放数据。
+3. **清客户端缓存**：设置 → 缓存 → 清除，必要时再清系统里的应用缓存；旧配置 / 旧播放记录可能缓存着坏数据。
+4. 只在**某一条线路或某一个站点**崩时，直接在客户端里换线路或隐藏该站点 —— 通常是该站点返回了空播放地址。
+
+构建侧已加防线：客户端会裸 `trim()` 的 String 字段（`ext` / `api` / `jar` / `name` / `url` 等）缺失或为 `null` 时统一补空串，断言 `no_null_strings` 硬阻断复燃；`parses.ext` 因各分支类型不一致（FongMi 新版是 `Ext` 对象、老版是字符串）保持原样。**注意**：配置只能消除自身提供的 `null`，上游站点返回的播放数据由客户端负责判空；若升级客户端后仍崩，请把崩溃框里完整的异常文本发出来。
+
 ### 官方源 raw（实时性最好，国内直连常需代理）
 
 把上面 jsDelivr 链接里的 `cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/` 换成

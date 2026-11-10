@@ -595,10 +595,12 @@ def main():
         # 声明成 String，上游却常写成 JSON 对象，Gson 会抛
         # IllegalStateException 让整份配置导不进来；统一降级成各分支都能读
         # 的形式。数字字段里的字符串（如 gridview "0-0-4.1"）同样处理。
+        # 另外把播放期会被裸 .trim() 的 String 字段兜底成非 null，避免老分支
+        # 点播时报 NullPointerException: String.trim() on a null object reference。
         compat_fixed = 0
-        for coll in ("sites", "parses", "lives"):
+        for coll, kind in (("sites", "site"), ("parses", "parse"), ("lives", "live")):
             for o in out.get(coll, []):
-                compat_fixed += common.client_compat(o)
+                compat_fixed += common.client_compat(o, kind)
 
         # 元信息必须跟着这一份的实际内容走：之前 lives / parses 直接沿用全量版的
         # 数字（108/192），精简版实际只有 101/80，客户端里对不上。

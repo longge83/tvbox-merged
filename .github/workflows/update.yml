@@ -31,12 +31,12 @@ jobs:
 
       - name: 有变更则提交
         run: |
-          if git diff --quiet -- tvbox.json; then
+          if git diff --quiet -- tvbox.json tvbox-lite.json; then
             echo "配置无变化，跳过提交"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add tvbox.json
+          git add tvbox.json tvbox-lite.json
           git commit -m "chore: 更新聚合配置 $(date -u +%Y-%m-%d)"
           git push

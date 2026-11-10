@@ -21,6 +21,8 @@ CTX.verify_mode = ssl.CERT_NONE
 UA = "okhttp/4.9.0"
 OUT = os.environ.get("OUT_FILE", "tvbox.json")
 
+# 默认上游（sources.txt 不存在时使用）。实际运行时优先读仓库根目录的 sources.txt，
+# 每行格式：名称|URL  或  直接写 URL；# 开头为注释。
 SOURCES = [
     ("qist/js",  "https://raw.githubusercontent.com/qist/tvbox/master/js.json"),
     ("qist/jsm", "https://raw.githubusercontent.com/qist/tvbox/master/jsm.json"),
@@ -32,6 +34,23 @@ SOURCES = [
     ("gao/js",   "https://raw.githubusercontent.com/gaotianliuyun/gao/master/js.json"),
     ("clun",     "https://clun.top/box.json"),
 ]
+
+
+def load_sources():
+    path = os.environ.get("SOURCES_FILE", "sources.txt")
+    if not os.path.exists(path):
+        return SOURCES
+    out = []
+    for line in open(path, encoding="utf-8"):
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if "|" in line:
+            tag, url = line.split("|", 1)
+            out.append((tag.strip(), url.strip()))
+        else:
+            out.append((line.rsplit("/", 1)[-1][:12], line))
+    return out or SOURCES
 
 
 def fetch(url, tries=3, timeout=25):
@@ -63,6 +82,17 @@ def norm_name(name):
     return re.sub(r"[\s\[\]（）()【】┃｜|·•・\-—_*]+", "", str(name or ""))
 
 
+# 内容过滤：剔除明确的成人/违规资源站点（大小写不敏感，用词边界避免误伤 WebDAV 等）
+BLOCK_NAME = re.compile(
+    r"成人|伦理|无码|有码|番号|麻豆|色情|情色|十八禁|18禁|性爱|啪啪|"
+    r"(?<![a-z])javdb(?![a-z])|4kav|91porn|porn|xxx|hentai", re.I)
+
+
+def blocked(site):
+    text = str(site.get("name", "")) + " " + str(site.get("api", ""))
+    return bool(BLOCK_NAME.search(text))
+
+
 def probe(site):
     """探活一个 http 采集源：?ac=list 是否返回 class/list 结构（兼容 XML 接口）"""
     api = str(site.get("api", ""))
@@ -88,8 +118,9 @@ def build():
     merged, seen_key, seen_api = [], set(), set()
     flat_lives, seen_live, parses, seen_parse = [], set(), [], set()
     wallpaper, global_spider, stats = None, None, []
+    blocked_n = 0
 
-    for tag, url in SOURCES:
+    for tag, url in load_sources():
         try:
             cfg = json.loads(fetch(url))
         except Exception as e:
@@ -102,6 +133,9 @@ def build():
         added = dup = 0
         for s in cfg.get("sites", []):
             if not isinstance(s, dict):
+                continue
+            if blocked(s):
+                blocked_n += 1
                 continue
             api = absolutize(s.get("api"), base)
             ext = s.get("ext")
@@ -186,8 +220,11 @@ def build():
             "updated": time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime()),
             "sites": len(kept),
             "sites_dropped_dead": len(dropped),
+            "sites_blocked": blocked_n,
             "lives": len(flat_lives),
             "parses": len(parses),
+            "sources_ok": sum(1 for t, a, d, n in stats if n == "ok"),
+            "sources_failed": [t for t, a, d, n in stats if n != "ok"],
         },
         "sites": kept,
     }
@@ -216,11 +253,31 @@ def build():
         with open(OUT, "w", encoding="utf-8") as f:
             json.dump(out, f, ensure_ascii=False, indent=2)
 
+    # ---- 精简版：仅保留不依赖 spider jar 的 http 站点，供低性能设备使用 ----
+    lite_path = os.environ.get("LITE_FILE", "tvbox-lite.json")
+    lite_sites = [s for s in kept if str(s.get("api", "")).startswith("http")]
+    lite = {k: v for k, v in out.items() if k not in ("sites", "_meta")}
+    lite["_meta"] = dict(out["_meta"], sites=len(lite_sites), note="仅 http 站点，不依赖 spider jar")
+    lite["sites"] = lite_sites
+    lite_changed = True
+    if os.path.exists(lite_path):
+        try:
+            old = json.load(open(lite_path, encoding="utf-8"))
+            a, b = dict(old), dict(lite)
+            a.pop("_meta", None); b.pop("_meta", None)
+            lite_changed = json.dumps(a, ensure_ascii=False, sort_keys=True) != \
+                           json.dumps(b, ensure_ascii=False, sort_keys=True)
+        except Exception:
+            lite_changed = True
+    if lite_changed:
+        with open(lite_path, "w", encoding="utf-8") as f:
+            json.dump(lite, f, ensure_ascii=False, indent=2)
+
     for tag, added, dup, note in stats:
         print(f"  {tag:10} 采纳 {added:>4}  去重 {dup:>4}  {note}")
     print(f"\n结果: 站点 {len(kept)}（剔除失效 {len(dropped)}）| 直播 {len(flat_lives)} | 解析 {len(parses)}")
-    print(f"探活站点: {len(probeable)}")
-    print(f"CHANGED={'true' if changed else 'false'}")
+    print(f"探活站点: {len(probeable)} | 精简版站点: {len(lite_sites)}")
+    print(f"CHANGED={'true' if (changed or lite_changed) else 'false'}")
     return changed
 
 

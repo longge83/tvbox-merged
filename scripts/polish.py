@@ -17,15 +17,23 @@ build.py 只负责「把上游合起来」，它做的是结构性去重，不�
 
   1. 卫生：丢弃空 / 非法 api、整型 ext、`--- 1 ---` 占位符；parses 的 url 必须
      真的以 http 开头（上游里混进了 url 叫 "Demo" 的占位项）
-  2. 去重：http 接口按「域名 + 路径 + 参数排序」归一后去重；csp 按 api + 名称
-  3. 消歧：同名节点追加域名后缀，避免列表里出现三条一模一样的「AList」
-  4. 排序：可用 → 未知 → 已判定失败 / 首页必空白。只沉底不删除，误杀可在
+  2. 归一：ext 统一成字符串（382 个站点 + 104 个解析通道原本是 JSON 对象，
+     严格解析的客户端会因此判定整份配置非法）；`playurl` → `playUrl`；丢掉
+     上游抄来的 `类型` 这类客户端不认的字段
+  3. 主键：`key` 是全客户端唯一主键，174 组重名会让后一个站点顶掉前一个，
+     保留第一个、其余加稳定后缀
+  4. 去重：http 接口按「域名 + 路径 + 参数排序」归一后去重；csp 按 api + 名称
+  5. 消歧：同名节点追加域名后缀，避免列表里出现三条一模一样的「AList」
+  6. 排序：可用 → 未知 → 已判定失败 / 首页必空白。只沉底不删除，误杀可在
      次日复核复活；根因是「按拼音排」会让用户第一屏全是死节点
-  5. 精简 / 网络版：真正去掉 spider 与所有 jar 依赖。注意 type=3 里 api 是
+  7. 精简 / 网络版：真正去掉 spider 与所有 jar 依赖。注意 type=3 里 api 是
      .js/.py 的属于 JS / Python 爬虫，不需要 jar，保留
-  6. 网络版：按「配置托管地」过滤 —— 只留 api/jar/ext 都不落在境外代码托管
+  8. 网络版：按「配置托管地」过滤 —— 只留 api/jar/ext 都不落在境外代码托管
      （GitHub / GitLab 等）与 GitHub 反代上的节点。判断的是「配置住在哪」，
      与片源内容无关，影视站本身（含 Netflix 类）不在过滤范围
+  9. 元信息：`_meta.sites/lives/parses/jar_count` 按本版本实际内容重算 —— 之前
+     直接沿用全量版数字，精简版写着 108 条直播、实际只有 101 条
+ 10. 壁纸：地址拉不到就整段去掉，客户端退回内置背景，比开屏卡十秒好
 
 安全：非 Actions 环境只处理 _local-* 临时文件；任何一份被削掉超过一半时
 直接放弃改动，避免一次误判把线上配置清空。
@@ -79,10 +87,22 @@ HOST_RX = common.HOST_RX
 API_RX = re.compile(r"^(?:https?://\S+|csp_\S+)$", re.I)
 PLACEHOLDER_RX = re.compile(r"^(?:[-—=_*·\s]{2,}\d*[-—=_*·\s]*|\d+)$")
 
+# 上游从别的客户端抄过来的非标准字段：TVBox / FongMi 都不认，留着只会让
+# 站点对象变形（个别 fork 用 Gson 严格解析，多出来的中文键会一起报错）。
+JUNK_FIELDS = ("类型",)
+FIELD_ALIAS = {"playurl": "playUrl"}      # 只认驼峰，小写那份等于没写
+EMPTY_EXT = ("", "0", "null", "none", "{}", "[]", '""')
+
 
 def clean_site(site):
     """返回 (清洗后的站点, 丢弃原因)。"""
-    s = dict(site)
+    s = {k: v for k, v in site.items() if k not in JUNK_FIELDS}
+    for bad, good in FIELD_ALIAS.items():
+        if bad in s:
+            if not s.get(good):
+                s[good] = s.pop(bad)
+            else:
+                s.pop(bad)
     api = s.get("api")
     if not isinstance(api, str) or not api.strip():
         return None, "empty_api"
@@ -104,12 +124,55 @@ def clean_site(site):
     except (TypeError, ValueError):
         s["type"] = 0
 
+    s["key"] = str(s.get("key") or "").strip()
+
+    # ext 必须是一段字符串。上游有 382 个站点把 ext 写成 JSON 对象，
+    # Gson 严格解析的客户端（TVBox 原版）会直接判定整份配置非法。
     ext = s.get("ext")
     if isinstance(ext, bool) or isinstance(ext, (int, float)):
         s.pop("ext", None)                      # 上游把 ext 写成 1，客户端会崩
-    elif isinstance(ext, str) and not ext.strip():
+    elif isinstance(ext, (dict, list)):
+        v = common.canon_ext(ext)               # 对象 → 紧凑 JSON 文本
+        if v.strip() in EMPTY_EXT:
+            s.pop("ext", None)
+        else:
+            s["ext"] = v
+    elif isinstance(ext, str):
+        v = ext.strip()
+        if v.lower() in EMPTY_EXT:
+            s.pop("ext", None)
+        else:
+            s["ext"] = v
+    elif ext is not None:
         s.pop("ext", None)
     return s, None
+
+
+def fix_keys(sites):
+    """key 是客户端的主键，重复会让后一个顶掉前一个（列表少站点、收藏串号）。
+
+    保留第一个（历史与收藏不变），其余按 api 稳定排序后追加 -2/-3 后缀，
+    这样明天同一批重复项还会拿到同一个后缀，签名不会天天跳。
+    """
+    groups = {}
+    for s in sites:
+        k = s["key"] or re.sub(r"[^\w\-]+", "_", s["name"])[:16] or "site"
+        s["key"] = k
+        groups.setdefault(k, []).append(s)
+    renamed = 0
+    for k, lst in groups.items():
+        if len(lst) == 1:
+            continue
+        lst.sort(key=lambda x: (str(x.get("api")), str(x.get("name"))))
+        for i, s in enumerate(lst[1:], 2):
+            cand, n = "%s-%d" % (k, i), 2
+            while cand in groups:
+                cand = "%s-%d-%d" % (k, i, n)
+                n += 1
+            s["key"] = cand
+            renamed += 1
+    return renamed
+
 
 
 def site_key(site):
@@ -232,7 +295,7 @@ def fix_lives(lives, dup_names):
 
 
 def fix_parses(parses, types, cap):
-    out, seen, dropped, fixed = [], set(), 0, 0
+    out, seen, dropped, fixed, ext_fixed = [], set(), 0, 0, 0
     for p in parses:
         if not isinstance(p, dict):
             dropped += 1
@@ -241,7 +304,7 @@ def fix_parses(parses, types, cap):
         if not re.match(r"^https?://", u, re.I):
             dropped += 1                      # url 写的是 "Demo" 这类占位
             continue
-        np_ = dict(p)
+        np_ = {k: v for k, v in p.items() if k not in JUNK_FIELDS}
         np_["url"] = u
         t = np_.get("type")
         if not isinstance(t, int):
@@ -253,17 +316,58 @@ def fix_parses(parses, types, cap):
         if types is not None and np_["type"] not in types:
             dropped += 1
             continue
+        # 解析通道的 ext 同样是字符串字段（flag 列表 / header），对象要归一
+        e = np_.get("ext")
+        if isinstance(e, (dict, list)):
+            np_["ext"] = common.canon_ext(e)
+            ext_fixed += 1
+        elif isinstance(e, str) and e.strip().lower() in EMPTY_EXT:
+            np_.pop("ext", None)
         k = u.split(";")[0].rstrip("/").lower()
         if k in seen:
             dropped += 1
             continue
         seen.add(k)
         out.append(np_)
+
+    # 同名解析在客户端是两条一模一样的「飞云」，用户根本分不出该选哪个
+    taken = set()
+    renamed = 0
+    for np_ in out:
+        base = str(np_.get("name") or "").strip() or urlsplit(np_["url"]).netloc
+        np_["name"] = base
+        if base in taken:
+            host = re.sub(r"^www\.", "", urlsplit(np_["url"]).netloc or "src")
+            np_["name"] = unique_name(base, host, taken)
+            renamed += 1
+        else:
+            taken.add(base)
+
     capped = 0
     if cap and len(out) > cap:
         capped = len(out) - cap
         out = out[:cap]
-    return out, {"dropped": dropped, "type_fixed": fixed, "capped": capped}
+    return out, {"dropped": dropped, "type_fixed": fixed, "ext_fixed": ext_fixed,
+                 "renamed": renamed, "capped": capped}
+
+
+def wallpaper_alive(url):
+    """壁纸地址死在开屏上最刺眼：客户端会先卡几秒再退回默认。
+
+    两道关：主机属于国内常见打不开的静态托管（实测本机连不上），或者真的
+    拉不到。只在云端判定可达性 —— 本机试跑网络位置不稳定，避免离线误删。
+    """
+    if not isinstance(url, str) or not url.lower().startswith(("http://", "https://")):
+        return False
+    host = (urlsplit(url).hostname or "").lower()
+    if any(host == d or host.endswith("." + d) for d in ("pages.dev", "vercel.app",
+                                                         "netlify.app")):
+        return False
+    if not common.IS_CI:
+        return True
+    st, raw = common.fetch(url, timeout=10, limit_bytes=2048)
+    return st == 200 and len(raw) > 0
+
 
 
 def target_paths():
@@ -316,6 +420,7 @@ def main():
             continue
 
         raw = [s for s in cfg.get("sites", []) if isinstance(s, dict)]
+        ext_norm = sum(1 for s in raw if isinstance(s.get("ext"), (dict, list)))
         reasons, kept = Counter(), []
         for s in raw:
             ns, why = clean_site(s)
@@ -365,6 +470,7 @@ def main():
         lives, live_stat = fix_lives(cfg.get("lives", []) or [], live_dup)
         parses, parse_stat = fix_parses(cfg.get("parses", []) or [],
                                         pol["parse_types"], pol["parse_cap"])
+        keys_renamed = fix_keys(uniq)
 
         spider = cfg.get("spider")
         spider_removed = bool(spider) and pol["jar_free"]
@@ -374,20 +480,33 @@ def main():
         }
         if spider and not spider_removed:
             out["spider"] = spider
-        for key in ("wallpaper",):
-            if cfg.get(key):
-                out[key] = cfg[key]
+        wall = cfg.get("wallpaper")
+        if wall and wallpaper_alive(wall):
+            out["wallpaper"] = wall
         if parses:
             out["parses"] = parses
         if lives:
             out["lives"] = lives
 
-        out["_meta"]["sites"] = len(uniq)
+        # 元信息必须跟着这一份的实际内容走：之前 lives / parses 直接沿用全量版的
+        # 数字（108/192），精简版实际只有 101/80，客户端里对不上。
+        jars = Counter(str(s["jar"]).split(";")[0] for s in uniq
+                       if str(s.get("jar") or "").startswith("http"))
+        out["_meta"].update({
+            "sites": len(uniq),
+            "lives": len(lives),
+            "parses": len(parses),
+            "jar_count": len(jars),
+            "jar_top": dict(jars.most_common(3)),
+        })
         out["_meta"]["polish"] = {
-            "version": 1,
+            "version": 2,
             "label": pol["label"],
             "removed": {k: v for k, v in sorted(reasons.items())},
             "renamed": renamed,
+            "keys_renamed": keys_renamed,
+            "ext_normalized": ext_norm,
+            "wallpaper_removed": bool(wall) and "wallpaper" not in out,
             "order": {"usable": sum(1 for v in tiers.values() if v == 0),
                       "unknown": sum(1 for v in tiers.values() if v == 1),
                       "degraded": sum(1 for v in tiers.values() if v == 2)},
@@ -398,6 +517,7 @@ def main():
             "parses": parse_stat,
             "history_days": quality.get("days_recorded"),
         }
+
         summary[base] = out["_meta"]["polish"]
 
         if args.dry_run:
@@ -406,17 +526,19 @@ def main():
             continue
         common.write_json(path, out)
 
-        print("  %-24s 站点 %4d → %4d | 剔除 %s | 改名 %d | 可用 %d / 未知 %d / 降级 %d"
+        print("  %-24s 站点 %4d → %4d | 剔除 %s | 改名 %d | 主键去重 %d | 可用 %d / 未知 %d / 降级 %d"
               % (base, len(raw), len(uniq),
                  json.dumps(out["_meta"]["polish"]["removed"], ensure_ascii=False),
-                 renamed,
+                 renamed, keys_renamed,
                  out["_meta"]["polish"]["order"]["usable"],
                  out["_meta"]["polish"]["order"]["unknown"],
                  out["_meta"]["polish"]["order"]["degraded"]))
-        print("  %-24s 直播 %d（修 type %d / 改名 %d）| 解析 %d（剔 %d 修 %d 截 %d）| 去 spider %s"
+        print("  %-24s 直播 %d（修 type %d / 改名 %d）| 解析 %d（剔 %d 修 %d ext归一 %d 改名 %d 截 %d）| 去 spider %s | 去壁纸 %s"
               % ("", len(lives), live_stat["type_fixed"], live_stat["renamed"],
                  len(parses), parse_stat["dropped"], parse_stat["type_fixed"],
-                 parse_stat["capped"], spider_removed))
+                 parse_stat["ext_fixed"], parse_stat["renamed"],
+                 parse_stat["capped"], spider_removed,
+                 out["_meta"]["polish"]["wallpaper_removed"]))
 
     return 0
 

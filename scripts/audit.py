@@ -57,6 +57,18 @@ def audit_file(path):
                           if str(s.get("api") or "").lower().startswith("csp_")
                           and not s.get("ext")),
         "polish": meta.get("polish") or {},
+        # 客户端解析契约：这几项出问题，用户看到的是「站点变少 / 配置打不开」
+        "dup_key": sum(v - 1 for v in Counter(
+            str(s.get("key") or "") for s in sites).values() if v > 1)
+        + sum(1 for s in sites if not str(s.get("key") or "")),
+        "ext_obj": sum(1 for o in sites + parses if isinstance(o.get("ext"), (dict, list))),
+        "parse_dup_names": sum(v - 1 for v in Counter(
+            str(p.get("name") or "") for p in parses).values() if v > 1),
+        "junk_fields": sum(1 for s in sites if "类型" in s or "playurl" in s),
+        "meta_mismatch": sum(1 for field, coll in (("sites", sites), ("lives", lives),
+                                                   ("parses", parses))
+                            if meta.get(field) is not None and meta[field] != len(coll)),
+        "wallpaper": cfg.get("wallpaper") or "",
     }
     hosts = set()
     for s in sites:
@@ -127,6 +139,17 @@ def main():
         if p.get("renamed"):
             L.append("- 同名消歧 **%d** 个：追加域名后缀，列表里不再出现多条一样的「AList」"
                      % p["renamed"])
+        if p.get("keys_renamed"):
+            L.append("- 主键去重 **%d** 个：`key` 是客户端唯一主键，重复会让后一个站点"
+                     "顶掉前一个（列表里少站点、收藏串号），保留第一个、其余加稳定后缀"
+                     % p["keys_renamed"])
+        if ps.get("ext_fixed") or p.get("ext_normalized"):
+            L.append("- `ext` 归一 **%d** 个站点 / **%d** 个解析通道：上游把 ext 写成 JSON "
+                     "对象，严格解析的客户端会判定整份配置非法，统一改成字符串"
+                     % (p.get("ext_normalized", 0), ps.get("ext_fixed", 0)))
+        if p.get("wallpaper_removed"):
+            L.append("- 移除 `wallpaper`：上游壁纸地址在国内打不开（实测超时），"
+                     "留着只会让开屏先卡几秒再退回内置背景")
         sp = p.get("spider_removed")
         if sp:
             L.append("- 移除全局 `spider` 字段（原指向 `raw.githubusercontent.com`，"
@@ -151,6 +174,11 @@ def main():
         ("空 api", lambda r: r["empty_api"]),
         ("非法 api", lambda r: r["illegal_api"]),
         ("重名节点", lambda r: r["dup_names"]),
+        ("重复/空 key", lambda r: r["dup_key"]),
+        ("ext 仍是对象", lambda r: r["ext_obj"]),
+        ("重名解析通道", lambda r: r["parse_dup_names"]),
+        ("客户端不认的字段", lambda r: r["junk_fields"]),
+        ("元信息条数不符", lambda r: r["meta_mismatch"]),
         ("解析 url 非法", lambda r: r["bad_parse_url"]),
         ("解析 type 非整数", lambda r: r["non_int_parse_type"]),
         ("直播 type 非整数", lambda r: r["non_int_live_type"]),
@@ -159,6 +187,8 @@ def main():
     for name, fn in checks:
         L.append("| %s | %s |" % (name, " | ".join(
             "0" if fn(r) == 0 else "**%d**" % fn(r) for r in rows)))
+    L.append("| 壁纸 | %s |" % " | ".join(
+        "有" if r["wallpaper"] else "未配置" for r in rows))
     L.append("| 全局 spider | %s |" % " | ".join(
         "有" if r["spider"] else "无" for r in rows))
     L.append("| 带 jar 站点 | %s |" % " | ".join(str(r["jar_sites"]) for r in rows))
@@ -176,6 +206,10 @@ def main():
              "所有 jar 站点；`type=3` 里 api 是 `.js` / `.py` 的属于 JS/Python 爬虫，"
              "不需要 jar，予以保留。")
     L.append("- **改名站点**的历史签名会变，当天回到「未知」层，次日自动接回。")
+    L.append("- **身份签名 = 名称 + api + jar + ext（不含 key）**：所以主键去重、ext 归一"
+             "都不会让整批站点历史断链；只有改名会（它本来就是另一个名字了）。")
+    L.append("- **`ext` 必须是字符串**：TVBox 原版用 Gson 严格解析，对象型 ext 会让整份"
+             "配置报「格式错误」，不是单个站点打不开。")
 
     os.makedirs(os.path.dirname(args.output) or ".", exist_ok=True)
     with open(args.output, "w", encoding="utf-8") as f:

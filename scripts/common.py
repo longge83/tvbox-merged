@@ -163,11 +163,38 @@ def json_of(raw):
         return None
 
 
+def canon_ext(v):
+    """把 ext 归一成「同一份内容只有一种写法」。
+
+    上游有的源把 ext 写成对象、有的写成 JSON 字符串，两种写法语义相同。
+    签名里若不归一，polish 把对象改成字符串的那天，全站历史签名会一起断掉。
+    归一后：对象 / JSON 字符串 → 同一份紧凑 JSON 文本；其余（URL、普通串）原样。
+    """
+    if isinstance(v, (dict, list)):
+        try:
+            return json.dumps(v, ensure_ascii=False, sort_keys=True,
+                              separators=(",", ":"))
+        except Exception:
+            return str(v)
+    if isinstance(v, str) and v.strip()[:1] in ("{", "["):
+        try:
+            return json.dumps(json.loads(v), ensure_ascii=False, sort_keys=True,
+                              separators=(",", ":"))
+        except Exception:
+            return v
+    return v
+
+
 def identity(site):
-    """站点身份签名。不用整个对象（上游字段微调会失配），也不用单独 key（跨源重名）。"""
+    """站点身份签名。不用整个对象（上游字段微调会失配）。
+
+    也**不用 key**：key 是客户端的唯一主键，重复时 polished 会给它加后缀去重，
+    如果把 key 算进身份，那批站点每被修一次历史就断一次。同名的两条不同源，
+    靠 api / jar / ext 已经能区分。
+    """
     return json.dumps(
-        [site.get("key"), site.get("name"), site.get("api"),
-         site.get("jar"), site.get("ext")],
+        [site.get("name"), site.get("api"),
+         site.get("jar"), canon_ext(site.get("ext"))],
         ensure_ascii=False, sort_keys=True,
     )
 

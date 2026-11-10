@@ -14,8 +14,11 @@
   5. 无重复路径段（XBPQ/XBPQ/、/js/js/ 这类基准拼错）
   6. 首页版 ⊆ 全量版；homefirst 版站点数与对应源一致
   7. 过滤后不应残留违规关键词
+  8. 客户端解析契约：key 唯一、ext 是字符串、_meta 的直播/解析条数对得上、
+     解析通道不重名、没有客户端不认的字段（类型 / playurl）
+  9. 壁纸若配置了就必须拉得到
 软检查（抽样，低于阈值才阻断）：
-  8. 抽样 jar 必须是 200 + PK(zip)；抽样 ext 必须 200
+ 10. 抽样 jar 必须是 200 + PK(zip)；抽样 ext 必须 200
      —— 允许个别抖动，但整体可用率不能塌
 
 输出 _assertions.json。用法：python scripts/assertions.py [--strict]
@@ -240,6 +243,53 @@ def main():
                 break
     record("structure_clean", not hygiene,
            "; ".join(hygiene[:4]) or "无空/非法 api、无重名、解析 url 合法、type 均为整数")
+
+    # 11) 客户端解析契约：key 唯一、ext 是字符串、_meta 计数对得上、解析不重名。
+    #     这几条不会让构建崩，但会让用户在客户端里「看不见某些站点 / 整份配置
+    #     报错 / 列表里一堆同名解析」，属于必须挡住的结构性问题。
+    key_bad, ext_bad, count_bad, pname_bad, field_bad = [], [], [], [], []
+    for f in CONFIGS + OPTIONAL_CONFIGS:
+        c = cfgs.get(f)
+        if not c:
+            continue
+        ks = Counter(str(s.get("key") or "") for s in c.get("sites", []))
+        dupk = sum(v - 1 for v in ks.values() if v > 1) + ks.get("", 0)
+        if dupk:
+            key_bad.append("%s 重复/空 key %d" % (f, dupk))
+        for coll in ("sites", "parses"):
+            for o in c.get(coll, []):
+                if isinstance(o.get("ext"), (dict, list)):
+                    ext_bad.append("%s:%s" % (f, coll))
+                    break
+        m = c.get("_meta") or {}
+        for field in ("lives", "parses"):
+            if m.get(field) is not None and m[field] != len(c.get(field, [])):
+                count_bad.append("%s %s meta=%s actual=%s" %
+                                 (f, field, m[field], len(c.get(field, []))))
+        pn = Counter(str(p.get("name") or "") for p in c.get("parses", []))
+        if any(v > 1 for v in pn.values()):
+            pname_bad.append("%s 重名解析 %d" %
+                             (f, sum(v - 1 for v in pn.values() if v > 1)))
+        for s in c.get("sites", []):
+            if "类型" in s or "playurl" in s:
+                field_bad.append("%s:%s" % (f, str(s.get("name"))[:12]))
+                break
+    record("site_key_unique", not key_bad, "; ".join(key_bad[:4]) or "主键唯一")
+    record("ext_is_string", not ext_bad, "; ".join(ext_bad[:4]) or "sites/parses 的 ext 均为字符串")
+    record("meta_counts_consistent", not count_bad, "; ".join(count_bad[:4]) or "直播/解析条数与元信息一致")
+    record("parse_names_unique", not pname_bad, "; ".join(pname_bad[:4]) or "解析通道无重名")
+    record("no_foreign_fields", not field_bad, "; ".join(field_bad[:4]) or "无客户端不认的字段")
+
+    # 12) 壁纸：写在配置里就必须拉得到，否则开屏会先卡几秒
+    wall_bad = []
+    for f in CONFIGS[:1]:
+        w = (cfgs.get(f) or {}).get("wallpaper")
+        if w:
+            st, raw = common.fetch(str(w), timeout=10, limit_bytes=512)
+            if st != 200 or not raw:
+                wall_bad.append("%s=%s(%s)" % (f, str(w)[:50], st))
+    record("wallpaper_reachable", not wall_bad,
+           "; ".join(wall_bad) or "壁纸地址可达或未配置")
 
     # 10) 精简版 / 网络优化版必须真的「不加载 jar」
     jarbad = []

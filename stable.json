@@ -1,10 +1,10 @@
 {
-  "updated": "2026-11-10",
+  "updated": "2026-11-11",
   "tag": "stable-20261110",
   "commit": "4e83a87b598085073d6541458a7f71d859ad2d9d",
   "repo": "dimogu/tvbox-merged",
   "bootstrap": true,
-  "assert_pass_streak": 1,
+  "assert_pass_streak": 2,
   "min_streak_to_advance": 3,
   "policy": "回归断言连续通过 3 天才推进；坏版本可用 --rollback 退回历史 tag",
   "files": {
@@ -54,5 +54,5 @@
   ],
   "rollback_hint": "python scripts/stable.py --rollback <上一个 tag>",
   "readme": "把 files.<版本>.cdn 整行粘进 TVBox 配置地址即可；tag 固定，内容永不变化",
-  "last_check_commit": "a57918d9ac9dcb59fa62f18a9771015154d0f08d"
+  "last_check_commit": "307bab493c47fdfdfca9f3a77e1997822e3da886"
 }

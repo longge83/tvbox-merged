@@ -2,7 +2,7 @@
 # 等级：ok=首页影片列表实测非空 / likely=爬虫jar与首页配置均有效(含同jar推断) /
 #       classes_only=只返回分类（首页可能空）
 # 判定环境：github-actions | 同 jar 推断召回：347
-# 生成时间：2026-11-11 07:52 UTC
+# 生成时间：2026-11-11 08:03 UTC
 
 ok            | 艾旦 | 采集 | 首页影片 20 条 via ac=list
 ok            | 11-暴风 | 首页影片 20 条 via ac=list
@@ -13,7 +13,7 @@ ok            | 360资源ZZ | 首页影片 20 条 via ac=list
 ok            | 43-HG | 首页影片 20 条 via ac=list
 ok            | 62-秒播 | 首页影片 20 条 via ac=list
 ok            | 66-360* | 首页影片 20 条 via ac=list
-ok            | U酷资源(优) | 首页影片 20 条 via ac=videolist&pg=1
+ok            | U酷资源(优) | 首页影片 20 条 via ac=list
 ok            | dd资源 | 首页影片 20 条 via ac=list
 ok            | ikun | 采集 | 首页影片 20 条 via ac=list
 ok            | ⏱┃三六┃资源 | 首页影片 20 条 via ac=list
@@ -25,7 +25,7 @@ ok            | 优质 | 采集 | 首页影片 20 条 via ac=list
 ok            | 光速资源(切) | 首页影片 20 条 via ac=list
 ok            | 创享 | 采集 | 首页影片 20 条 via ac=list
 ok            | 影视 • 天涯 | 首页影片 20 条 via ac=list
-ok            | 影视 • 尤酷[直连] | 首页影片 20 条 via ac=videolist&pg=1
+ok            | 影视 • 尤酷[直连] | 首页影片 20 条 via ac=list
 ok            | 影视 • 建安 | 首页影片 20 条 via ac=list
 ok            | 影视 • 极速[直连] | 首页影片 20 条 via ac=list
 ok            | 影视 • 率率[直连] | 首页影片 20 条 via ac=list
@@ -43,7 +43,7 @@ ok            | 量子影视 · lzzy.tv | 首页影片 20 条 via ac=list
 ok            | 金鹰 | 采集 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 闪电资源(切) | 首页影片 20 条 via ac=list
 ok            | 🌠全民┃影视 | 首页影片 20 条 via ac=list
-ok            | 🍀U酷资源88 | 首页影片 20 条 via ac=videolist&pg=1
+ok            | 🍀U酷资源88 | 首页影片 20 条 via ac=list
 ok            | 🍀┃如意┃资源 | 首页影片 20 条 via ac=list
 ok            | 🍀┃非凡┃资源 | 首页影片 20 条 via ac=list
 ok            | 🍀天涯海角 | 首页影片 20 条 via ac=list
@@ -53,7 +53,7 @@ ok            | 👭播剧影视👭 | 首页影片 20 条 via ac=list
 ok            | 💝分享爬虫 | 首页影片 20 条 via ac=list
 ok            | 💝分享迷你 | 首页影片 20 条 via ac=list
 ok            | 📡 HD(SN) | 首页影片 20 条 via ac=list
-ok            | 📡 U酷 | 首页影片 20 条 via ac=videolist&pg=1
+ok            | 📡 U酷 | 首页影片 20 条 via ac=list
 ok            | 📡 光速 | 首页影片 20 条 via ac=list
 ok            | 📡 樱花 | 首页影片 20 条 via ac=list
 ok            | 📡 红牛 | 首页影片 20 条 via ac=videolist&pg=1
@@ -185,7 +185,7 @@ likely        | 手机┃推送 | jar: ext:内嵌配置
 likely        | 指南 • 4K | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 摩崖|弹幕 | jar:HTTP 200 (zip) ext:json keys:class,list
 likely        | 新6V｜磁力 | jar:HTTP 200 (zip) ext:text 46386 chars
-likely        | 日诚影视(萝卜) | jar:HTTP 200 (zip) ext:text 6990 chars
+likely        | 日诚影视(萝卜) | jar:HTTP 200 (zip) ext:text 6989 chars
 likely        | 旺旺 • 影视 | jar:HTTP 200 (zip) ext:text 415 chars
 likely        | 星辰影院 | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 木偶 • 4K | jar:HTTP 200 (zip) ext:内嵌配置

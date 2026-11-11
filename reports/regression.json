@@ -2,18 +2,16 @@
   "date": "2026-11-11",
   "env": {
     "env": "github-actions",
-    "runner": "42982145244",
+    "runner": "42983466183",
     "proxy": false,
-    "generated": "2026-11-11 07:54:07 UTC"
+    "generated": "2026-11-11 08:05:04 UTC"
   },
-  "passed": false,
+  "passed": true,
   "total": 42,
-  "ok": 41,
-  "failed": 1,
+  "ok": 42,
+  "failed": 0,
   "skipped": 0,
-  "hard_failed": [
-    "B25"
-  ],
+  "hard_failed": [],
   "checks": [
     {
       "id": "A01",
@@ -389,8 +387,8 @@
       "group": "构建链路",
       "origin": "本轮：稳定版 tag 内容有缺陷却仍被当推荐线路，用户照着导入必报错；指针已存在还自称 bootstrap",
       "title": "已知坏 tag 显式标注 + 健康页拦截",
-      "ok": false,
-      "detail": "指针已指向 stable-20261110 却仍标 bootstrap=true",
+      "ok": true,
+      "detail": "坏 tag 登记合并、健康页按当前 tag 输出「请勿导入」原因，指针存在时 bootstrap 必被清除",
       "critical": true
     }
   ]

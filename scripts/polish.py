@@ -24,7 +24,10 @@ build.py 只负责「把上游合起来」，它做的是结构性去重，不�
      `类型` 这类客户端不认的字段
   3. 主键：`key` 是全客户端唯一主键，174 组重名会让后一个站点顶掉前一个，
      保留第一个、其余加稳定后缀
-  4. 去重：http 接口按「域名 + 路径 + 参数排序」归一后去重；csp 按 api + 名称
+  4. 去重：http 接口按「域名 + 路径 + 参数排序」归一后去重；csp 按 api + 名称；
+     再按「中文品牌 + 镜像域名族」归并同一采集站的多镜像（lzizy1~8.com、
+     bfzyapi 各子域、14-量子…20-量子这类编号别名）。名单以全量版为准、
+     三份共用，只动带中文品牌名的普通采集站，csp 驱动站与无品牌站不碰
   5. 消歧：同名节点追加域名后缀，避免列表里出现三条一模一样的「AList」
   6. 排序：可用 → 未知 → 已判定失败 / 首页必空白。只沉底不删除，误杀可在
      次日复核复活；根因是「按拼音排」会让用户第一屏全是死节点
@@ -51,7 +54,7 @@ import json
 import os
 import re
 import sys
-from collections import Counter
+from collections import Counter, defaultdict
 from urllib.parse import urlsplit
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -215,6 +218,115 @@ def site_key(site):
     raw / jsdelivr / gh-proxy / github blob 等链接别名还原成同一份内容。
     """
     return common.content_key(site)
+
+
+# ── 同源镜像归并 ───────────────────────────────────────────────────────
+# 上游配置常把同一个采集站反复收录：换镜像域名（lzizy1~8.com / lzizy.net）、
+# 换接口格式（/at/xml、/from/lzm3u8）、或整批编号改名（14-量子 … 20-量子，
+# key 连号 live041 / live042）。内容指向去重只认 api+ext+jar，抓不到这些
+# 「同库不同地址」；搜索时每个镜像各回一份相同结果，来源列表就堆出一串
+# 量子 / 优质 / 暴风。
+MIRROR_GENERIC = (
+    "资源库", "采集", "资源", "影视", "影音", "直连", "弹幕", "合集", "接口",
+    "官方", "备用", "高清", "线路", "站点", "聚合", "点播", "直播", "动漫",
+    "短剧", "电影", "电视剧", "综艺", "体育", "看球", "盘搜", "磁力", "云盘",
+    "原盘", "全网", "免费", "精品", "极速", "稳定", "测试", "首播", "优化",
+    "蜘蛛", "影视仓", "盒子", "聚", "测", "源", "网", "库", "版",
+)
+MIRROR_NUM_PREFIX = re.compile(r"^\d+\s*[-_.·|｜]\s*")
+
+
+def mirror_brand(name):
+    """取名称里的中文品牌词（前两字），仅用于归并同库镜像，不写进配置。"""
+    t = "".join(ch for ch in str(name or "")
+                if "\u4e00" <= ch <= "\u9fff" or (ch.isascii() and ch.isalnum())).lower()
+    t = MIRROR_NUM_PREFIX.sub("", t)
+    for g in sorted(MIRROR_GENERIC, key=len, reverse=True):
+        t = t.replace(g, "")
+    z = "".join(ch for ch in t if "\u4e00" <= ch <= "\u9fff")
+    return z[:2] if len(z) >= 2 else ""
+
+
+def mirror_family(api):
+    """镜像域名族：去掉子域前缀与数字编号，lzizy4.com / lzizy8.com → lzizy。"""
+    try:
+        h = (urlsplit(str(api or "")).hostname or "").lower()
+    except Exception:
+        return ""
+    parts = h.split(".")
+    core = parts[-2] if len(parts) >= 2 else h
+    return re.sub(r"\d+", "", core)
+
+
+def mirror_redundant(sites, rank=None):
+    """返回应删站点的 (name, api, ext, jar) 集合：同品牌 + 同镜像域名族只留最优一条。
+
+    名单以全量版为准算一次，三份基础配置共用，避免「精简版留了全量版删掉的
+    镜像」触发子集断言。csp / jar 驱动站、无中文品牌名的站点一律不动 ——
+    同一驱动下的不同频道靠 ext 区分，删了会真丢功能。
+    """
+    groups = defaultdict(list)
+
+    for s in sites:
+        if not isinstance(s, dict):
+            continue
+        api = str(s.get("api") or "")
+        if not api.lower().startswith(("http://", "https://")):
+            continue
+        brand = mirror_brand(s.get("name"))
+        if not brand:
+            continue
+        # ext / jar 不同的不是镜像，是同一品牌下的不同实现（比如指向两个
+        # 不同仓库的「量子影视.js」），必须留在各自组里，不能互相顶掉。
+        # 用内容指向归一，raw / jsdelivr / gh-proxy 指向同一份脚本的算同一组。
+        ext_key = common.content_url(s.get("ext") or "")
+        jar_key = common.content_url(s.get("jar") or "")
+        groups[(brand, mirror_family(api), ext_key, jar_key)].append(s)
+
+    def score(s):
+        tier = rank(s) if rank else 0
+        # 可用 > 未知 > 降级；其次优先 json(type=1)、短接口（无多余格式参数）
+        return (tier, 0 if s.get("type") == 1 else 1,
+                len(str(s.get("api") or "")), len(str(s.get("name") or "")))
+
+    def sig(s):
+        return (str(s.get("name") or "").strip(),
+                str(s.get("api") or "").strip(),
+                str(s.get("ext") or "").strip(),
+                str(s.get("jar") or "").strip())
+
+    drop, survivors = set(), []
+    for group in groups.values():
+        if len(group) < 2:
+            survivors.append(group[0])
+            continue
+        best = min(group, key=score)
+        survivors.append(best)
+        for s in group:
+            if s is not best:
+                drop.add(sig(s))
+
+    # 第二层：纯采集站（ext / jar 都空）同品牌跨镜像族最多留 2 条 —— 一个主用、
+    # 一个备用域名，避免搜索来源里堆出四五个「量子」。带 ext/jar 的驱动站是
+    # 同一品牌下的不同实现（B站 / 直播 / 网盘频道），不参与这一层。
+    plain = defaultdict(list)
+    for s in survivors:
+        api = str(s.get("api") or "")
+        if not api.lower().startswith(("http://", "https://")):
+            continue
+        if common.content_url(s.get("ext") or "") or common.content_url(s.get("jar") or ""):
+            continue
+        b = mirror_brand(s.get("name"))
+        if b:
+            plain[b].append(s)
+    for group in plain.values():
+        if len(group) <= 2:
+            continue
+        keep = {id(s) for s in sorted(group, key=score)[:2]}
+        for s in group:
+            if id(s) not in keep:
+                drop.add(sig(s))
+    return drop
 
 
 def norm(name):
@@ -532,6 +644,16 @@ def main():
                        for g in full.get("lives", []) if isinstance(g, dict))
         live_dup = set(k for k, v in lcnt.items() if v > 1)
 
+    # 同源镜像名单同样以全量版为准：三份基础配置删掉同一批站点，否则派生版
+    # 可能留下全量版已删的镜像，触发「所有版本 ⊆ 全量版」硬断言。
+    def rank(s):
+        return tier_of(s, stab, revived, jar_fail, ext_fail)[0]
+
+    redundant_mirrors = (mirror_redundant(full.get("sites", []), rank)
+                         if isinstance(full, dict) else set())
+    print("=== 同源镜像归并：全量版标记 %d 条冗余镜像 ===" %
+          len(redundant_mirrors), flush=True)
+
     summary = {}
     print("=== 三份基础配置后处理 ===", flush=True)
     for path in paths:
@@ -548,6 +670,12 @@ def main():
         ext_norm = sum(1 for s in raw if isinstance(s.get("ext"), (dict, list)))
         reasons, kept = Counter(), []
         for s in raw:
+            if (str(s.get("name") or "").strip(),
+                    str(s.get("api") or "").strip(),
+                    str(s.get("ext") or "").strip(),
+                    str(s.get("jar") or "").strip()) in redundant_mirrors:
+                reasons["mirror_dup"] += 1
+                continue
             ns, why = clean_site(s)
             if why:
                 reasons[why] += 1

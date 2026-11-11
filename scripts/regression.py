@@ -799,6 +799,38 @@ def build_checks(cfgs, bad, online, proxy):
           "指针已存在还自称 bootstrap",
           "已知坏 tag 显式标注 + 健康页拦截", c_bad_tag_marked)
 
+    def c_parse_ext_not_filtered():
+        try:
+            import build as Bm
+        except Exception as e:
+            return False, "无法导入 build：%s" % e
+        bad = []
+        # 探针用「成人」这类长期存在的关键词，避免依赖用户随时会改的那几条。
+        # 解析的 ext 是能力声明（{"flag": [...] }），不是资源链接；按整段 ext
+        # 过滤会把「顺带支持某平台」的通用解析全删光 —— 实际就这么删掉过 103 条。
+        probe = {"name": "通用解析", "type": 1, "url": "https://jx.example.com/?url=",
+                 "ext": {"flag": ["成人"], "header": {"user-agent": "okhttp/3"}}}
+        if not Bm.blocked(probe):
+            bad.append("blocked() 口径失效：ext 命中却未拦")
+        if Bm.blocked_parse(probe):
+            bad.append("blocked_parse() 把 ext 里的能力清单当资源命中")
+        # 身份字段（名称 / url）仍然要拦
+        if not Bm.blocked_parse({"name": "成人专区", "url": "https://x/y"}):
+            bad.append("blocked_parse() 放过名称命中的解析")
+        if not Bm.blocked({"name": "某站", "api": "csp_X", "ext": "https://x/成人/a"}):
+            bad.append("站点 ext 命中未被拦")
+        # 成品端到端：站点按全字段、解析按身份字段，都要零残留
+        cfg = common.load_json("tvbox.json", {}) or {}
+        left_s = [o.get("name") for o in cfg.get("sites") or [] if Bm.blocked(o)][:3]
+        left_p = [o.get("name") for o in cfg.get("parses") or [] if Bm.blocked_parse(o)][:3]
+        if left_s or left_p:
+            bad.append("成品仍有残留：站点 %s / 解析 %s" % (left_s, left_p))
+        return not bad, ("解析只按名称/url 过滤、ext 能力清单不参与；站点仍按全字段；"
+                         "成品零残留" if not bad else "；".join(bad))
+
+    check("B26", B, "本轮：按整段 ext 过滤，把「顺带支持哔哩」的通用解析当哔哩资源批量删掉",
+          "解析过滤只看身份字段，ext 能力清单不参与", c_parse_ext_not_filtered)
+
     # ---------- C. 线上线路（可选，需网络） ----------
     if online:
         opener = urllib.request.build_opener()

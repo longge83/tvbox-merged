@@ -100,6 +100,18 @@ def blocked(obj, fields=("name", "api", "ext", "jar", "url", "urls", "group")):
     return bool(BLOCK_RX.search(text))
 
 
+# 解析通道只看「身份」字段，**不看 ext**：解析的 ext 是能力声明，典型长这样
+# {"flag": ["爱奇艺", "bilibili", "哔哩哔哩", ...], "header": {...}}，里面的
+# 平台清单只是在说「这条通道能解哪些站的链接」。按整段 ext 过滤会把 100 多条
+# 正常解析（飞云、米饭、8090…）当成「哔哩资源」全删掉 —— 用户要删的是哔哩
+# 内容源，不是「顺带支持哔哩的解析器」。
+PARSE_FILTER_FIELDS = ("name", "url", "group")
+
+
+def blocked_parse(obj):
+    return blocked(obj, fields=PARSE_FILTER_FIELDS)
+
+
 def url_alive(url, timeout=6):
     """只取少量字节判断 URL 是否存在（用于校验 spider jar 的基准路径）"""
     try:
@@ -320,7 +332,7 @@ def build():
         for p in cfg.get("parses", []):
             if not isinstance(p, dict):
                 continue
-            if blocked(p):
+            if blocked_parse(p):
                 blocked_parse_n += 1
                 continue
             np_ = dict(p)

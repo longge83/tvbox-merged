@@ -257,8 +257,12 @@ def main():
     for group, items in (("site", sites),
                          ("live", full.get("lives", [])),
                          ("parse", full.get("parses", []))):
+        # 解析通道不扫 ext：那里是「支持哪些平台」的 flag 清单，扫了会把
+        # 顺带支持哔哩的通用解析全判成残留（口径与 build.py 保持一致）。
+        fields = (build_mod.PARSE_FILTER_FIELDS if group == "parse"
+                  else ("name", "api", "ext", "jar", "url", "urls", "group"))
         for o in items:
-            if isinstance(o, dict) and build_mod.blocked(o):
+            if isinstance(o, dict) and build_mod.blocked(o, fields=fields):
                 dirty.append("%s:%s" % (group, str(o.get("name", ""))[:18]))
     record("content_filter_clean", not dirty, "; ".join(dirty[:5]) or "站点/直播/解析均无命中")
 

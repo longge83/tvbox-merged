@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-11",
+  "env": {
+    "env": "github-actions",
+    "runner": "42971941421",
+    "proxy": false,
+    "generated": "2026-11-11 06:28:15 UTC"
+  },
+  "source": "github-actions",
+  "run_id": "42971941421",
+  "commit": "4b10cd2fca240b13bd4c03dc5f2f2d0a4978cda1",
+  "steps": {
+    "audit": "success",
+    "home_probe": "success",
+    "recheck": "success",
+    "play_probe": "success",
+    "rank_home": "success",
+    "variants": "success",
+    "jar_health": "success",
+    "regression": "success"
+  },
+  "failed_steps": [],
+  "config_steps_failed": [],
+  "data_steps_failed": [],
+  "degraded": false,
+  "policy": "探测失败不沿用旧产物：派生配置在构建前清除，生成失败即硬阻断；数据类失败照常发布但标记降级，且不推进稳定版 tag"
+}

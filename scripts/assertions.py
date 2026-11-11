@@ -25,7 +25,9 @@
  10. 抽样 jar 必须是 200 + PK(zip)；抽样 ext 必须 200
      —— 允许个别抖动，但整体可用率不能塌
 
-输出 _assertions.json。用法：python scripts/assertions.py [--strict]
+输出：CI 写 reports/assertions.json（由 Actions 用 git add -f 提交，外部可核对当日
+结论）；本地试跑写 _assertions.json（被 .gitignore 忽略，不会污染入库结果）。
+可用 --output 显式覆盖。用法：python scripts/assertions.py [--strict]
 """
 import argparse
 import json
@@ -111,8 +113,10 @@ def main():
                     help="首次运行（无昨日基线）时 jar/ext 抽样可用率下限")
     ap.add_argument("--max-no-jar-ratio", type=float, default=0.30,
                     help="允许缺 jar 的 csp 站点比例（上游本身就没写 jar 时聚合器无法凭空生成）")
-    ap.add_argument("--output", default="_assertions.json")
+    ap.add_argument("--output", default=None,
+                    help="结果 JSON 路径；默认按环境分流（CI 入库 / 本地隔离）")
     args = ap.parse_args()
+    out_path = args.output or common.result_path("assertions")
 
     checks, failed = {}, []
 
@@ -137,8 +141,8 @@ def main():
             bad.append("%s(%s)" % (f, str(e)[:60]))
     record("json_valid_no_dup_key", not bad, "; ".join(bad) or "%d 份配置合法" % len(cfgs))
     if "tvbox.json" not in cfgs:
-        common.write_json(args.output, {"passed": False, "checks": checks,
-                                        "failed": failed, "env": common.env_info()},
+        common.write_json(out_path, {"passed": False, "checks": checks,
+                                     "failed": failed, "env": common.env_info()},
                           skip_unchanged=False)
         return 1
 
@@ -517,7 +521,7 @@ def main():
                 "，昨日 %.0f%%" % (prev * 100) if isinstance(prev, (int, float)) else "，无基线"))
 
     passed = not failed
-    common.write_json(args.output, {
+    common.write_json(out_path, {
         "date": common.today(),
         "passed": passed,
         "env": common.env_info(),

@@ -5,6 +5,7 @@ __pycache__/
 # 本地试跑 / 中间报告（下划线前缀与 report 类文件永不入库）
 _*.json
 *.tmp
+_regression-local.md
 home_report.json
 play_report.json
 play_summary.json
@@ -12,6 +13,11 @@ recheck.json
 
 # ── 生成产物：只由 GitHub Actions 用 git add -f 提交，本地一律只读 ──
 # 本地试跑必须输出到 _local-*.json 等临时文件，避免覆盖线上配置。
+# 例外：reports/ 下有 5 份每日结论由 Actions 用 -f 提交入库，供外部核对：
+#   audit-latest.md / regression-latest.md / assertions.json /
+#   regression.json / build-status.json
+# 本地试跑走 _assertions.json / _regression.json / _regression-local.md /
+# _build_status_local.json，不会碰上面这些入库文件。
 /tvbox*.json
 /home-sites.txt
 /health.json

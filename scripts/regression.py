@@ -9,10 +9,10 @@
 默认完全离线（只读仓库文件），适合每次改完代码立刻跑；`--online` 追加线上
 Pages / jsDelivr 三种线路与仓库 HEAD 的 sha256 比对（需网络，本机可加 --proxy）。
 
-输出：
-  reports/regression-latest.md   人可读复核报告（由 health.py 复制进 Pages）
-  _regression.json               结构化结果（供 health.py / 健康页读取）
-
+输出（CI / 本地自动分流，避免本地试跑覆盖入库的当日结论）：
+  CI    reports/regression-latest.md + reports/regression.json（Actions 用 git add -f 提交）
+  本地  _regression-local.md + _regression.json（均被 .gitignore 忽略）
+可用 --output / --json-output 显式覆盖。
 用法：python scripts/regression.py [--online] [--proxy http://127.0.0.1:7890]
 """
 import argparse
@@ -459,7 +459,9 @@ def build_checks(cfgs, bad, online, proxy):
           "assertions.py 覆盖全部关键回归防线", c_assert_cov)
 
     def c_assert_result():
-        a = load("_assertions.json", {}) or {}
+        # 断言结果按环境分流：CI 读 reports/assertions.json（入库），本地读
+        # _assertions.json。硬编码下划线文件会让 CI 里 B10 恒失败。
+        a = common.load_result("assertions", {}) or {}
         return (a.get("passed") is True,
                 "passed=%s，%d 项检查，失败 %s" %
                 (a.get("passed"), len(a.get("checks") or {}),
@@ -643,6 +645,48 @@ def build_checks(cfgs, bad, online, proxy):
     check("B22", B, "本轮：README 推荐的 gcore / 健康页推荐的 fastly 是 12h 缓存盲区",
           "推荐镜像滞后可被发现", c_mirror_watch)
 
+    def c_results_committed():
+        yml = text(".github/workflows/update.yml")
+        cm = text("scripts/common.py")
+        h = text("scripts/health.py")
+        need = ("reports/assertions.json", "reports/regression.json",
+                "reports/build-status.json")
+        # health.py 用 os.path.join("reports", name)，只有文件名没有目录前缀
+        short = ("assertions.json", "regression.json", "build-status.json")
+        ok = (all(x in yml for x in need)
+              and "def load_result" in cm and "def result_path" in cm
+              and "--json-output" in text("scripts/regression.py")
+              and "_regression-local.md" in text(".gitignore")
+              and all(x in h for x in short))
+        return ok, ("当日断言 / 回归 / 构建状态三份结论入库并进 Pages；"
+                    "本地试跑走 _*.json 自动隔离" if ok else "结果文件入库链路有缺口")
+
+    check("B23", B, "本轮：_assertions.json / _regression.json 被忽略，外部无法核对当日结论；"
+          "本地试跑还会覆盖出过时快照",
+          "每日结论入库 + 本地试跑隔离", c_results_committed)
+
+    def c_no_stale_products():
+        yml = text(".github/workflows/update.yml")
+        bs = text("scripts/build_status.py")
+        hp = text("scripts/history.py")
+        sp = text("scripts/stable.py")
+        h = text("scripts/health.py")
+        ok = ("清除上一版派生配置" in yml
+              and "rm -f tvbox-home.json" in yml
+              and all(("id: %s" % s) in yml for s in
+                      ("home_probe", "recheck", "play_probe", "rank_home",
+                       "variants", "jar_health", "regression"))
+              and "def collect" in bs and "degraded" in bs
+              and "load_build_status" in hp and "degraded" in hp
+              and "load_build_status" in sp and "降级版不推进" in sp
+              and "本轮是降级版" in h)
+        return ok, ("派生配置构建前清除（生成失败硬阻断）；失败步骤入库可见，"
+                    "降级日不推进稳定版且健康页告警" if ok else "探测失败防线有缺口")
+
+    check("B24", B, "本轮：探测失败不阻断 → 上一版派生配置被当作今日成果发布成混搭；"
+          "workflow 全绿但健康页缺数据",
+          "探测失败不沿用旧产物 + 降级可见", c_no_stale_products)
+
     # ---------- C. 线上线路（可选，需网络） ----------
     if online:
         opener = urllib.request.build_opener()
@@ -697,8 +741,16 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--online", action="store_true", help="追加线上 Pages/CDN 一致性检查")
     ap.add_argument("--proxy", default="", help="本机网络需代理时填 http://127.0.0.1:7890")
-    ap.add_argument("--output", default="reports/regression-latest.md")
+    ap.add_argument("--output", default=None,
+                    help="Markdown 报告路径；默认 CI 入库 / 本地隔离")
+    ap.add_argument("--json-output", default=None,
+                    help="结构化结果路径；默认 CI 入库 / 本地隔离")
     args = ap.parse_args()
+    if args.output is None:
+        args.output = ("reports/regression-latest.md" if common.IS_CI
+                       else "_regression-local.md")
+    if args.json_output is None:
+        args.json_output = common.result_path("regression")
 
     cfgs, bad = all_configs()
     build_checks(cfgs, bad, args.online, args.proxy)
@@ -716,7 +768,7 @@ def main():
         "hard_failed": [r["id"] for r in hard_fail],
         "checks": RESULTS,
     }
-    common.write_json("_regression.json", out, skip_unchanged=False)
+    common.write_json(args.json_output, out, skip_unchanged=False)
 
     lines = ["# 全历史问题回归复核 · %s" % common.today(), "",
              "把九轮迭代里真实出现过的故障逐条复核，确认修复仍在、防线没被绕过。",

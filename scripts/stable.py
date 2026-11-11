@@ -106,7 +106,7 @@ def make_manifest():
                 "sites": len(cfg.get("sites", [])),
             }
     q = common.load_json("quality.json", {}) or {}
-    a = common.load_json("_assertions.json", {}) or {}
+    a = common.load_result("assertions", {}) or {}
     p = common.load_json("play_summary.json", {}) or {}
     return {
         "date": common.today(),
@@ -207,6 +207,21 @@ def main():
     archive(manifest)
     if not manifest["assert_passed"]:
         print("  断言未通过，本次不推进稳定版指针（workflow 也不会提交）")
+        return 0
+
+    # 本轮有探测步骤失败 = 数据不完整的降级版。配置照常发布（线上可用性
+    # 优先），但绝不能拿它去推进「连续 3 天健康」的稳定版 tag，否则用户
+    # 以为拿到的是久经检验的版本，实际是缺探测数据的那一版。
+    bs = common.load_build_status()
+    if bs.get("degraded"):
+        cur_tag = state.get("tag", "")
+        if cur_tag:
+            state["updated"] = common.today()
+            state["last_check_commit"] = manifest["commit"]
+            common.write_json("stable.json", state, skip_unchanged=False)
+        print("  本轮探测失败步骤 %s，降级版不推进稳定版指针（仍指向 %s）" %
+              (", ".join(bs.get("failed_steps") or []) or "未知",
+               cur_tag or "(无)"))
         return 0
 
     streak = int(manifest["assert_pass_streak"] or 0)

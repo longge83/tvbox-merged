@@ -31,6 +31,22 @@ jobs:
           python-version: '3.11'
 
       # ── 1. 生成配置 ─────────────────────────────────────────────
+      # 7 份派生配置 + home-sites.txt 是入库的，checkout 下来就是上一版内容。
+      # 若 home_probe / rank_home / variants 失败（都设了 continue-on-error），
+      # 旧文件不会被覆盖，却会被 git add -f 当作今日成果提交 —— 变成「今天的
+      # 新基础配置 + 昨天的场景版」混搭；必需产物检查只看存在性，查不出来。
+      # 构建前先删掉：成功时各脚本会重新生成；失败时文件缺失，回归断言的
+      # json_valid_no_dup_key 与「必需产物」检查会硬阻断，线上保持上一版
+      # 完整配置，绝不发布混搭。
+      - name: 清除上一版派生配置（防止探测失败时旧文件冒充今日产物）
+        run: |
+          rm -f tvbox-home.json \
+                tvbox-full-homefirst.json tvbox-lite-homefirst.json \
+                tvbox-network-homefirst.json \
+                tvbox-quality.json tvbox-cn-fast.json tvbox-stable7.json \
+                home-sites.txt
+          echo "已清除 7 份派生配置 + home-sites.txt，等待本轮重新生成"
+
       - name: 聚合 + 存活复检（含多日判定、外置过滤、parses 去重）
         run: python scripts/build.py
 
@@ -42,12 +58,14 @@ jobs:
         run: python scripts/polish.py
 
       - name: 三份配置复查报告（不阻断，产物 reports/audit-latest.md）
+        id: audit
         continue-on-error: true
         run: python scripts/audit.py
 
       # 首页推荐 ≠ 搜索：分别探测 CMS 首页影片列表、爬虫 jar 与 ext 首页配置。
       # 云端直连，避免本机网络误判；结果里会写明判定环境。
       - name: 首页推荐能力探测
+        id: home_probe
         continue-on-error: true
         run: |
           python scripts/home_probe.py \
@@ -55,38 +73,61 @@ jobs:
             --report home_report.json --output tvbox-home.json
 
       - name: 误杀率复核（真实 TVBox UA 抽 50 个 fail 重测）
+        id: recheck
         continue-on-error: true
         run: python scripts/recheck.py --sample 50 --workers 20
 
       - name: 端到端可播率探测（列表→详情→播放地址 + 搜索 + parses）
+        id: play_probe
         continue-on-error: true
         run: python scripts/play_probe.py --sample 30 --parse-sample 20 --workers 24
 
       - name: 生成首页优先版（等级 > 近7天可用天数 > 可播得分）
+        id: rank_home
         continue-on-error: true
         run: python scripts/rank_home.py
 
       # 场景版：把探测数据变成「按用途直接选」的成品。探测报告缺失时自动降级保底。
       - name: 生成三个场景版（精播 / 国内极速 / 7 天稳定）
+        id: variants
         continue-on-error: true
         run: python scripts/variants.py
 
       # ── 2. 保险丝：任一硬检查失败就中止，线上保持上一版 ──────────
       - name: 回归断言（失败则不提交）
-        run: python scripts/assertions.py --jar-sample 20 --ext-sample 20
+        id: assertions
+        run: python scripts/assertions.py --jar-sample 20 --ext-sample 20 --output reports/assertions.json
 
       # jar / ext 可达性探测：补上「每日只查 api 接口」的盲区。非阻断，
       # 只产出 _jar_health.json，由 history.py 并入多日连败计数、polish 据此沉底死 jar 站点。
       - name: jar / ext 可达性探测（非阻断）
+        id: jar_health
         continue-on-error: true
         run: python scripts/jar_health.py
 
       # 全历史问题复核：断言只决定「今天能不能提交」，这里回答「九轮里修过的
-      # 东西有没有悄悄坏掉」。产出 reports/regression-latest.md（进 Pages）与
-      # _regression.json（供 health.py 展示）。非阻断，失败会在健康页标红。
+      # 东西有没有悄悄坏掉」。产出 reports/regression-latest.md 与
+      # reports/regression.json（均入库，进 Pages）。非阻断，失败会在健康页标红。
       - name: 全历史问题回归复核
+        id: regression
         continue-on-error: true
-        run: python scripts/regression.py
+        run: python scripts/regression.py --output reports/regression-latest.md --json-output reports/regression.json
+
+      # 8 个步骤都设了 continue-on-error，workflow「全绿」并不代表今日数据
+      # 完整。把每步 outcome 落成入库文件：健康页顶部醒目提示降级，history
+      # 不把降级日算进连续健康，stable 不推进稳定版 tag。
+      - name: 汇总本轮构建状态（探测失败可见、不伪造今日成功）
+        run: python scripts/build_status.py --output reports/build-status.json
+        env:
+          COMMIT_SHA: ${{ github.sha }}
+          STEP_AUDIT: ${{ steps.audit.outcome }}
+          STEP_HOME_PROBE: ${{ steps.home_probe.outcome }}
+          STEP_RECHECK: ${{ steps.recheck.outcome }}
+          STEP_PLAY_PROBE: ${{ steps.play_probe.outcome }}
+          STEP_RANK_HOME: ${{ steps.rank_home.outcome }}
+          STEP_VARIANTS: ${{ steps.variants.outcome }}
+          STEP_JAR_HEALTH: ${{ steps.jar_health.outcome }}
+          STEP_REGRESSION: ${{ steps.regression.outcome }}
 
       # ── 3. 时间维度 ─────────────────────────────────────────────
       - name: 写入判定历史与质量指标
@@ -119,7 +160,9 @@ jobs:
                    tvbox-network-homefirst.json \
                    tvbox-quality.json tvbox-cn-fast.json tvbox-stable7.json \
                    home-sites.txt quality.json history/ \
-                   reports/audit-latest.md reports/regression-latest.md; do
+                   reports/audit-latest.md reports/regression-latest.md \
+                   reports/assertions.json reports/regression.json \
+                   reports/build-status.json; do
             if [ -e "$f" ]; then git add -f "$f"; fi
           done
           if git diff --cached --quiet; then

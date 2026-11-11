@@ -45,8 +45,9 @@ def snapshot():
     sites = cfg.get("sites", [])
     recheck = common.load_json("recheck.json", {}) or {}
     play = common.load_json("play_summary.json", {}) or {}
-    asserts = common.load_json("_assertions.json", {}) or {}
+    asserts = common.load_result("assertions", {}) or {}
     jh = common.load_json("_jar_health.json", {}) or {}
+    bs = common.load_build_status()
 
     grades = {}
     for r in rep.get("sites", []):
@@ -91,6 +92,13 @@ def snapshot():
         "assertions": {"passed": bool(asserts.get("passed")),
                        "failed": asserts.get("failed", []),
                        "checks": asserts.get("checks", {})},
+        # 本轮探测有没有步骤失败。降级日的断言即便通过，也不该算作「连续
+        # 健康」去推进稳定版 tag —— 见 summarize() 的 assert_streak。
+        "build_status": {
+            "degraded": bool(bs.get("degraded")),
+            "failed_steps": bs.get("failed_steps", []),
+            "config_steps_failed": bs.get("config_steps_failed", []),
+        },
         "sample_rates": asserts.get("sample_rates", {}),
         "files": files,
     }
@@ -181,6 +189,11 @@ def summarize(snaps):
                 gap = 0
             if gap != -1:
                 break
+        # 探测有失败步骤的当天是「降级版」：配置仍可发布，但数据不完整，
+        # 不能算作健康日去凑稳定版 tag 的 3 天连胜。旧快照没有这个字段，
+        # 取 {} 即视为非降级，历史数据保持原样。
+        if (s.get("build_status") or {}).get("degraded"):
+            break
         if (s.get("assertions") or {}).get("passed"):
             assert_streak += 1
         else:
@@ -206,6 +219,7 @@ def summarize(snaps):
             "false_kill_rate": (s.get("recheck") or {}).get("false_kill_rate"),
             "sources_ok": b.get("sources_ok", 0),
             "assert_passed": bool((s.get("assertions") or {}).get("passed")),
+            "degraded": bool((s.get("build_status") or {}).get("degraded")),
         })
 
     last = snaps[-1]

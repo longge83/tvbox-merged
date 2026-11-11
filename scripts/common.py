@@ -325,6 +325,51 @@ def load_json(path, default=None):
         return default
 
 
+# ── 每日校验结果：CI 产物入库、本地试跑隔离 ─────────────────────────────
+# 以前 _assertions.json / _regression.json 被 `_*.json` 忽略、只有 CI 日志里
+# 能看见，外部无从核对当日结论；本地试跑还会覆盖出一份「看似当天、其实过时」
+# 的快照。现在：CI 写 reports/*.json 并由 Actions 用 git add -f 提交；本地仍
+# 写 _*.json（被忽略），绝不碰入库的当日结论。
+RESULT_PATHS = {
+    "assertions": ("reports/assertions.json", "_assertions.json"),
+    "regression": ("reports/regression.json", "_regression.json"),
+}
+
+
+def result_path(name):
+    """本环境应该把结果写到哪个文件。"""
+    first, second = RESULT_PATHS[name]
+    return first if IS_CI else second
+
+
+def result_paths(name):
+    """本环境读取结果时的优先顺序（本地优先本地产物，CI 优先入库产物）。"""
+    first, second = RESULT_PATHS[name]
+    return (first, second) if IS_CI else (second, first)
+
+
+def load_result(name, default=None):
+    """按本环境的优先顺序读校验结果，都不存在时返回 default。"""
+    for p in result_paths(name):
+        if os.path.exists(p):
+            d = load_json(p, None)
+            if d is not None:
+                return d
+    return default
+
+
+# 本轮构建状态由 scripts/build_status.py 在 CI 里写，记录哪些探测步骤失败。
+# 消费方必须校验日期：入库文件在次日 checkout 时仍在，不能拿昨天的状态当今天的。
+BUILD_STATUS_PATH = "reports/build-status.json"
+
+
+def load_build_status(default=None):
+    d = load_json(BUILD_STATUS_PATH, None) or {}
+    if d and d.get("date") == today():
+        return d
+    return {} if default is None else default
+
+
 def _strip_meta(obj):
     """比较内容时忽略易变的时间戳/统计字段。"""
     a = dict(obj) if isinstance(obj, dict) else obj

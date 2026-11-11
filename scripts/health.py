@@ -174,9 +174,10 @@ def main():
     hp = common.load_json("home_report.json", {}) or {}
     play = common.load_json("play_summary.json", {}) or {}
     rc = common.load_json("recheck.json", {}) or {}
-    asserts = common.load_json("_assertions.json", {}) or {}
+    asserts = common.load_result("assertions", {}) or {}
     stable = common.load_json("stable.json", {}) or {}
     trend = q.get("trend", [])
+    bs = common.load_build_status()
 
     versions = []
     for f, label, note in FILES:
@@ -223,6 +224,17 @@ def main():
         "false_kill_rate": rc.get("false_kill_rate"),
         "assert_passed": bool(asserts.get("passed")),
         "assert_pass_streak": q.get("assert_pass_streak", 0),
+        # 本轮构建状态：有没有探测步骤失败、今天是不是降级版。状态文件
+        # 由 build_status.py 生成并入库；本地试跑 / 日期不符时为空字典。
+        "build": {
+            "available": bool(bs),
+            "degraded": bool(bs.get("degraded")),
+            "failed_steps": bs.get("failed_steps", []),
+            "config_steps_failed": bs.get("config_steps_failed", []),
+            "data_steps_failed": bs.get("data_steps_failed", []),
+            "steps": bs.get("steps", {}),
+            "run_id": bs.get("run_id", ""),
+        },
         "stable": {"tag": stable.get("tag", ""), "commit": stable.get("commit", ""),
                    "cdn": ((stable.get("files") or {}).get("tvbox-full-homefirst.json") or {}).get("cdn", "")},
         "trend": trend,
@@ -256,7 +268,7 @@ def main():
     health["hygiene"] = hygiene
 
     # 全历史问题回归复核（regression.py 的产物，缺失时按「未执行」显示）
-    rg = common.load_json("_regression.json", {}) or {}
+    rg = common.load_result("regression", {}) or {}
     health["regression"] = {
         "ran": bool(rg.get("total")),
         "passed": bool(rg.get("passed")),
@@ -290,8 +302,10 @@ def main():
     for f, _, _ in FILES:
         if os.path.exists(f):
             shutil.copyfile(f, os.path.join("site", f))
-    # 复查报告也放进 Pages：jsDelivr 对 .md 只做 301 转 raw，不如 Pages 直接可读
-    for name in ("audit-latest.md", "regression-latest.md"):
+    # 复查报告与当日校验结论也放进 Pages：jsDelivr 对 .md 只做 301 转 raw，
+    # 不如 Pages 直接可读；结构化 JSON 让外部能逐项核对今天的判断依据。
+    for name in ("audit-latest.md", "regression-latest.md",
+                 "assertions.json", "regression.json", "build-status.json"):
         src = os.path.join("reports", name)
         if os.path.exists(src):
             shutil.copyfile(src, os.path.join("site", name))
@@ -341,6 +355,19 @@ def main():
     p.append("<div class='sub'>生成时间 %s · 判定环境 %s · 每日北京时间 04:00 自动构建 · "
              "<a href='health.json'>原始健康数据 JSON</a></div>" %
              (esc(common.env_info()["generated"]), esc(common.env_info()["env"])))
+
+    # 降级版必须在最顶部说明：以前探测失败被 continue-on-error 吞掉，健康页
+    # 仍显示「全部正常」，把缺数据的产物当作今日完整版展示。
+    bld = health["build"]
+    if bld["degraded"]:
+        p.append("<div class='note' style='background:#fdecec;border-color:#f2b8b8;color:#9b1c1c'>"
+                 "<b>本轮是降级版</b>：探测步骤 <code>%s</code> 失败，今日数据不完整。"
+                 "配置照常发布以保证可用性，但这一轮<b>不计入稳定版的连续健康天数</b>，"
+                 "稳定版指针不会推进。<br>"
+                 "7 份派生配置在构建前已清除旧版，生成失败会硬阻断发布，"
+                 "因此线上不会出现「新基础配置 + 昨天的场景版」混搭。<br>"
+                 "逐项核对：<a href='build-status.json'>build-status.json</a></div>" %
+                 esc(", ".join(bld["failed_steps"]) or "未知"))
 
     status_cls = "ok" if health["assert_passed"] else "bad"
     status_txt = "通过" if health["assert_passed"] else "未通过（本次未提交）"
@@ -404,7 +431,11 @@ def main():
     p.append("</table>")
     p.append("<div class='sub'>今日三份基础配置的复查明细（删了什么、改了什么名、为什么这样排序）："
              "<a href='audit-latest.md'>audit-latest.md</a> · "
-             "全部历史问题的复核清单：<a href='regression-latest.md'>regression-latest.md</a></div>")
+             "全部历史问题的复核清单：<a href='regression-latest.md'>regression-latest.md</a><br>"
+             "当日结构化结论（可逐项核对）："
+             "<a href='assertions.json'>assertions.json</a> · "
+             "<a href='regression.json'>regression.json</a> · "
+             "<a href='build-status.json'>build-status.json</a></div>")
 
     # 线路新鲜度自检：历史上反复出现「仓库已更新、CDN 仍挂几个版本前的旧配置」，
     # 用户照着旧链接填就报 IllegalStateException / 拿到旧站点数。静态页无法知道

@@ -29,6 +29,9 @@ FILES = [
     "tvbox-full-homefirst.json", "tvbox-lite-homefirst.json",
     "tvbox-network-homefirst.json", "tvbox-home.json",
     "tvbox.json", "tvbox-lite.json", "tvbox-network.json",
+    # README 首推的三个场景版也必须能自托管，否则「先用 quality / 老盒子用
+    # cn-fast / 长期不动用 stable7」的用户在本服务里全拿不到
+    "tvbox-quality.json", "tvbox-cn-fast.json", "tvbox-stable7.json",
     "stable.json", "health.json",
 ]
 STATE = {"last_refresh": None, "ok": 0, "failed": 0, "etags": {}, "upstream": ""}
@@ -119,7 +122,9 @@ def make_handler():
             if not os.path.exists(fp):
                 return self._send(503, b'{"error":"cache not ready"}')
             etag = STATE["etags"].get(path)
-            if self.headers.get("If-None-Match") == ('"%s"' % etag if etag else None):
+            # etag 为空时不能与「请求头缺失」比较：None == None 成立会把
+            # 普通 GET 也回成 304 空体 —— 恰好击中「上游宕机用本地缓存」场景
+            if etag and self.headers.get("If-None-Match") == '"%s"' % etag:
                 self.send_response(304)
                 self.end_headers()
                 return
@@ -134,7 +139,9 @@ def main():
     ap.add_argument("--port", type=int, default=8080)
     ap.add_argument("--host", default="0.0.0.0")
     ap.add_argument("--refresh", type=int, default=21600, help="刷新间隔（秒），默认 6 小时")
-    ap.add_argument("--upstream", default="https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged")
+    # 必须带 @main：无版本号路径有 12h 边缘缓存，purge 常清不掉，
+    # 会滞留含对象型 style 的旧版（历史反复踩过的导入失败事故）
+    ap.add_argument("--upstream", default="https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main")
     args = ap.parse_args()
     STATE["upstream"] = args.upstream
     refresh(args.upstream)

@@ -66,7 +66,7 @@ def bar(value, maximum, color):
 
 
 # 线路新鲜度自检（浏览器侧）。用常量 + 占位符替换，避免 % 格式化与 JS 引号
-# 互相干扰；__CFG__ 由 main() 填入本次构建的期望站点数与四条待测线路。
+# 互相干扰；__CFG__ 由 main() 填入本次构建的期望站点数与五条待测线路。
 CDN_PROBE_JS = """
 (function(){
   var cfg=__CFG__, box=document.getElementById('cdnprobe');
@@ -416,6 +416,7 @@ def main():
             ["GitHub Pages（主线路）", "./" + probe_target],
             ["jsDelivr @main", "https://cdn.jsdelivr.net/gh/%s@main/%s" % (REPO, probe_target)],
             ["fastly @main", "https://fastly.jsdelivr.net/gh/%s@main/%s" % (REPO, probe_target)],
+            ["gcore @main（README 推荐）", "https://gcore.jsdelivr.net/gh/%s@main/%s" % (REPO, probe_target)],
             ["无版本号路径（不推荐）", "https://cdn.jsdelivr.net/gh/%s/%s" % (REPO, probe_target)],
         ],
     }, ensure_ascii=False)

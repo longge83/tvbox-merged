@@ -37,7 +37,15 @@ def main():
 
     spath = os.path.join(ROOT, "sources.txt")
     text = open(spath, encoding="utf-8").read()
-    existing = set(re.findall(r"^[^#\n|]+\|(\S+)", text, re.M))
+    # build.load_sources 支持「只有 URL 没有 名称| 前缀」的行；旧正则要求行内
+    # 必须有 `|`，纯 URL 行会漏识别 → 同 URL 候选被重复追加进 sources.txt
+    existing = set()
+    for line in text.splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        cols = line.split("|")
+        existing.add((cols[1] if len(cols) > 1 else cols[0]).strip())
     picked = [c for c in cands if c["url"].rstrip("/") not in
               {u.rstrip("/") for u in existing}][:args.take]
     if not picked:

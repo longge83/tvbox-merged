@@ -158,7 +158,7 @@ def main():
     prev = next((t["sites"] for t in reversed(trend) if t.get("sites")), 0)
     ratio_ok = (not prev) or len(sites) >= prev * args.min_ratio
     record("no_site_collapse", ratio_ok,
-           "今日 %d，昨日 %d（build 口径，polish 前），下限 %.0f%%" %
+           "今日 %d（polish 后），昨日 %d（build 口径，polish 前），下限 %.0f%%" %
            (len(sites), prev, args.min_ratio * 100))
 
     # 3) csp 必须有 jar；4) 无相对路径；5) 无重复路径段

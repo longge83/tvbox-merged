@@ -95,8 +95,9 @@ def existing_urls():
             line = line.strip()
             if line and not line.startswith("#"):
                 cols = line.split("|")
-                if len(cols) >= 2:
-                    urls.add(cols[1].strip().rstrip("/"))
+                # build.load_sources 支持「只有 URL 没有 名称| 前缀」的行，
+                # 这里必须同样识别，否则纯 URL 行会被当成未收录而重复推荐
+                urls.add((cols[1] if len(cols) > 1 else cols[0]).strip().rstrip("/"))
     return urls
 
 
@@ -105,12 +106,12 @@ def baseline():
     keys, apis = set(), set()
     for s in cfg.get("sites", []):
         api = str(s.get("api") or "")
-        ext = s.get("ext")
-        ek = ext if isinstance(ext, str) else json.dumps(ext, ensure_ascii=False, sort_keys=True)[:60]
-        tail = (ek or api).rsplit("/", 1)[-1][:40]
-        keys.add(build_mod.norm_name(s.get("name")) + "|" + tail)
+        # 与 build/polish 的内容指向判重同一口径（api+ext+jar，名称不参与）。
+        # 旧口径「归一化名称+路径尾段」会被整批换名的换皮配置虚报成新站点，
+        # 误导当天的 --take 并入决策；第二天 build 去重后又会现出原形。
+        keys.add(common.content_key(s))
         if api.startswith("http"):
-            apis.add(api)
+            apis.add(common.content_url(api))
     return keys, apis
 
 
@@ -123,7 +124,7 @@ def evaluate(item, keys, apis, timeout=15):
                 "reason": "HTTP %s / 非 TVBox 配置" % st}
     # 上游大量使用 ./js/x.js 这类相对路径。不做绝对化会把「同一份配置的
     # 代理镜像」当成几百个新站点（实测 gh-proxy 的 gao 镜像曾虚报 +219）。
-    # 这里与 build.py 用同一套规则，边际贡献才有可比性。
+    # 绝对化后用 content_key/content_url 判重，与 build.py 的实际去重同一口径。
     base = url.rsplit("/", 1)[0] + "/"
     new = new_api = 0
     for s in cfg.get("sites", []):
@@ -133,10 +134,15 @@ def evaluate(item, keys, apis, timeout=15):
         ext = s.get("ext")
         if isinstance(ext, str):
             ext = build_mod.absolutize(ext, base)
-        ek = ext if isinstance(ext, str) else json.dumps(ext, ensure_ascii=False, sort_keys=True)[:60]
-        tail = (ek or api).rsplit("/", 1)[-1][:40]
-        k = build_mod.norm_name(s.get("name")) + "|" + tail
-        if k in keys or (str(api).startswith("http") and api in apis):
+        probe = dict(s)
+        probe["api"] = api
+        if isinstance(ext, str):
+            probe["ext"] = ext
+        if isinstance(s.get("jar"), str):
+            probe["jar"] = build_mod.absolutize(s["jar"], base)
+        k = common.content_key(probe)
+        if k in keys or (str(api).startswith("http") and
+                         common.content_url(api) in apis):
             continue
         new += 1
         if str(api).startswith("http"):

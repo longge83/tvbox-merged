@@ -558,6 +558,65 @@ def build_checks(cfgs, bad, online, proxy):
     check("B16", B, "本轮：lives/parses 半量兜底误伤设计内解析截断（已被断言拦下）",
           "polish 的集合兜底只在被清空时触发", c_polish_abort)
 
+    # ---------- B17-B21：第十一轮复核修复的源码级防线 ----------
+
+    def c_upstream_guard():
+        b = text("scripts/build.py")
+        return ("isinstance(cfg, dict)" in b and "common.safe_url(url)" in b,
+                "非 dict JSON 跳过该源 + fetch 先 percent-encode，单源坏数据不再拖垮整天构建")
+
+    check("B17", B, "本轮：上游改版返回 JSON 数组让整个每日构建崩溃",
+          "build.py 对非对象 JSON 与非法 URL 有兜底", c_upstream_guard)
+
+    def c_media_check():
+        pp = text("scripts/play_probe.py")
+        i = pp.find("looks_media =")
+        seg = pp[i:i + 400] if i >= 0 else ""
+        return (i >= 0 and "<html" in seg and "<!doctype" in seg and
+                "or len(body) > 0)" not in seg,
+                "魔数白名单 + HTML 黑名单，不再「任何非空 200 都算媒体」")
+
+    check("B18", B, "本轮：`or len(body) > 0` 让可播率判定完全失效（虚高）",
+          "play_probe 媒体判定排除 HTML", c_media_check)
+
+    def c_revive_guard():
+        rc = text("scripts/recheck.py")
+        ok = ("内容非空(非HTML)" in rc and '"<html" not in head' in rc)
+        return ok, ("复活兜底排除 HTML 错误页，死源能攒够连败被淘汰" if ok
+                    else "recheck 的 HTTP200 兜底未排除 HTML，回退到旧行为")
+
+    check("B19", B, "本轮：反爬源 200+HTML 被当成「复活」，死源永不淘汰",
+          "recheck 复活判定剔掉 HTML 页面", c_revive_guard)
+
+    def c_serve_guard():
+        sv = text("scripts/serve.py")
+        return ("if etag and self.headers.get" in sv
+                and "tvbox-merged@main\"" in sv
+                and all(x in sv for x in ("tvbox-quality.json", "tvbox-cn-fast.json",
+                                          "tvbox-stable7.json")),
+                "304 判定有 etag 前置 / 默认上游带 @main / FILES 含三个场景版")
+
+    check("B20", B, "本轮：serve.py 无 etag 时普通 GET 也回 304、默认上游无 @main、缺三个场景版",
+          "自托管入口三处修复在位", c_serve_guard)
+
+    def c_streak_dates():
+        hp = text("scripts/history.py")
+        yml = text(".github/workflows/update.yml")
+        return ("fromisoformat" in hp and "git pull --rebase origin main" in yml,
+                "连胜按日历日连续累计；CI push 前先 rebase，两个工作流不再互拒")
+
+    check("B21", B, "本轮：断言失败的缺快照日被跳过、stable 3 天门槛可被绕过；两工作流 push 互撞",
+          "history 连胜日期连续性 + workflow push 前 rebase", c_streak_dates)
+
+    def c_mirror_watch():
+        pc = text("scripts/purge_cdn.py")
+        h = text("scripts/health.py")
+        return ("MIRROR_HOSTS" in pc and "gcore.jsdelivr.net/gh/%s@main" in h,
+                "purge 记录 fastly/gcore 滞后；健康页自检覆盖 gcore 线路")
+
+    check("B22", B, "本轮：README 推荐的 gcore / 健康页推荐的 fastly 是 12h 缓存盲区",
+          "推荐镜像滞后可被发现", c_mirror_watch)
+
     # ---------- C. 线上线路（可选，需网络） ----------
     if online:
         opener = urllib.request.build_opener()
@@ -583,7 +642,11 @@ def build_checks(cfgs, bad, online, proxy):
         for i, (label, base) in enumerate((
                 ("GitHub Pages 主线路", "https://dimogu.github.io/tvbox-merged/"),
                 ("jsDelivr @main", "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/"),
-                ("jsDelivr 无版本号", "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/")), 1):
+                ("jsDelivr 无版本号", "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged/"),
+                # README 推荐 gcore、健康页推荐 fastly，此前两者都不在校验范围，
+                # 12h 边缘缓存滞后的旧版（含对象型 style）会直接导入失败
+                ("fastly @main（健康页推荐镜像）", "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/"),
+                ("gcore @main（README 推荐镜像）", "https://gcore.jsdelivr.net/gh/dimogu/tvbox-merged@main/")), 1):
             check("C%02d" % i, C, "第九轮：CDN 同时挂 4 个年代的旧版，导入直接报错",
                   "%s 与仓库内容一致（全量首页版）" % label,
                   net("tvbox-full-homefirst.json", base + "tvbox-full-homefirst.json"),

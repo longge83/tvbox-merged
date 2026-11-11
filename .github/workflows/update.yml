@@ -163,6 +163,9 @@ jobs:
 
       - name: 推送（含不可变稳定版 tag）
         run: |
+          # discover 工作流（每 3 天）或手动触发可能在本作业运行期间插进提交，
+          # 直接 push 会被 non-fast-forward 拒掉、整个 build 失败且 Pages 不部署
+          git pull --rebase origin main || { echo "rebase 失败（非致命）"; git rebase --abort; }
           git push
           git push --tags || echo "tag 推送失败（非致命）"
 
@@ -176,6 +179,23 @@ jobs:
           echo "本次是否有提交: ${{ steps.commit.outputs.changed }}"
           python scripts/purge_cdn.py --attempts 3 || echo "CDN 刷新失败（非致命）"
           exit 0
+
+      # purge 结果此前只躺在 CI 日志里（_cdn_purge.json 被 _*.json 忽略且无人
+      # 提交）。提交到仓库，用户与 regression.py --online 都能查到当日线路状态。
+      - name: 提交 CDN 刷新记录
+        run: |
+          if [ -f _cdn_purge.json ]; then
+            git add -f _cdn_purge.json
+            if git diff --cached --quiet; then
+              echo "CDN 记录无变化"
+              exit 0
+            fi
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "chore: CDN 刷新记录 $(date -u +%Y-%m-%d)"
+            git pull --rebase origin main || { echo "rebase 失败（非致命）"; git rebase --abort; }
+            git push || echo "CDN 记录推送失败（非致命）"
+          fi
 
   # 短 TTL 备用线路 + 健康页。Pages 的缓存远短于 jsDelivr，且不受 purge 影响。
   pages:

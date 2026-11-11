@@ -35,6 +35,10 @@ DEFAULT_FILES = [
 PURGE = "https://purge.jsdelivr.net/gh/%s"
 CDN = "https://cdn.jsdelivr.net/gh/%s/%s"
 CDN_MAIN = "https://cdn.jsdelivr.net/gh/%s@main/%s"
+# README 推荐给用户的 gcore 镜像、健康页每行列出的 fastly 镜像都各有独立
+# 12h 边缘缓存；purge 只对 cdn.jsdelivr.net 生效不波及它们。这里至少把
+# 「已滞后」检测出来写进 _cdn_purge.json，健康页浏览器自检 + 用户都能看见。
+MIRROR_HOSTS = ("cdn.jsdelivr.net", "fastly.jsdelivr.net", "gcore.jsdelivr.net")
 
 
 def sha256_file(path):
@@ -72,13 +76,17 @@ def purge(repo, path):
             print("    purge 失败（不致命）%s: %s" % (target, str(e)[:60]))
 
 
-def fetch_sha(repo, path, main=False):
+def fetch_sha(repo, path, main=False, host=None):
     """取回 CDN 上的内容，返回 (sha256, 字节数)。带 no-cache 头，尽量绕过边缘缓存。
 
     main=True 时取 `@main` 别名路径（实测能稳定拿到最新版）；
     默认取无版本号路径（边缘缓存最顽固，可能滞后 ≤12h）。
+    host 可指定镜像域名（fastly / gcore），用于校验推荐线路是否滞后。
     """
-    url = (CDN_MAIN if main else CDN) % (repo, path)
+    if host:
+        url = "https://%s/gh/%s@main/%s" % (host, repo, path)
+    else:
+        url = (CDN_MAIN if main else CDN) % (repo, path)
     req = urllib.request.Request(url, headers={
         "Cache-Control": "no-cache", "Pragma": "no-cache",
         "User-Agent": "tvbox-merged-purge-check/1.0"})
@@ -154,10 +162,28 @@ def main():
            if less_sha.get(f) is not None and less_sha[f] != want_sha.get(f)]
     if lag:
         print("无版本号路径仍滞后（≤12h 自愈，不影响 @main / Pages）：%s" % ", ".join(lag))
+
+    # 推荐镜像（fastly / gcore）滞后检测：purge 不波及它们，只能记录 + 提示。
+    # 只抽查 3 个用户最常用的文件，避免拖慢构建。
+    mirror_lag = {}
+    for f in ("tvbox.json", "tvbox-quality.json", "tvbox-cn-fast.json"):
+        if f not in done:
+            continue
+        for host in MIRROR_HOSTS[1:]:
+            got, _ = fetch_sha(repo, f, host=host)
+            if got != want_sha.get(f):
+                mirror_lag.setdefault(f, []).append(host)
+    if mirror_lag:
+        print("推荐镜像仍滞后（各有 12h 边缘缓存，purge 清不掉，会自愈；"
+              "急用请走 Pages 主线路）：")
+        for f, hosts in sorted(mirror_lag.items()):
+            print("  %-32s %s" % (f, ", ".join(hosts)))
+
     common.write_json("_cdn_purge.json", {
         "date": common.today(), "env": common.env_info(),
         "files": len(files), "refreshed": sorted(done), "stale": pending,
         "noversion_stale": lag,
+        "mirror_stale": {f: hosts for f, hosts in mirror_lag.items()},
         "attempts": args.attempts,
     }, skip_unchanged=False)
     return 0

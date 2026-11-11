@@ -33,7 +33,16 @@ jobs:
 
       - name: 提交候选报告
         run: |
-          git add -f reports/candidates.json reports/candidates-*.md 2>/dev/null || true
+          # 逐文件判断 + 缺失显式报错：整条 git add 遇到不存在的 pathspec 会
+          # 失败，`|| true` 会把静默失败吞掉（update.yml 第十轮已修，这里同步）
+          missing=0
+          for f in reports/candidates.json; do
+            if [ -e "$f" ]; then git add -f "$f"; else echo "缺少必需产物: $f"; missing=1; fi
+          done
+          for f in reports/candidates-*.md; do
+            [ -e "$f" ] && git add -f "$f"
+          done
+          [ "$missing" = "0" ] || exit 1
           if git diff --cached --quiet; then
             echo "报告无变化，跳过提交"
             exit 0
@@ -41,4 +50,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "chore: 上游候选报告 $(date -u +%Y-%m-%d)"
+          # update 工作流可能在本作业期间插进提交，直接 push 会被拒
+          git pull --rebase origin main || { echo "rebase 失败"; git rebase --abort; exit 1; }
           git push

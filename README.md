@@ -124,7 +124,7 @@ https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-lite.json
 https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-network.json
 ```
 
-**国内镜像（fastly / gcore）**：当 `cdn.jsdelivr.net` 被污染或慢时，把上面链接里的 `cdn` 换成 `fastly` 或 `gcore` 即可（同样带 `@main`，已实测可用）。常用几份的镜像直链：
+**国内镜像（fastly / gcore）**：当 `cdn.jsdelivr.net` 被污染或慢时，把上面链接里的 `cdn` 换成 `fastly` 或 `gcore` 即可（同样带 `@main`，已实测可用）。注意 fastly / gcore 是独立边缘，各有 12h 缓存且 purge 清不掉——**每日更新后的几小时内可能仍拿到上一版**；要绝对最新请走 GitHub Pages。常用几份的镜像直链：
 
 ```
 https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-quality.json

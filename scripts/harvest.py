@@ -16,7 +16,7 @@ README_REPOS = [
     "adminouyang/231006", "kimwang1978/collect-txt", "noimank/tvbox",
     "apaodh/apaodh", "qist/tvbox", "jinenge/tvbox", "xianyuyimu/TVBOX-",
     "qirenzhidao/tvbox18", "Dong-learn9/TVBox-zyjk", "scovis/TVBox",
-    "laoma528/awesome-zhuiju-free", "HerbertHe/iptv-sources", "joevess/IPTV",
+    "HerbertHe/iptv-sources", "joevess/IPTV",
 ]
 
 # 已知多仓配置（展开子线路）

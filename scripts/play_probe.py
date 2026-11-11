@@ -56,8 +56,14 @@ def check_play_url(url, timeout=6):
                             use_cache=False)
     if st in (200, 206):
         txt = body[:512].decode("utf-8", "ignore")
+        # 原来的 `or len(body) > 0` 让任何非空 200 都算媒体（防盗链白名单页、
+        # CDN 错误页、运营商劫持页全是 HTML 但字节数 > 0），可播率系统性虚高，
+        # 精播版 tier 0 与排序权重都被污染。改为魔数白名单 + HTML 黑名单。
+        low = txt.lower()
         looks_media = ("#EXTM3U" in txt or b"ftyp" in body[:64] or
-                       b"\x47" == body[:1] or len(body) > 0)
+                       b"\x47" == body[:1] or b"FLV" == body[:3] or
+                       (len(body) > 0 and "<html" not in low and
+                        "<!doctype" not in low and "<head" not in low))
         return {"reachable": True, "status": st, "media_hint": bool(looks_media)}
     if st in (301, 302):
         return {"reachable": True, "status": st, "media_hint": False}

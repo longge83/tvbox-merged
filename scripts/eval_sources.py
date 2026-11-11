@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
-"""评估候选源在去重后的边际贡献（相对当前 9 源基线）"""
+"""【已废弃】评估候选源在去重后的边际贡献（相对当前 9 源基线）。
+
+此脚本为第一轮的硬编码基线版本，已由 scripts/discover.py 取代（动态读取
+tvbox.json 基线 + content_key 判重口径），未接入任何 workflow。保留仅供
+历史参考，请勿依据其结论做并源决策。
+"""
 import json, re, ssl, sys, time, urllib.request
 from urllib.parse import urljoin
 from concurrent.futures import ThreadPoolExecutor

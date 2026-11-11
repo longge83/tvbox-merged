@@ -1,15 +1,21 @@
 # -*- coding: utf-8 -*-
 """扫描一批 GitHub 仓库，列出可作为 TVBox 接口的 json 文件 raw 地址"""
-import json, ssl, urllib.request, time
+import json, os, ssl, urllib.request, time
 from concurrent.futures import ThreadPoolExecutor
 
 CTX = ssl.create_default_context(); CTX.check_hostname=False; CTX.verify_mode=ssl.CERT_NONE
 
 def api(path, tries=3):
+    # 36 个仓库 × (repos + trees) ≈ 72 次调用，超过未认证限额 60 次/小时，
+    # 尾部仓库会静默漏扫。CI 里注入 GITHUB_TOKEN 即可提升到 5000 次/小时。
+    token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+    headers = {"User-Agent": "tvbox-harvest", "Accept": "application/vnd.github+json"}
+    if token:
+        headers["Authorization"] = "Bearer " + token
     for _ in range(tries):
         try:
             req = urllib.request.Request("https://api.github.com" + path,
-                headers={"User-Agent": "tvbox-harvest", "Accept": "application/vnd.github+json"})
+                headers=headers)
             with urllib.request.urlopen(req, timeout=20, context=CTX) as r:
                 return json.load(r)
         except Exception:
@@ -25,8 +31,9 @@ REPOS = [
  "jinenge/tvbox","kimwang1978/collect-txt","scovis/TVBox","Dong-learn9/TVBox-zyjk",
  "Zhou-Li-Bin/Tvbox-QingNing","youhunwl/TVAPP","laoma528/awesome-zhuiju-free",
  "hubeizgd1979/tvbox-config","khw934/TV","royzhu36/TVBoxConfig","fengzhiku123/ysc-api",
- "huangweiping6666/tvbox-top100","xiaochwn/tvbox-sources","fengzhiku123/ysc-api",
+ "huangweiping6666/tvbox-top100","xiaochwn/tvbox-sources",
 ]
+REPOS = sorted(set(REPOS))  # 曾有重复项，重复扫描白耗 API 限额
 
 def scan(repo):
     info = api("/repos/" + repo)

@@ -18,6 +18,7 @@
 用法：python scripts/history.py [--days 14]
 """
 import argparse
+import datetime
 import glob
 import json
 import os
@@ -167,11 +168,24 @@ def summarize(snaps):
         source_fail[tag] = streak
 
     assert_streak = 0
+    prev_date = None
     for s in reversed(snaps):
+        # 断言失败/构建崩溃的当天没有快照，缺失日不参与循环也不 break，
+        # 两段「通过」会被直接拼成连续 → stable tag 的 3 天连胜门槛可被绕过。
+        # 必须校验相邻快照日期恰好差 1 天。
+        if prev_date is not None:
+            try:
+                gap = (datetime.date.fromisoformat(s["date"]) -
+                       prev_date).days
+            except Exception:
+                gap = 0
+            if gap != -1:
+                break
         if (s.get("assertions") or {}).get("passed"):
             assert_streak += 1
         else:
             break
+        prev_date = datetime.date.fromisoformat(s["date"])
 
     trend = []
     for s in snaps:

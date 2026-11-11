@@ -43,8 +43,14 @@ def alive_with_real_ua(site):
                                   (isinstance(j, dict) and j.get("class")) or
                                   (b"<class" in raw[:20000] and b"<list" in raw[:20000])):
                     return True, "ac=list 有效 UA=%s" % ua["User-Agent"][:18]
+                # 旧兜底「200 且 >100 字节」过松：反爬源对任何 UA 都回 200 +
+                # HTML 错误页（远超 100 字节）→ 死源每天被「复活」一次，
+                # 连败清零、DEAD_AFTER_FAILS=3 永远达不到，死源永久滞留。
+                # 收紧为：非 HTML 且确实非空的 200 才算复活。
                 if st == 200 and len(raw) > 100:
-                    return True, "HTTP200 内容非空 UA=%s" % ua["User-Agent"][:18]
+                    head = raw[:600].decode("utf-8", "ignore").lower()
+                    if "<html" not in head and "<!doctype" not in head:
+                        return True, "HTTP200 内容非空(非HTML) UA=%s" % ua["User-Agent"][:18]
             else:
                 return False, "未知 api"
         except Exception:

@@ -90,7 +90,9 @@ BLOCK_RX, BLOCK_COUNT = load_blocklist()
 
 
 def blocked(obj, fields=("name", "api", "ext", "jar", "url", "urls", "group")):
-    text = " ".join(str(obj.get(f, ""))[:200] for f in fields)
+    # ext 可能内嵌很长的 JSON，截 200 字符会让出现在尾部的关键词漏过；
+    # 断言 content_filter_clean 用同一函数，口径必须一致。
+    text = " ".join(str(obj.get(f, ""))[:2000] for f in fields)
     return bool(BLOCK_RX.search(text))
 
 
@@ -133,6 +135,9 @@ def choose_base(url, cfg, hint=""):
 
 def fetch(url, tries=3, timeout=25):
     last = None
+    # 中文/空格文件名的 URL 必须先 percent-encode，否则 urlopen 抛
+    # UnicodeEncodeError，被当成「拉取失败」静默跳过（common.fetch 已做，这里对齐）
+    url = common.safe_url(url)
     for _ in range(tries):
         try:
             req = urllib.request.Request(url, headers={"User-Agent": UA})
@@ -218,6 +223,13 @@ def build():
             cfg = json.loads(fetch(url))
         except Exception as e:
             stats.append((tag, 0, 0, f"拉取失败:{type(e).__name__}"))
+            continue
+        # TVBox 圈的「多仓列表」接口返回 JSON 数组/字符串很常见；cfg.get 会抛
+        # AttributeError 且冒泡到 __main__ 兜底 → 整天构建失败（断言在 build 之后
+        # 拦不住）。单源坏数据只能跳过该源，不能拖垮全天产出。
+        if not isinstance(cfg, dict):
+            stats.append((tag, 0, 0,
+                          f"格式异常:顶层是{type(cfg).__name__}而非对象,已跳过"))
             continue
         base = choose_base(url, cfg, hint)
         if base != url.rsplit("/", 1)[0] + "/":
@@ -307,7 +319,9 @@ def build():
             np_ = dict(p)
             np_["url"] = absolutize(np_.get("url"), base)
             pk = parse_key(np_)
-            if not pk or pk in seen_parse:
+            # 原来的 `if not pk` 恒为假（parse_key 返回二元组），空 url 解析通道
+            # 拦不住；显式按 url 判定
+            if not str(np_.get("url") or "").strip() or pk in seen_parse:
                 parse_dup += 1
                 continue
             seen_parse.add(pk)

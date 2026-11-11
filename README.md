@@ -10,13 +10,13 @@
 
 | 文件 | 含义（用途） | 站点数（每日浮动，仅供参考） |
 |---|---|---|
-| `tvbox-quality.json` | **精播版**：只留实测可播 / 首页有影片 / jar 有效的节点，宁缺毋滥 | ≈ 630 |
-| `tvbox-cn-fast.json` | **国内极速版**：国内直连、无 spider jar、无爬虫源，开屏最快 | ≤ 120（本轮 60） |
+| `tvbox-quality.json` | **精播版**：只留实测可播 / 首页有影片 / jar 有效的节点，宁缺毋滥 | ≈ 620 |
+| `tvbox-cn-fast.json` | **国内极速版**：国内直连、无 spider jar、无爬虫源，开屏最快 | ≤ 120（本轮 120） |
 | `tvbox-stable7.json` | **7 天稳定版**：近 7 天多次可用且当前无连败，不随上游抖动 | 视历史累积（本轮 200） |
 | `tvbox-full-homefirst.json` | **全量 + 首页优先**，功能最全，依赖 spider jar | ≈ 2740，按首页实测可用性排序 |
 | `tvbox-lite-homefirst.json` | **精简 + 首页优先**，真·不加载 jar，低性能盒子首选 | ≈ 980 |
 | `tvbox-network-homefirst.json` | **网络优化 + 首页优先**，无 jar、无境外托管，国内直连最稳 | ≈ 290 |
-| `tvbox-home.json` | 只保留首页可用节点（含同 jar 推断项） | ≈ 910 |
+| `tvbox-home.json` | 只保留首页可用节点（含同 jar 推断项） | ≈ 970 |
 | `tvbox.json` | 全量版，按「可用 → 未知 → 降级」排序 | ≈ 2740 |
 | `tvbox-lite.json` | 精简版，按「可用 → 未知 → 降级」排序 | ≈ 980 |
 | `tvbox-network.json` | 网络优化版，按「可用 → 未知 → 降级」排序 | ≈ 290 |

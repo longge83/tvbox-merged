@@ -54,7 +54,7 @@
   ],
   "rollback_hint": "python scripts/stable.py --rollback <上一个 tag>",
   "readme": "把 files.<版本>.cdn 整行粘进 TVBox 配置地址即可；tag 固定，内容永不变化",
-  "last_check_commit": "8c1a9c8038b97b19a93efdc0b5883f5b62e9c799",
+  "last_check_commit": "1929bc4d2bd28ce7db701dc257010ea15d730954",
   "deprecated": {
     "stable-20261110": "早期格式：lives.type 混有整数与 null、sites.ext 含对象，新版影视仓导入会报 IllegalStateException / 配置取得失败"
   }

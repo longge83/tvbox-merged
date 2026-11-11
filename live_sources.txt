@@ -1,0 +1,19 @@
+# 直连直播源清单（名称|URL），每日构建会注入到每份配置的 lives 里。
+#
+# 为什么不写进 sources.txt：那里放的是「TVBox 配置」（带 sites/parses），
+# lives 只能顺带继承它们的 lives 字段。下面这些是独立的直播列表，没有配置
+# 可挂，但又确实是我按「列表→分片」两层实测过、能出 TS 码流的源。
+#
+# 收录标准（2026-11-11 实测，scripts/live_audit.py --only-extra --sample 20）：
+#   1. 抽样 20 条频道可播率 >= 15%
+#   2. 含河南台且实测可播的更优先
+#   3. 不收录「大量频道共用一个提示视频」的收费壳
+# 实测数据：vbskycn 65%、myernestlu 20%、jn950/holive 20%、kimwang 白名单库
+# 抽样命中率低但含 7 条河南可播线路（14091 条频道，抽样落在 v6/组播区段）。
+#
+# 改这里就直接进配置，不需要动代码；删掉一行即下线该源。
+
+vbskycn/iptv4|https://live.zbds.top/tv/iptv4.m3u
+jn950/holive|https://raw.githubusercontent.com/jn950/live/main/tv/holive.m3u
+kimwang/白名单|https://raw.githubusercontent.com/kimwang1978/collect-txt/main/assets/blacklist1/whitelist_auto_tv.txt
+myernestlu/zby|https://myernestlu.github.io/zby.txt

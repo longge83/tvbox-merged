@@ -31,6 +31,7 @@ STEP_VARS = {
     "rank_home": "STEP_RANK_HOME",
     "variants": "STEP_VARIANTS",
     "search_rank": "STEP_SEARCH_RANK",
+    "live_audit": "STEP_LIVE_AUDIT",
     "jar_health": "STEP_JAR_HEALTH",
     "regression": "STEP_REGRESSION",
 }
@@ -42,7 +43,7 @@ CONFIG_STEPS = ("home_probe", "rank_home", "variants", "search_rank")
 
 # 决定今日探测数据是否完整。任一失败 → 配置仍发布，但标记为降级版。
 DATA_STEPS = ("home_probe", "recheck", "play_probe",
-              "rank_home", "variants", "search_rank", "jar_health")
+              "rank_home", "variants", "search_rank", "live_audit", "jar_health")
 
 VALID = ("success", "failure", "cancelled", "skipped")
 

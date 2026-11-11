@@ -931,6 +931,93 @@ def build_checks(cfgs, bad, online, proxy):
           "站点顺序按搜索可播优先 + 置顶名单", c_search_order)
 
 
+    # ---------- B. 构建链路（直播源） ----------
+    def c_live_shell():
+        """收费壳判定：既不能漏判，也不能把正常大列表当成广告源删掉。"""
+        import live_audit as LA
+        bad = []
+        # 实测形态：1619 个频道，1588 条指向同一个 vip_notice.mp4
+        shell = {"name": "广告农场", "url": "http://124.71.19.220/live/1/1?v=1",
+                 "chans": 1619, "ad": 1588, "ad_ratio": 0.98, "reuse": 1588,
+                 "reuse_url": "http://124.71.19.220/static/media/vip_notice.mp4"}
+        normal = {"name": "正常大列表", "url": "http://ok.example/tv.txt",
+                  "chans": 2689, "ad": 18, "ad_ratio": 0.007, "reuse": 3,
+                  "reuse_url": "http://ok.example/a.m3u8"}
+        if LA.shell_score(shell) < 2:
+            bad.append("98%% 广告 + 提示视频复用的源没被判成收费壳")
+        if LA.shell_score(normal) >= 2:
+            bad.append("0.7%% 广告的正常列表被误判成收费壳")
+        # 同族扩散：同 host 同前两段路径的失败列表要一起清
+        rows = [dict(shell, shell=2),
+                {"name": "同族另一个列表", "url": "http://124.71.19.220/live/1/2?v=1",
+                 "chans": 0, "ad": 0, "ad_ratio": 0.0, "reuse": 0, "reuse_url": "",
+                 "shell": 0},
+                {"name": "同 host 正常列表", "url": "http://124.71.19.220/other/tv.txt",
+                 "chans": 500, "ad": 2, "ad_ratio": 0.004, "reuse": 2,
+                 "reuse_url": "http://124.71.19.220/other/a.m3u8", "shell": 0}]
+        got = LA.shell_urls(rows)
+        if "http://124.71.19.220/live/1/1?v=1" not in got:
+            bad.append("收费壳自身没进剔除名单")
+        if "http://124.71.19.220/live/1/2?v=1" not in got:
+            bad.append("同族拉不到的列表没被一起清掉（会留尾巴）")
+        if "http://124.71.19.220/other/tv.txt" in got:
+            bad.append("同 host 但不同路径族的正常列表被误删")
+        # 本机反代 / GitHub 反代不扩散：它们下面挂着几十个不同作者的列表
+        rows2 = [dict(shell, url="http://127.0.0.1:9978/proxy?do=live&url=x", shell=2),
+                 {"name": "另一条内置", "url": "http://127.0.0.1:9978/proxy?do=migu",
+                  "chans": 0, "ad": 0, "ad_ratio": 0.0, "reuse": 0,
+                  "reuse_url": "", "shell": 0}]
+        if len(LA.shell_urls(rows2)) != 1:
+            bad.append("按 host 扩散到了本机反代（会一次删掉几十条内置直播源）")
+        return not bad, ("广告占比 >=50%% 或提示视频覆盖 >=30%% 频道即判壳，"
+                         "同族扩散但排除反代 host" if not bad else "；".join(bad))
+
+    check("B29", B, "本轮：直播源里出现「整站频道都指向一个 VIP 提示视频」的收费壳，"
+          "用户点开任何台都是广告",
+          "收费 / 导流直播源判定与按族剔除", c_live_shell)
+
+    def c_henan():
+        """河南台专列表：识台、纠错名、只收实测可播，三件事都不能错。"""
+        import live_audit as LA
+        bad = []
+        cases = [
+            ("http://h.example/hls/33/index.m3u8", "河南卫视"),
+            ("http://h.example/hls/49/index.m3u8", "河南卫视高清"),
+            ("https://dxtx.hntv.tv/live/lypd.m3u8", "河南梨园频道"),
+            ("http://x.example/tv/hn.php?id=hnws", "河南卫视"),
+        ]
+        for u, want in cases:
+            got = LA.fix_name("河南卫视", u)
+            if got != want:
+                bad.append("%s 应为 %s，实为 %s" % (u[-24:], want, got))
+        # 组播 / IPv6 不算可播：前者只在当地运营商内网有效，后者本机无出口
+        for u, kind in (("http://x/rtp/239.1.1.1:5140", "multicast"),
+                        ("http://[2409:8087::1]:80/a.m3u8", "v6")):
+            ok, k, _ = LA.probe(u, timeout=1)
+            if ok or k != kind:
+                bad.append("%s 应判 %s，实际 %s/%s" % (u[:26], kind, ok, k))
+        # 专列表只收实测可播，且必须是标准 M3U
+        rows = [{"ch": "河南卫视", "url": "http://a/1.m3u8", "ok": True, "rk": (0, 0, -3)},
+                {"ch": "河南卫视", "url": "http://a/2.m3u8", "ok": False, "rk": (9, 5, 0)},
+                {"ch": "河南卫视高清", "url": "http://a/3.m3u8", "ok": True, "rk": (0, 0, -1)}]
+        txt, n = LA.build_henan_m3u(rows, per_ch=6, total=40)
+        if not txt.startswith("#EXTM3U") or n != 2:
+            bad.append("专列表应只收 2 条可播线路（实际 %d 条）" % n)
+        if "http://a/2.m3u8" in txt:
+            bad.append("不可播线路混进了专列表")
+        # 真实产物过一遍（审计步骤失败时文件不存在，跳过而不是判失败）
+        if os.path.exists("live-henan.m3u"):
+            t = open("live-henan.m3u", encoding="utf-8").read()
+            if not t.startswith("#EXTM3U") or "#EXTINF" not in t:
+                bad.append("live-henan.m3u 结构不合规")
+        return not bad, ("频道号纠名 + 组播/v6 排除 + 只收实测可播"
+                         if not bad else "；".join(bad))
+
+    check("B30", B, "本轮：网上搜到 389 条河南台地址，只有 22 条真出画面，"
+          "且上游把梨园频道错标成「河南卫视」",
+          "河南台识台 / 纠名 / 专列表只收可播", c_henan)
+
+
     # ---------- C. 线上线路（可选，需网络） ----------
     if online:
         opener = urllib.request.build_opener()

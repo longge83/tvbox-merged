@@ -68,6 +68,42 @@ def load_sources():
     return out or SOURCES
 
 
+def load_live_sources():
+    """独立直播列表（名称|URL）。sources.txt 里的上游只能顺带继承它们的 lives
+    字段，实测可播但没有配置可挂的直播列表（河南台专线、白名单库等）在这里补。"""
+    path = os.environ.get("LIVE_SOURCES_FILE", "live_sources.txt")
+    out = []
+    if not os.path.exists(path):
+        return out
+    for line in open(path, encoding="utf-8"):
+        line = line.strip()
+        if not line or line.startswith("#") or "|" not in line:
+            continue
+        name, _, url = line.partition("|")
+        url = url.strip()
+        if url.startswith(("http://", "https://")):
+            out.append((name.strip(), url))
+    return out
+
+
+def load_live_blocklist():
+    """收费 / 导流直播源黑名单（一行一个「host/前两段路径」，子串匹配）。
+
+    blocklist.txt 是给「站点 / 解析 / 频道名」用的关键词表，判的是内容有没有
+    违规；这里判的是「这个列表是不是收费壳」，两件事不能混。由 live_audit
+    每天实测后写入，build 在聚合阶段就拦住，不必等探测结果。
+    """
+    path = os.environ.get("LIVE_BLOCKLIST_FILE", "live_blocklist.txt")
+    out = []
+    if not os.path.exists(path):
+        return out
+    for line in open(path, encoding="utf-8"):
+        line = line.strip()
+        if line and not line.startswith("#"):
+            out.append(line)
+    return out
+
+
 def load_blocklist():
     path = os.environ.get("BLOCKLIST_FILE", "blocklist.txt")
     pats = []
@@ -91,6 +127,12 @@ def load_blocklist():
 
 
 BLOCK_RX, BLOCK_COUNT = load_blocklist()
+LIVE_BLOCK = load_live_blocklist()
+
+
+def live_blocked(url):
+    u = str(url or "")
+    return bool(u) and any(p in u for p in LIVE_BLOCK)
 
 
 SITE_FIELDS = ("name", "api", "ext", "jar", "url", "urls", "group")
@@ -319,6 +361,9 @@ def build():
             if blocked(g):
                 blocked_live_n += 1
                 continue
+            if live_blocked(g.get("url")):
+                blocked_live_n += 1
+                continue
             if "channels" in g:                       # 旧版嵌套
                 for ch in g.get("channels", []):
                     if not isinstance(ch, dict) or blocked(ch):
@@ -365,6 +410,26 @@ def build():
         if not wallpaper and cfg.get("wallpaper"):
             wallpaper = cfg["wallpaper"]
         stats.append((tag, added, dup, "ok"))
+
+    # ---- 独立直播源（live_sources.txt）----
+    # 走与上游 lives 完全相同的两道关：关键词过滤 + 内容指向去重。顺序放在
+    # 上游之后，同一份列表若上游已经提供，这里会被判重跳过，不会重复出现。
+    live_extra_ok = live_extra_dup = 0
+    for name, url in load_live_sources():
+        g = {"name": name, "url": url, "type": "0"}
+        if blocked(g):
+            blocked_live_n += 1
+            continue
+        if live_blocked(url):
+            blocked_live_n += 1
+            continue
+        ck = (common.content_url(url), "")
+        if ck in seen_live:
+            live_extra_dup += 1
+            continue
+        seen_live.add(ck)
+        flat_lives.append(g)
+        live_extra_ok += 1
 
     # ---- 存活复检：只探测 CMS 采集接口（js/csp 类源无法用 http 探活，必须保留）----
     def is_probeable(api):
@@ -423,6 +488,7 @@ def build():
         "parses_deduped": parse_dup,
         "blocklist_rules": BLOCK_COUNT,
         "lives": len(flat_lives),
+        "lives_extra": live_extra_ok,
         "parses": len(parses),
         "jar_count": len(jar_groups),
         "jar_top": sorted(jar_groups.items(), key=lambda x: -x[1])[:5],
@@ -488,6 +554,8 @@ def build():
           f"| 直播 {len(flat_lives)} | 解析 {len(parses)}（去重 {parse_dup}）")
     print(f"探活站点: {len(probeable)} | 精简版: {len(lite_sites)} | 网络优化版: {len(network_sites)}")
     print(f"jar 种类: {len(jar_groups)} | 过滤: 站点 {blocked_n} 直播 {blocked_live_n} 解析 {blocked_parse_n}")
+    print(f"直播源: 上游 {len(flat_lives) - live_extra_ok} + 直连清单 {live_extra_ok}"
+          f"（清单内重复 {live_extra_dup}）")
     print("CHANGED=%s" % ("true" if any(written.values()) else "false"))
     return any(written.values())
 

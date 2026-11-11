@@ -301,6 +301,33 @@ def main():
                           for r in (rg.get("checks") or []) if r.get("ok") is False][:6],
     }
 
+    # 直播源审计：lives 里存的是「列表地址」，客户端点进去才知道里面有什么。
+    # 这一节回答的是「列表里的河南台到底能不能出画面」，而不是「收录了几个列表」。
+    la = common.load_result("live_audit", {}, fresh=True) or {}
+    la_rows = la.get("sources") or []
+    health["live"] = {
+        "ran": bool(la),
+        "henan_playable": la.get("henan_playable"),
+        "henan_main": la.get("henan_main_playable"),
+        "list_lines": la.get("henan_list_lines"),
+        "list_exists": os.path.exists("live-henan.m3u"),
+        "sources_total": len(la_rows),
+        "sources_ok": sum(1 for s in la_rows if s.get("chans")),
+        "shells": [{"name": s.get("name") or s.get("url"),
+                    "url": s.get("url"), "ad_ratio": s.get("ad_ratio")}
+                   for s in la_rows if s.get("verdict") == "收费广告源"],
+        "henan_sources": [{"name": s.get("name"), "url": s.get("url"),
+                           "ok": s.get("henan_ok")}
+                          for s in sorted(la_rows, key=lambda x: -(x.get("henan_ok") or 0))
+                          if s.get("henan_ok")][:8],
+        # 历史累计的收费源：本轮探测不到（已从配置删掉）不等于没拦过，
+        # 页面上要能区分「本轮新剔除 0 个」和「从来没拦过」。
+        "blocklist": len([l for l in
+                          (open("live_blocklist.txt", encoding="utf-8").read().splitlines()
+                           if os.path.exists("live_blocklist.txt") else [])
+                          if l.strip() and not l.startswith("#")]),
+    }
+
     # jar / ext 健康：每日探活的盲区（旧流程只查 api 接口），现在逐日探测并展示
     jh = common.load_json("_jar_health.json", {}) or {}
     jd, ed = jh.get("jars") or {}, jh.get("exts") or {}
@@ -328,11 +355,18 @@ def main():
     # 先清掉上一轮副本：CI fresh runner 上 site/ 本来不存在，但本地重跑 /
     # 自托管 runner 会留下旧副本，不清就会把昨天的结论当今天的发布。
     report_files = ("audit-latest.md", "regression-latest.md",
-                    "assertions.json", "regression.json", "build-status.json")
+                    "assertions.json", "regression.json", "build-status.json",
+                    "live-audit.json")
     for name in report_files:
         dst = os.path.join("site", name)
         if os.path.exists(dst):
             os.remove(dst)
+    # 河南台专列表：本轮审计没产出可播线路时它不该留在 Pages 上（配置里也不会
+    # 引用它，因为那条 lives 是审计步骤插进去的），先清掉再按存在性复制。
+    if os.path.exists(os.path.join("site", "live-henan.m3u")):
+        os.remove(os.path.join("site", "live-henan.m3u"))
+    if os.path.exists("live-henan.m3u"):
+        shutil.copyfile("live-henan.m3u", os.path.join("site", "live-henan.m3u"))
     for name in report_files:
         src = os.path.join("reports", name)
         if not os.path.exists(src):
@@ -505,12 +539,13 @@ def main():
     p.append("</table>")
     p.append("<div class='sub'>今日三份基础配置的复查明细（删了什么、改了什么名、为什么这样排序）："
              "%s · 全部历史问题的复核清单：%s<br>"
-             "当日结构化结论（可逐项核对）：%s · %s · %s</div>" %
+             "当日结构化结论（可逐项核对）：%s · %s · %s · %s</div>" %
              (report_link("audit-latest.md", "audit-latest.md"),
               report_link("regression-latest.md", "regression-latest.md"),
               report_link("assertions.json", "assertions.json"),
               report_link("regression.json", "regression.json"),
-              report_link("build-status.json", "build-status.json")))
+              report_link("build-status.json", "build-status.json"),
+              report_link("live-audit.json", "live-audit.json（直播源逐条实测）")))
 
     # 线路新鲜度自检：历史上反复出现「仓库已更新、CDN 仍挂几个版本前的旧配置」，
     # 用户照着旧链接填就报 IllegalStateException / 拿到旧站点数。静态页无法知道
@@ -649,6 +684,62 @@ def main():
         p.append("</table>")
     else:
         p.append("<div class='sub'>暂无历史数据，次日构建后开始积累。</div>")
+
+    # 直播源：lives 里只有「列表地址」，能不能播要拆开测才知道。用户投诉的
+    # 「点开河南卫视是黑屏 / 广告」就发生在这里，所以单列一节给实测结论。
+    lv_ = health.get("live") or {}
+    if lv_.get("ran") or lv_.get("list_exists"):
+        p.append("<h2>直播源 <span class='sub' style='margin:0'>"
+                 "（河南台实测 / 收费源剔除）</span></h2>")
+        p.append("<div class='sub'>lives 里每个条目的 URL 是「频道列表」而不是频道本身，"
+                 "点进去才解析。所以「收了 100 个直播源」不代表能看：实测把 389 条"
+                 "河南台地址逐条往下拉到首个 TS 分片，只有 22 条真出画面，其余是"
+                 "组播内网地址、签名过期 403、死链，或整站指向同一个「开通 VIP」提示视频。</div>")
+        p.append("<div class='cards'>")
+        if lv_.get("henan_playable") is not None:
+            p.append("<div class='card'><div class='k'>河南台可播线路</div>"
+                     "<div class='v ok'>%s</div><div class='n'>实测出码流（含各地方台）</div></div>"
+                     % esc(lv_.get("henan_playable")))
+            p.append("<div class='card'><div class='k'>其中河南卫视</div>"
+                     "<div class='v %s'>%s</div><div class='n'>含高清，同名可逐条切换</div></div>"
+                     % ("ok" if (lv_.get("henan_main") or 0) else "bad",
+                        esc(lv_.get("henan_main") or 0)))
+        p.append("<div class='card'><div class='k'>自建专列表</div>"
+                 "<div class='v %s'>%s</div><div class='n'>%s</div></div>"
+                 % ("ok" if lv_.get("list_exists") else "warn",
+                    esc(lv_.get("list_lines") or 0) + " 条",
+                    "已置顶到 lives 第一位" if lv_.get("list_exists") else "本轮未生成"))
+        p.append("<div class='card'><div class='k'>剔除收费 / 导流源</div>"
+                 "<div class='v %s'>%s</div><div class='n'>%s</div></div>"
+                 % ("ok" if not lv_.get("shells") else "warn",
+                    esc(len(lv_.get("shells") or [])),
+                    "累计黑名单 %s 条，构建阶段即拦截" % esc(lv_.get("blocklist") or 0)))
+        p.append("</div>")
+
+        if lv_.get("list_exists"):
+            p.append("<p class='links'>专列表直链：<a href='live-henan.m3u'>live-henan.m3u</a> "
+                     "—— 只收本轮实测出码流的线路，同名频道按线路编号排列，"
+                     "客户端里逐条切换即可。<span class='sub'>（每日重建；本轮没测到可播线路时"
+                     "保留上一版，绝不用空列表覆盖）</span></p>")
+
+        if lv_.get("henan_sources"):
+            p.append("<table><tr><th>含可播河南台的上游列表</th><th>可播线路</th></tr>")
+            for s in lv_["henan_sources"]:
+                p.append("<tr><td>%s<div class='sub'><code>%s</code></div></td>"
+                         "<td>%s</td></tr>" % (esc(s["name"]), esc(s["url"][:96]),
+                                               esc(s["ok"])))
+            p.append("</table>")
+
+        if lv_.get("shells"):
+            p.append("<h2 style='font-size:15px'>已剔除的收费 / 导流源</h2>")
+            p.append("<table><tr><th>源</th><th>地址</th><th>广告频道占比</th></tr>")
+            for s in lv_["shells"]:
+                p.append("<tr><td>%s</td><td><code>%s</code></td><td class='bad'>%s</td></tr>"
+                         % (esc(s["name"]), esc(str(s["url"])[:90]),
+                            "%.0f%%" % (100 * (s.get("ad_ratio") or 0))))
+            p.append("</table>")
+            p.append("<div class='sub'>剔除后写进 <code>live_blocklist.txt</code>，"
+                     "下一轮构建在聚合阶段就拦住，不再依赖当次探测是否跑通。</div>")
 
     # 搜索顺序：客户端按 sites 数组顺序逐站展示搜索结果，顺序直接决定用户
     # 第一屏看到哪些线路。这里把当前口径写清楚，并说明怎么自己置顶。

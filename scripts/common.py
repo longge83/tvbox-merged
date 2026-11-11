@@ -338,6 +338,7 @@ RESULT_PATHS = {
     "assertions": ("reports/assertions.json", "_assertions.json"),
     "regression": ("reports/regression.json", "_regression.json"),
     "build_status": ("reports/build-status.json", "_build_status_local.json"),
+    "live_audit": ("reports/live-audit.json", "_live-audit.json"),
 }
 
 

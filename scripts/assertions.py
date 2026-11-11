@@ -24,6 +24,8 @@
   9.8 搜索顺序：数组顺序 = 客户端搜索结果的展示顺序。每份配置都要跑过
      search_rank，第一屏不得出现磁力 / 体育 / 听书这类非影视站，置顶名单
      里的线路必须在前 10 位
+  9.9 直播源：河南台专列表引用了就必须真有文件且结构合规；live_blocklist
+     里记过的收费 / 导流源不得回流到配置
 软检查（抽样，低于阈值才阻断）：
  10. 抽样 jar 必须是 200 + PK(zip)；抽样 ext 必须 200
      —— 允许个别抖动，但整体可用率不能塌
@@ -508,6 +510,43 @@ def main():
         order_bad.append("置顶名单 %s 不在前 10 位" % pins[:2])
     record("search_order_sane", not order_bad,
            "; ".join(order_bad[:4]) or "顺序按搜索可播优先，置顶线路在前 10 位")
+
+    # 9.9 直播源：自建专列表必须真的存在，收费源不得回流
+    # 专列表这条 lives 是 live_audit 插进去的，m3u 也是它写的。审计步骤失败
+    # （continue-on-error）时配置里不会出现这条，所以「引用了但文件缺失」只可能
+    # 是清理 / 提交环节漏了 —— 客户端点开就是一个 404 的空白直播源。
+    live_bad = []
+    live_block = []
+    if os.path.exists("live_blocklist.txt"):
+        for line in open("live_blocklist.txt", encoding="utf-8"):
+            line = line.strip()
+            if line and not line.startswith("#"):
+                live_block.append(line)
+    henan_file = os.path.exists("live-henan.m3u")
+    henan_ok = False
+    if henan_file:
+        txt = open("live-henan.m3u", encoding="utf-8").read()
+        n_ch = txt.count("#EXTINF")
+        henan_ok = txt.startswith("#EXTM3U") and n_ch >= 1 and "://" in txt
+        if not henan_ok:
+            live_bad.append("live-henan.m3u 结构不合规（%d 个频道）" % n_ch)
+    for f in CONFIGS:
+        cfg = common.load_json(f, {}) or {}
+        lives_f = cfg.get("lives") or []
+        if not lives_f:
+            continue
+        for g in lives_f:
+            u = str(g.get("url") or "")
+            if any(b in u for b in live_block):
+                live_bad.append("%s 仍有收费源 %s" % (f, u[:48]))
+        if not henan_file and any(str(g.get("url") or "").endswith("live-henan.m3u")
+                                  for g in lives_f):
+            live_bad.append("%s 引用了 live-henan.m3u 但文件不存在" % f)
+    record("live_sources_sane", not live_bad,
+           "; ".join(live_bad[:4]) or
+           ("专列表 %d 个频道、收费黑名单 %d 条、配置无引用断裂"
+            % (open("live-henan.m3u", encoding="utf-8").read().count("#EXTINF")
+               if henan_ok else 0, len(live_block))))
 
     # 8) 抽样 jar / ext 可达性
     rng = random.Random(common.today())

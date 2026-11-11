@@ -49,11 +49,12 @@ jobs:
                 tvbox-full-homefirst.json tvbox-lite-homefirst.json \
                 tvbox-network-homefirst.json \
                 tvbox-quality.json tvbox-cn-fast.json tvbox-stable7.json \
-                home-sites.txt \
+                home-sites.txt live-henan.m3u \
                 reports/assertions.json reports/regression.json \
-                reports/build-status.json reports/audit-latest.md \
+                reports/build-status.json reports/live-audit.json \
+                reports/audit-latest.md \
                 reports/regression-latest.md
-          echo "已清除 7 份派生配置 + home-sites.txt + 5 份每日结论，等待本轮重新生成"
+          echo "已清除 7 份派生配置 + home-sites.txt + 河南专列表 + 6 份每日结论，等待本轮重新生成"
 
       - name: 聚合 + 存活复检（含多日判定、外置过滤、parses 去重）
         run: python scripts/build.py
@@ -110,6 +111,16 @@ jobs:
         continue-on-error: true
         run: python scripts/search_rank.py
 
+      # 直播源审计：lives 里存的是「列表地址」，聚合阶段看不到里面有没有河南台、
+      # 能不能播。这一步把每个列表拆成频道，按「列表→分片」两层实测，剔除
+      # 「一半以上频道是促销/导流」的收费壳，并把实测能出码流的河南台线路
+      # 汇成 live-henan.m3u 插到 lives 第一位。
+      # 必须跑在所有配置生成之后：它要改 lives 顺序，前面任何一步重排都会覆盖。
+      - name: 直播源审计（河南台实测 / 收费源剔除 / 专列表）
+        id: live_audit
+        continue-on-error: true
+        run: python scripts/live_audit.py --apply --workers 12
+
       # ── 2. 保险丝：任一硬检查失败就中止，线上保持上一版 ──────────
       - name: 回归断言（失败则不提交）
         id: assertions
@@ -144,6 +155,7 @@ jobs:
           STEP_RANK_HOME: ${{ steps.rank_home.outcome }}
           STEP_VARIANTS: ${{ steps.variants.outcome }}
           STEP_SEARCH_RANK: ${{ steps.search_rank.outcome }}
+          STEP_LIVE_AUDIT: ${{ steps.live_audit.outcome }}
           STEP_JAR_HEALTH: ${{ steps.jar_health.outcome }}
           STEP_REGRESSION: ${{ steps.regression.outcome }}
 
@@ -177,16 +189,17 @@ jobs:
                    tvbox-full-homefirst.json tvbox-lite-homefirst.json \
                    tvbox-network-homefirst.json \
                    tvbox-quality.json tvbox-cn-fast.json tvbox-stable7.json \
-                   home-sites.txt quality.json history/ \
+                   home-sites.txt quality.json history/ live-henan.m3u \
                    reports/audit-latest.md reports/regression-latest.md \
                    reports/assertions.json reports/regression.json \
-                   reports/build-status.json; do
+                   reports/build-status.json reports/live-audit.json; do
             if [ -e "$f" ]; then git add -f "$f"; fi
           done
           # 本轮没生成的每日结论必须从索引移除：只判断 -e 不 add，HEAD 里
           # 仍留着昨天的报告，外部查仓库会被误导，下一轮 checkout 又带出来。
           for f in reports/assertions.json reports/regression.json \
-                   reports/build-status.json reports/audit-latest.md \
+                   reports/build-status.json reports/live-audit.json \
+                   reports/audit-latest.md \
                    reports/regression-latest.md; do
             if [ ! -e "$f" ]; then git rm --cached --ignore-unmatch "$f"; fi
           done

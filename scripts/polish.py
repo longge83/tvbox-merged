@@ -330,12 +330,12 @@ def fix_lives(lives, dup_names):
         ng = dict(g)
         ng["url"] = u
         ng["name"] = str(ng.get("name") or "").strip() or (urlsplit(u).netloc or "直播源")
+        # 影视仓 / catvod 系的 Live.type 声明为 String，Gson 把整数当字符串会抛
+        # IllegalStateException；FongMi/TV 的 Live 根本没有 type 字段（忽略它），
+        # 所以统一写成字符串对两类客户端都安全。
         t = ng.get("type")
-        if not isinstance(t, int):
-            try:
-                ng["type"] = int(str(t).strip())
-            except (TypeError, ValueError):
-                ng["type"] = 0
+        if not isinstance(t, str):
+            ng["type"] = "0" if t is None else str(t).strip()
             type_fixed += 1
         out.append(ng)
 

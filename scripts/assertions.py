@@ -274,8 +274,8 @@ def main():
                 hygiene.append("%s 解析url非法" % f)
                 break
         for g in c.get("lives", []):
-            if not isinstance(g.get("type"), int):
-                hygiene.append("%s 直播type非整数" % f)
+            if not isinstance(g.get("type"), str):
+                hygiene.append("%s 直播type非字符串(影视仓/catvod 的 Live.type 为 String)" % f)
                 break
     record("structure_clean", not hygiene,
            "; ".join(hygiene[:4]) or "无空/非法 api、无重名、解析 url 合法、type 均为整数")

@@ -47,7 +47,7 @@ def audit_file(path):
         "bad_parse_url": sum(1 for p in parses
                              if not re.match(r"^https?://", str(p.get("url") or ""))),
         "non_int_parse_type": sum(1 for p in parses if not isinstance(p.get("type"), int)),
-        "non_int_live_type": sum(1 for p in lives if not isinstance(p.get("type"), int)),
+        "non_str_live_type": sum(1 for p in lives if not isinstance(p.get("type"), str)),
         "live_dup": len(lives) - len({str(g.get("url")) for g in lives}),
         "spider": bool(cfg.get("spider")),
         "jar_sites": sum(1 for s in sites if str(s.get("jar") or "").strip()),
@@ -194,7 +194,7 @@ def main():
         ("元信息条数不符", lambda r: r["meta_mismatch"]),
         ("解析 url 非法", lambda r: r["bad_parse_url"]),
         ("解析 type 非整数", lambda r: r["non_int_parse_type"]),
-        ("直播 type 非整数", lambda r: r["non_int_live_type"]),
+        ("直播 type 非字符串", lambda r: r["non_str_live_type"]),
         ("直播 url 重复", lambda r: r["live_dup"]),
     ]
     for name, fn in checks:

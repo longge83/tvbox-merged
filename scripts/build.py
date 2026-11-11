@@ -299,7 +299,7 @@ def build():
                         continue
                     seen_live.add(ck)
                     flat_lives.append({"group": g.get("group") or g.get("name") or "直播",
-                                       "name": ch.get("name"), "url": u})
+                                       "name": ch.get("name"), "url": u, "type": "0"})
             else:                                     # 新版扁平
                 u = absolutize(g.get("url"), base)
                 ck = (common.content_url(u), common.content_url(g.get("ext")))
@@ -308,6 +308,9 @@ def build():
                 seen_live.add(ck)
                 ng = dict(g)
                 ng["url"] = u
+                t = ng.get("type")
+                if not isinstance(t, str):
+                    ng["type"] = "0" if t is None else str(t).strip()
                 flat_lives.append(ng)
 
         for p in cfg.get("parses", []):

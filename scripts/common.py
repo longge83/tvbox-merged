@@ -351,7 +351,10 @@ _CLIENT_INT_FIELDS = ("playerType", "gridview", "indexs", "timeout", "hide",
 # Gson 遇到「缺键」不会填默认值，字段留 null；5.6.4 等老分支在点播 / 切线路
 # 重新初始化站点时就会抛 NullPointerException: String.trim() on a null object
 # reference。这些字段在所有分支都声明为 String，补空串不会引入类型冲突。
-# parses.ext 在 FongMi 是 Ext 对象、老版是 String，形态不统一，故不在此列。
+# parses.ext 不在此列，且契约与上面相反：影视仓(takagen99/Box) 的 ApiConfig
+# 用 obj.get("ext").getAsJsonObject()、FongMi 新版 Parse.ext 声明成 Ext 对象，
+# 都要求 JSON 对象；由 polish.fix_parses 单独把上游的 JSON 文本还原回对象，
+# 空值 / 纯文本 / 数组则删键（缺键对两端都安全）。
 _CLIENT_REQUIRED_STRINGS = {
     "site":  ("key", "name", "api", "ext", "jar"),
     "parse": ("name", "url"),

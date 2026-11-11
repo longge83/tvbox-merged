@@ -61,7 +61,13 @@ def audit_file(path):
         "dup_key": sum(v - 1 for v in Counter(
             str(s.get("key") or "") for s in sites).values() if v > 1)
         + sum(1 for s in sites if not str(s.get("key") or "")),
-        "ext_obj": sum(1 for o in sites + parses if isinstance(o.get("ext"), (dict, list))),
+        # sites/lives 的 ext 必须是字符串；parses 的 ext 反过来必须是 JSON 对象
+        # （影视仓 getAsJsonObject() / FongMi 新版 Ext），字符串会让整份配置
+        # 导入失败。两者分开统计，别再互相抵消。
+        "ext_obj": sum(1 for o in sites + lives if isinstance(o.get("ext"), (dict, list))),
+        "parse_ext_bad": sum(1 for o in parses
+                             if o.get("ext") is not None
+                             and not isinstance(o.get("ext"), dict)),
         "parse_dup_names": sum(v - 1 for v in Counter(
             str(p.get("name") or "") for p in parses).values() if v > 1),
         "junk_fields": sum(1 for s in sites if "类型" in s or "playurl" in s),
@@ -188,7 +194,8 @@ def main():
         ("非法 api", lambda r: r["illegal_api"]),
         ("重名节点", lambda r: r["dup_names"]),
         ("重复/空 key", lambda r: r["dup_key"]),
-        ("ext 仍是对象", lambda r: r["ext_obj"]),
+        ("sites/lives 的 ext 仍是对象", lambda r: r["ext_obj"]),
+        ("parses 的 ext 非对象", lambda r: r["parse_ext_bad"]),
         ("重名解析通道", lambda r: r["parse_dup_names"]),
         ("客户端不认的字段", lambda r: r["junk_fields"]),
         ("元信息条数不符", lambda r: r["meta_mismatch"]),

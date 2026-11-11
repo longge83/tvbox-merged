@@ -17,9 +17,11 @@ build.py 只负责「把上游合起来」，它做的是结构性去重，不�
 
   1. 卫生：丢弃空 / 非法 api、整型 ext、`--- 1 ---` 占位符；parses 的 url 必须
      真的以 http 开头（上游里混进了 url 叫 "Demo" 的占位项）
-  2. 归一：ext 统一成字符串（382 个站点 + 104 个解析通道原本是 JSON 对象，
-     严格解析的客户端会因此判定整份配置非法）；`playurl` → `playUrl`；丢掉
-     上游抄来的 `类型` 这类客户端不认的字段
+  2. 归一：sites/lives 的 ext 统一成字符串（382 个站点原本是 JSON 对象，
+     严格解析的客户端会因此判定整份配置非法）；**parses 的 ext 反过来必须
+     是 JSON 对象**（影视仓用 getAsJsonObject()、FongMi 新版是 Ext 对象），
+     把上游的 JSON 文本还原回对象；`playurl` → `playUrl`；丢掉上游抄来的
+     `类型` 这类客户端不认的字段
   3. 主键：`key` 是全客户端唯一主键，174 组重名会让后一个站点顶掉前一个，
      保留第一个、其余加稳定后缀
   4. 去重：http 接口按「域名 + 路径 + 参数排序」归一后去重；csp 按 api + 名称
@@ -381,13 +383,35 @@ def fix_parses(parses, types, cap):
         if types is not None and np_["type"] not in types:
             dropped += 1
             continue
-        # 解析通道的 ext 同样是字符串字段（flag 列表 / header），对象要归一
+        # parses[].ext 的客户端契约和 sites/lives **相反**：影视仓
+        # (takagen99/Box) 的 ApiConfig 用 obj.get("ext").getAsJsonObject()，
+        # FongMi 新版 Parse.ext 也声明成 Ext 对象 —— 两边都要求 JSON 对象。
+        # 给字符串会抛 IllegalStateException: Expected a json object but
+        # was ...，且这段不在 try/catch 里（lives 那段才在），整份配置直接
+        # 「配置取得失败」。上游有的源写对象、有的写成 JSON 文本，这里统一
+        # 还原成对象；空值 / 纯文本 / 数组一律删键（缺键时客户端走默认空值，
+        # 对所有分支都安全）。
         e = np_.get("ext")
-        if isinstance(e, (dict, list)):
-            np_["ext"] = common.canon_ext(e)
-            ext_fixed += 1
-        elif isinstance(e, str) and e.strip().lower() in EMPTY_EXT:
+        if isinstance(e, dict):
+            pass
+        elif isinstance(e, str):
+            s = e.strip()
+            if s.lower() in EMPTY_EXT:
+                np_.pop("ext", None)
+                ext_fixed += 1
+            else:
+                try:
+                    v = json.loads(s)
+                except (TypeError, ValueError):
+                    v = None
+                if isinstance(v, dict):
+                    np_["ext"] = v
+                else:
+                    np_.pop("ext", None)
+                ext_fixed += 1
+        elif e is not None:
             np_.pop("ext", None)
+            ext_fixed += 1
         # 同一 url 的 www / 协议 / 尾斜杠 / 参数序差异与 GitHub 反代别名，
         # 都按内容指向归一后去重；但 ext 是 header / flag 配置，url 相同而
         # ext 不同的两条通道行为不一样，必须一并纳入键。

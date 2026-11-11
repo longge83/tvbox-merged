@@ -352,7 +352,8 @@ def main():
             else "; ".join(nbad)) if nbad else
            "客户端会裸 trim 的 String 字段均非 null（播放期不会空指针）")
 
-    # 11) 客户端解析契约：key 唯一、ext 是字符串、_meta 计数对得上、解析不重名。
+    # 11) 客户端解析契约：key 唯一、ext 形态符合各字段契约、_meta 计数对得上、
+    #     解析不重名。
     #     这几条不会让构建崩，但会让用户在客户端里「看不见某些站点 / 整份配置
     #     报错 / 列表里一堆同名解析」，属于必须挡住的结构性问题。
     key_bad, ext_bad, count_bad, pname_bad, field_bad = [], [], [], [], []
@@ -364,11 +365,19 @@ def main():
         dupk = sum(v - 1 for v in ks.values() if v > 1) + ks.get("", 0)
         if dupk:
             key_bad.append("%s 重复/空 key %d" % (f, dupk))
-        for coll in ("sites", "parses"):
-            for o in c.get(coll, []):
-                if isinstance(o.get("ext"), (dict, list)):
-                    ext_bad.append("%s:%s" % (f, coll))
-                    break
+        # sites/lives 的 ext 在所有分支都是 String；parses 反过来必须是
+        # JSON 对象（影视仓 getAsJsonObject() / FongMi 新版 Ext），给字符串会
+        # 抛 IllegalStateException 且整份配置导入失败。缺键对两端都安全。
+        for coll in ("sites", "lives"):
+            if any(isinstance(o.get("ext"), (dict, list))
+                   for o in c.get(coll, [])):
+                ext_bad.append("%s:%s ext 非字符串" % (f, coll))
+        for o in c.get("parses", []):
+            e = o.get("ext")
+            if e is not None and not isinstance(e, dict):
+                ext_bad.append("%s:parses ext 非对象(%s)" %
+                               (f, type(e).__name__))
+                break
         m = c.get("_meta") or {}
         for field in ("lives", "parses"):
             if m.get(field) is not None and m[field] != len(c.get(field, [])):
@@ -383,7 +392,9 @@ def main():
                 field_bad.append("%s:%s" % (f, str(s.get("name"))[:12]))
                 break
     record("site_key_unique", not key_bad, "; ".join(key_bad[:4]) or "主键唯一")
-    record("ext_is_string", not ext_bad, "; ".join(ext_bad[:4]) or "sites/parses 的 ext 均为字符串")
+    record("ext_is_string", not ext_bad,
+           "; ".join(ext_bad[:4]) or
+           "sites/lives 的 ext 为字符串、parses 的 ext 为对象或缺键")
     record("meta_counts_consistent", not count_bad, "; ".join(count_bad[:4]) or "直播/解析条数与元信息一致")
 
     # 11.5) 筛选版不能照抄全量版的 jar 依赖统计。实测三份场景版都带着

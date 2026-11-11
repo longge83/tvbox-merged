@@ -2,18 +2,18 @@
   "date": "2026-11-11",
   "env": {
     "env": "github-actions",
-    "runner": "42983466183",
+    "runner": "43008451102",
     "proxy": false,
-    "generated": "2026-11-11 08:05:05 UTC"
+    "generated": "2026-11-11 11:07:51 UTC"
   },
   "versions": [
     {
       "file": "tvbox-quality.json",
       "label": "精播版",
       "note": "只留实测可播 / 首页实测有影片的节点，宁缺毋滥",
-      "sites": 625,
+      "sites": 526,
       "home_first": null,
-      "bytes": 277434,
+      "bytes": 215859,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-quality.json",
       "mirror": "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-quality.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-quality.json"
@@ -22,9 +22,9 @@
       "file": "tvbox-cn-fast.json",
       "label": "国内极速版",
       "note": "国内直连、无 spider jar、最多取前 120 个，老盒子开屏最快",
-      "sites": 60,
+      "sites": 120,
       "home_first": null,
-      "bytes": 44853,
+      "bytes": 53816,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-cn-fast.json",
       "mirror": "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-cn-fast.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-cn-fast.json"
@@ -35,7 +35,7 @@
       "note": "近 7 天多次可用且当前无连败，不追新源、不随上游抖动",
       "sites": 200,
       "home_first": null,
-      "bytes": 137279,
+      "bytes": 111076,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-stable7.json",
       "mirror": "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-stable7.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-stable7.json"
@@ -44,9 +44,9 @@
       "file": "tvbox-full-homefirst.json",
       "label": "全量 + 首页优先",
       "note": "功能最全，推荐桌面/高性能盒子",
-      "sites": 2742,
-      "home_first": 972,
-      "bytes": 823387,
+      "sites": 2473,
+      "home_first": 847,
+      "bytes": 710109,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-full-homefirst.json",
       "mirror": "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-full-homefirst.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-full-homefirst.json"
@@ -55,9 +55,9 @@
       "file": "tvbox-lite-homefirst.json",
       "label": "精简 + 首页优先",
       "note": "不依赖 spider jar，低性能盒子首选",
-      "sites": 983,
-      "home_first": 78,
-      "bytes": 285889,
+      "sites": 954,
+      "home_first": 69,
+      "bytes": 274457,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-lite-homefirst.json",
       "mirror": "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-lite-homefirst.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-lite-homefirst.json"
@@ -66,9 +66,9 @@
       "file": "tvbox-network-homefirst.json",
       "label": "网络优化 + 首页优先",
       "note": "不依赖境外代码托管，国内直连最稳",
-      "sites": 293,
-      "home_first": 78,
-      "bytes": 92242,
+      "sites": 286,
+      "home_first": 69,
+      "bytes": 89912,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-network-homefirst.json",
       "mirror": "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-network-homefirst.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-network-homefirst.json"
@@ -77,9 +77,9 @@
       "file": "tvbox-home.json",
       "label": "首页版",
       "note": "只保留能出主界面推荐的节点",
-      "sites": 972,
+      "sites": 847,
       "home_first": null,
-      "bytes": 368377,
+      "bytes": 300543,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-home.json",
       "mirror": "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-home.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-home.json"
@@ -88,9 +88,9 @@
       "file": "tvbox.json",
       "label": "全量（原序）",
       "note": "全部节点，原始顺序",
-      "sites": 2742,
+      "sites": 2473,
       "home_first": null,
-      "bytes": 823061,
+      "bytes": 709780,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox.json",
       "mirror": "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox.json"
@@ -99,9 +99,9 @@
       "file": "tvbox-lite.json",
       "label": "精简（原序）",
       "note": "仅 http 站点",
-      "sites": 983,
+      "sites": 954,
       "home_first": null,
-      "bytes": 285594,
+      "bytes": 274159,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-lite.json",
       "mirror": "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-lite.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-lite.json"
@@ -110,9 +110,9 @@
       "file": "tvbox-network.json",
       "label": "网络优化（原序）",
       "note": "仅国内直连友好站点",
-      "sites": 293,
+      "sites": 286,
       "home_first": null,
-      "bytes": 91962,
+      "bytes": 89629,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-network.json",
       "mirror": "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-network.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-network.json"
@@ -121,7 +121,7 @@
   "sources": [
     {
       "tag": "apaodh/aowu",
-      "added": 80,
+      "added": 77,
       "dup": 0,
       "note": "ok",
       "failed": false,
@@ -130,7 +130,7 @@
     },
     {
       "tag": "apaodh/fm",
-      "added": 41,
+      "added": 36,
       "dup": 0,
       "note": "ok",
       "failed": false,
@@ -139,7 +139,7 @@
     },
     {
       "tag": "apaodh/vox",
-      "added": 81,
+      "added": 54,
       "dup": 1,
       "note": "ok",
       "failed": false,
@@ -148,7 +148,7 @@
     },
     {
       "tag": "apaodh/w2x",
-      "added": 99,
+      "added": 87,
       "dup": 1,
       "note": "ok",
       "failed": false,
@@ -157,7 +157,7 @@
     },
     {
       "tag": "apaodh/xhb",
-      "added": 110,
+      "added": 96,
       "dup": 1,
       "note": "ok",
       "failed": false,
@@ -166,7 +166,7 @@
     },
     {
       "tag": "apaodh/xm",
-      "added": 45,
+      "added": 41,
       "dup": 0,
       "note": "ok",
       "failed": false,
@@ -184,7 +184,7 @@
     },
     {
       "tag": "cyao/m",
-      "added": 13,
+      "added": 7,
       "dup": 8,
       "note": "ok",
       "failed": false,
@@ -193,7 +193,7 @@
     },
     {
       "tag": "cyao/ok",
-      "added": 65,
+      "added": 55,
       "dup": 0,
       "note": "ok",
       "failed": false,
@@ -202,7 +202,7 @@
     },
     {
       "tag": "cyao/xs",
-      "added": 64,
+      "added": 52,
       "dup": 2,
       "note": "ok",
       "failed": false,
@@ -211,7 +211,7 @@
     },
     {
       "tag": "dongli/api",
-      "added": 89,
+      "added": 56,
       "dup": 4,
       "note": "ok",
       "failed": false,
@@ -220,7 +220,7 @@
     },
     {
       "tag": "fish2018",
-      "added": 108,
+      "added": 104,
       "dup": 0,
       "note": "ok",
       "failed": false,
@@ -229,7 +229,7 @@
     },
     {
       "tag": "gao/js",
-      "added": 283,
+      "added": 250,
       "dup": 15,
       "note": "ok",
       "failed": false,
@@ -247,8 +247,8 @@
     },
     {
       "tag": "juhe-subhub",
-      "added": 135,
-      "dup": 88,
+      "added": 126,
+      "dup": 85,
       "note": "ok",
       "failed": false,
       "fail_streak": 0,
@@ -256,7 +256,7 @@
     },
     {
       "tag": "jundie/top98",
-      "added": 24,
+      "added": 23,
       "dup": 0,
       "note": "ok",
       "failed": false,
@@ -274,7 +274,7 @@
     },
     {
       "tag": "noimank",
-      "added": 64,
+      "added": 61,
       "dup": 0,
       "note": "ok",
       "failed": false,
@@ -284,7 +284,7 @@
     {
       "tag": "qist/ds",
       "added": 1,
-      "dup": 161,
+      "dup": 143,
       "note": "ok",
       "failed": false,
       "fail_streak": 0,
@@ -292,7 +292,7 @@
     },
     {
       "tag": "qist/js",
-      "added": 294,
+      "added": 261,
       "dup": 4,
       "note": "ok",
       "failed": false,
@@ -301,7 +301,7 @@
     },
     {
       "tag": "qist/jsm",
-      "added": 137,
+      "added": 119,
       "dup": 24,
       "note": "ok",
       "failed": false,
@@ -310,7 +310,7 @@
     },
     {
       "tag": "ssr/ct",
-      "added": 74,
+      "added": 62,
       "dup": 0,
       "note": "ok",
       "failed": false,
@@ -319,7 +319,7 @@
     },
     {
       "tag": "ssr/ts888",
-      "added": 227,
+      "added": 223,
       "dup": 6,
       "note": "ok",
       "failed": false,
@@ -328,7 +328,7 @@
     },
     {
       "tag": "ysc/4k",
-      "added": 39,
+      "added": 35,
       "dup": 14,
       "note": "ok",
       "failed": false,
@@ -337,8 +337,8 @@
     },
     {
       "tag": "ysc/laoliubei",
-      "added": 226,
-      "dup": 8,
+      "added": 215,
+      "dup": 7,
       "note": "ok",
       "failed": false,
       "fail_streak": 0,
@@ -346,8 +346,8 @@
     },
     {
       "tag": "ysc/wangerxiao",
-      "added": 61,
-      "dup": 2,
+      "added": 60,
+      "dup": 1,
       "note": "ok",
       "failed": false,
       "fail_streak": 0,
@@ -355,7 +355,7 @@
     },
     {
       "tag": "ysc/xiaohezi",
-      "added": 50,
+      "added": 47,
       "dup": 4,
       "note": "ok",
       "failed": false,
@@ -364,7 +364,7 @@
     },
     {
       "tag": "ysc/xiaoma",
-      "added": 40,
+      "added": 39,
       "dup": 22,
       "note": "ok",
       "failed": false,
@@ -373,7 +373,7 @@
     },
     {
       "tag": "yw88075",
-      "added": 303,
+      "added": 293,
       "dup": 6,
       "note": "ok",
       "failed": false,
@@ -384,24 +384,24 @@
   "sources_ok": 29,
   "sources_failed": [],
   "home_grades": {
-    "likely": 894,
+    "likely": 778,
     "ok": 58,
-    "unknown": 1026,
-    "fail": 744,
-    "classes_only": 20
+    "unknown": 986,
+    "fail": 640,
+    "classes_only": 11
   },
-  "home_inferred": 347,
+  "home_inferred": 322,
   "play": {
     "sampled": 30,
-    "list_rate": 0.6667,
-    "detail_rate": 0.6333,
-    "play_rate": 0.2,
-    "search_rate": 0.6667,
-    "playable": 6,
-    "parses_alive_rate": 0.25,
-    "parses_total": 285
+    "list_rate": 0.8333,
+    "detail_rate": 0.8,
+    "play_rate": 0.2667,
+    "search_rate": 0.7,
+    "playable": 8,
+    "parses_alive_rate": 0.3,
+    "parses_total": 182
   },
-  "false_kill_rate": 0.4,
+  "false_kill_rate": 0.24,
   "assert_passed": true,
   "assert_ran": true,
   "assert_pass_streak": 2,
@@ -422,7 +422,7 @@
       "jar_health": "success",
       "regression": "success"
     },
-    "run_id": "42983466183"
+    "run_id": "43008451102"
   },
   "stable": {
     "tag": "stable-20261110",
@@ -446,36 +446,36 @@
     },
     {
       "date": "2026-11-11",
-      "sites": 2854,
-      "lite": 1059,
-      "network": 366,
-      "home_sites": 972,
+      "sites": 2582,
+      "lite": 1030,
+      "network": 359,
+      "home_sites": 847,
       "home_ok": 58,
-      "play_rate": 0.2,
-      "false_kill_rate": 0.4,
+      "play_rate": 0.2667,
+      "false_kill_rate": 0.24,
       "sources_ok": 29,
       "assert_passed": true,
       "degraded": false
     }
   ],
   "dedupe": {
-    "parses_deduped": 415,
+    "parses_deduped": 341,
     "blocked": {
-      "sites": 3,
+      "sites": 299,
       "lives": 1,
-      "parses": 0
+      "parses": 177
     }
   },
   "hygiene": [
     {
       "label": "全量版",
       "file": "tvbox.json",
-      "keys": 785,
-      "content_dup": 26,
-      "client_norm": 1593,
-      "ext": 420,
-      "names": 798,
-      "parse_renamed": 51,
+      "keys": 673,
+      "content_dup": 23,
+      "client_norm": 1478,
+      "ext": 306,
+      "names": 720,
+      "parse_renamed": 15,
       "parse_capped": 0,
       "offshore_live": 37,
       "wallpaper": true
@@ -483,26 +483,26 @@
     {
       "label": "精简版",
       "file": "tvbox-lite.json",
-      "keys": 376,
+      "keys": 361,
       "content_dup": 0,
-      "client_norm": 656,
+      "client_norm": 642,
       "ext": 8,
-      "names": 537,
-      "parse_renamed": 49,
-      "parse_capped": 199,
+      "names": 518,
+      "parse_renamed": 14,
+      "parse_capped": 97,
       "offshore_live": 37,
       "wallpaper": true
     },
     {
       "label": "网络优化版",
       "file": "tvbox-network.json",
-      "keys": 5,
+      "keys": 4,
       "content_dup": 0,
-      "client_norm": 530,
+      "client_norm": 525,
       "ext": 8,
-      "names": 53,
-      "parse_renamed": 49,
-      "parse_capped": 219,
+      "names": 49,
+      "parse_renamed": 14,
+      "parse_capped": 117,
       "offshore_live": 37,
       "wallpaper": true
     }
@@ -521,11 +521,11 @@
     "jar_total": 52,
     "jar_dead": 26,
     "jar_alive_rate": 0.5,
-    "ext_total": 1342,
-    "ext_dead": 437,
+    "ext_total": 1269,
+    "ext_dead": 393,
     "jar_fail_streak": 27,
     "jar_fail_ge2": 25,
-    "ext_fail_streak": 437,
-    "ext_fail_ge2": 437
+    "ext_fail_streak": 439,
+    "ext_fail_ge2": 391
   }
 }

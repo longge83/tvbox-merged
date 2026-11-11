@@ -36,6 +36,15 @@ FILES = [
     "tvbox-network-homefirst.json", "tvbox-home.json",
     "tvbox.json", "tvbox-lite.json", "tvbox-network.json",
 ]
+
+# 已发布、但内容本身有缺陷的历史 tag。tag 按设计不可变，缺陷无法原地修好，
+# 唯一诚实的处理是「保留链接 + 明确标注不要导入」：让它悄悄躺在 history 里、
+# 健康页却当成推荐线路展示，用户拿到的就是导入必报错的那一版。
+# 新增条目请写清「缺陷是什么 / 现象是什么」，方便后来人判断要不要回滚到它。
+KNOWN_BAD_TAGS = {
+    "stable-20261110": "早期格式：lives.type 混有整数与 null、sites.ext 含对象，"
+                       "新版影视仓导入会报 IllegalStateException / 配置取得失败",
+}
 # 场景版是后加的：旧 tag 里没有这些文件，不能凭文件名生成 404 链接。
 # 只有 tag 对应提交里确实存在该文件时才写进 stable.json 的 files。
 OPTIONAL_FILES = ["tvbox-quality.json", "tvbox-cn-fast.json", "tvbox-stable7.json"]
@@ -156,6 +165,7 @@ def write_pointer(state, repo, tag, manifest, bootstrap=False):
         "last_check_commit": manifest["commit"],
         "repo": repo,
         "bootstrap": bootstrap,
+        "deprecated": {**KNOWN_BAD_TAGS, **(state.get("deprecated") or {})},
         "assert_pass_streak": manifest["assert_pass_streak"],
         "min_streak_to_advance": 3,
         "policy": "回归断言连续通过 3 天才推进；坏版本可用 --rollback 退回历史 tag",
@@ -220,6 +230,8 @@ def main():
         if cur_tag:
             state["updated"] = common.today()
             state["last_check_commit"] = manifest["commit"]
+            state["bootstrap"] = False
+            state["deprecated"] = {**KNOWN_BAD_TAGS, **(state.get("deprecated") or {})}
             common.write_json("stable.json", state, skip_unchanged=False)
         reason = ("构建状态不可用" if not bs else
                   "不完整步骤 %s" % (", ".join(bs.get("incomplete_steps") or
@@ -243,6 +255,10 @@ def main():
             state["updated"] = common.today()
             state["assert_pass_streak"] = streak
             state["last_check_commit"] = manifest["commit"]
+            # 指针已经存在就不再是 bootstrap。早期版本漏了这一步，导致
+            # stable.json 永远写着 bootstrap=true，看不出「是否首个稳定版」。
+            state["bootstrap"] = False
+            state["deprecated"] = {**KNOWN_BAD_TAGS, **(state.get("deprecated") or {})}
             common.write_json("stable.json", state, skip_unchanged=False)
         print("  断言连续通过 %d/%d 天，稳定版仍指向 %s" %
               (streak, args.min_streak, current or "(无)"))

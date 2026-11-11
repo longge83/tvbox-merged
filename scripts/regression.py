@@ -762,6 +762,39 @@ def build_checks(cfgs, bad, online, proxy):
           "workflow 全绿但健康页缺数据",
           "探测失败不沿用旧产物 + 降级可见", c_no_stale_products)
 
+    def c_bad_tag_marked():
+        sp = text("scripts/stable.py")
+        h = text("scripts/health.py")
+        st = common.load_json("stable.json", {}) or {}
+        hj = common.load_json("health.json", {}) or {}
+        bad = []
+        if "KNOWN_BAD_TAGS" not in sp or '"deprecated"' not in sp:
+            bad.append("stable.py 不再记录历史坏 tag")
+        if "deprecated_reason" not in h or "请勿导入" not in h:
+            bad.append("健康页不再把坏 tag 降级为「请勿导入」")
+        # 行为校验：stable.json 认定当前 tag 有缺陷时，health.json 必须把原因
+        # 带出来。只写常量不落地 = 页面照旧把「导入必报错」的 tag 当推荐线路。
+        tag = st.get("tag") or ""
+        reason = (st.get("deprecated") or {}).get(tag, "")
+        shown = (hj.get("stable") or {}).get("deprecated_reason") or ""
+        # health.json 是生成物：只有「今天的」才能拿来比。跨天的旧快照未必
+        # 反映新代码，拿它当证据会既漏判又误判（与 B23/B24 同一条原则）。
+        fresh = hj.get("date") == common.today()
+        if fresh and reason and not shown:
+            bad.append("stable.json 已标 %s 不可用，health.json 未带出原因" % tag)
+        elif fresh and shown and shown != reason:
+            bad.append("health.json 的废弃原因与 stable.json 不一致")
+        # 指针已存在就不该再自称 bootstrap（历史遗留会误导「是否首个稳定版」）
+        if tag and st.get("bootstrap") is True:
+            bad.append("指针已指向 %s 却仍标 bootstrap=true" % tag)
+        return not bad, ("坏 tag 在 stable.json 标记、健康页红框拦截导入，"
+                         "指针存在时 bootstrap 必为 false"
+                         if not bad else "；".join(bad))
+
+    check("B25", B, "本轮：稳定版 tag 内容有缺陷却仍被当推荐线路，用户照着导入必报错；"
+          "指针已存在还自称 bootstrap",
+          "已知坏 tag 显式标注 + 健康页拦截", c_bad_tag_marked)
+
     # ---------- C. 线上线路（可选，需网络） ----------
     if online:
         opener = urllib.request.build_opener()

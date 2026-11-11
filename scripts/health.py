@@ -240,7 +240,10 @@ def main():
             "run_id": bs.get("run_id", ""),
         },
         "stable": {"tag": stable.get("tag", ""), "commit": stable.get("commit", ""),
-                   "cdn": ((stable.get("files") or {}).get("tvbox-full-homefirst.json") or {}).get("cdn", "")},
+                   "cdn": ((stable.get("files") or {}).get("tvbox-full-homefirst.json") or {}).get("cdn", ""),
+                   # 已知有缺陷的历史 tag（内容不可变，只能标注）：健康页必须
+                   # 把它从「推荐线路」降级为「不要导入」，否则用户照着点就报错。
+                   "deprecated_reason": (stable.get("deprecated") or {}).get(stable.get("tag", ""), "")},
         "trend": trend,
         "dedupe": {"parses_deduped": st.get("parses_deduped", 0),
                    "blocked": st.get("blocked", {})},
@@ -448,13 +451,23 @@ def main():
         # 指针是历史快照，连续健康门槛未达到前不会更新。早期 tag 的配置
         # 仍是 lives.type 整数 / parses.ext 字符串，新版客户端导入会抛
         # IllegalStateException —— 必须明示，别让用户以为这是推荐线路。
-        p.append("<div class='note'><b>稳定版指针</b> <code>%s</code>（断言连续通过 3 天才推进，"
-                 "tag 内容不可变，可随时回滚）<br>固定直链：<a href='%s'>%s</a><br>"
-                 "<span class='sub'>这是历史快照，只有达到连续健康门槛才会更新；若导入报 "
-                 "<code>IllegalStateException / 配置取得失败</code>，说明该 tag 仍是早期格式，"
-                 "请改用下方「配置版本与完整直链」里的 <b>Pages 主线路</b>。</span></div>" %
-                 (esc(health["stable"]["tag"]), esc(health["stable"]["cdn"]),
-                  esc(health["stable"]["cdn"])))
+        bad = health["stable"]["deprecated_reason"]
+        if bad:
+            p.append("<div class='note' style='background:#fdecec;border-color:#f2b8b8;color:#9b1c1c'>"
+                     "<b>当前稳定版指针 %s 已标记为不可用，请勿导入</b>：%s。<br>"
+                     "tag 按设计不可变，缺陷无法原地修复；等「回归断言连续通过 3 天」"
+                     "后会自动推进到新 tag。在此之前请使用下方"
+                     "「配置版本与完整直链」里的 <b>Pages 主线路</b>。<br>"
+                     "历史固定直链（仅供考古）：<code>%s</code></div>" %
+                     (esc(health["stable"]["tag"]), esc(bad), esc(health["stable"]["cdn"])))
+        else:
+            p.append("<div class='note'><b>稳定版指针</b> <code>%s</code>（断言连续通过 3 天才推进，"
+                     "tag 内容不可变，可随时回滚）<br>固定直链：<a href='%s'>%s</a><br>"
+                     "<span class='sub'>这是历史快照，只有达到连续健康门槛才会更新；若导入报 "
+                     "<code>IllegalStateException / 配置取得失败</code>，说明该 tag 仍是早期格式，"
+                     "请改用下方「配置版本与完整直链」里的 <b>Pages 主线路</b>。</span></div>" %
+                     (esc(health["stable"]["tag"]), esc(health["stable"]["cdn"]),
+                      esc(health["stable"]["cdn"])))
     if not health["assert_ran"]:
         p.append("<div class='note'>本轮未生成当日硬断言结论（步骤失败或结果过期），"
                  "请查看 <a href='https://github.com/%s/actions'>Actions 日志</a>。</div>" % esc(REPO))

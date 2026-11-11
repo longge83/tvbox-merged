@@ -574,12 +574,17 @@ def main():
         raw_parses = cfg.get("parses", []) or []
         lives, live_stat = fix_lives(raw_lives, live_dup)
         parses, parse_stat = fix_parses(raw_parses, pol["parse_types"], pol["parse_cap"])
-        # 与 sites 同样的半量兜底：万一 lives/parses 口径写错被清空，out 里干脆
-        # 不写这两个键，_meta 记 0，断言用 0 == 0 放行 —— 坏配置会静默上线。
-        collections_aborted = ((raw_lives and len(lives) < len(raw_lives) * 0.5) or
-                               (raw_parses and len(parses) < len(raw_parses) * 0.5))
+        # 只在被「清空」时兜底。注意不能套用 sites 的半量阈值：fix_parses 的
+        # parse_cap 本来就会把全量版 285 条解析按配额截到 80 / 60 条，用半量
+        # 判断会把设计内截断当成异常、回退到未清洗的原始列表（含占位 url、
+        # 对象型 ext、重名解析），反而写出坏配置 —— 首次上线就被断言抓到。
+        # 真正的症状是 0 条：旧代码会让 out 里干脆不写这个键、_meta 记 0，
+        # 断言用 0 == 0 放行，坏配置静默上线。现在还有 collections_not_empty
+        # 硬断言兜底，这里回退只是不让它变成空配置。
+        collections_aborted = ((bool(raw_lives) and not lives) or
+                               (bool(raw_parses) and not parses))
         if collections_aborted:
-            print("  %-24s 直播/解析被削掉一半以上（%d/%d, %d/%d），回退为原始列表（疑似口径写错）"
+            print("  %-24s 直播/解析被清空（%d/%d, %d/%d），回退为原始列表（疑似口径写错）"
                   % (base, len(lives), len(raw_lives), len(parses), len(raw_parses)))
             lives, parses = list(raw_lives), list(raw_parses)
         keys_renamed = fix_keys(uniq)

@@ -546,6 +546,18 @@ def build_checks(cfgs, bad, online, proxy):
     check("B15", B, "本轮：tag 复用时指针 commit 写成当前 HEAD、与不可变 tag 不一致",
           "stable.json 的 commit 指向 tag 实际提交", c_pointer)
 
+    def c_polish_abort():
+        src = text("scripts/polish.py")
+        i = src.find("collections_aborted =")
+        seg = src[i:i + 300] if i >= 0 else ""
+        return (i >= 0 and "* 0.5" not in seg and "not parses" in seg,
+                ("兜底只判「清空」，不会把 parse_cap 的配额截断当异常回退"
+                 if i >= 0 and "* 0.5" not in seg else
+                 "兜底仍在用半量阈值，会把 285→80 的正常截断误判成异常"))
+
+    check("B16", B, "本轮：lives/parses 半量兜底误伤设计内解析截断（已被断言拦下）",
+          "polish 的集合兜底只在被清空时触发", c_polish_abort)
+
     # ---------- C. 线上线路（可选，需网络） ----------
     if online:
         opener = urllib.request.build_opener()

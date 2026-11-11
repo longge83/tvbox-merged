@@ -2,9 +2,9 @@
   "date": "2026-11-11",
   "env": {
     "env": "github-actions",
-    "runner": "42983466183",
+    "runner": "43008451102",
     "proxy": false,
-    "generated": "2026-11-11 08:05:04 UTC"
+    "generated": "2026-11-11 11:07:50 UTC"
   },
   "passed": true,
   "total": 42,
@@ -73,7 +73,7 @@
       "origin": "第一轮：csp 爬虫节点没有 jar",
       "title": "csp 站点缺 jar 比例不超过 30%",
       "ok": true,
-      "detail": "367/1757 个 csp 站点缺 jar（上游本身可能没写，阈值 30%）",
+      "detail": "334/1517 个 csp 站点缺 jar（上游本身可能没写，阈值 30%）",
       "critical": true
     },
     {

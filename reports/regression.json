@@ -2,13 +2,13 @@
   "date": "2026-11-11",
   "env": {
     "env": "github-actions",
-    "runner": "43010076804",
+    "runner": "43012320475",
     "proxy": false,
-    "generated": "2026-11-11 11:18:59 UTC"
+    "generated": "2026-11-11 11:35:36 UTC"
   },
   "passed": true,
-  "total": 43,
-  "ok": 43,
+  "total": 44,
+  "ok": 44,
   "failed": 0,
   "skipped": 0,
   "hard_failed": [],
@@ -73,7 +73,7 @@
       "origin": "第一轮：csp 爬虫节点没有 jar",
       "title": "csp 站点缺 jar 比例不超过 30%",
       "ok": true,
-      "detail": "334/1517 个 csp 站点缺 jar（上游本身可能没写，阈值 30%）",
+      "detail": "334/1516 个 csp 站点缺 jar（上游本身可能没写，阈值 30%）",
       "critical": true
     },
     {
@@ -398,6 +398,15 @@
       "title": "解析过滤只看身份字段，ext 能力清单不参与",
       "ok": true,
       "detail": "解析只按名称/url 过滤、ext 能力清单不参与；站点仍按全字段；成品零残留",
+      "critical": true
+    },
+    {
+      "id": "B27",
+      "group": "构建链路",
+      "origin": "本轮：用裸「盘」过滤，把盘古解析与 ext 模板文字里的「不包含:网盘下载」一起当网盘资源删掉",
+      "title": "「盘」只匹配网盘类写法 + 剥离筛选说明",
+      "ok": true,
+      "detail": "「盘」只认网盘类写法（含繁体）、盘古解析不受影响、模板里的筛选说明不触发、真网盘链接照拦",
       "critical": true
     }
   ]

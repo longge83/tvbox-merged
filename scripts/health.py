@@ -650,11 +650,28 @@ def main():
     else:
         p.append("<div class='sub'>暂无历史数据，次日构建后开始积累。</div>")
 
+    # 搜索顺序：客户端按 sites 数组顺序逐站展示搜索结果，顺序直接决定用户
+    # 第一屏看到哪些线路。这里把当前口径写清楚，并说明怎么自己置顶。
+    _m0 = (common.load_json(probe_target, {}) or {}).get("_meta") or {}
+    if _m0.get("order") == "search-first":
+        _pins = _m0.get("pinned") or []
+        p.append("<h2>搜索顺序 <span class='sub' style='margin:0'>"
+                 "（搜索结果按站点先后逐站展示）</span></h2>")
+        p.append("<div class='sub'>客户端不提供手动排序，搜索栏里的先后就是配置里站点的先后。"
+                 "当前顺序：<b>置顶名单%s</b> → <b>端到端实测能播</b>（%d 条）→ "
+                 "影视类目（磁力 / 体育 / 听书 / 短视频等排到后段）→ 探活分层 → "
+                 "同一 spider 的连号站按每屏打散。<br>"
+                 "想把自己常用的线路排到最前：在仓库根目录 <code>pins.txt</code> 里"
+                 "加一行站点名关键词（一行一个，越靠前优先级越高），下一次构建生效。</div>" %
+                 (("：" + esc("、".join(_pins))) if _pins else "（空）",
+                  _m0.get("play_verified") or 0))
+
     p.append("<h2>口径说明</h2><div class='sub'>"
              "「可播率」= 抽样站点中「首页列表 → 详情 vod_play_url → 播放地址可连通」全部成立的比例；"
              "「误杀率下界」= 被判 fail 的站点抽样后用真实 TVBox UA 复核复活的比例；"
              "所有判定都在 GitHub Actions 云端网络执行，本机结果只作调试。 "
-             "站点排序依据：今日首页等级 &gt; 近 7 天可用天数 &gt; 端到端可播得分。</div>")
+             "站点排序依据：置顶名单 &gt; 端到端实测可播 &gt; 影视类目 &gt; 探活分层 "
+             "&gt; 首页等级 &gt; 每屏去同源（见上节）。</div>")
     p.append("<footer>本项目仅聚合公开配置文件，不托管任何视频内容。健康页与配置均由 Actions 自动生成。</footer>")
     p.append("</div></body></html>")
 

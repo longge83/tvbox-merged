@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """汇总本轮构建的探测步骤结果，产出可核对的「今日是不是完整版」结论。
 
-背景：update.yml 里 8 个探测/生成步骤设了 continue-on-error，脚本失败时
+背景：update.yml 里 9 个探测/生成步骤设了 continue-on-error，脚本失败时
 不阻断，workflow 照样显示全绿。以前只能翻 Actions 日志才知道哪步挂了，
 健康页却把缺数据的产物当作「今日新配置」展示。这个脚本把每个步骤的
 outcome 落成 reports/build-status.json，由 Actions 提交入库，做到：
@@ -30,6 +30,7 @@ STEP_VARS = {
     "play_probe": "STEP_PLAY_PROBE",
     "rank_home": "STEP_RANK_HOME",
     "variants": "STEP_VARIANTS",
+    "search_rank": "STEP_SEARCH_RANK",
     "jar_health": "STEP_JAR_HEALTH",
     "regression": "STEP_REGRESSION",
 }
@@ -37,11 +38,11 @@ STEP_VARS = {
 # 这三步产出 7 份入库派生配置。它们失败 → 产物缺失 → 前置的回归断言 /
 # 必需产物检查会硬阻断（线上保持上一版），理论上传不到本脚本；单列出来
 # 便于事后核对「当天到底为什么没发版」。
-CONFIG_STEPS = ("home_probe", "rank_home", "variants")
+CONFIG_STEPS = ("home_probe", "rank_home", "variants", "search_rank")
 
 # 决定今日探测数据是否完整。任一失败 → 配置仍发布，但标记为降级版。
 DATA_STEPS = ("home_probe", "recheck", "play_probe",
-              "rank_home", "variants", "jar_health")
+              "rank_home", "variants", "search_rank", "jar_health")
 
 VALID = ("success", "failure", "cancelled", "skipped")
 
@@ -91,12 +92,13 @@ def main():
     print("  结论: %s%s" % ("降级版" if out["degraded"] else "完整版",
                           "（不完整: %s）" % ", ".join(out["incomplete_steps"])
                           if out["incomplete_steps"] else ""))
-    # 8 个 STEP_* 全缺失只可能是 workflow 的 env 段写错 / 被删。这时写出的
+    # 全部 STEP_* 缺失只可能是 workflow 的 env 段写错 / 被删。这时写出的
     # 状态毫无意义，必须硬阻断，不能让一份「看似完整」的报告进 Pages。
     if (common.IS_CI and len(out["incomplete_steps"]) == len(STEP_VARS)
             and all(v == "unknown" for v in out["steps"].values())):
-        print("::error::8 个 STEP_* 环境变量全部缺失，无法判定本轮是否降级；"
-              "请检查 update.yml 的 build_status 步骤 env", file=sys.stderr)
+        print("::error::%d 个 STEP_* 环境变量全部缺失，无法判定本轮是否降级；"
+              "请检查 update.yml 的 build_status 步骤 env"
+              % len(STEP_VARS), file=sys.stderr)
         return 1
     return 0
 

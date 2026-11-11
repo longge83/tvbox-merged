@@ -21,6 +21,9 @@
   9.5 按「内容指向」判重后无重复站点 / 直播 / 解析（防换皮名与链接别名复燃）
   9.6 客户端字段兼容：style / header 不得是 JSON 对象，数字字段不得塞字符串
   9.7 客户端会裸 .trim() 的 String 字段不得缺失 / null（播放期空指针防线）
+  9.8 搜索顺序：数组顺序 = 客户端搜索结果的展示顺序。每份配置都要跑过
+     search_rank，第一屏不得出现磁力 / 体育 / 听书这类非影视站，置顶名单
+     里的线路必须在前 10 位
 软检查（抽样，低于阈值才阻断）：
  10. 抽样 jar 必须是 200 + PK(zip)；抽样 ext 必须 200
      —— 允许个别抖动，但整体可用率不能塌
@@ -477,6 +480,34 @@ def main():
                 break
     record("network_hosting_clean", not offbad,
            "; ".join(offbad[:4]) or "网络优化版无境外代码托管依赖")
+
+    # 7.5) 搜索排序：数组顺序 = 客户端搜索结果的展示顺序
+    # 防的是「排序步骤悄悄没跑 / 被改回按名称排」：按名称排会把磁力、体育、
+    # 听书这类非影视站顶到最前（名字带数字 emoji 的排最靠前），用户搜动画时
+    # 第一屏全是无关线路。这里只看两件事：排序步骤真的跑过、第一屏没有明显
+    # 不相关的类目、置顶名单生效。
+    import search_rank
+    pins = []
+    if os.path.exists("pins.txt"):
+        pins = [ln.strip() for ln in open("pins.txt", encoding="utf-8")
+                if ln.strip() and not ln.strip().startswith("#")]
+    order_bad = []
+    for f, c in cfgs.items():
+        ss = c.get("sites") or []
+        if not ss:
+            continue
+        if (c.get("_meta") or {}).get("order") != "search-first":
+            order_bad.append("%s 未标记 search-first（排序步骤没跑？）" % f)
+            continue
+        noise = [str(s.get("name"))[:12] for s in ss[:10]
+                 if search_rank.cat_group(s)]
+        if noise:
+            order_bad.append("%s 前 10 位有非影视站 %s" % (f, noise[:2]))
+    head_names = [str(s.get("name") or "").casefold() for s in sites[:10]]
+    if pins and not any(p.casefold() in n for p in pins for n in head_names):
+        order_bad.append("置顶名单 %s 不在前 10 位" % pins[:2])
+    record("search_order_sane", not order_bad,
+           "; ".join(order_bad[:4]) or "顺序按搜索可播优先，置顶线路在前 10 位")
 
     # 8) 抽样 jar / ext 可达性
     rng = random.Random(common.today())

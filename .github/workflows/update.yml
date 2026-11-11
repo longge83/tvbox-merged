@@ -88,7 +88,7 @@ jobs:
       - name: 端到端可播率探测（列表→详情→播放地址 + 搜索 + parses）
         id: play_probe
         continue-on-error: true
-        run: python scripts/play_probe.py --sample 30 --parse-sample 20 --workers 24
+        run: python scripts/play_probe.py --sample 150 --parse-sample 20 --workers 24
 
       - name: 生成首页优先版（等级 > 近7天可用天数 > 可播得分）
         id: rank_home
@@ -100,6 +100,15 @@ jobs:
         id: variants
         continue-on-error: true
         run: python scripts/variants.py
+
+      # 站点数组顺序 = 客户端搜索结果的展示顺序，客户端不能手动排序。这一步
+      # 把「端到端实测能播 / 搜索有结果 / 影视类目」的线路排到前面，并把同一
+      # spider 的连号站按每屏（36 条）打散。必须放在所有配置生成之后：再往前
+      # 跑会被 home_probe / rank_home / variants 的重排覆盖。
+      - name: 搜索优先排序（可播优先 / 类目降权 / 每屏去同源）
+        id: search_rank
+        continue-on-error: true
+        run: python scripts/search_rank.py
 
       # ── 2. 保险丝：任一硬检查失败就中止，线上保持上一版 ──────────
       - name: 回归断言（失败则不提交）
@@ -134,6 +143,7 @@ jobs:
           STEP_PLAY_PROBE: ${{ steps.play_probe.outcome }}
           STEP_RANK_HOME: ${{ steps.rank_home.outcome }}
           STEP_VARIANTS: ${{ steps.variants.outcome }}
+          STEP_SEARCH_RANK: ${{ steps.search_rank.outcome }}
           STEP_JAR_HEALTH: ${{ steps.jar_health.outcome }}
           STEP_REGRESSION: ${{ steps.regression.outcome }}
 

@@ -715,7 +715,7 @@ def build_checks(cfgs, bad, online, proxy):
             "reports/regression.json", "reports/build-status.json",
             "reports/audit-latest.md", "reports/regression-latest.md")
         ids = ("audit", "home_probe", "recheck", "play_probe", "rank_home",
-               "variants", "jar_health", "regression")
+               "variants", "search_rank", "jar_health", "regression")
         import build_status
         saved = {v: os.environ.get(v) for v in build_status.STEP_VARS.values()}
         try:
@@ -754,7 +754,7 @@ def build_checks(cfgs, bad, online, proxy):
         if not ("load_build_status" in hp and "降级版不推进" in sp
                 and "本轮是降级版" in h and "if streak < args.min_streak:" in sp):
             bad.append("降级日门槛被回退")
-        return not bad, ("清除 7 份配置 + 5 份结论；8 步 env 对齐；实测 "
+        return not bad, ("清除 7 份配置 + 5 份结论；9 步 env 对齐；实测 "
                          "failure/unknown→降级、过期状态被拒、bootstrap 需连胜"
                          if not bad else "；".join(bad))
 
@@ -870,6 +870,66 @@ def build_checks(cfgs, bad, online, proxy):
     check("B27", B, "本轮：用裸「盘」过滤，把盘古解析与 ext 模板文字里的"
           "「不包含:网盘下载」一起当网盘资源删掉",
           "「盘」只匹配网盘类写法 + 剥离筛选说明", c_pan_scope)
+
+    def c_search_order():
+        """本站点顺序 = 客户端搜索结果顺序，顺序错了前面全是不能用的线路。"""
+        sr = text("scripts/search_rank.py")
+        raw = text(".github/workflows/update.yml")
+        yml = "\n".join(l for l in raw.splitlines()
+                        if not l.lstrip().startswith("#"))
+        bad = []
+        if "def order(" not in sr or "def family(" not in sr:
+            bad.append("search_rank 的排序实现被拆掉")
+        if "pins.txt" not in sr:
+            bad.append("置顶名单不再读取（用户指定的线路会退回原位）")
+        if "python scripts/search_rank.py" not in yml:
+            bad.append("workflow 不再执行 search_rank")
+        else:
+            # 顺序要点：跑在所有配置生成之后，否则被 home_probe / rank_home /
+            # variants 的重排覆盖，等于这一步白做。
+            at = yml.index("python scripts/search_rank.py")
+            for later in ("polish.py", "home_probe.py", "rank_home.py",
+                          "variants.py"):
+                if yml.index("python scripts/" + later) > at:
+                    bad.append("search_rank 跑在 %s 之前，排序会被覆盖" % later)
+        if "search_order_sane" not in text("scripts/assertions.py"):
+            bad.append("硬断言不再守搜索顺序")
+
+        # 行为校验（不依赖本轮产物、也不依赖当前文件里的顺序）：造三条假站点
+        # 直接过一遍 order()，验证「置顶真的到最前」「非影视类目真的被压后」。
+        # 只看配置文件里有没有那几行代码，写错了也照样通过。
+        import search_rank as SR
+        probe = [{"name": "磁力 • 合集", "api": "csp_A", "type": 3},
+                 {"name": "普通影视站", "api": "csp_B", "type": 3},
+                 {"name": "占位置顶站", "api": "csp_C", "type": 3}]
+        got = [str(s.get("name")) for s in
+               SR.order(probe, ["占位置顶站"], {}, lambda s: 1, {}, use_home=False)]
+        if got[0] != "占位置顶站":
+            bad.append("置顶名单没把指定站点移到第一位（实际 %s）" % got[0])
+        if got.index("磁力 • 合集") < got.index("普通影视站"):
+            bad.append("非影视类目没有被压后（磁力站排在影视站之前）")
+        if '"search-first"' not in sr:
+            bad.append("配置里不再标记 order=search-first（断言无法核对）")
+        # 真实配置过一遍：排序只许换顺序，不许少站
+        sites = (common.load_json("tvbox.json", {}) or {}).get("sites") or []
+        if not sites:
+            bad.append("tvbox.json 读不到，无法验证排序行为")
+        else:
+            try:
+                n = len(SR.order(sites, SR.load_pins(), {}, lambda s: 1, {},
+                                 use_home=False))
+                if n != len(sites):
+                    bad.append("排序后站点数 %d != %d（会丢站）" % (n, len(sites)))
+            except Exception as e:
+                bad.append("真实配置排序报错：%s" % str(e)[:60])
+        return not bad, ("顺序 = 置顶 > 实测可播 > 影视类目 > 探活分层，"
+                         "同源连号按每屏打散；跑在所有配置生成之后"
+                         if not bad else "；".join(bad))
+
+    check("B28", B, "本轮：搜索栏按名称字母排 —— 数字/emoji 起头的站霸占第一屏，"
+          "实测能播的线路被挤到六七百位之后",
+          "站点顺序按搜索可播优先 + 置顶名单", c_search_order)
+
 
     # ---------- C. 线上线路（可选，需网络） ----------
     if online:

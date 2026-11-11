@@ -2,13 +2,13 @@
   "date": "2026-11-11",
   "env": {
     "env": "github-actions",
-    "runner": "43012320475",
+    "runner": "43017235338",
     "proxy": false,
-    "generated": "2026-11-11 11:35:36 UTC"
+    "generated": "2026-11-11 12:13:52 UTC"
   },
   "source": "github-actions",
-  "run_id": "43012320475",
-  "commit": "789423600624d63d219f81492e4919ce166a63bf",
+  "run_id": "43017235338",
+  "commit": "fc9b6021d8e3b8795f7664f7f686538b2113baa0",
   "steps": {
     "audit": "success",
     "home_probe": "success",
@@ -16,6 +16,7 @@
     "play_probe": "success",
     "rank_home": "success",
     "variants": "success",
+    "search_rank": "success",
     "jar_health": "success",
     "regression": "success"
   },

@@ -2,13 +2,13 @@
   "date": "2026-11-11",
   "env": {
     "env": "github-actions",
-    "runner": "43012320475",
+    "runner": "43017235338",
     "proxy": false,
-    "generated": "2026-11-11 11:35:36 UTC"
+    "generated": "2026-11-11 12:13:52 UTC"
   },
   "passed": true,
-  "total": 44,
-  "ok": 44,
+  "total": 45,
+  "ok": 45,
   "failed": 0,
   "skipped": 0,
   "hard_failed": [],
@@ -253,7 +253,7 @@
       "origin": "每日保险丝结果",
       "title": "当日回归断言已通过",
       "ok": true,
-      "detail": "date=2026-11-11 / passed=True，28 项检查，失败 []",
+      "detail": "date=2026-11-11 / passed=True，29 项检查，失败 []",
       "critical": true
     },
     {
@@ -289,7 +289,7 @@
       "origin": "每轮交付前的基础检查",
       "title": "全部 scripts/*.py 可编译",
       "ok": true,
-      "detail": "24 个脚本全部编译通过",
+      "detail": "25 个脚本全部编译通过",
       "critical": true
     },
     {
@@ -379,7 +379,7 @@
       "origin": "本轮：探测失败不阻断 → 上一版派生配置被当作今日成果发布成混搭；workflow 全绿但健康页缺数据",
       "title": "探测失败不沿用旧产物 + 降级可见",
       "ok": true,
-      "detail": "清除 7 份配置 + 5 份结论；8 步 env 对齐；实测 failure/unknown→降级、过期状态被拒、bootstrap 需连胜",
+      "detail": "清除 7 份配置 + 5 份结论；9 步 env 对齐；实测 failure/unknown→降级、过期状态被拒、bootstrap 需连胜",
       "critical": true
     },
     {
@@ -407,6 +407,15 @@
       "title": "「盘」只匹配网盘类写法 + 剥离筛选说明",
       "ok": true,
       "detail": "「盘」只认网盘类写法（含繁体）、盘古解析不受影响、模板里的筛选说明不触发、真网盘链接照拦",
+      "critical": true
+    },
+    {
+      "id": "B28",
+      "group": "构建链路",
+      "origin": "本轮：搜索栏按名称字母排 —— 数字/emoji 起头的站霸占第一屏，实测能播的线路被挤到六七百位之后",
+      "title": "站点顺序按搜索可播优先 + 置顶名单",
+      "ok": true,
+      "detail": "顺序 = 置顶 > 实测可播 > 影视类目 > 探活分层，同源连号按每屏打散；跑在所有配置生成之后",
       "critical": true
     }
   ]

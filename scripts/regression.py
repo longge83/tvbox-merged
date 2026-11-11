@@ -49,7 +49,7 @@ REQUIRED_ASSERTIONS = (
     "jar_not_media", "csp_has_jar", "no_relative_path",
     "lite_network_jar_free", "network_hosting_clean",
     "meta_counts_consistent", "meta_jar_consistent",
-    "collections_not_empty", "ext_is_string", "site_key_unique",
+    "collections_not_empty", "ext_contract_clean", "site_key_unique",
 )
 
 
@@ -159,12 +159,24 @@ def build_checks(cfgs, bad, online, proxy):
     check("A02", A, "第九轮：导入报 IllegalStateException", "style / header 不得是 JSON 对象", c_style)
 
     def c_numeric():
+        # type 的客户端契约按集合相反：sites / parses 走 Gson getAsInt() 必须是
+        # 整数；lives 在影视仓(catvod) 的 Live.type 声明为 String，必须是字符串。
+        # 旧口径把三者一锅端地要求「不得是字符串」，会把 lives.type 的正确修复
+        # 判成回归（实测 980 处命中，健康页长期挂 A03 阻断）。
         hits = ["%s %s:%s=%r" % (f, coll, k, o.get(k)) for f, coll, kind, o in rows
-                for k in ("playerType", "gridview", "type") if isinstance(o.get(k), str)]
-        return not hits, ("%d 处数字字段是字符串：%s" % (len(hits), ", ".join(hits[:3]))
-                          if hits else "数字字段均为整数")
+                for k in ("playerType", "gridview") if isinstance(o.get(k), str)]
+        for f, coll, kind, o in rows:
+            t = o.get("type")
+            if coll == "lives":
+                if not isinstance(t, str):
+                    hits.append("%s lives:type=%r 非字符串" % (f, t))
+            elif not isinstance(t, int) or isinstance(t, bool):
+                hits.append("%s %s:type=%r 非整数" % (f, coll, t))
+        return not hits, ("%d 处类型契约违规：%s" % (len(hits), ", ".join(hits[:3]))
+                          if hits else "playerType/gridview 为整数，sites/parses.type 为整数，lives.type 为字符串")
 
-    check("A03", A, "第九轮 / 第三轮", "数字字段不得塞字符串 / 直播 type 必须是整数", c_numeric)
+    check("A03", A, "第九轮 / 第三轮 / 类型契约修复",
+          "类型契约：sites/parses.type 整数、lives.type 字符串、playerType/gridview 非字符串", c_numeric)
 
     def c_null():
         hits = []
@@ -466,12 +478,26 @@ def build_checks(cfgs, bad, online, proxy):
     check("B11", B, "第十轮：误杀率 52% 证明单日判定不可信",
           "quality.json 保留多日历史与抽样基线", c_quality)
 
+    def c_b12():
+        # README 后来按用户要求精简成「链接 + 含义 + 免责声明」，不再罗列
+        # jsDelivr 备用链接，原检查里「不要用不带 @main 的链接」那句已随章节
+        # 一起移除 —— 继续硬找这句话会恒失败。改查它真正想守的风险：README
+        # 主推 Pages、不出现无版本号的 jsDelivr 直链、健康页直链都带 @main。
+        readme = text("README.md")
+        hp = text("scripts/health.py")
+        unversioned = [u for u in re.findall(
+            r"https?://(?:cdn|fastly|gcore|testingcf)\.jsdelivr\.net/gh/[^\s`)\]]+",
+            readme) if "@" not in u.split("/gh/", 1)[-1].split("/", 1)[0]]
+        ok = ("dimogu.github.io/tvbox-merged/" in readme
+              and "@main/%s" in hp
+              and not unversioned)
+        return ok, ("README 主推 Pages、无无版本号 CDN 直链；健康页直链均带 @main"
+                    if ok else "README/健康页口径不一致：Pages=%s, @main=%s, 无版本CDN=%s"
+                    % ("dimogu.github.io/tvbox-merged/" in readme,
+                       "@main/%s" in hp, unversioned[:2]))
+
     check("B12", B, "第九轮：README 要求 Pages 主线路；健康页给无版本 CDN 链接",
-          "README 主线路 Pages / health.py 直链带 @main",
-          lambda: (("dimogu.github.io/tvbox-merged/" in text("README.md")
-                    and "@main/%s" in text("scripts/health.py")
-                    and "不要用不带 `@main` 的链接" in text("README.md")),
-                   "README 主推 Pages、健康页两列直链均带 @main，口径一致"))
+          "README 主线路 Pages / health.py 直链带 @main", c_b12)
 
     def c_html():
         h = text(os.path.join("site", "index.html"))

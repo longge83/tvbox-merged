@@ -142,6 +142,9 @@ def main():
                            "www / 协议 / 尾斜杠 / 参数顺序差异",
             "jar_dep": "依赖 jar 的站点，与「不加载 jar」的版本目标冲突",
             "hosting": "api / jar / ext 落在境外代码托管或 GitHub 反代（与片源内容无关）",
+            "mirror_dup": "同一采集站的多个镜像域名 / 编号别名（如 14~20-量子、暴风各子域），"
+                          "搜索时每个镜像各回一份相同结果；同组只留最优，"
+                          "同品牌跨域名族保留一个主用 + 一个备用",
         }
         for k, v in removed.items():
             L.append("- 剔除 **%d** 个：%s" % (v, meaning.get(k, k)))
@@ -159,8 +162,10 @@ def main():
                      "归一后只保留一条" % (lv.get("dup_content", 0),
                                           ps.get("dup_content", 0)))
         if ps.get("ext_fixed") or p.get("ext_normalized"):
-            L.append("- `ext` 归一 **%d** 个站点 / **%d** 个解析通道：上游把 ext 写成 JSON "
-                     "对象，严格解析的客户端会判定整份配置非法，统一改成字符串"
+            L.append("- `ext` 归一 **%d** 个站点 / **%d** 个解析通道：两者契约相反 —— "
+                     "sites 的 ext 必须是字符串（上游写对象会让 Gson 抛异常）；"
+                     "parses 的 ext 必须是 JSON 对象（影视仓 `getAsJsonObject()` / "
+                     "FongMi 新版 `Ext`），JSON 文本还原成对象、纯文本与数组删键"
                      % (p.get("ext_normalized", 0), ps.get("ext_fixed", 0)))
         if p.get("wallpaper_removed"):
             L.append("- 移除 `wallpaper`：上游壁纸地址在国内打不开（实测超时），"
@@ -170,7 +175,7 @@ def main():
             L.append("- 移除全局 `spider` 字段（原指向 `raw.githubusercontent.com`，"
                      "国内盒子拉不到会让所有爬虫节点首页空白）")
         if lv.get("type_fixed") or lv.get("renamed") or lv.get("offshore_moved"):
-            L.append("- 直播：修正 `type` 非整数 %d 个、重名消歧 %d 个、"
+            L.append("- 直播：修正 `type` 非字符串 %d 个、重名消歧 %d 个、"
                      "境外托管沉底 %d 条"
                      % (lv.get("type_fixed", 0), lv.get("renamed", 0),
                         lv.get("offshore_moved", 0)))
@@ -228,8 +233,10 @@ def main():
     L.append("- **改名站点**的历史签名会变，当天回到「未知」层，次日自动接回。")
     L.append("- **身份签名 = 名称 + api + jar + ext（不含 key）**：所以主键去重、ext 归一"
              "都不会让整批站点历史断链；只有改名会（它本来就是另一个名字了）。")
-    L.append("- **`ext` 必须是字符串**：TVBox 原版用 Gson 严格解析，对象型 ext 会让整份"
-             "配置报「格式错误」，不是单个站点打不开。")
+    L.append("- **`ext` 契约按集合相反**：`sites` / `lives` 的 ext 必须是字符串"
+             "（对象型会让 Gson 抛 `IllegalStateException`）；`parses` 的 ext 必须是 "
+             "JSON 对象或缺键 —— 影视仓 `ApiConfig` 用 `getAsJsonObject()` 读取且不在 "
+             "try/catch 内，给字符串会整份「配置取得失败」。")
 
     os.makedirs(os.path.dirname(args.output) or ".", exist_ok=True)
     with open(args.output, "w", encoding="utf-8") as f:

@@ -188,6 +188,15 @@ def main():
                   file=sys.stderr)
             return 1
         manifest = make_manifest()
+        # manifest 的站点数取的是「当前工作区」tvbox.json，而回滚后的指针指向
+        # 历史 tag。直接写进去会让 stable.json 的记录与实际下载内容对不上。
+        # 优先从 tag 里的 tvbox.json 取真实条数，取不到再退回工作区值。
+        try:
+            hist = json.loads(git("show", "%s:tvbox.json" % args.rollback))
+            site_count = len(hist.get("sites", []))
+        except Exception:
+            site_count = (manifest["files"].get("tvbox.json") or {}).get("sites", 0)
+        manifest["files"].setdefault("tvbox.json", {})["sites"] = site_count
         out = write_pointer(dict(state, history=state.get("history", [])),
                             repo, args.rollback, manifest)
         print("已回滚稳定版指针 -> %s" % args.rollback)

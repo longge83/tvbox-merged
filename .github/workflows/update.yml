@@ -98,8 +98,13 @@ jobs:
         id: commit
         run: |
           # 必需产物缺失必须显式失败：否则线上会停在旧版，日志却显示构建成功。
+          # 10 份配置都是 README / 健康页给出的可用链接，缺任意一份 Pages 上
+          # 就是 404。以前只查 5 份，三个场景版整份缺失时提交、断言、健康页
+          # 都会静默跳过（OPTIONAL_CONFIGS 缺文件不记 bad）。
           for f in tvbox.json tvbox-lite.json tvbox-network.json \
-                   tvbox-home.json tvbox-full-homefirst.json; do
+                   tvbox-home.json tvbox-full-homefirst.json \
+                   tvbox-lite-homefirst.json tvbox-network-homefirst.json \
+                   tvbox-quality.json tvbox-cn-fast.json tvbox-stable7.json; do
             if [ ! -f "$f" ]; then
               echo "::error::缺少必需产物 $f"
               exit 1
@@ -165,9 +170,15 @@ jobs:
         run: |
           # discover 工作流（每 3 天）或手动触发可能在本作业运行期间插进提交，
           # 直接 push 会被 non-fast-forward 拒掉、整个 build 失败且 Pages 不部署
-          git pull --rebase origin main || { echo "rebase 失败（非致命）"; git rebase --abort; }
+          # 冲突时 HEAD 并未前进，直接 push 只会 non-fast-forward 失败、build 变红
+          # 且 pages 作业被跳过（与旧注释里的「非致命」相反）。明确中止并报出原因。
+          git pull --rebase origin main || {
+            echo "::error::与远端并发提交冲突，rebase 失败；放弃本次推送以免部署陈旧产物"
+            git rebase --abort
+            exit 1
+          }
           git push
-          git push --tags || echo "tag 推送失败（非致命）"
+          git push --tags || echo "::warning::稳定版 tag 推送失败，stable.json 可能指向未推送的 tag"
 
       # ── 5. CDN 缓存治理 ─────────────────────────────────────────
       # jsDelivr 对分支引用 s-maxage=43200（12h）且不感知 commit 变化。
@@ -193,8 +204,13 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git commit -m "chore: CDN 刷新记录 $(date -u +%Y-%m-%d)"
-            git pull --rebase origin main || { echo "rebase 失败（非致命）"; git rebase --abort; }
-            git push || echo "CDN 记录推送失败（非致命）"
+            # 这条记录只是可观测性数据，冲突就跳过，不要影响已经上传的 Pages artifact
+            git pull --rebase origin main || {
+              echo "::warning::CDN 记录 rebase 冲突，跳过本次记录推送"
+              git rebase --abort
+              exit 0
+            }
+            git push || echo "::warning::CDN 刷新记录推送失败（不影响 Pages 产物）"
           fi
 
   # 短 TTL 备用线路 + 健康页。Pages 的缓存远短于 jsDelivr，且不受 purge 影响。

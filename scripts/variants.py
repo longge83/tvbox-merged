@@ -79,26 +79,37 @@ class Context:
 
         # home_report 的 idx 对应 tvbox.json（原序），换算成 sig 才能匹配重排后的配置
         self.grade_by_sig, self.inferred = {}, set()
+        # sig 含 name，而 polish 对每份基础配置独立做同名消歧：同一站点在
+        # 精简 / 网络版可能被改名，导致探测证据静默丢失、场景版里退化成
+        # unknown 被排除。补一份与名称无关的 content_key 索引兜底（与
+        # rank_home.build_priority 同一处理），不动历史签名。
+        self.grade_by_content, self.inferred_content = {}, set()
         for r in self.rep.get("sites", []):
             i = r.get("idx")
             if isinstance(i, int) and 0 <= i < len(self.full_sites) and r.get("grade"):
-                sg = common.sig(self.full_sites[i])
+                s = self.full_sites[i]
+                sg, ck = common.sig(s), common.content_key(s)
                 self.grade_by_sig[sg] = r["grade"]
+                self.grade_by_content.setdefault(ck, r["grade"])
                 if r.get("inferred"):
                     self.inferred.add(sg)
+                    self.inferred_content.add(ck)
         # 探测报告缺失时，退化为「首页版里的节点视为 likely」
         self.home_fallback = not self.grade_by_sig
         if self.home_fallback:
-            for i, s in enumerate(self.home_cfg.get("sites", [])):
-                self.grade_by_sig.setdefault(common.sig(s), "likely")
+            for s in self.home_cfg.get("sites", []):
+                sg, ck = common.sig(s), common.content_key(s)
+                self.grade_by_sig.setdefault(sg, "likely")
+                self.grade_by_content.setdefault(ck, "likely")
 
     def info(self, site):
         sg = common.sig(site)
+        ck = common.content_key(site)
         st = self.stab.get(sg) or {}
         return {
             "sig": sg,
-            "grade": self.grade_by_sig.get(sg, "unknown"),
-            "inferred": sg in self.inferred,
+            "grade": self.grade_by_sig.get(sg) or self.grade_by_content.get(ck, "unknown"),
+            "inferred": sg in self.inferred or ck in self.inferred_content,
             "playable": sg in self.playable,
             "score": int(self.scores.get(sg, 0) or 0),
             "home_days": int(st.get("home_days_7", 0) or 0),

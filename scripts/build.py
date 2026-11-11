@@ -76,8 +76,12 @@ def load_blocklist():
             line = line.strip()
             if line and not line.startswith("#"):
                 pats.append(line)
-    else:
-        pats = FALLBACK_BLOCK
+    # 文件存在但全是注释/空行时 pats=[]，下面会编译出 re.compile("")，
+    # 而空正则匹配任意字符串 —— blocked() 会把站点 / 直播 / 解析全删光。
+    # 这与「文件不存在」是同一种情况，必须同样回退到内置关键词。
+    if not pats:
+        print("blocklist 无有效条目，回退内置关键词", file=sys.stderr)
+        pats = list(FALLBACK_BLOCK)
     try:
         rx = re.compile("|".join("(?:%s)" % p for p in pats), re.I)
     except re.error as e:

@@ -185,7 +185,12 @@ def summarize(snaps):
             assert_streak += 1
         else:
             break
-        prev_date = datetime.date.fromisoformat(s["date"])
+        # 首条快照不进上面的 gap 分支，date 损坏会在这里直接抛异常，
+        # 让整个 history.py 崩掉（进而阻断当天构建）。与 gap 分支同样保护。
+        try:
+            prev_date = datetime.date.fromisoformat(s["date"])
+        except (KeyError, TypeError, ValueError):
+            break
 
     trend = []
     for s in snaps:

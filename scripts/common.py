@@ -370,7 +370,13 @@ def client_string_fields(kind):
 def _guess_client_kind(obj):
     if "key" in obj and "api" in obj:
         return "site"
-    if "channels" in obj or any(k in obj for k in ("epg", "logo", "pass", "boot", "ua")):
+    # parse 条目也常带 ua / header。单凭这些键把 parse 误判成 live 很危险：
+    # live 的必填 String 字段含 ext，误判后会把 parses 的 JSON 对象 ext
+    # json.dumps 成字符串，而影视仓 ApiConfig 用 getAsJsonObject() 读它，
+    # 会直接抛 IllegalStateException 让整份配置导入失败。
+    # 因此 live 必须同时具备 api 键 + 直播专属键；无法判定时宁可按 parse 处理。
+    if "api" in obj and ("channels" in obj or
+                         any(k in obj for k in ("epg", "logo", "pass", "boot", "ua"))):
         return "live"
     return "parse"
 

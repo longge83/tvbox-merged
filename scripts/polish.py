@@ -194,15 +194,20 @@ def fix_keys(sites):
         s["key"] = k
         groups.setdefault(k, []).append(s)
     renamed = 0
+    # 新生成的 key 必须登记进 used：只查原始 groups 会让两个不同重复组产出
+    # 同名后缀（例如 "a" 组生成 a-2-2，"a-2" 组也生成 a-2-2），反而制造
+    # 新的重复主键，被 site_key_unique 硬断言拦下。
+    used = set(groups)
     for k, lst in groups.items():
         if len(lst) == 1:
             continue
         lst.sort(key=lambda x: (str(x.get("api")), str(x.get("name"))))
         for i, s in enumerate(lst[1:], 2):
             cand, n = "%s-%d" % (k, i), 2
-            while cand in groups:
+            while cand in used:
                 cand = "%s-%d-%d" % (k, i, n)
                 n += 1
+            used.add(cand)
             s["key"] = cand
             renamed += 1
     return renamed
@@ -235,6 +240,21 @@ MIRROR_GENERIC = (
 )
 MIRROR_NUM_PREFIX = re.compile(r"^\d+\s*[-_.·|｜]\s*")
 
+# 「搜索 / 我的 / 私人」这类是功能描述而不是品牌。只取中文前两字分组时，
+# 「搜索 | lf_search」与「搜索 | 磁力熊」会撞成同一组，被当成镜像删掉一条。
+# 这些词一律不参与归并（保守：宁可少删，不可误删不同功能入口）。
+MIRROR_BRAND_STOP = frozenset((
+    "搜索", "我的", "私人", "自用", "推荐", "热门", "最新", "默认", "公共",
+    "免费", "全网", "聚合", "综合", "多源", "备用", "通用", "本地", "在线",
+    "电视", "安卓", "盒子", "影视", "资源", "采集", "直播", "点播", "网盘",
+    "磁力", "短剧", "动漫", "电影", "综艺", "纪录", "线路", "接口", "测试",
+))
+# 二级公共后缀：取倒数第二段会把所有 .co.uk / .com.cn 归成 "co" / "com"。
+MIRROR_2LD_SUFFIXES = frozenset((
+    "co.uk", "com.cn", "net.cn", "org.cn", "gov.cn", "edu.cn", "com.hk",
+    "co.jp", "com.tw", "com.sg", "co.kr", "com.au", "co.nz", "com.br",
+))
+
 
 def mirror_brand(name):
     """取名称里的中文品牌词（前两字），仅用于归并同库镜像，不写进配置。"""
@@ -244,7 +264,8 @@ def mirror_brand(name):
     for g in sorted(MIRROR_GENERIC, key=len, reverse=True):
         t = t.replace(g, "")
     z = "".join(ch for ch in t if "\u4e00" <= ch <= "\u9fff")
-    return z[:2] if len(z) >= 2 else ""
+    b = z[:2] if len(z) >= 2 else ""
+    return "" if b in MIRROR_BRAND_STOP else b
 
 
 def mirror_family(api):
@@ -253,9 +274,17 @@ def mirror_family(api):
         h = (urlsplit(str(api or "")).hostname or "").lower()
     except Exception:
         return ""
+    # IP 直连取完整 host，否则多个 IP 都会被归成空串、互相顶掉。
+    if re.match(r"^\d+(\.\d+){3}$", h):
+        return h
     parts = h.split(".")
-    core = parts[-2] if len(parts) >= 2 else h
-    return re.sub(r"\d+", "", core)
+    if len(parts) >= 3 and ".".join(parts[-2:]) in MIRROR_2LD_SUFFIXES:
+        core = parts[-3]
+    else:
+        core = parts[-2] if len(parts) >= 2 else h
+    # 163.com / 4k.com 这类纯数字主体去掉编号后会变成空串，多个不相干的
+    # 域名会撞进同一族；保留原主体即可。
+    return re.sub(r"\d+", "", core) or core
 
 
 def mirror_redundant(sites, rank=None):
@@ -283,10 +312,18 @@ def mirror_redundant(sites, rank=None):
         jar_key = common.content_url(s.get("jar") or "")
         groups[(brand, mirror_family(api), ext_key, jar_key)].append(s)
 
+    def is_json_api(s):
+        # mirror_redundant 吃的是 build.py 刚产出的原始站点，clean_site 还没把
+        # type 转成 int；字符串 "1" == 1 为 False，会把 json 接口排到劣后并删掉。
+        try:
+            return int(str(s.get("type") or 0)) == 1
+        except (TypeError, ValueError):
+            return False
+
     def score(s):
         tier = rank(s) if rank else 0
         # 可用 > 未知 > 降级；其次优先 json(type=1)、短接口（无多余格式参数）
-        return (tier, 0 if s.get("type") == 1 else 1,
+        return (tier, 0 if is_json_api(s) else 1,
                 len(str(s.get("api") or "")), len(str(s.get("name") or "")))
 
     def sig(s):
@@ -738,7 +775,32 @@ def main():
         if collections_aborted:
             print("  %-24s 直播/解析被清空（%d/%d, %d/%d），回退为原始列表（疑似口径写错）"
                   % (base, len(lives), len(raw_lives), len(parses), len(raw_parses)))
-            lives, parses = list(raw_lives), list(raw_parses)
+            # 浅拷贝每条对象，避免下面的类型修正污染 cfg 里的原始列表。
+            lives = [dict(x) if isinstance(x, dict) else x for x in raw_lives]
+            parses = [dict(x) if isinstance(x, dict) else x for x in raw_parses]
+            # 回退的是「未清洗」列表，不能把已修好的客户端契约一起退回去：
+            # parses.ext 给字符串会让影视仓 ApiConfig.getAsJsonObject() 抛
+            # IllegalStateException，lives.type 给整数与 Live.type(String) 不符。
+            # 这里只补类型，不做去重 / 截断（否则又会清空，回退失去意义）。
+            for p in parses:
+                if not isinstance(p, dict):
+                    continue
+                e = p.get("ext")
+                if isinstance(e, str):
+                    try:
+                        v = json.loads(e.strip())
+                    except (TypeError, ValueError):
+                        v = None
+                    if isinstance(v, dict):
+                        p["ext"] = v
+                    else:
+                        p.pop("ext", None)
+                elif e is not None and not isinstance(e, dict):
+                    p.pop("ext", None)
+            for l in lives:
+                if isinstance(l, dict) and not isinstance(l.get("type"), str):
+                    t = l.get("type")
+                    l["type"] = "0" if t is None else str(t).strip()
         keys_renamed = fix_keys(uniq)
 
         spider = cfg.get("spider")

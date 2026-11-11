@@ -14,8 +14,9 @@
   5. 无重复路径段（XBPQ/XBPQ/、/js/js/ 这类基准拼错）
   6. 首页版 ⊆ 全量版；homefirst 版站点数与对应源一致
   7. 过滤后不应残留违规关键词
-  8. 客户端解析契约：key 唯一、ext 是字符串、_meta 的直播/解析条数对得上、
-     解析通道不重名、没有客户端不认的字段（类型 / playurl）
+  8. 客户端解析契约：key 唯一、ext 形态合规（sites/lives 字符串、
+     parses 对象或缺键）、_meta 的直播/解析条数对得上、解析通道不重名、
+     没有客户端不认的字段（类型 / playurl）
   9. 壁纸若配置了就必须拉得到
   9.5 按「内容指向」判重后无重复站点 / 直播 / 解析（防换皮名与链接别名复燃）
   9.6 客户端字段兼容：style / header 不得是 JSON 对象，数字字段不得塞字符串
@@ -278,7 +279,8 @@ def main():
                 hygiene.append("%s 直播type非字符串(影视仓/catvod 的 Live.type 为 String)" % f)
                 break
     record("structure_clean", not hygiene,
-           "; ".join(hygiene[:4]) or "无空/非法 api、无重名、解析 url 合法、type 均为整数")
+           "; ".join(hygiene[:4]) or
+           "无空/非法 api、无重名、解析 url 合法、直播 type 均为字符串")
 
     # 9.5) 内容指向去重回归防线：名称只是显示用的皮，链接还常被换成
     #      raw / jsdelivr / gh-proxy 等别名。只按名称或字面 URL 判重会漏，
@@ -392,7 +394,7 @@ def main():
                 field_bad.append("%s:%s" % (f, str(s.get("name"))[:12]))
                 break
     record("site_key_unique", not key_bad, "; ".join(key_bad[:4]) or "主键唯一")
-    record("ext_is_string", not ext_bad,
+    record("ext_contract_clean", not ext_bad,
            "; ".join(ext_bad[:4]) or
            "sites/lives 的 ext 为字符串、parses 的 ext 为对象或缺键")
     record("meta_counts_consistent", not count_bad, "; ".join(count_bad[:4]) or "直播/解析条数与元信息一致")

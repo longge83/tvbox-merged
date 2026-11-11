@@ -78,66 +78,17 @@
 这些口径已经变成断言（`structure_clean` / `site_key_unique` / `ext_is_string` / `meta_counts_consistent` / `parse_names_unique` / `no_foreign_fields` / `wallpaper_reachable` / `lite_network_jar_free` / `network_hosting_clean`）：下次构建再出现空条目、重名、重复主键、对象型 ext 或配置落回代码托管，会直接阻断提交，线上保持上一版。
 
 
-### 主线路（GitHub Pages，实时最新，推荐）
+### 怎么填链接（推荐：GitHub Pages）
 
-Pages 的缓存只有几分钟、且每次构建自动重新部署，不受 CDN 12h 边缘缓存影响，是**最稳的「总是最新版」入口**，国内一般也能直连：
-
-```
-https://dimogu.github.io/tvbox-merged/tvbox-quality.json
-https://dimogu.github.io/tvbox-merged/tvbox-cn-fast.json
-https://dimogu.github.io/tvbox-merged/tvbox-stable7.json
-https://dimogu.github.io/tvbox-merged/tvbox-full-homefirst.json
-https://dimogu.github.io/tvbox-merged/tvbox-lite-homefirst.json
-https://dimogu.github.io/tvbox-merged/tvbox-network-homefirst.json
-https://dimogu.github.io/tvbox-merged/tvbox-home.json
-https://dimogu.github.io/tvbox-merged/tvbox.json
-https://dimogu.github.io/tvbox-merged/tvbox-lite.json
-https://dimogu.github.io/tvbox-merged/tvbox-network.json
-```
+GitHub Pages 是「总是最新」入口：缓存只有几分钟、每次构建自动部署、不受 jsDelivr 12h 边缘缓存影响，国内一般也能直连。按上面「一、配置地址」表格选一个文件名，统一前缀 `https://dimogu.github.io/tvbox-merged/<文件名>` 即可（`tvbox-quality.json` 等 10 个文件名见上表）。
 
 > 首次使用需在仓库 Settings → Pages 把 Build and deployment 的 Source 设为 **GitHub Actions**（一次性操作），之后每次构建自动部署。
 
-### 备用线路（jsDelivr，国内通常更快）
+### 备用线路（可选，可能滞后）
 
-**仅作为备用**：用带 `@main` 别名的链接；主域名被污染 / 慢时，把 `cdn` 换成 `fastly` / `gcore` / `testingcf`（同样带 `@main`）。这些路径有最长 12h 的边缘缓存，purge 接口不保证生效 —— 实测 `cdn` / `fastly` / `gcore` / `testingcf` 曾同时挂着 344、484、521 个站点等不同年代的旧版，而 Pages 已是新版。**导入报 `IllegalStateException` 时先换 Pages 链接**。
-
-如果必须用 jsDelivr 又要立刻拿到当前版本，用带 commit sha 的不可变链接（该路径从未缓存，回源即最新；代价是内容固定、不会自动更新）：
-
-```
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@<commit-sha>/tvbox-full-homefirst.json
-```
-
-`<commit-sha>` 取 `https://api.github.com/repos/dimogu/tvbox-merged/commits/main` 返回的最新 sha。
-
-下面是 `@main` 备用链接：
-
-```
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-quality.json
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-cn-fast.json
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-stable7.json
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-full-homefirst.json
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-lite-homefirst.json
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-network-homefirst.json
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-home.json
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox.json
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-lite.json
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-network.json
-```
-
-**国内镜像（fastly / gcore）**：当 `cdn.jsdelivr.net` 被污染或慢时，把上面链接里的 `cdn` 换成 `fastly` 或 `gcore` 即可（同样带 `@main`，已实测可用）。注意 fastly / gcore 是独立边缘，各有 12h 缓存且 purge 清不掉——**每日更新后的几小时内可能仍拿到上一版**；要绝对最新请走 GitHub Pages。常用几份的镜像直链：
-
-```
-https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-quality.json
-https://gcore.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-quality.json
-https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-cn-fast.json
-https://gcore.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-cn-fast.json
-https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-stable7.json
-https://gcore.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-stable7.json
-```
-
-> ⚠️ **不要用不带 `@main` 的链接**（即 `cdn.jsdelivr.net/gh/dimogu/tvbox-merged/tvbox.json`）。
-> jsDelivr 对「不带版本号」的路径有独立的 12h 边缘缓存，purge 经常清不掉、会回退到旧版本——
-> 本次就出现主线挂着旧版（851KB，含已修掉的壁纸 / junk），而 `@main` 与 Pages 已是新版（822KB）。
+> **只用 Pages 链接就够。** 备用线路（jsDelivr `cdn/fastly/gcore.jsdelivr.net/gh/dimogu/tvbox-merged@main/<文件名>`）可达，但有最长 12h 边缘缓存、purge 不保证生效，更新后几小时内可能仍是上一版；导入报 `IllegalStateException` 也先换 Pages。
+>
+> 固定稳定版 tag、raw 官方源、commit-sha 不可变链接等完整备用方案，已整理到仓库 **`README.full.md`**，需要时查阅。
 
 ### 导入报「配置取得失败 / java.lang.IllegalStateException」怎么办
 
@@ -165,34 +116,17 @@ https://gcore.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-stable7.json
 
 构建侧已加防线：客户端会裸 `trim()` 的 String 字段（`ext` / `api` / `jar` / `name` / `url` 等）缺失或为 `null` 时统一补空串，断言 `no_null_strings` 硬阻断复燃；`parses.ext` 因各分支类型不一致（FongMi 新版是 `Ext` 对象、老版是字符串）保持原样。**注意**：配置只能消除自身提供的 `null`，上游站点返回的播放数据由客户端负责判空；若升级客户端后仍崩，请把崩溃框里完整的异常文本发出来。
 
-### 官方源 raw（实时性最好，国内直连常需代理）
-
-把上面 jsDelivr 链接里的 `cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/` 换成
-`https://raw.githubusercontent.com/dimogu/tvbox-merged/main/` 即可（实时，无缓存）。
-
 ### 固定稳定版（内容永不变化，可回滚）
 
-每日构建会覆盖 `main` 上的文件；如果你希望**版本永远不变**，用 `stable.json` 里给出的 tag 链接：
+每日构建覆盖 `main` 上的文件；若想锁定不变，用 `stable.json` 里的 tag 链接（[在线查看](https://raw.githubusercontent.com/dimogu/tvbox-merged/main/stable.json)，健康页也会列出）。`stable.json` 只列该 tag 里**确实存在**的文件，不会给出 404 链接；tag 需回归断言连续通过 3 天才推进。
 
-> ⚠️ 当前 tag `stable-20261110` 早于本次字段兼容修复，里面的配置仍含对象型 `style`，在 TVBox 原版 / 影视仓上导入会报 `IllegalStateException`。tag 需回归断言连续通过 3 天才会推进；这期间请用 Pages 主线路，等 tag 推进后再用固定版。
-
-```
-https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@stable-YYYYMMDD/tvbox-full-homefirst.json
-```
-
-当前推荐的 tag 与全部版本的完整链接在 `stable.json`（[在线查看](https://raw.githubusercontent.com/dimogu/tvbox-merged/main/stable.json)），健康页也会直接列出。`stable.json` 只列该 tag 里**确实存在**的文件 —— 三个场景版是后加的，旧 tag 里没有，因此不会给出 404 链接；tag 推进后自动带上。tag 只有**回归断言连续通过 3 天**才推进；要退回旧版：
+要退回旧版：
 
 ```bash
-python scripts/stable.py --rollback stable-20261109
+python scripts/stable.py --rollback stable-YYYYMMDD
 ```
 
-### 关于缓存（重要）
-
-jsDelivr 对 GitHub 路径返回 `Cache-Control: max-age=604800, s-maxage=43200`（边缘 12h、客户端 7 天），且不会主动感知 commit 变化。两种写法（`/gh/user/repo/file` 与 `/gh/user/repo@main/file`）各有独立的边缘缓存，**都可能滞留上一轮构建**——本次实测是「无版本号」那条滞留旧版，过去也曾是 `@main` 那条滞留。Actions 每次提交后做 purge + 取回归 sha256 校验，但 purge 对边缘缓存并非 100% 生效。
-
-**结论**：把 GitHub Pages 链接当「总是最新」入口最稳；jsDelivr 链接用 `@main` 别名并允许偶尔滞后。
-`?随机数` 对 jsDelivr 的 GitHub 路径**无效**（缓存键不含 query）。若怀疑拿到旧配置，看配置顶部
-`_meta.updated` / `_meta.sites`，或对比 `https://raw.githubusercontent.com/dimogu/tvbox-merged/main/tvbox.json`（实时）。
+> 当前 tag 推进前的过渡期说明、完整备用链接与缓存原理，见仓库 `README.full.md`。
 
 ---
 

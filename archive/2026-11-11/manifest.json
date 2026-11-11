@@ -1,67 +1,67 @@
 {
   "date": "2026-11-11",
-  "commit": "468f60f22ef39c57386e7a5b49e262c585ffe82f",
+  "commit": "e265703006f9bd9fbd311bddec0252dc9d7d99de",
   "env": {
     "env": "github-actions",
-    "runner": "42982145244",
+    "runner": "42983466183",
     "proxy": false,
-    "generated": "2026-11-11 07:54:08 UTC"
+    "generated": "2026-11-11 08:05:05 UTC"
   },
   "files": {
     "tvbox-full-homefirst.json": {
-      "sha256": "c44f6ee68ee8c10d",
-      "bytes": 823390,
+      "sha256": "cf28d93488da7f9b",
+      "bytes": 823387,
       "sites": 2742
     },
     "tvbox-lite-homefirst.json": {
-      "sha256": "37e72c9589bc962d",
-      "bytes": 285907,
+      "sha256": "ef0bebf8b12b9434",
+      "bytes": 285889,
       "sites": 983
     },
     "tvbox-network-homefirst.json": {
-      "sha256": "b9f6c2bf0f6bda8c",
-      "bytes": 92245,
+      "sha256": "7b3a59d163900870",
+      "bytes": 92242,
       "sites": 293
     },
     "tvbox-home.json": {
-      "sha256": "74f1ef42ce01bc49",
+      "sha256": "25e14991ca18bc78",
       "bytes": 368377,
       "sites": 972
     },
     "tvbox.json": {
-      "sha256": "335e966a0e6a9ed0",
+      "sha256": "daad09fc8c0a8b0d",
       "bytes": 823061,
       "sites": 2742
     },
     "tvbox-lite.json": {
-      "sha256": "7367cf31ed96cb6b",
-      "bytes": 285609,
+      "sha256": "4c057d9069ef710a",
+      "bytes": 285594,
       "sites": 983
     },
     "tvbox-network.json": {
-      "sha256": "da3fe55b83f0c74f",
+      "sha256": "e73d1eedae781031",
       "bytes": 91962,
       "sites": 293
     },
     "tvbox-quality.json": {
-      "sha256": "31981f839658c2da",
-      "bytes": 276980,
-      "sites": 624
+      "sha256": "9ebc26a90bbd25f6",
+      "bytes": 277434,
+      "sites": 625
     },
     "tvbox-cn-fast.json": {
-      "sha256": "f9f02ddffd3e5c80",
-      "bytes": 44859,
+      "sha256": "85feee89ffe7ab86",
+      "bytes": 44853,
       "sites": 60
     },
     "tvbox-stable7.json": {
-      "sha256": "71f301471fd4dc7f",
-      "bytes": 137285,
+      "sha256": "37a8044c15b22834",
+      "bytes": 137279,
       "sites": 200
     }
   },
   "assert_passed": true,
-  "assert_pass_streak": 0,
-  "play_rate": 0.2333,
-  "false_kill_rate": 0.38,
+  "assert_pass_streak": 2,
+  "play_rate": 0.2,
+  "false_kill_rate": 0.4,
   "sources_failed": []
 }

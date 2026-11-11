@@ -2,18 +2,18 @@
   "date": "2026-11-11",
   "env": {
     "env": "github-actions",
-    "runner": "42982145244",
+    "runner": "42983466183",
     "proxy": false,
-    "generated": "2026-11-11 07:54:08 UTC"
+    "generated": "2026-11-11 08:05:05 UTC"
   },
   "versions": [
     {
       "file": "tvbox-quality.json",
       "label": "精播版",
       "note": "只留实测可播 / 首页实测有影片的节点，宁缺毋滥",
-      "sites": 624,
+      "sites": 625,
       "home_first": null,
-      "bytes": 276980,
+      "bytes": 277434,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-quality.json",
       "mirror": "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-quality.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-quality.json"
@@ -24,7 +24,7 @@
       "note": "国内直连、无 spider jar、最多取前 120 个，老盒子开屏最快",
       "sites": 60,
       "home_first": null,
-      "bytes": 44859,
+      "bytes": 44853,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-cn-fast.json",
       "mirror": "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-cn-fast.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-cn-fast.json"
@@ -35,7 +35,7 @@
       "note": "近 7 天多次可用且当前无连败，不追新源、不随上游抖动",
       "sites": 200,
       "home_first": null,
-      "bytes": 137285,
+      "bytes": 137279,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-stable7.json",
       "mirror": "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-stable7.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-stable7.json"
@@ -46,7 +46,7 @@
       "note": "功能最全，推荐桌面/高性能盒子",
       "sites": 2742,
       "home_first": 972,
-      "bytes": 823390,
+      "bytes": 823387,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-full-homefirst.json",
       "mirror": "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-full-homefirst.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-full-homefirst.json"
@@ -57,7 +57,7 @@
       "note": "不依赖 spider jar，低性能盒子首选",
       "sites": 983,
       "home_first": 78,
-      "bytes": 285907,
+      "bytes": 285889,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-lite-homefirst.json",
       "mirror": "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-lite-homefirst.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-lite-homefirst.json"
@@ -68,7 +68,7 @@
       "note": "不依赖境外代码托管，国内直连最稳",
       "sites": 293,
       "home_first": 78,
-      "bytes": 92245,
+      "bytes": 92242,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-network-homefirst.json",
       "mirror": "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-network-homefirst.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-network-homefirst.json"
@@ -101,7 +101,7 @@
       "note": "仅 http 站点",
       "sites": 983,
       "home_first": null,
-      "bytes": 285609,
+      "bytes": 285594,
       "cdn": "https://cdn.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-lite.json",
       "mirror": "https://fastly.jsdelivr.net/gh/dimogu/tvbox-merged@main/tvbox-lite.json",
       "pages": "https://dimogu.github.io/tvbox-merged/tvbox-lite.json"
@@ -385,9 +385,9 @@
   "sources_failed": [],
   "home_grades": {
     "likely": 894,
-    "unknown": 1028,
     "ok": 58,
-    "fail": 742,
+    "unknown": 1026,
+    "fail": 744,
     "classes_only": 20
   },
   "home_inferred": 347,
@@ -395,25 +395,21 @@
     "sampled": 30,
     "list_rate": 0.6667,
     "detail_rate": 0.6333,
-    "play_rate": 0.2333,
+    "play_rate": 0.2,
     "search_rate": 0.6667,
-    "playable": 7,
+    "playable": 6,
     "parses_alive_rate": 0.25,
     "parses_total": 285
   },
-  "false_kill_rate": 0.38,
+  "false_kill_rate": 0.4,
   "assert_passed": true,
   "assert_ran": true,
-  "assert_pass_streak": 0,
+  "assert_pass_streak": 2,
   "build": {
     "available": true,
-    "degraded": true,
-    "failed_steps": [
-      "regression"
-    ],
-    "incomplete_steps": [
-      "regression"
-    ],
+    "degraded": false,
+    "failed_steps": [],
+    "incomplete_steps": [],
     "config_steps_failed": [],
     "data_steps_failed": [],
     "steps": {
@@ -424,9 +420,9 @@
       "rank_home": "success",
       "variants": "success",
       "jar_health": "success",
-      "regression": "failure"
+      "regression": "success"
     },
-    "run_id": "42982145244"
+    "run_id": "42983466183"
   },
   "stable": {
     "tag": "stable-20261110",
@@ -455,11 +451,11 @@
       "network": 366,
       "home_sites": 972,
       "home_ok": 58,
-      "play_rate": 0.2333,
-      "false_kill_rate": 0.38,
+      "play_rate": 0.2,
+      "false_kill_rate": 0.4,
       "sources_ok": 29,
       "assert_passed": true,
-      "degraded": true
+      "degraded": false
     }
   ],
   "dedupe": {
@@ -513,20 +509,12 @@
   ],
   "regression": {
     "ran": true,
-    "passed": false,
-    "ok": 41,
+    "passed": true,
+    "ok": 42,
     "total": 42,
-    "failed": 1,
-    "hard_failed": [
-      "B25"
-    ],
-    "failed_checks": [
-      {
-        "id": "B25",
-        "title": "已知坏 tag 显式标注 + 健康页拦截",
-        "detail": "指针已指向 stable-20261110 却仍标 bootstrap=true"
-      }
-    ]
+    "failed": 0,
+    "hard_failed": [],
+    "failed_checks": []
   },
   "jar_health": {
     "probed": true,

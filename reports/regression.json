@@ -2,9 +2,9 @@
   "date": "2026-11-11",
   "env": {
     "env": "github-actions",
-    "runner": "42971941421",
+    "runner": "42978672886",
     "proxy": false,
-    "generated": "2026-11-11 06:28:15 UTC"
+    "generated": "2026-11-11 07:25:48 UTC"
   },
   "passed": true,
   "total": 41,
@@ -71,7 +71,7 @@
       "id": "A07",
       "group": "产物契约",
       "origin": "第一轮：csp 爬虫节点没有 jar",
-      "title": "csp 站点必须有 http jar",
+      "title": "csp 站点缺 jar 比例不超过 30%",
       "ok": true,
       "detail": "367/1757 个 csp 站点缺 jar（上游本身可能没写，阈值 30%）",
       "critical": true
@@ -253,7 +253,7 @@
       "origin": "每日保险丝结果",
       "title": "当日回归断言已通过",
       "ok": true,
-      "detail": "passed=True，28 项检查，失败 []",
+      "detail": "date=2026-11-11 / passed=True，28 项检查，失败 []",
       "critical": true
     },
     {
@@ -370,7 +370,7 @@
       "origin": "本轮：_assertions.json / _regression.json 被忽略，外部无法核对当日结论；本地试跑还会覆盖出过时快照",
       "title": "每日结论入库 + 本地试跑隔离",
       "ok": true,
-      "detail": "当日断言 / 回归 / 构建状态三份结论入库并进 Pages；本地试跑走 _*.json 自动隔离",
+      "detail": "三份结论显式入库；CI→reports/、本地→_*.json 实测分流正确；消费端校验日期",
       "critical": true
     },
     {
@@ -379,7 +379,7 @@
       "origin": "本轮：探测失败不阻断 → 上一版派生配置被当作今日成果发布成混搭；workflow 全绿但健康页缺数据",
       "title": "探测失败不沿用旧产物 + 降级可见",
       "ok": true,
-      "detail": "派生配置构建前清除（生成失败硬阻断）；失败步骤入库可见，降级日不推进稳定版且健康页告警",
+      "detail": "清除 7 份配置 + 5 份结论；8 步 env 对齐；实测 failure/unknown→降级、过期状态被拒、bootstrap 需连胜",
       "critical": true
     }
   ]

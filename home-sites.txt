@@ -2,15 +2,15 @@
 # 等级：ok=首页影片列表实测非空 / likely=爬虫jar与首页配置均有效(含同jar推断) /
 #       classes_only=只返回分类（首页可能空）
 # 判定环境：github-actions | 同 jar 推断召回：347
-# 生成时间：2026-11-11 06:26 UTC
+# 生成时间：2026-11-11 07:24 UTC
 
 ok            | 艾旦 | 采集 | 首页影片 20 条 via ac=list
-ok            | 11-暴风 | 首页影片 20 条 via ac=videolist&pg=1
+ok            | 11-暴风 | 首页影片 20 条 via ac=list
 ok            | 19-量子 | 首页影片 20 条 via ac=list
 ok            | 2-非凡 | 首页影片 20 条 via ac=list
 ok            | 360 | 采集 | 首页影片 20 条 via ac=list
 ok            | 360资源ZZ | 首页影片 20 条 via ac=list
-ok            | 43-HG | 首页影片 20 条 via ac=list
+ok            | 43-HG | 首页影片 20 条 via ac=detail&pg=1
 ok            | 62-秒播 | 首页影片 20 条 via ac=list
 ok            | 66-360* | 首页影片 20 条 via ac=list
 ok            | U酷资源(优) | 首页影片 20 条 via ac=list
@@ -32,8 +32,8 @@ ok            | 影视 • 率率[直连] | 首页影片 20 条 via ac=list
 ok            | 影视 • 电影天堂 | 首页影片 20 条 via ac=list
 ok            | 新浪 | 采集 | 首页影片 20 条 via ac=list
 ok            | 无尽 | 采集 | 首页影片 20 条 via ac=list
-ok            | 暴風 | 采集 | 首页影片 20 条 via ac=videolist&pg=1
-ok            | 暴风资源2 | 首页影片 20 条 via ac=videolist&pg=1
+ok            | 暴風 | 采集 | 首页影片 20 条 via ac=list
+ok            | 暴风资源2 | 首页影片 20 条 via ac=list
 ok            | 百度资源(切) | 首页影片 20 条 via ac=list
 ok            | 索尼 | 采集 | 首页影片 20 条 via ac=list
 ok            | 艾旦影视(聚) | 首页影片 20 条 via ac=list
@@ -59,7 +59,7 @@ ok            | 📡 樱花 | 首页影片 20 条 via ac=list
 ok            | 📡 红牛 | 首页影片 20 条 via ac=list
 ok            | 📡 速博 | 首页影片 20 条 via ac=list
 ok            | 🔥360資源資源 | 首页影片 20 条 via ac=list
-ok            | 🔷U酷 | 首页影片 20 条 via ac=list
+ok            | 🔷U酷 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 🦊火狐采集 | 首页影片 20 条 via ac=list
 ok            | 🧞无广┃[采集] | 首页影片 20 条 via ac=list
 likely        | 234|弹幕 | jar:HTTP 200 (zip) ext:内嵌配置
@@ -83,7 +83,7 @@ likely        | ⚡┃闪电┃优汐 | jar: ext:内嵌配置
 likely        | ⚡秒播┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ⚽88┃看球 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ⚽┃说球┃回放 | jar:HTTP 200 (zip) ext:内嵌配置
-likely        | ⚽┆看球┆体育 | jar:HTTP 200 (zip) ext:text 58688 chars
+likely        | ⚽┆看球┆体育 | jar:HTTP 200 (zip) ext:text 58652 chars
 likely        | ⚽叭叭┃体育 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ⚽瓜子┃体育 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ⚽瓜子┃看球 | jar:HTTP 200 (zip) ext:内嵌配置
@@ -957,7 +957,7 @@ likely        | 🥜┆瓜子┆体育 | jar:HTTP 200 (zip) ext:同 jar 已有�
 likely        | 🦸影侠┃1080P | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | 🧲┆荐片┆磁力 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 classes_only  | 57-飞马 | 仅分类 4 组
-classes_only  | A站｜星源 | 仅分类 51 组
+classes_only  | A站｜星源 | 仅分类 1 组
 classes_only  | CCTV | 仅分类 69 组
 classes_only  | CNTV低分辨 | 仅分类 69 组
 classes_only  | js集合 | 仅分类 15 组
@@ -972,6 +972,5 @@ classes_only  | 爱瓜TV | 仅分类 5 组
 classes_only  | 移动｜星源 | 仅分类 16 组
 classes_only  | 酷我｜音乐 | 仅分类 3 组
 classes_only  | 👭人人2👭 | 仅分类 5 组
-classes_only  | 👭克隆👭 | 仅分类 4 组
 classes_only  | 👭苹果视频👭 | 仅分类 5 组
 classes_only  | 🛫if101影视 | 仅分类 4 组

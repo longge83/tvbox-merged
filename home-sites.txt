@@ -2,7 +2,7 @@
 # 等级：ok=首页影片列表实测非空 / likely=爬虫jar与首页配置均有效(含同jar推断) /
 #       classes_only=只返回分类（首页可能空）
 # 判定环境：github-actions | 同 jar 推断召回：335
-# 生成时间：2026-11-11 00:11 UTC
+# 生成时间：2026-11-11 00:23 UTC
 
 ok            | 艾旦 | 采集 | 首页影片 20 条 via ac=list
 ok            | 11-暴风 | 首页影片 20 条 via ac=list
@@ -48,6 +48,7 @@ ok            | 影视 • 极速[直连] | 首页影片 20 条 via ac=list
 ok            | 影视 • 率率[直连] | 首页影片 20 条 via ac=list
 ok            | 影视 • 电影天堂 | 首页影片 20 条 via ac=list
 ok            | 影视 • 量子[直连] | 首页影片 20 条 via ac=list
+ok            | 影视 • 非凡[直连] | 首页影片 20 条 via ac=list
 ok            | 新浪 | 采集 | 首页影片 20 条 via ac=list
 ok            | 无尽 | 采集 | 首页影片 20 条 via ac=list
 ok            | 暴風 | 采集 | 首页影片 20 条 via ac=list
@@ -78,7 +79,6 @@ ok            | 🎬电影天堂 | 首页影片 20 条 via ac=list
 ok            | 🐯虎牙采集 | 首页影片 20 条 via ac=list
 ok            | 👭优质资源👭 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 👭播剧影视👭 | 首页影片 20 条 via ac=list
-ok            | 👭赤铜👭 | 首页影片 20 条 via ac=list
 ok            | 💝分享爬虫 | 首页影片 20 条 via ac=list
 ok            | 💝分享迷你 | 首页影片 20 条 via ac=list
 ok            | 📡 HD(SN) | 首页影片 20 条 via ac=list
@@ -90,6 +90,7 @@ ok            | 📡 速博 | 首页影片 20 条 via ac=list
 ok            | 🔥360資源資源 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 🔷U酷 | 首页影片 20 条 via ac=list
 ok            | 🥑┃量子┃资源 | 首页影片 20 条 via ac=list
+ok            | 🥗┃非凡┃资源 | 首页影片 20 条 via ac=list
 ok            | 🦊火狐采集 | 首页影片 20 条 via ac=list
 ok            | 🧞无广┃[采集] | 首页影片 20 条 via ac=list
 likely        | 234|弹幕 | jar:HTTP 200 (zip) ext:内嵌配置
@@ -114,6 +115,7 @@ likely        | ⚡秒播┃1080P | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ⚽88┃看球 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ⚽┃说球┃回放 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ⚽┆看球┆体育 | jar:HTTP 200 (zip) ext:text 57812 chars
+likely        | ⚽叭叭┃体育 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ⚽瓜子┃体育 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ⚽瓜子┃看球 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ✌️┃再来┃APP | jar: ext:内嵌配置
@@ -636,7 +638,6 @@ likely        | 🛴手机┃推送 · PushGuard | jar: ext:内嵌配置
 likely        | 🤩美剧网 · raw.githubusercontent | jar:HTTP 200 (zip) ext:json keys:分类
 likely        | 🧲新6V┃磁力 · AweSomeGuard | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | 🧲新6V┃磁力 · xb6v.com | jar: ext:text 46386 chars
-likely        | ⚽叭叭┃体育 | jar:HTTP 200 (zip) ext:内嵌配置
 likely        | ☘️┆听风┆知秋 | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | ⛰️┆云岫┆4K | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]
 likely        | ✨┆凝光┆4K | jar:HTTP 200 (zip) ext:同 jar 已有可用站点，推断内置首页可用 [推断]

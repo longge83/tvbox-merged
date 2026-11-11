@@ -2,33 +2,44 @@
   "date": "2026-11-11",
   "env": {
     "env": "github-actions",
-    "runner": "42954326045",
+    "runner": "42960428673",
     "proxy": false,
-    "generated": "2026-11-11 03:48:17 UTC"
+    "generated": "2026-11-11 04:44:34 UTC"
   },
   "files": 13,
   "refreshed": [
     "health.json",
     "home-sites.txt",
     "stable.json",
+    "tvbox-cn-fast.json",
     "tvbox-full-homefirst.json",
     "tvbox-home.json",
-    "tvbox-network.json",
-    "tvbox-stable7.json"
-  ],
-  "stale": [
-    "tvbox.json",
-    "tvbox-lite.json",
     "tvbox-lite-homefirst.json",
+    "tvbox-lite.json",
     "tvbox-network-homefirst.json",
-    "tvbox-quality.json",
-    "tvbox-cn-fast.json"
-  ],
-  "noversion_stale": [
-    "home-sites.txt",
     "tvbox-network.json",
-    "tvbox-home.json"
+    "tvbox-quality.json",
+    "tvbox-stable7.json",
+    "tvbox.json"
   ],
-  "mirror_stale": {},
+  "stale": [],
+  "noversion_stale": [
+    "tvbox-quality.json",
+    "tvbox-full-homefirst.json"
+  ],
+  "mirror_stale": {
+    "tvbox.json": [
+      "fastly.jsdelivr.net",
+      "gcore.jsdelivr.net"
+    ],
+    "tvbox-quality.json": [
+      "fastly.jsdelivr.net",
+      "gcore.jsdelivr.net"
+    ],
+    "tvbox-cn-fast.json": [
+      "fastly.jsdelivr.net",
+      "gcore.jsdelivr.net"
+    ]
+  },
   "attempts": 3
 }

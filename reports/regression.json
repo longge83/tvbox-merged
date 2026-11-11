@@ -2,16 +2,18 @@
   "date": "2026-11-11",
   "env": {
     "env": "github-actions",
-    "runner": "42978672886",
+    "runner": "42982145244",
     "proxy": false,
-    "generated": "2026-11-11 07:25:48 UTC"
+    "generated": "2026-11-11 07:54:07 UTC"
   },
-  "passed": true,
-  "total": 41,
+  "passed": false,
+  "total": 42,
   "ok": 41,
-  "failed": 0,
+  "failed": 1,
   "skipped": 0,
-  "hard_failed": [],
+  "hard_failed": [
+    "B25"
+  ],
   "checks": [
     {
       "id": "A01",
@@ -380,6 +382,15 @@
       "title": "探测失败不沿用旧产物 + 降级可见",
       "ok": true,
       "detail": "清除 7 份配置 + 5 份结论；8 步 env 对齐；实测 failure/unknown→降级、过期状态被拒、bootstrap 需连胜",
+      "critical": true
+    },
+    {
+      "id": "B25",
+      "group": "构建链路",
+      "origin": "本轮：稳定版 tag 内容有缺陷却仍被当推荐线路，用户照着导入必报错；指针已存在还自称 bootstrap",
+      "title": "已知坏 tag 显式标注 + 健康页拦截",
+      "ok": false,
+      "detail": "指针已指向 stable-20261110 却仍标 bootstrap=true",
       "critical": true
     }
   ]

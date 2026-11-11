@@ -45,6 +45,10 @@ HOSTING_KEYS = ("ghproxy", "gh-proxy", "gitmirror", "fastgit", "kgithub", "moeyy
 
 HOST_RX = re.compile(r"https?://([^/\s\"'<>:,#]+)")
 
+# 探测层刻意关闭证书校验：样本里大量源用自签 / 过期证书，而 TVBox 系客户端
+# 普遍是 trust-all 的 okhttp，若这里严格校验，会把「客户端明明能用」的源判死，
+# 属于把探测口径做得比真实客户端更严 —— 宁可宽进，再由后续 HTTP 状态与内容
+# 判断兜底。仅用于抓取公开配置 / 探测存活，绝不用于传输任何凭据。
 CTX = ssl.create_default_context()
 CTX.check_hostname = False
 CTX.verify_mode = ssl.CERT_NONE

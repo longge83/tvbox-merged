@@ -168,6 +168,24 @@ def trend_chart(trend):
     return chart + legend
 
 
+def stable_block(stable):
+    """稳定版指针在健康页里的最小信息集。
+
+    独立成函数（而不是在 main 里内联）是为了让回归脚本能直接调用验证：
+    否则只能读生成的 health.json 间接猜，而健康页在本轮流程里是在回归之后
+    才生成的 —— 拿它当证据会永远读到上一轮的状态。
+    """
+    tag = stable.get("tag", "")
+    return {
+        "tag": tag,
+        "commit": stable.get("commit", ""),
+        "cdn": ((stable.get("files") or {}).get("tvbox-full-homefirst.json") or {}).get("cdn", ""),
+        # 已知有缺陷的历史 tag（内容不可变，只能标注）：健康页必须把它从
+        # 「推荐线路」降级为「不要导入」，否则用户照着点就报错。
+        "deprecated_reason": (stable.get("deprecated") or {}).get(tag, ""),
+    }
+
+
 def main():
     q = common.load_json("quality.json", {}) or {}
     st = common.load_json("_build_stats.json", {}) or {}
@@ -239,11 +257,7 @@ def main():
             "steps": bs.get("steps", {}),
             "run_id": bs.get("run_id", ""),
         },
-        "stable": {"tag": stable.get("tag", ""), "commit": stable.get("commit", ""),
-                   "cdn": ((stable.get("files") or {}).get("tvbox-full-homefirst.json") or {}).get("cdn", ""),
-                   # 已知有缺陷的历史 tag（内容不可变，只能标注）：健康页必须
-                   # 把它从「推荐线路」降级为「不要导入」，否则用户照着点就报错。
-                   "deprecated_reason": (stable.get("deprecated") or {}).get(stable.get("tag", ""), "")},
+        "stable": stable_block(stable),
         "trend": trend,
         "dedupe": {"parses_deduped": st.get("parses_deduped", 0),
                    "blocked": st.get("blocked", {})},

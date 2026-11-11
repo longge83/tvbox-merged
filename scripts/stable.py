@@ -152,6 +152,16 @@ def archive(manifest, keep_days=KEEP_DAYS):
           (d, len(manifest["files"]), len(ARCHIVE_GZ)))
 
 
+def deprecations(state):
+    """历史坏 tag 登记表。
+
+    自动注册（KNOWN_BAD_TAGS）+ stable.json 里已记录的合并结果：既保证代码里
+    新登记的条目立刻生效，也不会丢掉只在文件里标注过的历史条目。
+    独立成函数是为了能被回归脚本直接调用验证，而不是只能读 stable.json 猜。
+    """
+    return {**KNOWN_BAD_TAGS, **(state.get("deprecated") or {})}
+
+
 def write_pointer(state, repo, tag, manifest, bootstrap=False):
     linked = tag_commit(tag) or manifest["commit"]
     history = [h for h in state.get("history", []) if h.get("tag") != tag]
@@ -165,7 +175,7 @@ def write_pointer(state, repo, tag, manifest, bootstrap=False):
         "last_check_commit": manifest["commit"],
         "repo": repo,
         "bootstrap": bootstrap,
-        "deprecated": {**KNOWN_BAD_TAGS, **(state.get("deprecated") or {})},
+        "deprecated": deprecations(state),
         "assert_pass_streak": manifest["assert_pass_streak"],
         "min_streak_to_advance": 3,
         "policy": "回归断言连续通过 3 天才推进；坏版本可用 --rollback 退回历史 tag",
@@ -231,7 +241,7 @@ def main():
             state["updated"] = common.today()
             state["last_check_commit"] = manifest["commit"]
             state["bootstrap"] = False
-            state["deprecated"] = {**KNOWN_BAD_TAGS, **(state.get("deprecated") or {})}
+            state["deprecated"] = deprecations(state)
             common.write_json("stable.json", state, skip_unchanged=False)
         reason = ("构建状态不可用" if not bs else
                   "不完整步骤 %s" % (", ".join(bs.get("incomplete_steps") or
@@ -258,7 +268,7 @@ def main():
             # 指针已经存在就不再是 bootstrap。早期版本漏了这一步，导致
             # stable.json 永远写着 bootstrap=true，看不出「是否首个稳定版」。
             state["bootstrap"] = False
-            state["deprecated"] = {**KNOWN_BAD_TAGS, **(state.get("deprecated") or {})}
+            state["deprecated"] = deprecations(state)
             common.write_json("stable.json", state, skip_unchanged=False)
         print("  断言连续通过 %d/%d 天，稳定版仍指向 %s" %
               (streak, args.min_streak, current or "(无)"))

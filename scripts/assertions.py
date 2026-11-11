@@ -141,8 +141,11 @@ def main():
             bad.append("%s(%s)" % (f, str(e)[:60]))
     record("json_valid_no_dup_key", not bad, "; ".join(bad) or "%d 份配置合法" % len(cfgs))
     if "tvbox.json" not in cfgs:
-        common.write_json(out_path, {"passed": False, "checks": checks,
-                                     "failed": failed, "env": common.env_info()},
+        # 失败结果也要带 date：消费端统一按日期判新鲜，缺 date 会被当成
+        # 过期结论丢弃，反而看不出「本轮确实跑过且失败了」。
+        common.write_json(out_path, {"date": common.today(), "passed": False,
+                                     "checks": checks, "failed": failed,
+                                     "env": common.env_info()},
                           skip_unchanged=False)
         return 1
 

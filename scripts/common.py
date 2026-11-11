@@ -333,6 +333,7 @@ def load_json(path, default=None):
 RESULT_PATHS = {
     "assertions": ("reports/assertions.json", "_assertions.json"),
     "regression": ("reports/regression.json", "_regression.json"),
+    "build_status": ("reports/build-status.json", "_build_status_local.json"),
 }
 
 
@@ -348,12 +349,35 @@ def result_paths(name):
     return (first, second) if IS_CI else (second, first)
 
 
-def load_result(name, default=None):
-    """按本环境的优先顺序读校验结果，都不存在时返回 default。"""
+def date_window(days=1):
+    """今天与前 days 天的 UTC 日期集合。
+
+    workflow_dispatch 可能在 UTC 23:5x 启动、次日 00:0x 才写健康页，此时
+    build_status.py 记的是「昨天」，严格等于 today() 会把本轮状态判成过期，
+    导致降级日被当成健康日（history 算连胜、stable 推进 tag、健康页不告警）。
+    """
+    now = time.time()
+    return {time.strftime("%Y-%m-%d", time.gmtime(now - 86400 * i))
+            for i in range(days + 1)}
+
+
+def result_fresh(d):
+    """结果文件是否属于本轮（日期在窗口内）。"""
+    return isinstance(d, dict) and d.get("date") in date_window(1)
+
+
+def load_result(name, default=None, fresh=False):
+    """按本环境的优先顺序读校验结果，都不存在时返回 default。
+
+    fresh=True 时额外要求 date 落在 {今天, 昨天}：入库文件是 tracked 的，
+    步骤失败时可能仍是上一版内容，不校验日期就会把旧结论当成今天的。
+    """
     for p in result_paths(name):
         if os.path.exists(p):
             d = load_json(p, None)
             if d is not None:
+                if fresh and not result_fresh(d):
+                    continue
                 return d
     return default
 
@@ -363,11 +387,21 @@ def load_result(name, default=None):
 BUILD_STATUS_PATH = "reports/build-status.json"
 
 
+def build_status_fresh(d):
+    """构建状态是否有效：日期窗口 + 本轮 run_id（防止同一天两次运行的旧状态）。"""
+    if not result_fresh(d):
+        return False
+    rid = os.environ.get("GITHUB_RUN_ID", "")
+    return not (rid and d.get("run_id") and d["run_id"] != rid)
+
+
 def load_build_status(default=None):
-    d = load_json(BUILD_STATUS_PATH, None) or {}
-    if d and d.get("date") == today():
-        return d
-    return {} if default is None else default
+    # 与 assertions / regression 一样走 CI / 本地分流：以前这里硬读
+    # reports/build-status.json，本地试跑会把云端状态误当成本轮状态。
+    d = load_result("build_status", None, fresh=True)
+    if not isinstance(d, dict) or not build_status_fresh(d):
+        return {} if default is None else default
+    return d
 
 
 def _strip_meta(obj):

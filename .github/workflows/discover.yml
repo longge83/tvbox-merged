@@ -1,11 +1,13 @@
 name: discover-upstreams
 
-# 候选上游发现：29 个源会自然衰减，靠人工想起来才补不现实。每 3 天跑一次
-# （约 1/4/7/10… 日 UTC 21:00，北京时间次日 05:00），比每周更及时地纳入新源。
+# 候选上游发现：29 个源会自然衰减，靠人工想起来才补不现实。每月 1/4/7/10…
+# 日 UTC 21:00（北京时间次日 05:00）跑一次，比每周更及时地纳入新源。
+# 注意：日字段的 */3 每月 1 号重置，跨月可能只隔 1 天（1/31 → 2/1），不是
+# 严格的「连续每 3 天」；cron 无法表达连续间隔，需要时改成每天跑 + 状态判间隔。
 # 产出「去重后边际贡献」报告并自动提交，人工看一眼后一键并入 sources.txt。
 on:
   schedule:
-    - cron: '0 21 */3 * *'   # 约每 3 天 UTC 21:00（北京时间次日 05:00）
+    - cron: '0 21 */3 * *'   # 每月 1/4/7…31 日 UTC 21:00（北京时间次日 05:00）
   workflow_dispatch: {}
 
 permissions:
@@ -22,6 +24,10 @@ jobs:
     steps:
       - name: 检出仓库
         uses: actions/checkout@v4
+        with:
+          # 本作业末尾要 git pull --rebase，默认 depth=1 浅克隆在远端有新提交
+          # 时容易 rebase 失败；update.yml 已显式用 0，这里保持一致。
+          fetch-depth: 0
 
       - name: 准备 Python
         uses: actions/setup-python@v5

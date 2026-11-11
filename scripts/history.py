@@ -45,7 +45,7 @@ def snapshot():
     sites = cfg.get("sites", [])
     recheck = common.load_json("recheck.json", {}) or {}
     play = common.load_json("play_summary.json", {}) or {}
-    asserts = common.load_result("assertions", {}) or {}
+    asserts = common.load_result("assertions", {}, fresh=True) or {}
     jh = common.load_json("_jar_health.json", {}) or {}
     bs = common.load_build_status()
 
@@ -95,7 +95,8 @@ def snapshot():
         # 本轮探测有没有步骤失败。降级日的断言即便通过，也不该算作「连续
         # 健康」去推进稳定版 tag —— 见 summarize() 的 assert_streak。
         "build_status": {
-            "degraded": bool(bs.get("degraded")),
+            # 状态文件缺失 / 过期时保守记为降级：不能把「不知道」算成健康日
+            "degraded": bool(not bs or bs.get("degraded")),
             "failed_steps": bs.get("failed_steps", []),
             "config_steps_failed": bs.get("config_steps_failed", []),
         },

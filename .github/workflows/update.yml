@@ -38,14 +38,22 @@ jobs:
       # 构建前先删掉：成功时各脚本会重新生成；失败时文件缺失，回归断言的
       # json_valid_no_dup_key 与「必需产物」检查会硬阻断，线上保持上一版
       # 完整配置，绝不发布混搭。
+      #
+      # reports/ 下 5 份「每日结论」同样入库、同样由 continue-on-error 步骤
+      # （audit / regression）生成。第十轮只清了配置，报告没清：步骤失败时
+      # 昨日结论原样提交、被 health.py 复制进 Pages，健康页还把它当本轮结论
+      # 渲染。一并清除，失败时索引里也移除（见提交步骤），杜绝旧报告冒充。
       - name: 清除上一版派生配置（防止探测失败时旧文件冒充今日产物）
         run: |
           rm -f tvbox-home.json \
                 tvbox-full-homefirst.json tvbox-lite-homefirst.json \
                 tvbox-network-homefirst.json \
                 tvbox-quality.json tvbox-cn-fast.json tvbox-stable7.json \
-                home-sites.txt
-          echo "已清除 7 份派生配置 + home-sites.txt，等待本轮重新生成"
+                home-sites.txt \
+                reports/assertions.json reports/regression.json \
+                reports/build-status.json reports/audit-latest.md \
+                reports/regression-latest.md
+          echo "已清除 7 份派生配置 + home-sites.txt + 5 份每日结论，等待本轮重新生成"
 
       - name: 聚合 + 存活复检（含多日判定、外置过滤、parses 去重）
         run: python scripts/build.py
@@ -165,6 +173,13 @@ jobs:
                    reports/build-status.json; do
             if [ -e "$f" ]; then git add -f "$f"; fi
           done
+          # 本轮没生成的每日结论必须从索引移除：只判断 -e 不 add，HEAD 里
+          # 仍留着昨天的报告，外部查仓库会被误导，下一轮 checkout 又带出来。
+          for f in reports/assertions.json reports/regression.json \
+                   reports/build-status.json reports/audit-latest.md \
+                   reports/regression-latest.md; do
+            if [ ! -e "$f" ]; then git rm --cached --ignore-unmatch "$f"; fi
+          done
           if git diff --cached --quiet; then
             echo "配置与历史无变化，跳过本次提交"
             echo "changed=false" >> $GITHUB_OUTPUT
@@ -175,6 +190,17 @@ jobs:
           git commit -m "chore: 更新聚合配置 $(date -u +%Y-%m-%d)"
           echo "changed=true" >> $GITHUB_OUTPUT
 
+      # stable.py 用 git rev-parse HEAD 把不可变 tag 指向本轮提交、并把该 SHA
+      # 写进 stable.json。若只在推送前才 rebase，并发提交会重写本地 SHA，
+      # tag 与 stable.json.commit 就指向一个不在 main 历史里的孤儿提交。
+      - name: 同步远端（稳定版 tag 创建前）
+        run: |
+          git pull --rebase origin main || {
+            echo "::error::与远端并发提交冲突，rebase 失败；放弃本轮以免 tag 指向旧提交"
+            git rebase --abort
+            exit 1
+          }
+
       - name: 归档 + 稳定版指针 + 不可变 tag
         run: python scripts/stable.py --min-streak 3 --keep-days 7
 
@@ -184,12 +210,45 @@ jobs:
 
       # 结构校验：曾把 </table> 写进 for 循环体，线上健康页只显示第一行数据。
       # 部署前硬校验，坏页面绝不上 Pages。
+      # 除表格闭合外，还要确认 Pages 发的是本轮配置、三份结论不是旧副本、
+      # 且页面里没有指向缺失报告的死链（结论被清除时页面会给「本轮未生成」）。
       - name: 健康页结构校验
         run: |
-          python -c "import sys; h=open('site/index.html',encoding='utf-8').read(); \
-          a,b=h.count('<table>'),h.count('</table>'); \
-          print('健康页表格：%d 个开标签 / %d 个闭合' % (a,b)); \
-          sys.exit(0 if a and a==b else 1)"
+          python - <<'PY'
+          import os, re, sys
+          sys.path.insert(0, "scripts")
+          import health as H
+
+          page = open("site/index.html", encoding="utf-8").read()
+          a, b = page.count("<table>"), page.count("</table>")
+          print("健康页表格：%d 个开标签 / %d 个闭合" % (a, b))
+          errs = []
+          if not a or a != b:
+              errs.append("表格标签不平衡")
+
+          def same(x, y):
+              return os.path.exists(y) and open(x, "rb").read() == open(y, "rb").read()
+
+          for f, _, _ in H.FILES:
+              if not same(f, os.path.join("site", f)):
+                  errs.append("Pages 配置缺失或陈旧：" + f)
+          for f in ("assertions.json", "regression.json", "build-status.json"):
+              src, dst = os.path.join("reports", f), os.path.join("site", f)
+              if os.path.exists(src):
+                  if not same(src, dst):
+                      errs.append("Pages 结论缺失或陈旧：" + f)
+              elif os.path.exists(dst):
+                  errs.append("本轮未生成却仍在发布：" + f)
+          for href in re.findall(r"href='([^']+)'", page):
+              if href.startswith(("http", "#")):
+                  continue
+              if not os.path.exists(os.path.join("site", href)):
+                  errs.append("健康页死链：" + href)
+          for e in errs:
+              print("::error::" + e)
+          print("Pages 一致性校验：%s" % ("通过" if not errs else "%d 处问题" % len(errs)))
+          sys.exit(1 if errs else 0)
+          PY
 
       - name: 上传 Pages artifact
         uses: actions/upload-pages-artifact@v3
@@ -211,17 +270,19 @@ jobs:
 
       - name: 推送（含不可变稳定版 tag）
         run: |
-          # discover 工作流（每 3 天）或手动触发可能在本作业运行期间插进提交，
-          # 直接 push 会被 non-fast-forward 拒掉、整个 build 失败且 Pages 不部署
-          # 冲突时 HEAD 并未前进，直接 push 只会 non-fast-forward 失败、build 变红
-          # 且 pages 作业被跳过（与旧注释里的「非致命」相反）。明确中止并报出原因。
+          # discover 工作流或手动触发可能在本作业运行期间插进提交，直接 push
+          # 会被 non-fast-forward 拒掉、build 变红且 pages 作业被跳过。
           git pull --rebase origin main || {
             echo "::error::与远端并发提交冲突，rebase 失败；放弃本次推送以免部署陈旧产物"
             git rebase --abort
             exit 1
           }
+          # tag 必须先推：以前是 push main 之后 `git push --tags || echo warning`，
+          # tag 推送失败被吞掉，但 stable.json 已随 main 发布并指向一个线上不存在
+          # 的新 tag，固定直链直接 404。tag 失败就整步失败、main 也不推，线上
+          # 保持上一版，仓库里的 stable.json 仍指向确实存在的旧 tag。
+          git push --tags
           git push
-          git push --tags || echo "::warning::稳定版 tag 推送失败，stable.json 可能指向未推送的 tag"
 
       # ── 5. CDN 缓存治理 ─────────────────────────────────────────
       # jsDelivr 对分支引用 s-maxage=43200（12h）且不感知 commit 变化。

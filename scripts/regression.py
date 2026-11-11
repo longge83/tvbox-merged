@@ -221,7 +221,8 @@ def build_checks(cfgs, bad, online, proxy):
         return len(hits) / max(1, total) <= 0.3, \
             "%d/%d 个 csp 站点缺 jar（上游本身可能没写，阈值 30%%）" % (len(hits), total)
 
-    check("A07", A, "第一轮：csp 爬虫节点没有 jar", "csp 站点必须有 http jar", c_csp)
+    check("A07", A, "第一轮：csp 爬虫节点没有 jar",
+          "csp 站点缺 jar 比例不超过 30%", c_csp)
 
     def c_relative():
         hits = ["%s:%s" % (f, k) for f, coll, kind, o in rows
@@ -461,10 +462,11 @@ def build_checks(cfgs, bad, online, proxy):
     def c_assert_result():
         # 断言结果按环境分流：CI 读 reports/assertions.json（入库），本地读
         # _assertions.json。硬编码下划线文件会让 CI 里 B10 恒失败。
-        a = common.load_result("assertions", {}) or {}
+        # 必须校验日期：入库结论是 tracked 文件，沿用昨天那份也会 passed=True
+        a = common.load_result("assertions", {}, fresh=True) or {}
         return (a.get("passed") is True,
-                "passed=%s，%d 项检查，失败 %s" %
-                (a.get("passed"), len(a.get("checks") or {}),
+                "date=%s / passed=%s，%d 项检查，失败 %s" %
+                (a.get("date"), a.get("passed"), len(a.get("checks") or {}),
                  [x.get("name") for x in (a.get("failed") or [])][:3]))
 
     check("B10", B, "每日保险丝结果", "当日回归断言已通过", c_assert_result)
@@ -646,42 +648,115 @@ def build_checks(cfgs, bad, online, proxy):
           "推荐镜像滞后可被发现", c_mirror_watch)
 
     def c_results_committed():
-        yml = text(".github/workflows/update.yml")
-        cm = text("scripts/common.py")
-        h = text("scripts/health.py")
-        need = ("reports/assertions.json", "reports/regression.json",
-                "reports/build-status.json")
-        # health.py 用 os.path.join("reports", name)，只有文件名没有目录前缀
-        short = ("assertions.json", "regression.json", "build-status.json")
-        ok = (all(x in yml for x in need)
-              and "def load_result" in cm and "def result_path" in cm
-              and "--json-output" in text("scripts/regression.py")
-              and "_regression-local.md" in text(".gitignore")
-              and all(x in h for x in short))
-        return ok, ("当日断言 / 回归 / 构建状态三份结论入库并进 Pages；"
-                    "本地试跑走 _*.json 自动隔离" if ok else "结果文件入库链路有缺口")
+        # 上一版这里只查「源码里出现过 reports/xxx.json 这几个字符串」，把
+        # 提交清单整段删掉照样通过，是恒真的假验收。改成查实际链路：命令、
+        # 提交清单、以及 result_path 在 CI / 本地的真实分流行为。
+        raw = text(".github/workflows/update.yml")
+        yml = "\n".join(l for l in raw.splitlines()
+                        if not l.lstrip().startswith("#"))
+        cmds = ("--output reports/assertions.json",
+                "--json-output reports/regression.json",
+                "--output reports/build-status.json")
+        paths = ("reports/assertions.json", "reports/regression.json",
+                 "reports/build-status.json")
+        a = yml.find("- name: 提交配置与判定历史")
+        b = yml.find("- name: 归档 + 稳定版指针")
+        commit_seg = yml[a:b] if 0 <= a < b else ""
+        probe = ("import sys; sys.path.insert(0, 'scripts'); import common; "
+                 "print(common.result_path('assertions'), "
+                 "common.result_path('regression'), common.result_path('build_status'))")
+
+        def split_paths(ci):
+            env = dict(os.environ)
+            env.pop("GITHUB_ACTIONS", None)
+            if ci:
+                env["GITHUB_ACTIONS"] = "true"
+            r = subprocess.run([sys.executable, "-c", probe], cwd=ROOT,
+                               env=env, capture_output=True, text=True, timeout=30)
+            return r.stdout.strip().split()
+
+        ci_paths, local_paths = split_paths(True), split_paths(False)
+        bad = []
+        if not all(c in yml for c in cmds):
+            bad.append("缺少 CI 显式 --output 命令")
+        if not all(p in commit_seg for p in paths):
+            bad.append("提交清单未入库三份结果")
+        if ci_paths != list(paths):
+            bad.append("CI 分流错误：%s" % ci_paths)
+        if local_paths != ["_assertions.json", "_regression.json",
+                           "_build_status_local.json"]:
+            bad.append("本地分流错误：%s" % local_paths)
+        if "result_fresh" not in text("scripts/common.py"):
+            bad.append("消费端缺日期新鲜度校验")
+        if "fresh=True" not in text("scripts/health.py"):
+            bad.append("健康页仍会读旧结论")
+        if "_regression-local.md" not in text(".gitignore"):
+            bad.append("本地报告未隔离")
+        return not bad, ("三份结论显式入库；CI→reports/、本地→_*.json 实测分流正确；"
+                         "消费端校验日期" if not bad else "；".join(bad))
 
     check("B23", B, "本轮：_assertions.json / _regression.json 被忽略，外部无法核对当日结论；"
           "本地试跑还会覆盖出过时快照",
           "每日结论入库 + 本地试跑隔离", c_results_committed)
 
     def c_no_stale_products():
-        yml = text(".github/workflows/update.yml")
-        bs = text("scripts/build_status.py")
-        hp = text("scripts/history.py")
-        sp = text("scripts/stable.py")
-        h = text("scripts/health.py")
-        ok = ("清除上一版派生配置" in yml
-              and "rm -f tvbox-home.json" in yml
-              and all(("id: %s" % s) in yml for s in
-                      ("home_probe", "recheck", "play_probe", "rank_home",
-                       "variants", "jar_health", "regression"))
-              and "def collect" in bs and "degraded" in bs
-              and "load_build_status" in hp and "degraded" in hp
-              and "load_build_status" in sp and "降级版不推进" in sp
-              and "本轮是降级版" in h)
-        return ok, ("派生配置构建前清除（生成失败硬阻断）；失败步骤入库可见，"
-                    "降级日不推进稳定版且健康页告警" if ok else "探测失败防线有缺口")
+        # 同样不能只查文本：真正跑一次 build_status.collect()，验证失败 /
+        # env 漏传时 degraded 会被置上，并检查清除列表是否覆盖全部产物。
+        raw = text(".github/workflows/update.yml")
+        yml = "\n".join(l for l in raw.splitlines()
+                        if not l.lstrip().startswith("#"))
+        start, end = yml.find("rm -f"), yml.find('echo "已清除')
+        rmseg = yml[start:end] if 0 <= start < end else ""
+        must_clean = (
+            "tvbox-home.json", "tvbox-full-homefirst.json",
+            "tvbox-lite-homefirst.json", "tvbox-network-homefirst.json",
+            "tvbox-quality.json", "tvbox-cn-fast.json", "tvbox-stable7.json",
+            "home-sites.txt", "reports/assertions.json",
+            "reports/regression.json", "reports/build-status.json",
+            "reports/audit-latest.md", "reports/regression-latest.md")
+        ids = ("audit", "home_probe", "recheck", "play_probe", "rank_home",
+               "variants", "jar_health", "regression")
+        import build_status
+        saved = {v: os.environ.get(v) for v in build_status.STEP_VARS.values()}
+        try:
+            for v in build_status.STEP_VARS.values():
+                os.environ[v] = "success"
+            clean_run = build_status.collect()
+            os.environ["STEP_HOME_PROBE"] = "failure"
+            fail_run = build_status.collect()
+            os.environ["STEP_AUDIT"] = ""      # env 漏传 -> unknown
+            missing_run = build_status.collect()
+        finally:
+            for v, old in saved.items():
+                if old is None:
+                    os.environ.pop(v, None)
+                else:
+                    os.environ[v] = old
+
+        hp, sp, h = (text("scripts/history.py"), text("scripts/stable.py"),
+                     text("scripts/health.py"))
+        bad = []
+        if not all(x in rmseg for x in must_clean):
+            bad.append("清除列表缺：%s" % [x for x in must_clean if x not in rmseg])
+        if not all(("id: %s" % s) in yml for s in ids):
+            bad.append("continue-on-error 步骤 id 不全")
+        if not all(v in yml for v in build_status.STEP_VARS.values()):
+            bad.append("STEP_* env 与 build_status.py 不一致")
+        if not (clean_run["degraded"] is False
+                and fail_run["degraded"] is True
+                and "home_probe" in fail_run["config_steps_failed"]
+                and missing_run["degraded"] is True
+                and "audit" in missing_run["incomplete_steps"]):
+            bad.append("collect() 未把 failure/unknown 判为降级")
+        if not (common.build_status_fresh({"date": common.today(), "run_id": ""})
+                and not common.build_status_fresh({"date": "2000-01-01"})):
+            bad.append("构建状态日期校验失效")
+        if not ("load_build_status" in hp and "降级版不推进" in sp
+                and "本轮是降级版" in h and "if streak < args.min_streak:" in sp):
+            bad.append("降级日门槛被回退")
+        return not bad, ("清除 7 份配置 + 5 份结论；8 步 env 对齐；实测 "
+                         "failure/unknown→降级、过期状态被拒、bootstrap 需连胜"
+                         if not bad else "；".join(bad))
 
     check("B24", B, "本轮：探测失败不阻断 → 上一版派生配置被当作今日成果发布成混搭；"
           "workflow 全绿但健康页缺数据",
@@ -733,7 +808,8 @@ def build_checks(cfgs, bad, online, proxy):
                     return False, str(e)[:80]
             return run
 
-        check("C04", C, "本轮：健康页表格结构破损", "线上健康页可访问且标签平衡",
+        # 循环已生成 C01-C05，这里必须接 C06，否则 --online 会出现两个 C04
+        check("C06", C, "本轮：健康页表格结构破损", "线上健康页可访问且标签平衡",
               c_health_page(), critical=False)
 
 

@@ -213,15 +213,19 @@ def main():
     # 优先），但绝不能拿它去推进「连续 3 天健康」的稳定版 tag，否则用户
     # 以为拿到的是久经检验的版本，实际是缺探测数据的那一版。
     bs = common.load_build_status()
-    if bs.get("degraded"):
+    # 状态文件缺失 / 过期同样不能当「健康」放行：以前只判 degraded，
+    # bs={} 时会一路走到 bootstrap 分支，把降级日标成首个稳定版。
+    if not bs or bs.get("degraded"):
         cur_tag = state.get("tag", "")
         if cur_tag:
             state["updated"] = common.today()
             state["last_check_commit"] = manifest["commit"]
             common.write_json("stable.json", state, skip_unchanged=False)
-        print("  本轮探测失败步骤 %s，降级版不推进稳定版指针（仍指向 %s）" %
-              (", ".join(bs.get("failed_steps") or []) or "未知",
-               cur_tag or "(无)"))
+        reason = ("构建状态不可用" if not bs else
+                  "不完整步骤 %s" % (", ".join(bs.get("incomplete_steps") or
+                                              bs.get("failed_steps") or []) or "未知"))
+        print("  %s，降级版不推进稳定版指针（仍指向 %s）" %
+              (reason, cur_tag or "(无)"))
         return 0
 
     streak = int(manifest["assert_pass_streak"] or 0)
@@ -230,7 +234,10 @@ def main():
     current = state.get("tag", "")
     bootstrap = not current
 
-    if not bootstrap and streak < args.min_streak:
+    # bootstrap（stable.json 丢失 / 首次运行）以前直接跳过连胜门槛：只要当日
+    # 断言通过就把这一版标成稳定版，哪怕 history 里连续健康天数是 0。门槛
+    # 对首次运行同样适用 —— 稳定版必须是「久经检验」的那一版。
+    if streak < args.min_streak:
         # 保持旧指针，只刷新统计字段，不重新指向新 commit
         if current:
             state["updated"] = common.today()

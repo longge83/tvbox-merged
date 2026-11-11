@@ -7,7 +7,7 @@ _*.json
 *.tmp
 _regression-local.md
 home_report.json
-play_report.json
+_play_report.json
 play_summary.json
 recheck.json
 

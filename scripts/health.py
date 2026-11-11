@@ -174,7 +174,9 @@ def main():
     hp = common.load_json("home_report.json", {}) or {}
     play = common.load_json("play_summary.json", {}) or {}
     rc = common.load_json("recheck.json", {}) or {}
-    asserts = common.load_result("assertions", {}) or {}
+    # fresh=True：入库结论是 tracked 文件，本轮步骤失败时可能仍是上一版内容，
+    # 不能拿昨天的 passed 渲染今天的健康页。
+    asserts = common.load_result("assertions", {}, fresh=True) or {}
     stable = common.load_json("stable.json", {}) or {}
     trend = q.get("trend", [])
     bs = common.load_build_status()
@@ -223,6 +225,7 @@ def main():
                   "search_rate", "playable", "parses_alive_rate", "parses_total")},
         "false_kill_rate": rc.get("false_kill_rate"),
         "assert_passed": bool(asserts.get("passed")),
+        "assert_ran": bool(asserts),
         "assert_pass_streak": q.get("assert_pass_streak", 0),
         # 本轮构建状态：有没有探测步骤失败、今天是不是降级版。状态文件
         # 由 build_status.py 生成并入库；本地试跑 / 日期不符时为空字典。
@@ -230,6 +233,7 @@ def main():
             "available": bool(bs),
             "degraded": bool(bs.get("degraded")),
             "failed_steps": bs.get("failed_steps", []),
+            "incomplete_steps": bs.get("incomplete_steps", []),
             "config_steps_failed": bs.get("config_steps_failed", []),
             "data_steps_failed": bs.get("data_steps_failed", []),
             "steps": bs.get("steps", {}),
@@ -268,7 +272,7 @@ def main():
     health["hygiene"] = hygiene
 
     # 全历史问题回归复核（regression.py 的产物，缺失时按「未执行」显示）
-    rg = common.load_result("regression", {}) or {}
+    rg = common.load_result("regression", {}, fresh=True) or {}
     health["regression"] = {
         "ran": bool(rg.get("total")),
         "passed": bool(rg.get("passed")),
@@ -304,11 +308,22 @@ def main():
             shutil.copyfile(f, os.path.join("site", f))
     # 复查报告与当日校验结论也放进 Pages：jsDelivr 对 .md 只做 301 转 raw，
     # 不如 Pages 直接可读；结构化 JSON 让外部能逐项核对今天的判断依据。
-    for name in ("audit-latest.md", "regression-latest.md",
-                 "assertions.json", "regression.json", "build-status.json"):
+    # 先清掉上一轮副本：CI fresh runner 上 site/ 本来不存在，但本地重跑 /
+    # 自托管 runner 会留下旧副本，不清就会把昨天的结论当今天的发布。
+    report_files = ("audit-latest.md", "regression-latest.md",
+                    "assertions.json", "regression.json", "build-status.json")
+    for name in report_files:
+        dst = os.path.join("site", name)
+        if os.path.exists(dst):
+            os.remove(dst)
+    for name in report_files:
         src = os.path.join("reports", name)
-        if os.path.exists(src):
-            shutil.copyfile(src, os.path.join("site", name))
+        if not os.path.exists(src):
+            continue
+        if name.endswith(".json") and not common.result_fresh(common.load_json(src, None)):
+            # 结构化结论不是本轮的，宁可不发布，也不要在 Pages 上冒充今日结论
+            continue
+        shutil.copyfile(src, os.path.join("site", name))
 
     css = """
     :root{--bg:#f6f8fb;--card:#fff;--ink:#152238;--sub:#5c6b82;--line:#e3e9f2;
@@ -356,21 +371,41 @@ def main():
              "<a href='health.json'>原始健康数据 JSON</a></div>" %
              (esc(common.env_info()["generated"]), esc(common.env_info()["env"])))
 
+    # 报告链接按 site/ 里是否真的存在来渲染：本轮步骤失败时 reports/ 已被
+    # 清除，硬编码链接会直接 404；给「本轮未生成」提示而不是死链。
+    def report_link(name, label):
+        if os.path.exists(os.path.join("site", name)):
+            return "<a href='%s'>%s</a>" % (name, label)
+        return "<span class='sub'>%s（本轮未生成）</span>" % label
+
     # 降级版必须在最顶部说明：以前探测失败被 continue-on-error 吞掉，健康页
     # 仍显示「全部正常」，把缺数据的产物当作今日完整版展示。
     bld = health["build"]
     if bld["degraded"]:
         p.append("<div class='note' style='background:#fdecec;border-color:#f2b8b8;color:#9b1c1c'>"
-                 "<b>本轮是降级版</b>：探测步骤 <code>%s</code> 失败，今日数据不完整。"
+                 "<b>本轮是降级版</b>：步骤 <code>%s</code> 未成功，今日数据不完整。"
                  "配置照常发布以保证可用性，但这一轮<b>不计入稳定版的连续健康天数</b>，"
                  "稳定版指针不会推进。<br>"
-                 "7 份派生配置在构建前已清除旧版，生成失败会硬阻断发布，"
+                 "7 份派生配置与每日结论在构建前已清除旧版，生成失败会硬阻断发布，"
                  "因此线上不会出现「新基础配置 + 昨天的场景版」混搭。<br>"
-                 "逐项核对：<a href='build-status.json'>build-status.json</a></div>" %
-                 esc(", ".join(bld["failed_steps"]) or "未知"))
+                 "逐项核对：%s</div>" %
+                 (esc(", ".join(bld.get("incomplete_steps") or bld["failed_steps"]) or "未知"),
+                  report_link("build-status.json", "build-status.json")))
+    elif not bld["available"]:
+        # available 以前只写进 health.json、页面从不使用：状态文件缺失 / 过期
+        # 时页面会把「不知道」悄悄显示成「完整版」，这里补上明显提示。
+        p.append("<div class='note' style='background:#fff7e6;border-color:#f0d090;color:#8a5a00'>"
+                 "<b>本轮构建状态不可用</b>：build-status.json 缺失、过期或字段不全，"
+                 "无法确认各探测步骤是否完整，本轮同样不计入稳定版的连续健康天数。"
+                 "请核对 <a href='https://github.com/%s/actions'>Actions 日志</a>。</div>" %
+                 esc(REPO))
 
-    status_cls = "ok" if health["assert_passed"] else "bad"
-    status_txt = "通过" if health["assert_passed"] else "未通过（本次未提交）"
+    if not health["assert_ran"]:
+        status_cls, status_txt = "warn", "未执行"
+    elif health["assert_passed"]:
+        status_cls, status_txt = "ok", "通过"
+    else:
+        status_cls, status_txt = "bad", "未通过（本次未提交）"
     # 版本清单会随迭代增加，卡片按文件名取数，不依赖固定下标
     by_file = {v["file"]: v for v in versions}
 
@@ -388,7 +423,10 @@ def main():
          "fail 抽样用真实 TVBox UA 复核", ""),
         ("上游健康", "%d/%d" % (health["sources_ok"], health["sources_ok"] + len(health["sources_failed"])),
          "连续失败 ≥3 天自动标红", "ok" if not health["sources_failed"] else "warn"),
-        ("回归断言", status_txt, "连续通过 %d 天" % health["assert_pass_streak"], status_cls),
+        # 这一张是「当日硬断言」，不是下面那张「全历史问题复核」：以前标题
+        # 叫「回归断言」，assert_passed=true 却配着 regression 失败的红表，
+        # 看起来自相矛盾。
+        ("当日硬断言", status_txt, "连续通过 %d 天" % health["assert_pass_streak"], status_cls),
         ("jar 健康", (pct(health["jar_health"]["jar_alive_rate"])
                       if health["jar_health"]["probed"] else "未探测"),
          "死 %s / 唯一 %s · 连败≥2天 %d（已沉底）" %
@@ -407,12 +445,21 @@ def main():
     p.append("</div>")
 
     if health["stable"]["tag"]:
+        # 指针是历史快照，连续健康门槛未达到前不会更新。早期 tag 的配置
+        # 仍是 lives.type 整数 / parses.ext 字符串，新版客户端导入会抛
+        # IllegalStateException —— 必须明示，别让用户以为这是推荐线路。
         p.append("<div class='note'><b>稳定版指针</b> <code>%s</code>（断言连续通过 3 天才推进，"
-                 "tag 内容不可变，可随时回滚）<br>固定直链：<a href='%s'>%s</a></div>" %
+                 "tag 内容不可变，可随时回滚）<br>固定直链：<a href='%s'>%s</a><br>"
+                 "<span class='sub'>这是历史快照，只有达到连续健康门槛才会更新；若导入报 "
+                 "<code>IllegalStateException / 配置取得失败</code>，说明该 tag 仍是早期格式，"
+                 "请改用下方「配置版本与完整直链」里的 <b>Pages 主线路</b>。</span></div>" %
                  (esc(health["stable"]["tag"]), esc(health["stable"]["cdn"]),
                   esc(health["stable"]["cdn"])))
-    if not health["assert_passed"]:
-        p.append("<div class='note'>本次回归断言未通过，workflow 不会提交，线上仍是上一版配置。"
+    if not health["assert_ran"]:
+        p.append("<div class='note'>本轮未生成当日硬断言结论（步骤失败或结果过期），"
+                 "请查看 <a href='https://github.com/%s/actions'>Actions 日志</a>。</div>" % esc(REPO))
+    elif not health["assert_passed"]:
+        p.append("<div class='note'>本次当日硬断言未通过，workflow 不会提交，线上仍是上一版配置。"
                  "查看 <a href='https://github.com/%s/actions'>Actions 日志</a>定位。</div>" % esc(REPO))
 
     # 版本与直链
@@ -430,12 +477,13 @@ def main():
                   esc(v["mirror"]), esc(v["pages"])))
     p.append("</table>")
     p.append("<div class='sub'>今日三份基础配置的复查明细（删了什么、改了什么名、为什么这样排序）："
-             "<a href='audit-latest.md'>audit-latest.md</a> · "
-             "全部历史问题的复核清单：<a href='regression-latest.md'>regression-latest.md</a><br>"
-             "当日结构化结论（可逐项核对）："
-             "<a href='assertions.json'>assertions.json</a> · "
-             "<a href='regression.json'>regression.json</a> · "
-             "<a href='build-status.json'>build-status.json</a></div>")
+             "%s · 全部历史问题的复核清单：%s<br>"
+             "当日结构化结论（可逐项核对）：%s · %s · %s</div>" %
+             (report_link("audit-latest.md", "audit-latest.md"),
+              report_link("regression-latest.md", "regression-latest.md"),
+              report_link("assertions.json", "assertions.json"),
+              report_link("regression.json", "regression.json"),
+              report_link("build-status.json", "build-status.json")))
 
     # 线路新鲜度自检：历史上反复出现「仓库已更新、CDN 仍挂几个版本前的旧配置」，
     # 用户照着旧链接填就报 IllegalStateException / 拿到旧站点数。静态页无法知道

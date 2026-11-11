@@ -52,6 +52,11 @@ def collect():
         raw = os.environ.get(var, "")
         steps[name] = raw if raw in VALID else "unknown"
     failed = [n for n, v in steps.items() if v == "failure"]
+    # 以前只看 failure：env 漏传（unknown）、步骤被取消（cancelled）、被跳过
+    # （skipped）都会静默写成 degraded=false，history 照算连胜、stable 照推进
+    # tag、健康页也不告警 —— 正是这个脚本要消灭的「静默失败」。凡是没拿到
+    # success 的步骤一律视为本轮不完整。
+    incomplete = [n for n, v in steps.items() if v != "success"]
     return {
         "date": common.today(),
         "env": common.env_info(),
@@ -60,13 +65,16 @@ def collect():
         "commit": os.environ.get("COMMIT_SHA", ""),
         "steps": steps,
         "failed_steps": failed,
-        "config_steps_failed": [n for n in CONFIG_STEPS if steps.get(n) == "failure"],
-        "data_steps_failed": [n for n in DATA_STEPS if steps.get(n) == "failure"],
+        "incomplete_steps": incomplete,
+        "status_incomplete": bool(incomplete),
+        "config_steps_failed": [n for n in CONFIG_STEPS if steps.get(n) != "success"],
+        "data_steps_failed": [n for n in DATA_STEPS if steps.get(n) != "success"],
         # 报告类步骤（audit / regression）失败不改变配置内容，但同样意味着
-        # 「今天这一轮不完整」，所以任何失败都标降级。
-        "degraded": bool(failed),
-        "policy": ("探测失败不沿用旧产物：派生配置在构建前清除，生成失败即硬阻断；"
-                   "数据类失败照常发布但标记降级，且不推进稳定版 tag"),
+        # 「今天这一轮不完整」，所以任何非 success 都标降级。
+        "degraded": bool(incomplete),
+        "policy": ("探测失败不沿用旧产物：派生配置与每日结论在构建前清除，"
+                   "生成失败即硬阻断；数据类失败照常发布但标记降级，"
+                   "且不推进稳定版 tag"),
     }
 
 
@@ -75,15 +83,21 @@ def main():
     ap.add_argument("--output", default=None,
                     help="默认 CI 写 reports/build-status.json（入库），本地写隔离临时文件")
     args = ap.parse_args()
-    dest = args.output or (common.BUILD_STATUS_PATH if common.IS_CI
-                           else "_build_status_local.json")
+    dest = args.output or common.result_path("build_status")
     out = collect()
     common.write_json(dest, out, skip_unchanged=False)
     print("本轮构建状态 -> %s" % dest)
     print("  步骤: %s" % ", ".join("%s=%s" % (k, v) for k, v in out["steps"].items()))
     print("  结论: %s%s" % ("降级版" if out["degraded"] else "完整版",
-                          "（失败: %s）" % ", ".join(out["failed_steps"])
-                          if out["failed_steps"] else ""))
+                          "（不完整: %s）" % ", ".join(out["incomplete_steps"])
+                          if out["incomplete_steps"] else ""))
+    # 8 个 STEP_* 全缺失只可能是 workflow 的 env 段写错 / 被删。这时写出的
+    # 状态毫无意义，必须硬阻断，不能让一份「看似完整」的报告进 Pages。
+    if (common.IS_CI and len(out["incomplete_steps"]) == len(STEP_VARS)
+            and all(v == "unknown" for v in out["steps"].values())):
+        print("::error::8 个 STEP_* 环境变量全部缺失，无法判定本轮是否降级；"
+              "请检查 update.yml 的 build_status 步骤 env", file=sys.stderr)
+        return 1
     return 0
 
 

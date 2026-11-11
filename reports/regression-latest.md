@@ -3,7 +3,7 @@
 把九轮迭代里真实出现过的故障逐条复核，确认修复仍在、防线没被绕过。
 默认离线，`--online` 追加线上线路比对；判定环境：github-actions。
 
-**结果：39 项检查，39 项通过，0 项未通过（其中阻断 0 项），0 项跳过 —— 全部通过**
+**结果：39 项检查，37 项通过，2 项未通过（其中阻断 2 项），0 项跳过 —— 存在需处理项**
 
 ## 产物契约
 
@@ -11,11 +11,11 @@
 |---|---|---|---|---|
 | A01 | 第九轮 / 全程 | 10 份配置齐全、合法 JSON 且无重复键 | ✅ 通过 | 10 份全部合法、无重复 key |
 | A02 | 第九轮：导入报 IllegalStateException | style / header 不得是 JSON 对象 | ✅ 通过 | 0 处对象型 style/header（不会抛 IllegalStateException） |
-| A03 | 第九轮 / 第三轮 | 数字字段不得塞字符串 / 直播 type 必须是整数 | ✅ 通过 | 数字字段均为整数 |
+| A03 | 第九轮 / 第三轮 | 数字字段不得塞字符串 / 直播 type 必须是整数 | ❌ 未通过 | 980 处数字字段是字符串：tvbox.json lives:type='0', tvbox.json lives:type='0', tvbox.json lives:type='0' |
 | A04 | 第九轮：播放期 NullPointerException(String.trim()) | 裸 trim 的 String 字段不得缺失 / null / 非字符串 | ✅ 通过 | 客户端会裸 trim() 的字段全部非 null（不会 NPE 闪退） |
 | A05 | 第六轮：图片被当 spider jar（352 站） | jar 不得是图片 / 媒体 URL | ✅ 通过 | 0 个图片/媒体被塞进 jar 槽 |
 | A06 | 第五轮：jar 字段带前后空格（26 站） | jar 值必须已 strip | ✅ 通过 | jar 值无前后空白（不会被误判缺 jar / 拉 404） |
-| A07 | 第一轮：csp 爬虫节点没有 jar | csp 站点必须有 http jar | ✅ 通过 | 367/1744 个 csp 站点缺 jar（上游本身可能没写，阈值 30%） |
+| A07 | 第一轮：csp 爬虫节点没有 jar | csp 站点必须有 http jar | ✅ 通过 | 367/1754 个 csp 站点缺 jar（上游本身可能没写，阈值 30%） |
 | A08 | 合并坑：上游相对路径未绝对化 | api/jar/ext/url 不得是相对路径 | ✅ 通过 | 0 处 ./ ../ 相对路径 |
 | A09 | 第九轮：yw88075 相对仓库根拼错（138 站首页空白） | 无相邻重复路径段（跳过 raw 的 owner/repo 同名） | ✅ 通过 | 0 处 XBPQ/XBPQ 类基准拼错 |
 | A10 | 第八轮：换皮名 / raw-jsdelivr-gh-proxy 别名重复 | 站点 / 直播 / 解析按内容指向去重 | ✅ 通过 | 10 份配置按内容指向判重后均无重复 |
@@ -42,7 +42,7 @@
 | B09 | 各轮修复必须有硬断言守着，不能只靠文档 | assertions.py 覆盖全部关键回归防线 | ✅ 通过 | 13 条关键硬断言全部在位 |
 | B10 | 每日保险丝结果 | 当日回归断言已通过 | ✅ 通过 | passed=True，28 项检查，失败 [] |
 | B11 | 第十轮：误杀率 52% 证明单日判定不可信 | quality.json 保留多日历史与抽样基线 | ✅ 通过 | 多日历史 / 连败 / 抽样基线字段齐全（2 天） |
-| B12 | 第九轮：README 要求 Pages 主线路；健康页给无版本 CDN 链接 | README 主线路 Pages / health.py 直链带 @main | ✅ 通过 | README 主推 Pages、健康页两列直链均带 @main，口径一致 |
+| B12 | 第九轮：README 要求 Pages 主线路；健康页给无版本 CDN 链接 | README 主线路 Pages / health.py 直链带 @main | ❌ 未通过 | README 主推 Pages、健康页两列直链均带 @main，口径一致 |
 | B13 | 本轮：健康页 </table> 写在 for 循环体内（线上 33 闭合 / 5 开标签） | 生成的健康页 HTML 表格标签平衡 | ✅ 通过 | 源码静态检查：6 个表格闭合均在循环外 |
 | B14 | 每轮交付前的基础检查 | 全部 scripts/*.py 可编译 | ✅ 通过 | 23 个脚本全部编译通过 |
 | B15 | 本轮：tag 复用时指针 commit 写成当前 HEAD、与不可变 tag 不一致 | stable.json 的 commit 指向 tag 实际提交 | ✅ 通过 | tag=stable-20261110 / 指针 commit=4e83a87b59 / tag 实际=4e83a87b59 |
@@ -53,6 +53,11 @@
 | B20 | 本轮：serve.py 无 etag 时普通 GET 也回 304、默认上游无 @main、缺三个场景版 | 自托管入口三处修复在位 | ✅ 通过 | 304 判定有 etag 前置 / 默认上游带 @main / FILES 含三个场景版 |
 | B21 | 本轮：断言失败的缺快照日被跳过、stable 3 天门槛可被绕过；两工作流 push 互撞 | history 连胜日期连续性 + workflow push 前 rebase | ✅ 通过 | 连胜按日历日连续累计；CI push 前先 rebase，两个工作流不再互拒 |
 | B22 | 本轮：README 推荐的 gcore / 健康页推荐的 fastly 是 12h 缓存盲区 | 推荐镜像滞后可被发现 | ✅ 通过 | purge 记录 fastly/gcore 滞后；健康页自检覆盖 gcore 线路 |
+
+## 未通过明细
+
+- **A03 数字字段不得塞字符串 / 直播 type 必须是整数**（阻断）：980 处数字字段是字符串：tvbox.json lives:type='0', tvbox.json lives:type='0', tvbox.json lives:type='0'
+- **B12 README 主线路 Pages / health.py 直链带 @main**（阻断）：README 主推 Pages、健康页两列直链均带 @main，口径一致
 
 ---
 

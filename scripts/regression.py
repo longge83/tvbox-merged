@@ -831,6 +831,46 @@ def build_checks(cfgs, bad, online, proxy):
     check("B26", B, "本轮：按整段 ext 过滤，把「顺带支持哔哩」的通用解析当哔哩资源批量删掉",
           "解析过滤只看身份字段，ext 能力清单不参与", c_parse_ext_not_filtered)
 
+    def c_pan_scope():
+        try:
+            import build as Bm
+        except Exception as e:
+            return False, "无法导入 build：%s" % e
+        bad = []
+        # 用户要求「盘」只匹配网盘类写法。裸「盘」会误删两类正常条目：
+        # 盘古解析（视频解析服务 pangujiexi.cc）和 CSP 站点 ext 模板里的
+        # 「[不包含:网盘下载]」（页面筛选说明）。
+        for name in ("网盘 | Alist", "123 • 云盘", "盘搜|集合", "☁️原盘┃4K",
+                     "盘她┃三盘", "🆘123┃[个人盘]", "❤盤搜", "💡聚剧┃四盘"):
+            if not Bm.blocked({"name": name, "api": "csp_X"}):
+                bad.append("网盘类写法未拦截：%s" % name)
+        for name in ("盘古 · pangujiexi.cc", "盘古"):
+            if Bm.blocked({"name": name, "api": "https://pangujiexi.cc/?url=1"}):
+                bad.append("盘古解析被当成网盘资源删除：%s" % name)
+        # ext 模板里的筛选说明（「不包含:网盘下载」）说的是「页面上不要什么」，
+        # 不是站内收录内容；扫关键词前必须剥掉，否则正常影视站被整条删掉。
+        tpl = {"name": "修罗|弹幕", "api": "csp_HBPQCAT",
+               "ext": '{"播放标题":"text-muted\\">&&</td>[不包含:网盘下载]"}'}
+        if Bm.blocked(tpl):
+            bad.append("ext 模板里的「不包含:网盘下载」被当成网盘资源")
+        # 剥离只针对筛选说明语法：真写了网盘链接，照样要拦
+        if not Bm.blocked({"name": "某影视站", "api": "csp_X",
+                           "ext": "https://pan.example.com/s/1 网盘"}):
+            bad.append("真网盘链接被放过")
+        rules = [ln.strip() for ln in text("blocklist.txt").splitlines()
+                 if ln.strip() and not ln.strip().startswith("#")]
+        if "盘" in rules:
+            bad.append("blocklist 退回成裸「盘」规则")
+        if "FILTER_NOTE_RX" not in text("scripts/build.py"):
+            bad.append("筛选说明剥离逻辑被删（模板文字会再次误删正常站）")
+        return not bad, ("「盘」只认网盘类写法（含繁体）、盘古解析不受影响、"
+                         "模板里的筛选说明不触发、真网盘链接照拦"
+                         if not bad else "；".join(bad))
+
+    check("B27", B, "本轮：用裸「盘」过滤，把盘古解析与 ext 模板文字里的"
+          "「不包含:网盘下载」一起当网盘资源删掉",
+          "「盘」只匹配网盘类写法 + 剥离筛选说明", c_pan_scope)
+
     # ---------- C. 线上线路（可选，需网络） ----------
     if online:
         opener = urllib.request.build_opener()

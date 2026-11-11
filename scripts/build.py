@@ -93,11 +93,27 @@ def load_blocklist():
 BLOCK_RX, BLOCK_COUNT = load_blocklist()
 
 
-def blocked(obj, fields=("name", "api", "ext", "jar", "url", "urls", "group")):
+SITE_FIELDS = ("name", "api", "ext", "jar", "url", "urls", "group")
+
+# CSP 站点的 ext 是 HTML 选择器模板，里面常出现「[不包含:网盘下载]」这类
+# 筛选说明 —— 它说的是「页面上不要什么」，不是站内收录了网盘资源。
+# 直接按整段文本扫关键词，会把正常影视站整条删掉（修罗|弹幕 就是这个情况）。
+# 扫描前先剥掉这类片段，等价于「只按收录内容判断」。
+FILTER_NOTE_RX = re.compile(
+    r"[\[【(（]?\s*(?:不包含|不含|排除)\s*[:：]?[^\]】)）\"',}；;\s]*[\]】)）]?")
+
+
+def block_text_hit(obj, fields=SITE_FIELDS):
+    """只看文本是否命中屏蔽词。"""
     # ext 可能内嵌很长的 JSON，截 200 字符会让出现在尾部的关键词漏过；
     # 断言 content_filter_clean 用同一函数，口径必须一致。
     text = " ".join(str(obj.get(f, ""))[:2000] for f in fields)
+    text = FILTER_NOTE_RX.sub(" ", text)
     return bool(BLOCK_RX.search(text))
+
+
+def blocked(obj, fields=SITE_FIELDS):
+    return block_text_hit(obj, fields)
 
 
 # 解析通道只看「身份」字段，**不看 ext**：解析的 ext 是能力声明，典型长这样

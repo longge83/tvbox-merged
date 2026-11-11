@@ -2,7 +2,7 @@
 # 等级：ok=首页影片列表实测非空 / likely=爬虫jar与首页配置均有效(含同jar推断) /
 #       classes_only=只返回分类（首页可能空）
 # 判定环境：github-actions | 同 jar 推断召回：335
-# 生成时间：2026-11-11 00:23 UTC
+# 生成时间：2026-11-11 01:13 UTC
 
 ok            | 艾旦 | 采集 | 首页影片 20 条 via ac=list
 ok            | 11-暴风 | 首页影片 20 条 via ac=list
@@ -15,12 +15,12 @@ ok            | 2-非凡 | 首页影片 20 条 via ac=list
 ok            | 20-量子 | 首页影片 20 条 via ac=list
 ok            | 360 | 采集 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 360资源ZZ | 首页影片 20 条 via ac=list
+ok            | 43-HG | 首页影片 20 条 via ac=list
 ok            | 6-非凡 | 首页影片 20 条 via ac=list
 ok            | 62-秒播 | 首页影片 20 条 via ac=list
 ok            | 66-360* | 首页影片 20 条 via ac=videolist&pg=1
 ok            | 7-非凡 | 首页影片 20 条 via ac=list
 ok            | U酷资源(优) | 首页影片 20 条 via ac=list
-ok            | [137ms|zy] 🍊极品 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | dd资源 | 首页影片 20 条 via ac=list
 ok            | ikun | 采集 | 首页影片 20 条 via ac=videolist&pg=1
 ok            | ⏱┃三六┃资源 | 首页影片 20 条 via ac=videolist&pg=1

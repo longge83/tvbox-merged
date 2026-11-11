@@ -2,13 +2,13 @@
   "date": "2026-11-11",
   "env": {
     "env": "github-actions",
-    "runner": "43008451102",
+    "runner": "43010076804",
     "proxy": false,
-    "generated": "2026-11-11 11:07:50 UTC"
+    "generated": "2026-11-11 11:18:59 UTC"
   },
   "passed": true,
-  "total": 42,
-  "ok": 42,
+  "total": 43,
+  "ok": 43,
   "failed": 0,
   "skipped": 0,
   "hard_failed": [],
@@ -389,6 +389,15 @@
       "title": "已知坏 tag 显式标注 + 健康页拦截",
       "ok": true,
       "detail": "坏 tag 登记合并、健康页按当前 tag 输出「请勿导入」原因，指针存在时 bootstrap 必被清除",
+      "critical": true
+    },
+    {
+      "id": "B26",
+      "group": "构建链路",
+      "origin": "本轮：按整段 ext 过滤，把「顺带支持哔哩」的通用解析当哔哩资源批量删掉",
+      "title": "解析过滤只看身份字段，ext 能力清单不参与",
+      "ok": true,
+      "detail": "解析只按名称/url 过滤、ext 能力清单不参与；站点仍按全字段；成品零残留",
       "critical": true
     }
   ]

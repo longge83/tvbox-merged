@@ -1,28 +1,28 @@
 {
-  "date": "2026-11-11",
+  "date": "2026-11-12",
   "env": {
     "env": "github-actions",
-    "runner": "43019020386",
+    "runner": "43147487281",
     "proxy": false,
-    "generated": "2026-11-11 12:27:31 UTC"
+    "generated": "2026-11-12 03:32:03 UTC"
   },
   "files": 13,
-  "refreshed": [],
-  "stale": [
-    "tvbox.json",
-    "tvbox-lite.json",
-    "tvbox-network.json",
-    "tvbox-home.json",
-    "tvbox-full-homefirst.json",
-    "tvbox-lite-homefirst.json",
-    "tvbox-network-homefirst.json",
-    "tvbox-quality.json",
-    "tvbox-cn-fast.json",
-    "tvbox-stable7.json",
-    "home-sites.txt",
+  "refreshed": [
     "health.json",
-    "stable.json"
+    "home-sites.txt",
+    "stable.json",
+    "tvbox-cn-fast.json",
+    "tvbox-full-homefirst.json",
+    "tvbox-home.json",
+    "tvbox-lite-homefirst.json",
+    "tvbox-lite.json",
+    "tvbox-network-homefirst.json",
+    "tvbox-network.json",
+    "tvbox-quality.json",
+    "tvbox-stable7.json",
+    "tvbox.json"
   ],
+  "stale": [],
   "noversion_stale": [],
   "mirror_stale": {},
   "attempts": 3

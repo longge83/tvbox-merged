@@ -2,16 +2,17 @@
   "date": "2026-11-12",
   "env": {
     "env": "github-actions",
-    "runner": "43147487281",
+    "runner": "43192510285",
     "proxy": false,
-    "generated": "2026-11-12 03:30:51 UTC"
+    "generated": "2026-11-12 09:36:51 UTC"
   },
   "passed": false,
   "total": 47,
-  "ok": 46,
-  "failed": 1,
+  "ok": 45,
+  "failed": 2,
   "skipped": 0,
   "hard_failed": [
+    "B07",
     "B15"
   ],
   "checks": [
@@ -75,7 +76,7 @@
       "origin": "第一轮：csp 爬虫节点没有 jar",
       "title": "csp 站点缺 jar 比例不超过 30%",
       "ok": true,
-      "detail": "335/1497 个 csp 站点缺 jar（上游本身可能没写，阈值 30%）",
+      "detail": "289/964 个 csp 站点缺 jar（上游本身可能没写，阈值 30%）",
       "critical": true
     },
     {
@@ -227,8 +228,8 @@
       "group": "构建链路",
       "origin": "第九轮：choose_base 第三列修相对仓库根的路径",
       "title": "sources.txt 格式合法且源数量未塌",
-      "ok": true,
-      "detail": "29 个上游源，格式异常 0 条",
+      "ok": false,
+      "detail": "17 个上游源，格式异常 0 条",
       "critical": true
     },
     {
@@ -264,7 +265,7 @@
       "origin": "第十轮：误杀率 52% 证明单日判定不可信",
       "title": "quality.json 保留多日历史与抽样基线",
       "ok": true,
-      "detail": "多日历史 / 连败 / 抽样基线字段齐全（2 天）",
+      "detail": "多日历史 / 连败 / 抽样基线字段齐全（3 天）",
       "critical": true
     },
     {

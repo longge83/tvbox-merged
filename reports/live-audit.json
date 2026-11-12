@@ -2,17 +2,17 @@
   "date": "2026-11-12",
   "env": {
     "env": "github-actions",
-    "runner": "43147487281",
+    "runner": "43192510285",
     "proxy": false,
-    "generated": "2026-11-12 03:30:05 UTC"
+    "generated": "2026-11-12 09:36:14 UTC"
   },
   "sources": [
     {
       "name": "live · epg.pw",
       "url": "https://epg.pw/test_channels.m3u",
       "status": 200,
-      "chans": 2128,
-      "sec": 0.2,
+      "chans": 2112,
+      "sec": 0.1,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 1,
@@ -26,126 +26,7 @@
       "verdict": "正常"
     },
     {
-      "name": "MIGU（登录版）",
-      "url": "http://127.0.0.1:9978/proxy?do=migu&type=m3u8",
-      "status": 0,
-      "chans": 0,
-      "sec": 0.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "MIGU（AI版本）",
-      "url": "http://127.0.0.1:9978/proxy?do=live&url=https://ds65.tv1288.xyz",
-      "status": 0,
-      "chans": 0,
-      "sec": 0.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "江苏移动",
-      "url": "http://127.0.0.1:9978/proxy?do=live&url=https://storage.7x24cc.com/storage-server/presigned/ss1/a6-online-fileupload/newMediaFile/529EAA1_773_jsyd_20251205182514164newMediaFile.bmp",
-      "status": 0,
-      "chans": 0,
-      "sec": 0.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "肥羊虎牙一起看 · 内置",
-      "url": "http://127.0.0.1:9978/proxy?do=live&url=https://sub.ottiptv.cc/huyayqk.m3u",
-      "status": 0,
-      "chans": 0,
-      "sec": 0.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "肥羊B站直播 · 内置",
-      "url": "http://127.0.0.1:9978/proxy?do=live&url=https://sub.ottiptv.cc/bililive.m3u",
-      "status": 0,
-      "chans": 0,
-      "sec": 0.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "肥羊斗鱼一起看 · 内置",
-      "url": "http://127.0.0.1:9978/proxy?do=live&url=https://sub.ottiptv.cc/douyuyqk.m3u",
-      "status": 0,
-      "chans": 0,
-      "sec": 0.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "肥羊YY轮播 · 内置",
-      "url": "http://127.0.0.1:9978/proxy?do=live&url=https://sub.ottiptv.cc/yylunbo.m3u",
-      "status": 0,
-      "chans": 0,
-      "sec": 0.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "肥猫 · 我不是.肥猫.live",
+      "name": "肥猫",
       "url": "http://我不是.肥猫.live/TV/tvzb.txt",
       "status": 0,
       "chans": 0,
@@ -162,26 +43,80 @@
       "verdict": "拉取失败"
     },
     {
-      "name": "综合",
-      "url": "http://193.123.86.190:14888/TV/iptv.php",
+      "name": "手动不知何时更新",
+      "url": "https://szyyds.cn/tv/live/x.txt",
       "status": 200,
-      "chans": 188,
-      "sec": 0.5,
-      "ad": 0,
+      "chans": 6641,
+      "sec": 3.1,
+      "ad": 1,
       "ad_ratio": 0.0,
-      "reuse": 2,
-      "reuse_url": "http://173.208.212.130:8181/720p/cctv4.m3u8",
+      "reuse": 7,
+      "reuse_url": "http://137.175.111.185/migu/?id=",
       "playable": null,
       "err": "",
       "current": true,
       "shell": 0,
-      "henan_total": 1,
+      "henan_total": 48,
       "henan_ok": 0,
       "verdict": "正常"
     },
     {
-      "name": "牛播一",
-      "url": "http://127.0.0.1:9978/proxy?do=cctva",
+      "name": "有效期27年7月",
+      "url": "http://m.szyyds.cn/api.php?token=8664f352657e8b13585bcf0f84fc3512",
+      "status": 200,
+      "chans": 51,
+      "sec": 1.1,
+      "ad": 0,
+      "ad_ratio": 0.0,
+      "reuse": 1,
+      "reuse_url": "http://139.227.21.22:9901/tsfile/live/0137_1.m3u8?key=txiptv&playlive=1&authid=0",
+      "playable": null,
+      "err": "",
+      "current": true,
+      "shell": 0,
+      "henan_total": 0,
+      "henan_ok": 0,
+      "verdict": "正常"
+    },
+    {
+      "name": "自动更新",
+      "url": "https://z.szyyds.cn/iptv",
+      "status": 200,
+      "chans": 247,
+      "sec": 1.4,
+      "ad": 1,
+      "ad_ratio": 0.004,
+      "reuse": 2,
+      "reuse_url": "http://110.72.84.47:808/hls/54/index.m3u8",
+      "playable": null,
+      "err": "",
+      "current": true,
+      "shell": 0,
+      "henan_total": 2,
+      "henan_ok": 2,
+      "verdict": "河南可播"
+    },
+    {
+      "name": "音乐所",
+      "url": "https://szyyds.cn/tv/live/yy.txt",
+      "status": 200,
+      "chans": 42285,
+      "sec": 15.2,
+      "ad": 17,
+      "ad_ratio": 0.0,
+      "reuse": 7,
+      "reuse_url": "https://vdse.bdstatic.com//06b4e9b185b843e694e4d20e9b0a0aac.mp4",
+      "playable": null,
+      "err": "",
+      "current": true,
+      "shell": 0,
+      "henan_total": 0,
+      "henan_ok": 0,
+      "verdict": "正常"
+    },
+    {
+      "name": "肥羊虎牙一起看",
+      "url": "http://127.0.0.1:9978/proxy?do=live&url=https://x.szyyds.cn/huyayqk.m3u",
       "status": 0,
       "chans": 0,
       "sec": 0.0,
@@ -197,40 +132,55 @@
       "verdict": "拉取失败"
     },
     {
-      "name": "虎牙一起看",
-      "url": "https://sub.ottiptv.cc/huyayqk.m3u",
-      "status": 200,
-      "chans": 1080,
-      "sec": 1.0,
+      "name": "肥羊B站直播",
+      "url": "http://127.0.0.1:9978/proxy?do=live&url=https://x.szyyds.cn/bililive.m3u",
+      "status": 0,
+      "chans": 0,
+      "sec": 0.0,
       "ad": 0,
       "ad_ratio": 0.0,
-      "reuse": 2,
-      "reuse_url": "https://live.ottiptv.cc/huya/23903152",
+      "reuse": 0,
       "playable": null,
-      "err": "",
+      "err": "拉取失败",
       "current": true,
       "shell": 0,
       "henan_total": 0,
       "henan_ok": 0,
-      "verdict": "正常"
+      "verdict": "拉取失败"
     },
     {
-      "name": "斗鱼一起看",
-      "url": "https://sub.ottiptv.cc/douyuyqk.m3u",
-      "status": 200,
-      "chans": 921,
-      "sec": 0.9,
+      "name": "肥羊斗鱼一起看",
+      "url": "http://127.0.0.1:9978/proxy?do=live&url=https://x.szyyds.cn/douyuyqk.m3u",
+      "status": 0,
+      "chans": 0,
+      "sec": 0.0,
       "ad": 0,
       "ad_ratio": 0.0,
-      "reuse": 1,
-      "reuse_url": "https://cdn.jsdelivr.net/gh/feiyang666999/testvideo/time/time.mp4",
+      "reuse": 0,
       "playable": null,
-      "err": "",
+      "err": "拉取失败",
       "current": true,
       "shell": 0,
       "henan_total": 0,
       "henan_ok": 0,
-      "verdict": "正常"
+      "verdict": "拉取失败"
+    },
+    {
+      "name": "肥羊YY轮播",
+      "url": "http://127.0.0.1:9978/proxy?do=live&url=https://x.szyyds.cn/yylunbo.m3u",
+      "status": 0,
+      "chans": 0,
+      "sec": 0.0,
+      "ad": 0,
+      "ad_ratio": 0.0,
+      "reuse": 0,
+      "playable": null,
+      "err": "拉取失败",
+      "current": true,
+      "shell": 0,
+      "henan_total": 0,
+      "henan_ok": 0,
+      "verdict": "拉取失败"
     },
     {
       "name": "superiptv",
@@ -254,7 +204,7 @@
       "url": "https://down.nigx.cn/raw.githubusercontent.com/Kimentanm/aptv/master/m3u/iptv.m3u",
       "status": 403,
       "chans": 0,
-      "sec": 0.3,
+      "sec": 0.7,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 0,
@@ -267,638 +217,29 @@
       "verdict": "拉取失败"
     },
     {
-      "name": "直播 · xhztv.top",
-      "url": "http://xhztv.top/njyy.txt",
-      "status": 404,
-      "chans": 0,
-      "sec": 0.2,
+      "name": "综合直播 · 193.123.86.190:14888",
+      "url": "http://193.123.86.190:14888/TV/iptv.php",
+      "status": 200,
+      "chans": 188,
+      "sec": 0.7,
       "ad": 0,
       "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "手动不知何时更新",
-      "url": "https://szyyds.cn/tv/live/x.txt",
-      "status": 200,
-      "chans": 6641,
-      "sec": 7.3,
-      "ad": 1,
-      "ad_ratio": 0.0,
-      "reuse": 7,
-      "reuse_url": "http://137.175.111.185/migu/?id=",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 48,
-      "henan_ok": 0,
-      "verdict": "正常"
-    },
-    {
-      "name": "有效期27年7月",
-      "url": "http://m.szyyds.cn/api.php?token=8664f352657e8b13585bcf0f84fc3512",
-      "status": 200,
-      "chans": 51,
-      "sec": 1.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 1,
-      "reuse_url": "http://139.227.21.22:9901/tsfile/live/0137_1.m3u8?key=txiptv&playlive=1&authid=0",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "正常"
-    },
-    {
-      "name": "自动更新",
-      "url": "https://z.szyyds.cn/iptv",
-      "status": 200,
-      "chans": 247,
-      "sec": 1.6,
-      "ad": 1,
-      "ad_ratio": 0.004,
       "reuse": 2,
-      "reuse_url": "http://110.72.84.47:808/hls/54/index.m3u8",
+      "reuse_url": "http://173.208.212.130:8181/720p/cctv4.m3u8",
       "playable": null,
       "err": "",
       "current": true,
       "shell": 0,
-      "henan_total": 2,
-      "henan_ok": 2,
-      "verdict": "河南可播"
-    },
-    {
-      "name": "音乐所",
-      "url": "https://szyyds.cn/tv/live/yy.txt",
-      "status": 200,
-      "chans": 42285,
-      "sec": 9.5,
-      "ad": 17,
-      "ad_ratio": 0.0,
-      "reuse": 7,
-      "reuse_url": "https://vdse.bdstatic.com//06b4e9b185b843e694e4d20e9b0a0aac.mp4",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
+      "henan_total": 1,
       "henan_ok": 0,
       "verdict": "正常"
-    },
-    {
-      "name": "肥羊虎牙一起看 · 内置 (2)",
-      "url": "http://127.0.0.1:9978/proxy?do=live&url=https://x.szyyds.cn/huyayqk.m3u",
-      "status": 0,
-      "chans": 0,
-      "sec": 0.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "肥羊B站直播 · 内置 (2)",
-      "url": "http://127.0.0.1:9978/proxy?do=live&url=https://x.szyyds.cn/bililive.m3u",
-      "status": 0,
-      "chans": 0,
-      "sec": 0.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "肥羊斗鱼一起看 · 内置 (2)",
-      "url": "http://127.0.0.1:9978/proxy?do=live&url=https://x.szyyds.cn/douyuyqk.m3u",
-      "status": 0,
-      "chans": 0,
-      "sec": 0.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "肥羊YY轮播 · 内置 (2)",
-      "url": "http://127.0.0.1:9978/proxy?do=live&url=https://x.szyyds.cn/yylunbo.m3u",
-      "status": 0,
-      "chans": 0,
-      "sec": 0.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "live · xhztv.top",
-      "url": "http://xhztv.top/xhz/live.txt",
-      "status": 200,
-      "chans": 2422,
-      "sec": 0.4,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 3,
-      "reuse_url": "http://39.134.24.161/dbiptv.sn.chinamobile.com/PLTV/88888890/224/3221226395/index.m3u8?",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 14,
-      "henan_ok": 0,
-      "verdict": "正常"
-    },
-    {
-      "name": "本地live文件",
-      "url": "http://127.0.0.1:9978/file/XYQTVBox/live.txt",
-      "status": 0,
-      "chans": 0,
-      "sec": 0.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "FMM_IPV6",
-      "url": "https://m3u.ibert.me/txt/fmml_ipv6.txt",
-      "status": 200,
-      "chans": 82,
-      "sec": 0.1,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 1,
-      "reuse_url": "http://[2409:8087:8:21::18]:6610/otttv.bj.chinamobile.com/PLTV/88888888/224/3221226895/1.m3u8?",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "正常"
-    },
-    {
-      "name": "歌手直播",
-      "url": "https://mgtv.ottiptv.cc/mglist.m3u",
-      "status": 200,
-      "chans": 197,
-      "sec": 3.0,
-      "ad": 4,
-      "ad_ratio": 0.02,
-      "reuse": 3,
-      "reuse_url": "http://mgtv.ottiptv.cc/vod/24678746",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "正常"
-    },
-    {
-      "name": "B站直播",
-      "url": "https://sub.ottiptv.cc/bililive.m3u",
-      "status": 200,
-      "chans": 138,
-      "sec": 0.5,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 1,
-      "reuse_url": "https://cdn.jsdelivr.net/gh/feiyang666999/testvideo/time/time.mp4",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "正常"
-    },
-    {
-      "name": "YY轮播",
-      "url": "https://sub.ottiptv.cc/yylunbo.m3u",
-      "status": 200,
-      "chans": 543,
-      "sec": 0.7,
-      "ad": 2,
-      "ad_ratio": 0.004,
-      "reuse": 1,
-      "reuse_url": "https://cdn.jsdelivr.net/gh/feiyang666999/testvideo/time/time.mp4",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "正常"
-    },
-    {
-      "name": "wqwqwq",
-      "url": "https://la1.wqwqwq.sbs/tv.m3u",
-      "status": 530,
-      "chans": 0,
-      "sec": 0.1,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "YanG · https:",
-      "url": "https://https://raw.githubusercontent.com/YanG-1989/m3u/main/Gather.m3u",
-      "status": 0,
-      "chans": 0,
-      "sec": 0.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "epg.pw All",
-      "url": "https://m3u.002397.xyz/all.m3u",
-      "status": 530,
-      "chans": 0,
-      "sec": 0.1,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "iptv.org All",
-      "url": "https://m3u.002397.xyz/o_all.m3u",
-      "status": 530,
-      "chans": 0,
-      "sec": 0.1,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "BMCH",
-      "url": "https://gh.halonice.com/https:/raw.githubusercontent.com/big-mouth-cn/tv/main/iptv-ok.m3u",
-      "status": 0,
-      "chans": 0,
-      "sec": 0.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "综合直播 · ds65.tv1288.xyz",
-      "url": "https://ds65.tv1288.xyz",
-      "status": 200,
-      "chans": 3253,
-      "sec": 0.8,
-      "ad": 1,
-      "ad_ratio": 0.0,
-      "reuse": 3,
-      "reuse_url": "http://45.192.97.170:8880/play/1510.m3u8",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 20,
-      "henan_ok": 12,
-      "verdict": "河南可播"
-    },
-    {
-      "name": "日后",
-      "url": "http://rihou.cc:555/gggg.nzk",
-      "status": 0,
-      "chans": 0,
-      "sec": 0.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "宫殿",
-      "url": "https://gongdian.top/tv/iptv",
-      "status": 0,
-      "chans": 0,
-      "sec": 0.3,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "酒店源",
-      "url": "https://gongdian.top/tv/guovin",
-      "status": 0,
-      "chans": 0,
-      "sec": 0.3,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "游魂",
-      "url": "https://www.iyouhun.com/tv/zb",
-      "status": 200,
-      "chans": 7066,
-      "sec": 16.6,
-      "ad": 1,
-      "ad_ratio": 0.0,
-      "reuse": 4,
-      "reuse_url": "http://207.56.13.146:81/cdnlive/fyzq.m3u8",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 72,
-      "henan_ok": 9,
-      "verdict": "河南可播"
-    },
-    {
-      "name": "半路捡来的",
-      "url": "https://agit.ai/Yoursmile7/TVBox/raw/branch/master/live.txt",
-      "status": 200,
-      "chans": 0,
-      "sec": 0.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "reuse_url": "",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "道长",
-      "url": "http://111.67.196.181/zhibo.txt",
-      "status": 0,
-      "chans": 0,
-      "sec": 25.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "肥猫 · 我不是.肥猫.love:63",
-      "url": "http://我不是.肥猫.love:63/TV/tvzb.txt",
-      "status": 0,
-      "chans": 0,
-      "sec": 0.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "四千加",
-      "url": "https://qu.ax/kBip.m3u",
-      "status": 404,
-      "chans": 0,
-      "sec": 0.7,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "AK47",
-      "url": "https://qu.ax/HtMB.txt",
-      "status": 404,
-      "chans": 0,
-      "sec": 0.7,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "月光宝盒",
-      "url": "https://iptvindex.com/tv.txt",
-      "status": 404,
-      "chans": 0,
-      "sec": 0.1,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "罗汉果",
-      "url": "https://agit.ai/138001380000/MHQTV/raw/branch/master/TV/0903zh.txt",
-      "status": 200,
-      "chans": 0,
-      "sec": 0.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "reuse_url": "",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "MV系列",
-      "url": "https://qu.ax/oiNH.txt",
-      "status": 404,
-      "chans": 0,
-      "sec": 0.6,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "晴天🌞TV",
-      "url": "https://qu.ax/vszk.txt",
-      "status": 200,
-      "chans": 0,
-      "sec": 0.8,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "reuse_url": "",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "武哥直播",
-      "url": "https://qu.ax/HjLu.txt",
-      "status": 200,
-      "chans": 23345,
-      "sec": 1.4,
-      "ad": 22,
-      "ad_ratio": 0.001,
-      "reuse": 27,
-      "reuse_url": "http://hpull.kktv8.com/livekktv/128600025/playlist.m3u8",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 60,
-      "henan_ok": 0,
-      "verdict": "正常"
-    },
-    {
-      "name": "yingshi",
-      "url": "http://52bsj.vip:81/api/v3/file/get/122873/lele.txt?sign=yKzjapJlxJ-6naKcbM5Bz4FDYn43u6lTHO_0fd7t3Xg%3D%3A0",
-      "status": 0,
-      "chans": 0,
-      "sec": 25.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
     },
     {
       "name": "📡咪咕直播",
       "url": "http://139.224.44.53:1234",
       "status": 200,
-      "chans": 363,
-      "sec": 1.2,
+      "chans": 361,
+      "sec": 1.0,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 2,
@@ -932,12 +273,12 @@
       "name": "📡咪咕直播3",
       "url": "http://117.72.81.53:3000",
       "status": 200,
-      "chans": 359,
-      "sec": 1.4,
+      "chans": 369,
+      "sec": 1.6,
       "ad": 0,
       "ad_ratio": 0.0,
-      "reuse": 2,
-      "reuse_url": "http://117.72.81.53:3000/969342310",
+      "reuse": 3,
+      "reuse_url": "http://117.72.81.53:3000/969378120",
       "playable": null,
       "err": "",
       "current": true,
@@ -947,11 +288,101 @@
       "verdict": "正常"
     },
     {
+      "name": "📡虎牙",
+      "url": "https://sub.ottiptv.cc/huyayqk.m3u",
+      "status": 200,
+      "chans": 1118,
+      "sec": 0.6,
+      "ad": 0,
+      "ad_ratio": 0.0,
+      "reuse": 2,
+      "reuse_url": "https://live.ottiptv.cc/huya/23903152",
+      "playable": null,
+      "err": "",
+      "current": true,
+      "shell": 0,
+      "henan_total": 0,
+      "henan_ok": 0,
+      "verdict": "正常"
+    },
+    {
+      "name": "📡斗鱼",
+      "url": "https://sub.ottiptv.cc/douyuyqk.m3u",
+      "status": 200,
+      "chans": 919,
+      "sec": 0.3,
+      "ad": 0,
+      "ad_ratio": 0.0,
+      "reuse": 1,
+      "reuse_url": "https://cdn.jsdelivr.net/gh/feiyang666999/testvideo/time/time.mp4",
+      "playable": null,
+      "err": "",
+      "current": true,
+      "shell": 0,
+      "henan_total": 0,
+      "henan_ok": 0,
+      "verdict": "正常"
+    },
+    {
+      "name": "📡YY",
+      "url": "https://sub.ottiptv.cc/yylunbo.m3u",
+      "status": 200,
+      "chans": 545,
+      "sec": 0.5,
+      "ad": 3,
+      "ad_ratio": 0.006,
+      "reuse": 1,
+      "reuse_url": "https://cdn.jsdelivr.net/gh/feiyang666999/testvideo/time/time.mp4",
+      "playable": null,
+      "err": "",
+      "current": true,
+      "shell": 0,
+      "henan_total": 0,
+      "henan_ok": 0,
+      "verdict": "正常"
+    },
+    {
+      "name": "📡BL",
+      "url": "https://sub.ottiptv.cc/bililive.m3u",
+      "status": 200,
+      "chans": 438,
+      "sec": 0.1,
+      "ad": 0,
+      "ad_ratio": 0.0,
+      "reuse": 1,
+      "reuse_url": "https://cdn.jsdelivr.net/gh/feiyang666999/testvideo/time/time.mp4",
+      "playable": null,
+      "err": "",
+      "current": true,
+      "shell": 0,
+      "henan_total": 0,
+      "henan_ok": 0,
+      "verdict": "正常"
+    },
+    {
+      "name": "live · xhztv.top",
+      "url": "http://xhztv.top/xhz/live.txt",
+      "status": 200,
+      "chans": 2422,
+      "sec": 0.1,
+      "ad": 0,
+      "ad_ratio": 0.0,
+      "reuse": 3,
+      "reuse_url": "http://39.134.24.161/dbiptv.sn.chinamobile.com/PLTV/88888890/224/3221226395/index.m3u8?",
+      "playable": null,
+      "err": "",
+      "current": true,
+      "shell": 0,
+      "henan_total": 14,
+      "henan_ok": 0,
+      "verdict": "正常"
+    },
+    {
       "name": "📡央视频",
       "url": "https://mpimg.cn/down.php/caac7a6dae8f835257a11e7a11291bf2.txt",
       "status": 200,
       "chans": 0,
-      "sec": 0.4,
+      "sec": 1.7,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 0,
@@ -965,11 +396,11 @@
       "verdict": "拉取失败"
     },
     {
-      "name": "直播 · home.jundie.top:81",
+      "name": "直播",
       "url": "http://home.jundie.top:81/Cat/tv/live.txt",
       "status": 404,
       "chans": 0,
-      "sec": 0.8,
+      "sec": 0.7,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 0,
@@ -985,8 +416,8 @@
       "name": "vbskycn/iptv4",
       "url": "https://live.zbds.top/tv/iptv4.m3u",
       "status": 200,
-      "chans": 427,
-      "sec": 1.4,
+      "chans": 431,
+      "sec": 0.9,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 2,
@@ -1004,7 +435,7 @@
       "url": "https://raw.githubusercontent.com/qist/tvbox/master/tvlive.txt",
       "status": 200,
       "chans": 1420,
-      "sec": 0.1,
+      "sec": 0.2,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 2,
@@ -1022,7 +453,7 @@
       "url": "https://github.moeyy.xyz/https://raw.githubusercontent.com/dxawi/0/main/tvlive.txt",
       "status": 0,
       "chans": 0,
-      "sec": 0.3,
+      "sec": 0.2,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 0,
@@ -1057,7 +488,7 @@
       "url": "https://raw.githubusercontent.com/qist/tvbox/master/tvboxtv.txt",
       "status": 200,
       "chans": 1391,
-      "sec": 0.1,
+      "sec": 0.3,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 1,
@@ -1075,7 +506,7 @@
       "url": "https://raw.githubusercontent.com/qist/tvbox/master/tv.txt",
       "status": 404,
       "chans": 0,
-      "sec": 0.0,
+      "sec": 0.1,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 0,
@@ -1088,59 +519,7 @@
       "verdict": "拉取失败"
     },
     {
-      "name": "develop202 · gh.927223.xyz",
-      "url": "https://gh.927223.xyz/https://raw.githubusercontent.com/develop202/migu_video/refs/heads/main/interface.txt",
-      "status": 403,
-      "chans": 0,
-      "sec": 0.9,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "Kimentanm · gh.927223.xyz",
-      "url": "https://gh.927223.xyz/https://raw.githubusercontent.com/Kimentanm/aptv/master/m3u/iptv.m3u",
-      "status": 403,
-      "chans": 0,
-      "sec": 0.9,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "南风直播源",
-      "url": "https://gh-proxy.com/https://raw.githubusercontent.com/yoursmile66/TVBox/main/live.txt",
-      "status": 200,
-      "chans": 1126,
-      "sec": 0.2,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 3,
-      "reuse_url": "http://ali-m-l.cztv.com/channels/lantian/channel21/1080p.m3u8",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 5,
-      "henan_ok": 2,
-      "verdict": "河南可播"
-    },
-    {
-      "name": "初秋语 · raw.githubusercontent.com",
+      "name": "初秋语",
       "url": "https://raw.githubusercontent.com/gaotianliuyun/gao/master/list.txt",
       "status": 200,
       "chans": 202,
@@ -1158,24 +537,7 @@
       "verdict": "正常"
     },
     {
-      "name": "心魔",
-      "url": "https://raw.gitmirror.com/yw88075/tvbox/main/live.txt",
-      "status": 0,
-      "chans": 0,
-      "sec": 0.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "SAO0 · raw.githubusercontent.com",
+      "name": "SAO0",
       "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/libs/tv/tvlive.txt",
       "status": 404,
       "chans": 0,
@@ -1192,7 +554,7 @@
       "verdict": "拉取失败"
     },
     {
-      "name": "IPV6 · raw.githubusercontent.com",
+      "name": "IPV6",
       "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/lib/tv/ipv6.m3u",
       "status": 404,
       "chans": 0,
@@ -1209,414 +571,11 @@
       "verdict": "拉取失败"
     },
     {
-      "name": "Kimentanm · ghproxy.net",
-      "url": "https://ghproxy.net/https://raw.githubusercontent.com/Kimentanm/aptv/master/m3u/iptv.m3u",
-      "status": 200,
-      "chans": 120,
-      "sec": 0.9,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 2,
-      "reuse_url": "http://101.35.240.114:88/live.php?id=北京卫视",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 1,
-      "henan_ok": 0,
-      "verdict": "正常"
-    },
-    {
-      "name": "SAO0 · raw.githubusercontent.com (2)",
-      "url": "https://raw.githubusercontent.com/zhuzhuyule/juhe-subhub/main/docs/libs/tv/tvlive.txt",
-      "status": 404,
-      "chans": 0,
-      "sec": 0.1,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "IPV6 · raw.githubusercontent.com (2)",
-      "url": "https://raw.githubusercontent.com/zhuzhuyule/juhe-subhub/main/docs/lib/tv/ipv6.m3u",
-      "status": 404,
-      "chans": 0,
-      "sec": 0.1,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "初秋语 · raw.githubusercontent.com (2)",
-      "url": "https://raw.githubusercontent.com/zhuzhuyule/juhe-subhub/main/docs/list.txt",
-      "status": 404,
-      "chans": 0,
-      "sec": 0.1,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "cluntop",
-      "url": "https://raw.githubusercontent.com/zhuzhuyule/juhe-subhub/main/docs/lib/iptv.m3u",
-      "status": 404,
-      "chans": 0,
-      "sec": 0.1,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "cluntop_test",
-      "url": "https://raw.githubusercontent.com/zhuzhuyule/juhe-subhub/main/docs/lib/iptv_test.m3u",
-      "status": 404,
-      "chans": 0,
-      "sec": 0.1,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "suxuang",
-      "url": "https://raw.githubusercontent.com/suxuang/myIPTV/main/ipv4.m3u",
-      "status": 200,
-      "chans": 1225,
-      "sec": 0.1,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 3,
-      "reuse_url": "http://espanol-liveali.cgtn.com/hls/LSveOGBaBw41Ea7ukkVAUdKQ220802LSTexu6xAuFH8VZNBLE1ZNEa220802cd.m3u8",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 20,
-      "henan_ok": 1,
-      "verdict": "河南可播"
-    },
-    {
-      "name": "Guovin",
-      "url": "https://raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.m3u",
-      "status": 200,
-      "chans": 1619,
-      "sec": 0.1,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 3,
-      "reuse_url": "https://liveout.xntv.tv/a65jur/90p2i1.m3u8?zqinghd",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 11,
-      "henan_ok": 0,
-      "verdict": "正常"
-    },
-    {
-      "name": "mlzlzj",
-      "url": "https://raw.githubusercontent.com/mlzlzj/TV/main/output/result.m3u",
-      "status": 200,
-      "chans": 2024,
-      "sec": 0.1,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 4,
-      "reuse_url": "https://satellitepull.cnr.cn/live/wx32nmgyygb/playlist.m3u8",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 12,
-      "henan_ok": 0,
-      "verdict": "正常"
-    },
-    {
-      "name": "gambiarras",
-      "url": "https://raw.githubusercontent.com/gambiarras/legal-iptv/refs/heads/main/playlist.m3u",
-      "status": 200,
-      "chans": 1383,
-      "sec": 0.1,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 1,
-      "reuse_url": "https://video01.brascast.com/grezzana1839/grezzana1839/playlist.m3u8?hls_ctx=x105h921",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "正常"
-    },
-    {
-      "name": "Tianmu",
-      "url": "https://ghfile.geekertao.top/https://raw.githubusercontent.com/TianmuTNT/iptv/main/iptv.txt",
-      "status": 200,
-      "chans": 36,
-      "sec": 0.4,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 1,
-      "reuse_url": "http://124.165.251.82:85/tsfile/live/0012_1.m3u8?key=txiptv&playlive=1&authid=0",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "正常"
-    },
-    {
-      "name": "裤佬",
-      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/Jsnzkpg/Jsnzkpg/refs/heads/Jsnzkpg/Jsnzkpg1",
-      "status": 404,
-      "chans": 0,
-      "sec": 0.2,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "Kimentanm · gh.llkk.cc",
-      "url": "https://gh.llkk.cc/https://raw.githubusercontent.com/Kimentanm/aptv/master/m3u/iptv.m3u",
-      "status": 522,
-      "chans": 0,
-      "sec": 19.4,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "develop202 · gh-proxy.org",
-      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/develop202/migu_video/refs/heads/main/interface.txt",
-      "status": 200,
-      "chans": 0,
-      "sec": 0.1,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "reuse_url": "",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "EPG直播",
-      "url": "http://gh-proxy.org/https://raw.githubusercontent.com/Wirili/IPTV/main/live.txt",
-      "status": 200,
-      "chans": 668,
-      "sec": 0.2,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 1,
-      "reuse_url": "http://tvbox6.icu/tv/migu.php?id=cctv1$LR•6•IPV4『线路1』",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 10,
-      "henan_ok": 0,
-      "verdict": "正常"
-    },
-    {
-      "name": "电视直播",
-      "url": "http://gh-proxy.org/raw.githubusercontent.com/Supprise0901/TVBox_live/main/live.txt",
-      "status": 200,
-      "chans": 976,
-      "sec": 0.2,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 2,
-      "reuse_url": "https://epg.pw/stream/8770e89223a086eb1b8a0c931e42296d772a8069ad3eb72540e0c434e7cb3e93.m3u8",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 19,
-      "henan_ok": 12,
-      "verdict": "河南可播"
-    },
-    {
-      "name": "YanG · gh-proxy.org",
-      "url": "https://gh-proxy.org/https://raw.githubusercontent.com/YanG-1989/m3u/main/Gather.m3u",
-      "status": 200,
-      "chans": 123,
-      "sec": 0.1,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 1,
-      "reuse_url": "http://gslbserv.itv.cmvideo.cn/index.m3u8?channel-id=FifastbLive&Contentid=3000000020000011523&livemode=1&stbId=YanG-198",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "正常"
-    },
-    {
-      "name": "范明",
-      "url": "https://hub.gitmirror.com/https://raw.githubusercontent.com/fanmingming/live/main/tv/m3u/global.m3u",
-      "status": 0,
-      "chans": 0,
-      "sec": 0.1,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "BESTV",
-      "url": "https://hub.gitmirror.com/https://raw.githubusercontent.com/Ftindy/IPTV-URL/main/bestv.m3u",
-      "status": 0,
-      "chans": 0,
-      "sec": 0.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "CQYX",
-      "url": "https://hub.gitmirror.com/https://raw.githubusercontent.com/Ftindy/IPTV-URL/main/cqyx.m3u",
-      "status": 0,
-      "chans": 0,
-      "sec": 0.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "蜂蜜18+",
-      "url": "https://hub.gitmirror.com/https://raw.githubusercontent.com/FongMi/CatVodSpider/main/txt/adult.txt",
-      "status": 0,
-      "chans": 0,
-      "sec": 0.0,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "playable": null,
-      "err": "拉取失败",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
-      "name": "全球总列表",
-      "url": "https://iptv-org.github.io/iptv/index.m3u",
-      "status": 200,
-      "chans": 11458,
-      "sec": 0.2,
-      "ad": 1,
-      "ad_ratio": 0.0,
-      "reuse": 1,
-      "reuse_url": "https://jmp2.uk/plu-62ba60f059624e000781c436.m3u8",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "正常"
-    },
-    {
-      "name": "影子TV",
-      "url": "https://ghproxy.com/https://raw.githubusercontent.com/lystv/short/main/影视/tvb/影子TV.txt",
-      "status": 200,
-      "chans": 0,
-      "sec": 0.8,
-      "ad": 0,
-      "ad_ratio": 0.0,
-      "reuse": 0,
-      "reuse_url": "",
-      "playable": null,
-      "err": "",
-      "current": true,
-      "shell": 0,
-      "henan_total": 0,
-      "henan_ok": 0,
-      "verdict": "拉取失败"
-    },
-    {
       "name": "Kimentanm · ghfast.top",
       "url": "https://ghfast.top/https://raw.githubusercontent.com/Kimentanm/aptv/master/m3u/iptv.m3u",
       "status": 200,
       "chans": 120,
-      "sec": 0.6,
+      "sec": 0.4,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 2,
@@ -1634,7 +593,7 @@
       "url": "https://ghfast.top/https://raw.githubusercontent.com/develop202/migu_video/refs/heads/main/interface.txt",
       "status": 200,
       "chans": 0,
-      "sec": 0.6,
+      "sec": 0.3,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 0,
@@ -1652,7 +611,7 @@
       "url": "https://raw.githubusercontent.com/jn950/live/main/tv/holive.m3u",
       "status": 200,
       "chans": 381,
-      "sec": 0.1,
+      "sec": 0.2,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 2,
@@ -1688,7 +647,7 @@
       "url": "https://myernestlu.github.io/zby.txt",
       "status": 200,
       "chans": 589,
-      "sec": 0.1,
+      "sec": 0.2,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 2,
@@ -1703,60 +662,6 @@
     }
   ],
   "henan": [
-    {
-      "ch": "河南民生",
-      "url": "http://123.6.9.146/live/jz-henanminsheng/live.m3u8?zhend",
-      "group": "河南",
-      "hits": 7,
-      "srcs": [
-        "手动不知何时更新",
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP403",
-      "rk": [
-        9,
-        3,
-        -7
-      ]
-    },
-    {
-      "ch": "河南都市",
-      "url": "http://123.6.9.146/live/jz-henandushi/live.m3u8?zhend",
-      "group": "河南",
-      "hits": 7,
-      "srcs": [
-        "手动不知何时更新",
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP403",
-      "rk": [
-        9,
-        3,
-        -7
-      ]
-    },
-    {
-      "ch": "河南都市",
-      "url": "http://media.hndyjyfw.gov.cn/live/jz-henandushi/live.m3u8",
-      "group": "河南",
-      "hits": 5,
-      "srcs": [
-        "手动不知何时更新",
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP403",
-      "rk": [
-        9,
-        3,
-        -5
-      ]
-    },
     {
       "ch": "河南卫视",
       "url": "http://[2409:8087:3869:8021:1001::e5]:6610/PLTV/88888888/224/3221225611/2/index.m3u8",
@@ -1831,78 +736,6 @@
     },
     {
       "ch": "河南卫视",
-      "url": "http://media.hndyjyfw.gov.cn/live/jz-hnweishi/live.m3u8",
-      "group": "垃圾桶",
-      "hits": 4,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP403",
-      "rk": [
-        9,
-        3,
-        -4
-      ]
-    },
-    {
-      "ch": "河南民生",
-      "url": "http://media.hndyjyfw.gov.cn/live/jz-henanminsheng/live.m3u8",
-      "group": "河南",
-      "hits": 4,
-      "srcs": [
-        "手动不知何时更新",
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP403",
-      "rk": [
-        9,
-        3,
-        -4
-      ]
-    },
-    {
-      "ch": "河南乡村",
-      "url": "http://123.6.9.146/live/jz-henanxinnong/live.m3u8",
-      "group": "河南",
-      "hits": 3,
-      "srcs": [
-        "手动不知何时更新",
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP403",
-      "rk": [
-        9,
-        3,
-        -3
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://173.208.212.130:8181/720p/haws.m3u8",
-      "group": "卫视频道",
-      "hits": 3,
-      "srcs": [
-        "综合",
-        "游魂",
-        "Guovin"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -3
-      ]
-    },
-    {
-      "ch": "河南卫视",
       "url": "http://[2409:8087:2001:20:2800:0:df6e:eb17]/wh7f454c46tw1784575403_-1712002709/ott.mobaibox.com/PLTV/3/224/3221228221/index.m3u8?icpid=3&RTS=1669700385&from=40&popid=40&hms_devid=2114&prioritypopid=40&vqe=3",
       "group": "卫视频道v6",
       "hits": 3,
@@ -1939,121 +772,12 @@
     },
     {
       "ch": "河南卫视",
-      "url": "http://38.75.136.137:98/gslb/dsdqpub/hawshd.m3u8?auth=testpub",
-      "group": "💓专享卫视",
-      "hits": 3,
-      "srcs": [
-        "游魂",
-        "Guovin"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "分片 HTTP404",
-      "rk": [
-        9,
-        3,
-        -3
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://153.0.171.163:9901/tsfile/live/0139_1.m3u8?key=txiptv&playlive=1&authid=0",
-      "group": "💓专享卫视",
-      "hits": 3,
-      "srcs": [
-        "游魂",
-        "电视直播"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        1,
-        -3
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://1.94.31.214/php/hntv.php?id=hnws",
-      "group": "💓专享卫视",
-      "hits": 3,
-      "srcs": [
-        "游魂",
-        "suxuang",
-        "mlzlzj"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP302",
-      "rk": [
-        9,
-        2,
-        -3
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://222.169.85.8:9901/tsfile/live/0139_1.m3u8",
-      "group": "💓专享卫视",
-      "hits": 3,
-      "srcs": [
-        "游魂",
-        "南风直播源",
-        "kimwang/白名单"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        1,
-        -3
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "https://live.v1.mk/api/bestv.php?id=hnwshd8m/8000000",
-      "group": "垃圾桶",
-      "hits": 3,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        5,
-        -3
-      ]
-    },
-    {
-      "ch": "河南民生",
-      "url": "http://123.6.9.146/live/jz-henanminsheng/live.m3u8",
-      "group": "河南",
-      "hits": 3,
-      "srcs": [
-        "手动不知何时更新",
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP403",
-      "rk": [
-        9,
-        3,
-        -3
-      ]
-    },
-    {
-      "ch": "河南卫视",
       "url": "http://ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226480/index.m3u8",
       "group": "卫视频道v4",
       "hits": 2,
       "srcs": [
         "手动不知何时更新",
-        "初秋语 · raw.githubusercontent.com"
+        "初秋语"
       ],
       "ok": false,
       "kind": "dead",
@@ -2173,258 +897,6 @@
     },
     {
       "ch": "河南卫视",
-      "url": "http://45.192.97.170:8880/play/237.m3u8",
-      "group": "阿里云服1",
-      "hits": 2,
-      "srcs": [
-        "综合直播 · ds65.tv1288.xyz",
-        "电视直播"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        3,
-        -2
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://124.90.45.52:9901/tsfile/live/0113_1.m3u8?key=txiptv&playlive=1&authid=0",
-      "group": "💓专享卫视",
-      "hits": 2,
-      "srcs": [
-        "游魂",
-        "电视直播"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        1,
-        -2
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://107.150.60.122/live/hawshd.m3u8",
-      "group": "💓专享卫视",
-      "hits": 2,
-      "srcs": [
-        "游魂",
-        "Guovin"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "分片 HTTP404",
-      "rk": [
-        9,
-        3,
-        -2
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://123.130.84.106:8154/tsfile/live/0139_1.m3u8",
-      "group": "💓专享卫视",
-      "hits": 2,
-      "srcs": [
-        "游魂",
-        "kimwang/白名单"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        1,
-        -2
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://lxajh.top/tv/hn.php?id=hnws",
-      "group": "💓专享卫视",
-      "hits": 2,
-      "srcs": [
-        "游魂",
-        "电视直播"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        5,
-        -2
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://119.39.9.8:9901/tsfile/live/0139_1.m3u8?key=txiptv&playlive=0&authid=0",
-      "group": "💓专享卫视",
-      "hits": 2,
-      "srcs": [
-        "游魂",
-        "电视直播"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        1,
-        -2
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://120.237.39.10:9901/tsfile/live/1055_1.m3u8?key=txiptv&playlive=1&down=1",
-      "group": "💓专享卫视",
-      "hits": 2,
-      "srcs": [
-        "游魂",
-        "电视直播"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        1,
-        -2
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://120.237.39.10:9901/tsfile/live/1064_1.m3u8?key=txiptv&playlive=1&down=1",
-      "group": "💓专享卫视",
-      "hits": 2,
-      "srcs": [
-        "游魂",
-        "电视直播"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        1,
-        -2
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://63.141.230.178:82/gslb/zbdq5.m3u8?id=hawshd",
-      "group": "💓专享卫视",
-      "hits": 2,
-      "srcs": [
-        "游魂",
-        "Guovin"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "分片 HTTP404",
-      "rk": [
-        9,
-        3,
-        -2
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://112.27.235.94:8000/hls/37/index.m3u8",
-      "group": "💓专享卫视",
-      "hits": 2,
-      "srcs": [
-        "游魂",
-        "suxuang"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP500",
-      "rk": [
-        9,
-        3,
-        -2
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://36.136.38.87:9901/tsfile/live/0139_1.m3u8?key=txiptv&playlive=1&authid=0",
-      "group": "💓专享卫视",
-      "hits": 2,
-      "srcs": [
-        "游魂",
-        "电视直播"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        1,
-        -2
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://111.59.139.82:11888/tsfile/live/0139_1.m3u8?key=txiptv&playlive=1&authid=0",
-      "group": "💓专享卫视",
-      "hits": 2,
-      "srcs": [
-        "游魂",
-        "Guovin"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP404",
-      "rk": [
-        9,
-        1,
-        -2
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://222.169.85.8:9901/tsfile/live/0139_1.m3u8?key=txiptv&playlive=1&authid=0",
-      "group": "💓专享卫视",
-      "hits": 2,
-      "srcs": [
-        "游魂",
-        "kimwang/白名单"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        1,
-        -2
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "https://stream1.freetv.fun/14c0efa0b69afff8af801b538a27a783845acdb87174717d8871a5fa9de187e0.m3u8",
-      "group": "💓专享卫视",
-      "hits": 2,
-      "srcs": [
-        "游魂",
-        "kimwang/白名单"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -2
-      ]
-    },
-    {
-      "ch": "河南卫视",
       "url": "http://[2409:8087:1a09:df::401d]/ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226320/1.m3u8?icpid=88888888&from=5&hms_devid=980&online=1720054946&vqe=3",
       "group": "黑龙江移动",
       "hits": 2,
@@ -2460,186 +932,6 @@
       ]
     },
     {
-      "ch": "河南卫视",
-      "url": "http://61.136.172.236:9901/tsfile/live/0139_1.m3u8",
-      "group": "卫视",
-      "hits": 2,
-      "srcs": [
-        "南风直播源",
-        "kimwang/白名单"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        1,
-        -2
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://61.136.172.236:9901/tsfile/live/0139_1.m3u8?key=txiptv&playlive=1&authid=0",
-      "group": "卫视",
-      "hits": 2,
-      "srcs": [
-        "南风直播源",
-        "kimwang/白名单"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        1,
-        -2
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://182.150.23.74:808/hls/33/index.m3u8",
-      "group": "卫视",
-      "hits": 2,
-      "srcs": [
-        "南风直播源",
-        "kimwang/白名单"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "分片 HTTP404",
-      "rk": [
-        9,
-        0,
-        -2
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://58.57.40.22:9901/tsfile/live/1048_1.m3u8",
-      "group": "卫视",
-      "hits": 2,
-      "srcs": [
-        "南风直播源",
-        "kimwang/白名单"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "分片 HTTP0",
-      "rk": [
-        9,
-        1,
-        -2
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://101.35.240.114:88/live.php?id=河南卫视",
-      "group": "卫视IPV4",
-      "hits": 2,
-      "srcs": [
-        "Kimentanm · ghproxy.net",
-        "Kimentanm · ghfast.top"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        5,
-        -2
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://110.53.52.63:8888/newlive/live/hls/32/live.m3u8",
-      "group": "📡卫视频道",
-      "hits": 2,
-      "srcs": [
-        "mlzlzj",
-        "kimwang/白名单"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -2
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://36.32.174.67:60080/newlive/live/hls/35/live.m3u8",
-      "group": "📡卫视频道",
-      "hits": 2,
-      "srcs": [
-        "mlzlzj",
-        "kimwang/白名单"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -2
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://183.131.246.250:9901/tsfile/live/0139_1.m3u8?key=txiptv&playlive=1&authid=0",
-      "group": "📡卫视频道",
-      "hits": 2,
-      "srcs": [
-        "mlzlzj",
-        "kimwang/白名单"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        1,
-        -2
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://58.19.43.46:9901/tsfile/live/1006_1.m3u8",
-      "group": "📡卫视频道",
-      "hits": 2,
-      "srcs": [
-        "mlzlzj",
-        "kimwang/白名单"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        1,
-        -2
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://58.221.214.82:9901/tsfile/live/0139_1.m3u8?key=txiptv&playlive=1&authid=0",
-      "group": "📡卫视频道",
-      "hits": 2,
-      "srcs": [
-        "mlzlzj",
-        "kimwang/白名单"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        1,
-        -2
-      ]
-    },
-    {
       "ch": "河南卫视SD",
       "url": "http://[2409:8087:5e00:24::1e]:6060/200000001898/460000089800010071/1.m3u8",
       "group": "海南移动",
@@ -2651,23 +943,6 @@
       "ok": false,
       "kind": "v6",
       "detail": "IPv6 地址",
-      "rk": [
-        9,
-        3,
-        -2
-      ]
-    },
-    {
-      "ch": "河南卫视[1920*1080]",
-      "url": "http://39.134.24.162/dbiptv.sn.chinamobile.com/PLTV/88888888/224/3221225611/index.m3u8?fmt=ts2hls",
-      "group": "垃圾桶",
-      "hits": 2,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
       "rk": [
         9,
         3,
@@ -2693,29 +968,12 @@
       ]
     },
     {
-      "ch": "河南卫视高清",
-      "url": "http://113.207.84.197:8090/__cl/cg:live/__c/henanHD/__op/default/__f/index.m3u8",
-      "group": "垃圾桶",
+      "ch": "河南民生",
+      "url": "http://123.6.9.146/live/jz-henanminsheng/live.m3u8?zhend",
+      "group": "河南",
       "hits": 2,
       "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -2
-      ]
-    },
-    {
-      "ch": "河南戏曲",
-      "url": "http://media.hndyjyfw.gov.cn/live/jz-henanliyuan/live.m3u8",
-      "group": "垃圾桶",
-      "hits": 2,
-      "srcs": [
-        "武哥直播"
+        "手动不知何时更新"
       ],
       "ok": false,
       "kind": "dead",
@@ -2727,72 +985,37 @@
       ]
     },
     {
-      "ch": "河南戏曲",
-      "url": "http://61.163.181.78:9901/tsfile/live/1016_1.m3u8",
-      "group": "垃圾桶",
+      "ch": "河南民生",
+      "url": "http://123.6.9.146/live/jz-henanminsheng/live.m3u8",
+      "group": "河南",
       "hits": 2,
       "srcs": [
-        "武哥直播"
+        "手动不知何时更新"
       ],
       "ok": false,
       "kind": "dead",
-      "detail": "HTTP0",
+      "detail": "HTTP403",
       "rk": [
         9,
-        1,
+        3,
         -2
       ]
     },
     {
       "ch": "河南都市",
-      "url": "http://1.94.31.214/php/hntv.php?id=hnds",
-      "group": "☘️河南频道",
+      "url": "http://123.6.9.146/live/jz-henandushi/live.m3u8?zhend",
+      "group": "河南",
       "hits": 2,
       "srcs": [
-        "suxuang",
-        "Guovin"
+        "手动不知何时更新"
       ],
       "ok": false,
       "kind": "dead",
-      "detail": "HTTP302",
+      "detail": "HTTP403",
       "rk": [
         9,
-        2,
+        3,
         -2
-      ]
-    },
-    {
-      "ch": "CN-河南交通广播",
-      "url": "http://lhttp.qingting.fm/live/1209/64k.mp3",
-      "group": "🇨🇳中国广播🔉",
-      "hits": 1,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP404",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "CN-河南新闻广播",
-      "url": "http://lhttp.qingting.fm/live/1215/64k.mp3",
-      "group": "🇨🇳中国广播🔉",
-      "hits": 1,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP404",
-      "rk": [
-        9,
-        5,
-        -1
       ]
     },
     {
@@ -3034,290 +1257,18 @@
       ]
     },
     {
-      "ch": "中国-河南戏曲广播",
-      "url": "http://lhttp.qingting.fm/live/21317/64k.mp3",
-      "group": "🇨🇳中国广播🔉",
-      "hits": 1,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP404",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南|河南乡村",
-      "url": "http://api2.52tb.xyz/info?id=506&amp;token=20230218htjgzi",
-      "group": "垃圾桶",
-      "hits": 1,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "web",
-      "detail": "返回网页",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南|河南公共",
-      "url": "http://api2.52tb.xyz/info?id=504&amp;token=20230218htjgzi",
-      "group": "垃圾桶",
-      "hits": 1,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "web",
-      "detail": "返回网页",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南|河南国际",
-      "url": "http://api2.52tb.xyz/info?id=507&amp;token=20230218htjgzi",
-      "group": "垃圾桶",
-      "hits": 1,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "web",
-      "detail": "返回网页",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南|河南新闻",
-      "url": "http://api2.52tb.xyz/info?id=501&amp;token=20230218htjgzi",
-      "group": "垃圾桶",
-      "hits": 1,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "web",
-      "detail": "返回网页",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南|河南新闻",
-      "url": "http://live.dxhmt.cn:9081/tv/10825-1.m3u8",
-      "group": "垃圾桶",
-      "hits": 1,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南|河南民生",
-      "url": "http://api2.52tb.xyz/info?id=503&amp;token=20230218htjgzi",
-      "group": "垃圾桶",
-      "hits": 1,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "web",
-      "detail": "返回网页",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南|河南法治",
-      "url": "http://api2.52tb.xyz/info?id=505&amp;token=20230218htjgzi",
-      "group": "垃圾桶",
-      "hits": 1,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "web",
-      "detail": "返回网页",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南|河南电视剧",
-      "url": "http://api2.52tb.xyz/info?id=508&amp;token=20230218htjgzi",
-      "group": "垃圾桶",
-      "hits": 1,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "web",
-      "detail": "返回网页",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南|河南电视剧",
-      "url": "http://hbzx.chinashadt.com:2036/zhibo/stream:hbnm.stream_360p/playlist.m3u8",
-      "group": "垃圾桶",
-      "hits": 1,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南|河南都市",
-      "url": "http://api2.52tb.xyz/info?id=502&amp;token=20230218htjgzi",
-      "group": "垃圾桶",
-      "hits": 1,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "web",
-      "detail": "返回网页",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
       "ch": "河南乡村",
-      "url": "http://media.hndyjyfw.gov.cn/live/jz-henanxinnong/live.m3u8",
-      "group": "垃圾桶",
+      "url": "http://123.6.9.146/live/jz-henanxinnong/live.m3u8",
+      "group": "河南",
       "hits": 1,
       "srcs": [
-        "武哥直播"
+        "手动不知何时更新"
       ],
       "ok": false,
       "kind": "dead",
       "detail": "HTTP403",
       "rk": [
         9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南乡村",
-      "url": "http://www.cdnstv.com:6398/hls/1116/index.m3u8",
-      "group": "☘️河南频道",
-      "hits": 1,
-      "srcs": [
-        "suxuang"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP404",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南乡村",
-      "url": "http://1.94.31.214/php/hntv.php?id=hnxc",
-      "group": "☘️河南频道",
-      "hits": 1,
-      "srcs": [
-        "suxuang"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP302",
-      "rk": [
-        9,
-        2,
-        -1
-      ]
-    },
-    {
-      "ch": "河南乡村频道",
-      "url": "http://tvcdn.stream3.hndt.com/tv/65b8302b017e100019dc540f00000000_transios/playlist.m3u8?wsSecret=492938c128acb7564dc03979719a9d8a&wsTime=1794467018",
-      "group": "🇨🇳河南地方",
-      "hits": 1,
-      "srcs": [
-        "电视直播"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        2,
-        -1
-      ]
-    },
-    {
-      "ch": "河南公共",
-      "url": "http://1.94.31.214/php/hntv.php?id=hngg",
-      "group": "☘️河南频道",
-      "hits": 1,
-      "srcs": [
-        "suxuang"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP302",
-      "rk": [
-        9,
-        2,
-        -1
-      ]
-    },
-    {
-      "ch": "河南农村广播大象资讯台",
-      "url": "http://45.192.97.170:8880/play/1337.m3u8",
-      "group": "网络电台",
-      "hits": 1,
-      "srcs": [
-        "综合直播 · ds65.tv1288.xyz"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
         3,
         -1
       ]
@@ -3400,7 +1351,7 @@
       ],
       "ok": false,
       "kind": "dead",
-      "detail": "HTTP404",
+      "detail": "HTTP0",
       "rk": [
         9,
         5,
@@ -3545,6 +1496,57 @@
     },
     {
       "ch": "河南卫视",
+      "url": "http://173.208.212.130:8181/720p/haws.m3u8",
+      "group": "卫视频道",
+      "hits": 1,
+      "srcs": [
+        "综合直播 · 193.123.86.190:14888"
+      ],
+      "ok": false,
+      "kind": "dead",
+      "detail": "HTTP0",
+      "rk": [
+        9,
+        3,
+        -1
+      ]
+    },
+    {
+      "ch": "河南卫视",
+      "url": "http://139.224.44.53:1234/790187291",
+      "group": "卫视",
+      "hits": 1,
+      "srcs": [
+        "📡咪咕直播"
+      ],
+      "ok": false,
+      "kind": "master",
+      "detail": "master 无子地址",
+      "rk": [
+        9,
+        5,
+        -1
+      ]
+    },
+    {
+      "ch": "河南卫视",
+      "url": "http://117.72.81.53:3000/790187291",
+      "group": "卫视",
+      "hits": 1,
+      "srcs": [
+        "📡咪咕直播3"
+      ],
+      "ok": false,
+      "kind": "nonhls",
+      "detail": "非 HLS",
+      "rk": [
+        9,
+        5,
+        -1
+      ]
+    },
+    {
+      "ch": "河南卫视",
       "url": "http://api3.52tb.xyz/info?id=31&token=20230227aesvnb",
       "group": "卫视",
       "hits": 1,
@@ -3596,351 +1598,11 @@
     },
     {
       "ch": "河南卫视",
-      "url": "http://45.192.97.170:8880/play/9297.m3u8",
-      "group": "央视网频1",
+      "url": "http://101.35.240.114:88/live.php?id=河南卫视",
+      "group": "卫视IPV4",
       "hits": 1,
       "srcs": [
-        "综合直播 · ds65.tv1288.xyz"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://45.192.97.170:8880/play/7863.m3u8",
-      "group": "央视网频2",
-      "hits": 1,
-      "srcs": [
-        "综合直播 · ds65.tv1288.xyz"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://45.192.97.170:8880/play/6836.m3u8",
-      "group": "央视网频3",
-      "hits": 1,
-      "srcs": [
-        "综合直播 · ds65.tv1288.xyz"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://45.192.97.170:8880/play/7922.m3u8",
-      "group": "央视网频4",
-      "hits": 1,
-      "srcs": [
-        "综合直播 · ds65.tv1288.xyz"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "分片 HTTP502",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://45.192.97.170:8880/play/7982.m3u8",
-      "group": "央视网频5",
-      "hits": 1,
-      "srcs": [
-        "综合直播 · ds65.tv1288.xyz"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://45.192.97.170:8880/play/8042.m3u8",
-      "group": "央视网频6",
-      "hits": 1,
-      "srcs": [
-        "综合直播 · ds65.tv1288.xyz"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://45.192.97.170:8880/play/8102.m3u8",
-      "group": "央视网频7",
-      "hits": 1,
-      "srcs": [
-        "综合直播 · ds65.tv1288.xyz"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://45.192.97.170:8880/play/8162.m3u8",
-      "group": "央视网频8",
-      "hits": 1,
-      "srcs": [
-        "综合直播 · ds65.tv1288.xyz"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://45.192.97.170:8880/play/8222.m3u8",
-      "group": "央视网频9",
-      "hits": 1,
-      "srcs": [
-        "综合直播 · ds65.tv1288.xyz"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://45.192.97.170:8880/play/8282.m3u8",
-      "group": "央视网频10",
-      "hits": 1,
-      "srcs": [
-        "综合直播 · ds65.tv1288.xyz"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://45.192.97.170:8880/play/8342.m3u8",
-      "group": "央视网频11",
-      "hits": 1,
-      "srcs": [
-        "综合直播 · ds65.tv1288.xyz"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://45.192.97.170:8880/play/9380.m3u8",
-      "group": "央视网频12",
-      "hits": 1,
-      "srcs": [
-        "综合直播 · ds65.tv1288.xyz"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://45.192.97.170:8880/play/6977.m3u8",
-      "group": "阿里云服2",
-      "hits": 1,
-      "srcs": [
-        "综合直播 · ds65.tv1288.xyz"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://45.192.97.170:8880/play/486.m3u8",
-      "group": "备用线路",
-      "hits": 1,
-      "srcs": [
-        "综合直播 · ds65.tv1288.xyz"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://45.192.97.170:8880/play/504.m3u8",
-      "group": "备用线路",
-      "hits": 1,
-      "srcs": [
-        "综合直播 · ds65.tv1288.xyz"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "分片 HTTP404",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://45.192.97.170:8880/play/519.m3u8",
-      "group": "备用线路",
-      "hits": 1,
-      "srcs": [
-        "综合直播 · ds65.tv1288.xyz"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://yjj888.f3322.net:9901/tsfile/live/0139_1.m3u8?key=txiptv&playlive=0&authid=0",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        1,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://23.237.228.134/live6/henan.m3u8",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP502",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://43.251.226.89:8080/play/44.m3u8",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "https://iptv.catvod.com/catvod.php?id=hnws",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "garbage",
-      "detail": "分片非码流",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "https://httop.top/ysp-河南卫视",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
+        "Kimentanm · ghfast.top"
       ],
       "ok": false,
       "kind": "dead",
@@ -3948,1400 +1610,6 @@
       "rk": [
         9,
         5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://204.12.221.218:8181/3m1080p/haws.m3u8",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://bztv.tvbus.cc:8081/cdnlive/haws.m3u8",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://116.77.33.98:44330/tsfile/live/0139_1.m3u8?key=txiptv&playlive=0&authid=0",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        1,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://222.134.19.49:8090/790187291",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://111.76.19.197:1234/790187291",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://113.120.243.10:7788/790187291",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://60.168.105.165:5008/790187291",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://116.52.173.67:1234/790187291",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://42.94.210.22:7788/790187291",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://123.118.55.165:45237/tsfile/live/0139_1.m3u8?key=txiptv&playlive=1&authid=0",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        1,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://221.7.175.154:8445/tsfile/live/0139_1.m3u8?key=txiptv&playlive=1&authid=0",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        1,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://58.56.162.102:4466/newlive/live/hls/37/live.m3u8",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP404",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://198.204.228.26/live/hawshd.m3u8",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://vpn.famcloud.top:9878/rtp/239.3.1.50:8184",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://home.amucn.net:8800/rtp/239.49.8.29:8000",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://hiliu.myds.me:18088/rtp/239.69.1.168:10644",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://b.xiongnas.top:8888/rtp/239.3.1.50:8184",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://www.sclvip.top:5566/rtp/239.49.8.29:8000",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://www.sjwyp.com:4022/rtp/239.254.201.16:7174",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://joyznm.i234.me:20000/rtp/239.3.1.50:8184",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://home.scanflove.com:7788/rtp/235.254.198.26:1380",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://z.d4p.cn:8000/rtp/239.49.8.29:8000",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://liuwenxiaokevin.top:14044/rtp/233.18.204.105:5140",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://nas.lyfkai.cn:19999/rtp/239.69.1.168:10644",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://www.wjyu.top:4022/rtp/233.18.204.105:5140",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://ds3622.guangyuan.site:8188/rtp/239.77.0.17:5146",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://lbyjlt.vv5678.cn:8880/rtp/239.77.0.17:5146",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://marcvision.xyz:8000/rtp/238.1.79.65:4632",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://www.syy3.top:3861/rtp/239.77.0.17:5146",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://alist.guangyuan.site:8188/rtp/239.77.0.17:5146",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://www.marcvision.xyz:8000/rtp/238.1.79.65:4632",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://www.huijie5421.cn:8800/rtp/239.49.8.29:8000",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://esxi.juzhijian.com:8822/rtp/239.16.20.21:10210",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://0000505.xyz:8888/rtp/239.76.253.202:9000",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://0000505.xyz:8888/rtp/239.76.246.202:1234",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://0000505.xyz:8888/rtp/239.76.246.203:1234",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://sdray.gicp.net:8822/rtp/239.16.20.21:10210",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://www.yyf1991.top:9999/rtp/233.18.204.105:5140",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://server.juzhijian.com:8822/rtp/239.16.20.21:10210",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://27.129.145.110:4433/hls/33/index.m3u8",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        0,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://111.228.4.117:6789/migu720p.php?id=790187291",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP302",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://fuxin.yunjifei.top:999/tsfile/live/0139_1.m3u8?key=txiptv",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        1,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://182.37.41.46:8154/tsfile/live/0139_1.m3u8?key=txiptv",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        1,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://104.152.209.49:8181/720p/haws.m3u8",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "nonhls",
-      "detail": "非 HLS",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://tvcdn.stream3.hndt.com/tv/65c4a6d5017e1000b2b6ea2500000000_transios/playlist.m3u8?wsSecret=186c895f0b5d770bb7c96f80a08ddf90&wsTime=1786856454",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP403",
-      "rk": [
-        9,
-        2,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://111.76.19.115:1234/790187291",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://171.38.148.188:9003/hls/63/index.m3u8",
-      "group": "💓专享卫视",
-      "hits": 1,
-      "srcs": [
-        "游魂"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://58.205.220.58:8088/tlivectfree-cdn.ysp.cctv.cn/ysp/2000296103.m3u8",
-      "group": "垃圾桶",
-      "hits": 1,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://221.2.36.34:8888/newlive/live/hls/33/live.m3u8",
-      "group": "垃圾桶",
-      "hits": 1,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        0,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "https://live.v1.mk/api/bestv.php?id=hnwshd8m/8000000/mnf.m3u8",
-      "group": "垃圾桶",
-      "hits": 1,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://1.195.111.251:11190/tsfile/live/0139_1.m3u8",
-      "group": "垃圾桶",
-      "hits": 1,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        1,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "https://live.v1.mk/api/ghyx.php?id=HeNanHD_6000,",
-      "group": "垃圾桶",
-      "hits": 1,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://ct.whosayssowhat.top:4022/udp/239.77.1.229:5146",
-      "group": "垃圾桶",
-      "hits": 1,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://222.240.82.92:9901/tsfile/live/0139_1.m3u8",
-      "group": "垃圾桶",
-      "hits": 1,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        1,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://139.224.44.53:1234/790187291",
-      "group": "卫视",
-      "hits": 1,
-      "srcs": [
-        "📡咪咕直播"
-      ],
-      "ok": false,
-      "kind": "master",
-      "detail": "master 无子地址",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://117.72.81.53:3000/790187291",
-      "group": "卫视",
-      "hits": 1,
-      "srcs": [
-        "📡咪咕直播3"
-      ],
-      "ok": false,
-      "kind": "nonhls",
-      "detail": "非 HLS",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://t.061899.xyz/tl/tl.php?id=hnws",
-      "group": "咪咕央视",
-      "hits": 1,
-      "srcs": [
-        "suxuang"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://148.135.93.213/live.php?id=河南卫视",
-      "group": "卫视频道",
-      "hits": 1,
-      "srcs": [
-        "suxuang"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "https://zby.130519.xyz/PLTV/11/224/3221226132/index.m3u8",
-      "group": "移动IPTV",
-      "hits": 1,
-      "srcs": [
-        "suxuang"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://php.jdshipin.com/TVOD/hljyd.php?id=3221226480",
-      "group": "📡卫视频道",
-      "hits": 1,
-      "srcs": [
-        "mlzlzj"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP502",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://nctv.top/IDOEPpiryt/hntv.php?id=hnws",
-      "group": "📡卫视频道",
-      "hits": 1,
-      "srcs": [
-        "mlzlzj"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP404",
-      "rk": [
-        9,
-        2,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://ms.fxim.net:808/hls/32/index.m3u8",
-      "group": "📡卫视频道",
-      "hits": 1,
-      "srcs": [
-        "mlzlzj"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://47.122.125.40:6666/hls/hnhd.m3u8",
-      "group": "📡卫视频道",
-      "hits": 1,
-      "srcs": [
-        "mlzlzj"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://tvpull.dxhmt.cn:9081/tv/11425-1.m3u8$LR•10•IPV4『线路1』",
-      "group": "卫视频道",
-      "hits": 1,
-      "srcs": [
-        "EPG直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP403",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://tvbox6.icu/tv/migu.php?id=hnws$LR•10•IPV4『线路2』",
-      "group": "卫视频道",
-      "hits": 1,
-      "srcs": [
-        "EPG直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://1.94.31.214/php/hntv.php?id=hnws$LR•10•IPV4『线路3』",
-      "group": "卫视频道",
-      "hits": 1,
-      "srcs": [
-        "EPG直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        2,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "https://t.freetv.fun/live/he-nan-wei-shi-13.php$LR•10•IPV4『线路4』",
-      "group": "卫视频道",
-      "hits": 1,
-      "srcs": [
-        "EPG直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://tvcdn.stream3.hndt.com/tv/65c4a6d5017e1000b2b6ea2500000000_transios/playlist.m3u8?wsSecret=88295ad4c23801b4db8f2e9c29bc4789&wsTime=1770595078$LR•10•IPV4『线路5』",
-      "group": "卫视频道",
-      "hits": 1,
-      "srcs": [
-        "EPG直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        2,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://107.150.60.122/live/hawshd.m3u8$LR•10•IPV4『线路6』",
-      "group": "卫视频道",
-      "hits": 1,
-      "srcs": [
-        "EPG直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP404",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://63.141.230.178:82/gslb/zbdq5.m3u8?id=hawshd$LR•10•IPV4『线路7』",
-      "group": "卫视频道",
-      "hits": 1,
-      "srcs": [
-        "EPG直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://173.208.212.130:8181/720p/haws.m3u8$LR•10•IPV4『线路8』",
-      "group": "卫视频道",
-      "hits": 1,
-      "srcs": [
-        "EPG直播"
-      ],
-      "ok": false,
-      "kind": "garbage",
-      "detail": "分片非码流",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://111.59.139.82:11888/tsfile/live/0139_1.m3u8?key=txiptv&playlive=1&authid=0$LR•10•IPV4『线路9』",
-      "group": "卫视频道",
-      "hits": 1,
-      "srcs": [
-        "EPG直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        1,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://38.75.136.137:98/gslb/dsdqpub/hawshd.m3u8?auth=testpub$LR•10•IPV4『线路10』",
-      "group": "卫视频道",
-      "hits": 1,
-      "srcs": [
-        "EPG直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://tvcdn.stream3.hndt.com/tv/65c4a6d5017e1000b2b6ea2500000000_transios/playlist.m3u8?wsSecret=14d4020d353bde4bd3d9821c1c2833f0&wsTime=1794467018",
-      "group": "🇨🇳河南地方",
-      "hits": 1,
-      "srcs": [
-        "电视直播"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        2,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://116.237.170.51:7788/790187291",
-      "group": "🇨🇳IPV4线路",
-      "hits": 1,
-      "srcs": [
-        "电视直播"
-      ],
-      "ok": false,
-      "kind": "master",
-      "detail": "master 无子地址",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://42.94.209.184:7788/790187291",
-      "group": "🇨🇳IPV4线路",
-      "hits": 1,
-      "srcs": [
-        "电视直播"
-      ],
-      "ok": false,
-      "kind": "master",
-      "detail": "master 无子地址",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://113.124.186.195:7788/790187291",
-      "group": "🇨🇳IPV4线路",
-      "hits": 1,
-      "srcs": [
-        "电视直播"
-      ],
-      "ok": false,
-      "kind": "master",
-      "detail": "master 无子地址",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://175.169.113.102:1234/790187291",
-      "group": "🇨🇳IPV4线路",
-      "hits": 1,
-      "srcs": [
-        "电视直播"
-      ],
-      "ok": false,
-      "kind": "master",
-      "detail": "master 无子地址",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://112.85.93.7:7788/790187291",
-      "group": "🇨🇳IPV4线路",
-      "hits": 1,
-      "srcs": [
-        "电视直播"
-      ],
-      "ok": false,
-      "kind": "master",
-      "detail": "master 无子地址",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://116.52.173.150:1234/790187291",
-      "group": "🇨🇳IPV4线路",
-      "hits": 1,
-      "srcs": [
-        "电视直播"
-      ],
-      "ok": false,
-      "kind": "master",
-      "detail": "master 无子地址",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://120.198.95.220:9901/tsfile/live/1064_1.m3u8?key=txiptv&playlive=1&down=1",
-      "group": "🇨🇳IPV4线路",
-      "hits": 1,
-      "srcs": [
-        "电视直播"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        1,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视",
-      "url": "http://hlsztemgsplive.miguvideo.com:8080/wd-henanwssd-600/index.m3u8?msisdn=202611120802599b9549d8d6b243fa8605bcb3d68e19d5&mdspid=&spid=600633&netType=0&sid=5910021585&pid=2028597139&timestamp=20261112080259&Channel_ID=0116_2600000900-99000-201600010010027&ProgramID=790187291&ParentNodeID=-99&assertID=5910021585&client_ip=171.8.79.254&SecurityKey=20261112080259&promotionId=&mvid=5900005706&mcid=500020&playurlVersion=WX-A1-9.10.1-SNAPSHOT&userid=&jmhm=&videocodec=h264&appCode=miguvideo_android&bean=mgspad&tid=android&conFee=0&encrypt=78a84fc0b5b6c03f9a29e856747cb8d7",
-      "group": "🇨🇳组播线路",
-      "hits": 1,
-      "srcs": [
-        "电视直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP403",
-      "rk": [
-        9,
-        3,
         -1
       ]
     },
@@ -5671,6 +1939,23 @@
     {
       "ch": "河南卫视",
       "url": "http://101.66.199.246:9901/tsfile/live/0139_1.m3u8?key=txiptv&playlive=0&authid=0",
+      "group": "whitelist",
+      "hits": 1,
+      "srcs": [
+        "kimwang/白名单"
+      ],
+      "ok": false,
+      "kind": "dead",
+      "detail": "HTTP0",
+      "rk": [
+        9,
+        1,
+        -1
+      ]
+    },
+    {
+      "ch": "河南卫视",
+      "url": "http://58.19.43.46:9901/tsfile/live/1006_1.m3u8",
       "group": "whitelist",
       "hits": 1,
       "srcs": [
@@ -6356,11 +2641,11 @@
       "srcs": [
         "kimwang/白名单"
       ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
+      "ok": false,
+      "kind": "dead",
+      "detail": "分片 HTTP0",
       "rk": [
-        0,
+        9,
         3,
         -1
       ]
@@ -6379,6 +2664,23 @@
       "rk": [
         9,
         5,
+        -1
+      ]
+    },
+    {
+      "ch": "河南卫视",
+      "url": "http://222.169.85.8:9901/tsfile/live/0139_1.m3u8",
+      "group": "whitelist",
+      "hits": 1,
+      "srcs": [
+        "kimwang/白名单"
+      ],
+      "ok": false,
+      "kind": "dead",
+      "detail": "HTTP0",
+      "rk": [
+        9,
+        1,
         -1
       ]
     },
@@ -6447,6 +2749,40 @@
       "rk": [
         9,
         3,
+        -1
+      ]
+    },
+    {
+      "ch": "河南卫视",
+      "url": "http://222.169.85.8:9901/tsfile/live/0139_1.m3u8?key=txiptv&playlive=1&authid=0",
+      "group": "whitelist",
+      "hits": 1,
+      "srcs": [
+        "kimwang/白名单"
+      ],
+      "ok": false,
+      "kind": "dead",
+      "detail": "HTTP0",
+      "rk": [
+        9,
+        1,
+        -1
+      ]
+    },
+    {
+      "ch": "河南卫视",
+      "url": "http://123.130.84.106:8154/tsfile/live/0139_1.m3u8",
+      "group": "whitelist",
+      "hits": 1,
+      "srcs": [
+        "kimwang/白名单"
+      ],
+      "ok": false,
+      "kind": "dead",
+      "detail": "HTTP0",
+      "rk": [
+        9,
+        1,
         -1
       ]
     },
@@ -6571,6 +2907,57 @@
     },
     {
       "ch": "河南卫视",
+      "url": "http://183.131.246.250:9901/tsfile/live/0139_1.m3u8?key=txiptv&playlive=1&authid=0",
+      "group": "whitelist",
+      "hits": 1,
+      "srcs": [
+        "kimwang/白名单"
+      ],
+      "ok": false,
+      "kind": "dead",
+      "detail": "HTTP0",
+      "rk": [
+        9,
+        1,
+        -1
+      ]
+    },
+    {
+      "ch": "河南卫视",
+      "url": "http://61.136.172.236:9901/tsfile/live/0139_1.m3u8",
+      "group": "whitelist",
+      "hits": 1,
+      "srcs": [
+        "kimwang/白名单"
+      ],
+      "ok": true,
+      "kind": "hls",
+      "detail": "分片真码流",
+      "rk": [
+        0,
+        1,
+        -1
+      ]
+    },
+    {
+      "ch": "河南卫视",
+      "url": "http://58.221.214.82:9901/tsfile/live/0139_1.m3u8?key=txiptv&playlive=1&authid=0",
+      "group": "whitelist",
+      "hits": 1,
+      "srcs": [
+        "kimwang/白名单"
+      ],
+      "ok": false,
+      "kind": "dead",
+      "detail": "HTTP0",
+      "rk": [
+        9,
+        1,
+        -1
+      ]
+    },
+    {
+      "ch": "河南卫视",
       "url": "http://58.220.219.14:9901/tsfile/live/0139_1.m3u8?key=txiptv",
       "group": "whitelist",
       "hits": 1,
@@ -6582,6 +2969,23 @@
       "detail": "HTTP0",
       "rk": [
         9,
+        1,
+        -1
+      ]
+    },
+    {
+      "ch": "河南卫视",
+      "url": "http://61.136.172.236:9901/tsfile/live/0139_1.m3u8?key=txiptv&playlive=1&authid=0",
+      "group": "whitelist",
+      "hits": 1,
+      "srcs": [
+        "kimwang/白名单"
+      ],
+      "ok": true,
+      "kind": "hls",
+      "detail": "分片真码流",
+      "rk": [
+        0,
         1,
         -1
       ]
@@ -6605,6 +3009,23 @@
     },
     {
       "ch": "河南卫视",
+      "url": "http://58.57.40.22:9901/tsfile/live/1048_1.m3u8",
+      "group": "whitelist",
+      "hits": 1,
+      "srcs": [
+        "kimwang/白名单"
+      ],
+      "ok": false,
+      "kind": "dead",
+      "detail": "分片 HTTP0",
+      "rk": [
+        9,
+        1,
+        -1
+      ]
+    },
+    {
+      "ch": "河南卫视",
       "url": "http://60.209.125.254:352/tsfile/live/0139_1.m3u8?ace",
       "group": "whitelist",
       "hits": 1,
@@ -6617,6 +3038,23 @@
       "rk": [
         9,
         1,
+        -1
+      ]
+    },
+    {
+      "ch": "河南卫视",
+      "url": "http://110.53.52.63:8888/newlive/live/hls/32/live.m3u8",
+      "group": "whitelist",
+      "hits": 1,
+      "srcs": [
+        "kimwang/白名单"
+      ],
+      "ok": false,
+      "kind": "dead",
+      "detail": "HTTP0",
+      "rk": [
+        9,
+        3,
         -1
       ]
     },
@@ -6680,8 +3118,8 @@
         "kimwang/白名单"
       ],
       "ok": false,
-      "kind": "web",
-      "detail": "返回网页",
+      "kind": "dead",
+      "detail": "HTTP401",
       "rk": [
         9,
         5,
@@ -6816,8 +3254,8 @@
         "kimwang/白名单"
       ],
       "ok": false,
-      "kind": "web",
-      "detail": "返回网页",
+      "kind": "dead",
+      "detail": "HTTP0",
       "rk": [
         9,
         5,
@@ -6867,8 +3305,8 @@
         "kimwang/白名单"
       ],
       "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
+      "kind": "web",
+      "detail": "返回网页",
       "rk": [
         9,
         5,
@@ -7183,6 +3621,23 @@
     },
     {
       "ch": "河南卫视",
+      "url": "http://36.32.174.67:60080/newlive/live/hls/35/live.m3u8",
+      "group": "whitelist",
+      "hits": 1,
+      "srcs": [
+        "kimwang/白名单"
+      ],
+      "ok": false,
+      "kind": "dead",
+      "detail": "HTTP0",
+      "rk": [
+        9,
+        3,
+        -1
+      ]
+    },
+    {
+      "ch": "河南卫视",
       "url": "http://kkk.jjjj.jiduo.me/api.php?n=tttt&id=3024&tk=b53028476470",
       "group": "whitelist",
       "hits": 1,
@@ -7258,8 +3713,8 @@
         "kimwang/白名单"
       ],
       "ok": false,
-      "kind": "web",
-      "detail": "返回网页",
+      "kind": "dead",
+      "detail": "HTTP0",
       "rk": [
         9,
         5,
@@ -7360,8 +3815,8 @@
         "kimwang/白名单"
       ],
       "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
+      "kind": "web",
+      "detail": "返回网页",
       "rk": [
         9,
         5,
@@ -7489,6 +3944,23 @@
     },
     {
       "ch": "河南卫视",
+      "url": "https://stream1.freetv.fun/14c0efa0b69afff8af801b538a27a783845acdb87174717d8871a5fa9de187e0.m3u8",
+      "group": "whitelist",
+      "hits": 1,
+      "srcs": [
+        "kimwang/白名单"
+      ],
+      "ok": false,
+      "kind": "dead",
+      "detail": "HTTP0",
+      "rk": [
+        9,
+        3,
+        -1
+      ]
+    },
+    {
+      "ch": "河南卫视",
       "url": "https://www.yangshipin.cn/tv/home?pid=600002525",
       "group": "whitelist",
       "hits": 1,
@@ -7548,7 +4020,7 @@
       ],
       "ok": false,
       "kind": "dead",
-      "detail": "HTTP512",
+      "detail": "HTTP0",
       "rk": [
         9,
         3,
@@ -7565,7 +4037,7 @@
       ],
       "ok": false,
       "kind": "dead",
-      "detail": "HTTP512",
+      "detail": "HTTP0",
       "rk": [
         9,
         3,
@@ -7676,6 +4148,23 @@
     },
     {
       "ch": "河南卫视",
+      "url": "http://182.150.23.74:808/hls/33/index.m3u8",
+      "group": "whitelist",
+      "hits": 1,
+      "srcs": [
+        "kimwang/白名单"
+      ],
+      "ok": false,
+      "kind": "dead",
+      "detail": "分片 HTTP404",
+      "rk": [
+        9,
+        0,
+        -1
+      ]
+    },
+    {
+      "ch": "河南卫视",
       "url": "http://58.221.214.82:9901/tsfile/live/0139_1.m3u8",
       "group": "whitelist",
       "hits": 1,
@@ -7760,23 +4249,6 @@
       ]
     },
     {
-      "ch": "河南卫视_2.5M720",
-      "url": "http://cyz32.livehbindex.hbcatv.cn/live/500000201d7c47a8b9b127d69fb816ac.m3u8?bitrate=2300&amp;pt=5",
-      "group": "<pre>央妈直播",
-      "hits": 1,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
       "ch": "河南卫视高清",
       "url": "http://httplive.slave.bfgd.com.cn:14311/playurl?playtype=live&amp;protocol=http&amp;accesstoken=R5F2408FEU3198804BK78052214IE73560DFP2BF4M340CE68V0Z339CBW1626D4D261E46FEA&amp;playtoken=ABCDEFGH&amp;programid=4200000339",
       "group": "卫视频道v6",
@@ -7786,7 +4258,7 @@
       ],
       "ok": false,
       "kind": "dead",
-      "detail": "HTTP404",
+      "detail": "HTTP0",
       "rk": [
         9,
         5,
@@ -7845,131 +4317,12 @@
       ]
     },
     {
-      "ch": "河南国际",
-      "url": "http://1.94.31.214/php/hntv.php?id=hngj",
-      "group": "☘️河南频道",
+      "ch": "河南民生",
+      "url": "http://media.hndyjyfw.gov.cn/live/jz-henanminsheng/live.m3u8",
+      "group": "河南",
       "hits": 1,
       "srcs": [
-        "suxuang"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP302",
-      "rk": [
-        9,
-        2,
-        -1
-      ]
-    },
-    {
-      "ch": "河南戏曲",
-      "url": "http://www.cdnstv.com:6398/hls/1119/index.m3u8",
-      "group": "☘️河南频道",
-      "hits": 1,
-      "srcs": [
-        "suxuang"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP404",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南戏曲广播",
-      "url": "http://45.192.97.170:8880/play/1430.m3u8",
-      "group": "网络电台",
-      "hits": 1,
-      "srcs": [
-        "综合直播 · ds65.tv1288.xyz"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南新闻",
-      "url": "http://www.cdnstv.com:6398/hls/1114/index.m3u8",
-      "group": "☘️河南频道",
-      "hits": 1,
-      "srcs": [
-        "suxuang"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP404",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南新闻",
-      "url": "http://1.94.31.214/php/hntv.php?id=hnxw",
-      "group": "☘️河南频道",
-      "hits": 1,
-      "srcs": [
-        "suxuang"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP302",
-      "rk": [
-        9,
-        2,
-        -1
-      ]
-    },
-    {
-      "ch": "河南新闻广播",
-      "url": "http://45.192.97.170:8880/play/1428.m3u8",
-      "group": "网络电台",
-      "hits": 1,
-      "srcs": [
-        "综合直播 · ds65.tv1288.xyz"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南梨园",
-      "url": "http://live.dxhmt.cn:9080/19903718786/3159ec673c114135816d45dd52ad7396.m3u8",
-      "group": "垃圾桶",
-      "hits": 1,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南梨园",
-      "url": "http://123.6.9.146/live/jz-henanliyuan/live.m3u8",
-      "group": "垃圾桶",
-      "hits": 1,
-      "srcs": [
-        "武哥直播"
+        "手动不知何时更新"
       ],
       "ok": false,
       "kind": "dead",
@@ -7977,159 +4330,6 @@
       "rk": [
         9,
         3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南梨园",
-      "url": "http://1.94.31.214/php/hntv.php?id=hnly",
-      "group": "☘️河南频道",
-      "hits": 1,
-      "srcs": [
-        "suxuang"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP302",
-      "rk": [
-        9,
-        2,
-        -1
-      ]
-    },
-    {
-      "ch": "河南梨园频道",
-      "url": "https://dxtx.hntv.tv/live/lypd.m3u8?txSecret=10c771842a0be59e8b575d765173ec96&txTime=7B923E0A&wsSecret=985ebb910dd1e9ad9603ffd7670bd155&wsTime=1791183481",
-      "group": "🇨🇳IPV4线路",
-      "hits": 1,
-      "srcs": [
-        "电视直播"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        2,
-        -1
-      ]
-    },
-    {
-      "ch": "河南民生",
-      "url": "http://www.lwfz.fun:8800/rtp/239.16.20.165:11650",
-      "group": "☘️河南频道",
-      "hits": 1,
-      "srcs": [
-        "suxuang"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南民生",
-      "url": "https://migu.188766.xyz/?migutoken=599bb7fdd4f9cab36d202bb38a0da046&id=%E6%B0%91%E7%94%9F%E9%A2%91%E9%81%93&type=yy",
-      "group": "☘️河南频道",
-      "hits": 1,
-      "srcs": [
-        "Guovin"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南民生",
-      "url": "https://migu.188766.xyz/?migutoken=8b7305a8d46cfe98635e66d0e757c394&id=%E6%B0%91%E7%94%9F%E9%A2%91%E9%81%93&type=yy",
-      "group": "☘️河南频道",
-      "hits": 1,
-      "srcs": [
-        "Guovin"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南民生",
-      "url": "https://migu.188766.xyz/?migutoken=97b2be6f258ae481d8bc142a1fac8bef&id=%E6%B0%91%E7%94%9F%E9%A2%91%E9%81%93&type=yy",
-      "group": "☘️河南频道",
-      "hits": 1,
-      "srcs": [
-        "Guovin"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南民生",
-      "url": "https://migu.188766.xyz/?migutoken=999fa1172c8b97bce4c61b4728d49542&id=%E6%B0%91%E7%94%9F%E9%A2%91%E9%81%93&type=yy",
-      "group": "☘️河南频道",
-      "hits": 1,
-      "srcs": [
-        "Guovin"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南民生",
-      "url": "https://migu.188766.xyz/?migutoken=0ec1f5f231bfb2cd0cce9a7edcf8947b&id=%E6%B0%91%E7%94%9F%E9%A2%91%E9%81%93&type=yy",
-      "group": "☘️河南频道",
-      "hits": 1,
-      "srcs": [
-        "Guovin"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南民生",
-      "url": "http://v4d.xiepeiru.top:1123/iptv/hm/HeNanMinSheng",
-      "group": "☘️河南频道",
-      "hits": 1,
-      "srcs": [
-        "mlzlzj"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        5,
         -1
       ]
     },
@@ -8270,104 +4470,19 @@
       ]
     },
     {
-      "ch": "河南法治",
-      "url": "http://www.cdnstv.com:6398/hls/1112/index.m3u8",
-      "group": "☘️河南频道",
+      "ch": "河南都市",
+      "url": "http://media.hndyjyfw.gov.cn/live/jz-henandushi/live.m3u8",
+      "group": "河南",
       "hits": 1,
       "srcs": [
-        "suxuang"
+        "手动不知何时更新"
       ],
       "ok": false,
       "kind": "dead",
-      "detail": "HTTP404",
+      "detail": "HTTP403",
       "rk": [
         9,
         3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南法治",
-      "url": "http://1.94.31.214/php/hntv.php?id=hmfz",
-      "group": "☘️河南频道",
-      "hits": 1,
-      "srcs": [
-        "suxuang"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP302",
-      "rk": [
-        9,
-        2,
-        -1
-      ]
-    },
-    {
-      "ch": "河南电视剧",
-      "url": "http://www.cdnstv.com:6398/hls/1113/index.m3u8",
-      "group": "☘️河南频道",
-      "hits": 1,
-      "srcs": [
-        "suxuang"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP404",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "河南电视剧",
-      "url": "http://1.94.31.214/php/hntv.php?id=hndsj",
-      "group": "☘️河南频道",
-      "hits": 1,
-      "srcs": [
-        "suxuang"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP302",
-      "rk": [
-        9,
-        2,
-        -1
-      ]
-    },
-    {
-      "ch": "河南都市",
-      "url": "http://www.lwfz.fun:8800/rtp/239.16.20.164:11640",
-      "group": "☘️河南频道",
-      "hits": 1,
-      "srcs": [
-        "suxuang"
-      ],
-      "ok": false,
-      "kind": "multicast",
-      "detail": "组播内网",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
-    },
-    {
-      "ch": "河南都市",
-      "url": "http://v4d.xiepeiru.top:1123/iptv/hm/HeNanDuShi",
-      "group": "☘️河南频道",
-      "hits": 1,
-      "srcs": [
-        "mlzlzj"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        5,
         -1
       ]
     },
@@ -8464,11 +4579,11 @@
       "srcs": [
         "kimwang/白名单"
       ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
+      "ok": true,
+      "kind": "hls",
+      "detail": "分片真码流",
       "rk": [
-        9,
+        0,
         1,
         -1
       ]
@@ -8591,27 +4706,10 @@
         1,
         -1
       ]
-    },
-    {
-      "ch": "湖南-河南农村广播",
-      "url": "http://lhttp.qingting.fm/live/1218/64k.mp3",
-      "group": "🇨🇳中国广播🔉",
-      "hits": 1,
-      "srcs": [
-        "武哥直播"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP404",
-      "rk": [
-        9,
-        5,
-        -1
-      ]
     }
   ],
-  "henan_playable": 32,
-  "henan_main_playable": 27,
-  "henan_list_lines": 13,
-  "elapsed": 116.9
+  "henan_playable": 6,
+  "henan_main_playable": 5,
+  "henan_list_lines": 6,
+  "elapsed": 91.3
 }

@@ -8,22 +8,11 @@
 qist/js|https://raw.githubusercontent.com/qist/tvbox/master/js.json
 qist/jsm|https://raw.githubusercontent.com/qist/tvbox/master/jsm.json
 qist/ds|https://raw.githubusercontent.com/qist/tvbox/master/dianshi.json
-cyao/ok|https://raw.githubusercontent.com/cyao2q/files/master/ok.json
-cyao/xs|https://raw.githubusercontent.com/cyao2q/files/master/xs.json
-cyao/m|https://raw.githubusercontent.com/cyao2q/files/master/m.json
-noimank|https://gitlab.com/noimank/tvbox/-/raw/main/tvbox1.json
 gao/js|https://raw.githubusercontent.com/gaotianliuyun/gao/master/js.json
 clun|https://clun.top/box.json
 
 # ---- 第二批扩容（2026-11-10 从 80 条候选中实测筛出）----
-yw88075|https://raw.githubusercontent.com/yw88075/tvbox/main/XBPQ/yw.json|https://raw.githubusercontent.com/yw88075/tvbox/main/
-ssr/ts888|https://raw.githubusercontent.com/davidlee6628/ssr/main/ts888.json
 ysc/laoliubei|https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/laoliubei.json
-juhe-subhub|https://raw.githubusercontent.com/zhuzhuyule/juhe-subhub/main/docs/tvbox.json
-hkf/merged|https://raw.githubusercontent.com/HowKongFish/tvbox-json/main/merged.json
-dongli/api|https://raw.githubusercontent.com/chitue/dongliTV/main/api.json
-ssr/ct|https://raw.githubusercontent.com/davidlee6628/ssr/main/ct.json
-jyoketsu/m|https://raw.githubusercontent.com/jyoketsu/tv/main/m.json
 ysc/xiaoma|https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/xiaoma.json
 fish2018|https://6800.kstore.vip/fish.json
 apaodh/w2x|https://raw.githubusercontent.com/apaodh/apaodh/main/backups/w2x.json
@@ -32,7 +21,6 @@ apaodh/vox|https://raw.githubusercontent.com/apaodh/apaodh/main/backups/vox.json
 apaodh/aowu|https://raw.githubusercontent.com/apaodh/apaodh/main/backups/aowu.json
 ysc/wangerxiao|https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/wangerxiao.json
 ysc/xiaohezi|https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/xiaohezi.json
-ysc/4k|https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/4k.json
 apaodh/xm|https://raw.githubusercontent.com/apaodh/apaodh/main/backups/xm.json
 apaodh/fm|https://raw.githubusercontent.com/apaodh/apaodh/main/backups/fm.json
 jundie/top98|http://home.jundie.top:81/top98.json

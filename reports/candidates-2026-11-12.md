@@ -1,8 +1,8 @@
 # 上游候选发现报告 · 2026-11-12
 
-- 挖到 URL：214，评估：80，有边际贡献：6，拉取失败：74
-- 基线：当前线上 `tvbox.json` 去重后 2472 个站点键
-- 判定环境：github-actions（耗时 19s）
+- 挖到 URL：212，评估：80，有边际贡献：6，拉取失败：74
+- 基线：当前线上 `tvbox.json` 去重后 2408 个站点键
+- 判定环境：github-actions（耗时 16s）
 
 「新站点」= 相对线上配置去重后能新增的节点数，不是该源自身的站点总数。
 
@@ -12,7 +12,7 @@
 | 44 | 0 | 4 | 35 | 45 | `https://android.lushunming.qzz.io/json/index.json` | youhunwl/TVAPP |
 | 17 | 3 | 10 | 0 | 46 | `http://ztha.top/TVBox/thdjk.json` | Zhou-Li-Bin/Tvbox-QingNing |
 | 10 | 0 | 2 | 4 | 100 | `https://9280.kstore.vip/newwex.json` | youhunwl/TVAPP |
-| 3 | 0 | 7 | 13 | 80 | `https://9763.kstore.vip/aowu.json` | youhunwl/TVAPP |
+| 2 | 0 | 7 | 13 | 80 | `https://9763.kstore.vip/aowu.json` | youhunwl/TVAPP |
 | 1 | 0 | 2 | 4 | 63 | `http://tvbox.xn--4kq62z5rby2qupq9ub.top` | Zhou-Li-Bin/Tvbox-QingNing |
 
 ## 一键并入

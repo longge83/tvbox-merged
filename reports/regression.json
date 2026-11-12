@@ -1,17 +1,19 @@
 {
-  "date": "2026-11-11",
+  "date": "2026-11-12",
   "env": {
     "env": "github-actions",
-    "runner": "43019020386",
+    "runner": "43147487281",
     "proxy": false,
-    "generated": "2026-11-11 12:25:55 UTC"
+    "generated": "2026-11-12 03:30:51 UTC"
   },
-  "passed": true,
-  "total": 45,
-  "ok": 45,
-  "failed": 0,
+  "passed": false,
+  "total": 47,
+  "ok": 46,
+  "failed": 1,
   "skipped": 0,
-  "hard_failed": [],
+  "hard_failed": [
+    "B15"
+  ],
   "checks": [
     {
       "id": "A01",
@@ -73,7 +75,7 @@
       "origin": "第一轮：csp 爬虫节点没有 jar",
       "title": "csp 站点缺 jar 比例不超过 30%",
       "ok": true,
-      "detail": "334/1516 个 csp 站点缺 jar（上游本身可能没写，阈值 30%）",
+      "detail": "335/1497 个 csp 站点缺 jar（上游本身可能没写，阈值 30%）",
       "critical": true
     },
     {
@@ -253,7 +255,7 @@
       "origin": "每日保险丝结果",
       "title": "当日回归断言已通过",
       "ok": true,
-      "detail": "date=2026-11-11 / passed=True，29 项检查，失败 []",
+      "detail": "date=2026-11-12 / passed=True，30 项检查，失败 []",
       "critical": true
     },
     {
@@ -280,7 +282,7 @@
       "origin": "本轮：健康页 </table> 写在 for 循环体内（线上 33 闭合 / 5 开标签）",
       "title": "生成的健康页 HTML 表格标签平衡",
       "ok": true,
-      "detail": "源码静态检查：6 个表格闭合均在循环外",
+      "detail": "源码静态检查：8 个表格闭合均在循环外",
       "critical": false
     },
     {
@@ -289,7 +291,7 @@
       "origin": "每轮交付前的基础检查",
       "title": "全部 scripts/*.py 可编译",
       "ok": true,
-      "detail": "25 个脚本全部编译通过",
+      "detail": "26 个脚本全部编译通过",
       "critical": true
     },
     {
@@ -297,8 +299,8 @@
       "group": "构建链路",
       "origin": "本轮：tag 复用时指针 commit 写成当前 HEAD、与不可变 tag 不一致",
       "title": "stable.json 的 commit 指向 tag 实际提交",
-      "ok": true,
-      "detail": "tag=stable-20261110 / 指针 commit=4e83a87b59 / tag 实际=4e83a87b59",
+      "ok": false,
+      "detail": "tag=stable-20261110 / 指针 commit=4e83a87b59 / tag 实际=—",
       "critical": true
     },
     {
@@ -416,6 +418,24 @@
       "title": "站点顺序按搜索可播优先 + 置顶名单",
       "ok": true,
       "detail": "顺序 = 置顶 > 实测可播 > 影视类目 > 探活分层，同源连号按每屏打散；跑在所有配置生成之后",
+      "critical": true
+    },
+    {
+      "id": "B29",
+      "group": "构建链路",
+      "origin": "本轮：直播源里出现「整站频道都指向一个 VIP 提示视频」的收费壳，用户点开任何台都是广告",
+      "title": "收费 / 导流直播源判定与按族剔除",
+      "ok": true,
+      "detail": "广告占比 >=50%% 或提示视频覆盖 >=30%% 频道即判壳，同族扩散但排除反代 host",
+      "critical": true
+    },
+    {
+      "id": "B30",
+      "group": "构建链路",
+      "origin": "本轮：网上搜到 389 条河南台地址，只有 22 条真出画面，且上游把梨园频道错标成「河南卫视」",
+      "title": "河南台识台 / 纠名 / 专列表只收可播",
+      "ok": true,
+      "detail": "频道号纠名 + 组播/v6 排除 + 只收实测可播",
       "critical": true
     }
   ]

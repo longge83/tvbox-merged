@@ -2,19 +2,21 @@
 #EXTINF:-1 tvg-name="河南卫视" group-title="河南",河南卫视
 http://27.129.145.110:4433/hls/33/index.m3u8
 #EXTINF:-1 tvg-name="河南卫视" group-title="河南",河南卫视·2
-http://153.0.171.163:9901/tsfile/live/0139_1.m3u8?key=txiptv&playlive=1&authid=0
+http://111.61.236.247:9081/hls/33/index.m3u8
 #EXTINF:-1 tvg-name="河南卫视" group-title="河南",河南卫视·3
-http://124.90.45.52:9901/tsfile/live/0113_1.m3u8?key=txiptv&playlive=1&authid=0
+http://153.0.171.163:9901/tsfile/live/0139_1.m3u8?key=txiptv&playlive=1&authid=0
 #EXTINF:-1 tvg-name="河南卫视" group-title="河南",河南卫视·4
-http://119.39.9.8:9901/tsfile/live/0139_1.m3u8?key=txiptv&playlive=0&authid=0
+http://124.90.45.52:9901/tsfile/live/0113_1.m3u8?key=txiptv&playlive=1&authid=0
 #EXTINF:-1 tvg-name="河南卫视" group-title="河南",河南卫视·5
-http://120.237.39.10:9901/tsfile/live/1055_1.m3u8?key=txiptv&playlive=1&down=1
+http://119.39.9.8:9901/tsfile/live/0139_1.m3u8?key=txiptv&playlive=0&authid=0
 #EXTINF:-1 tvg-name="河南卫视" group-title="河南",河南卫视·6
-http://120.237.39.10:9901/tsfile/live/1064_1.m3u8?key=txiptv&playlive=1&down=1
+http://120.237.39.10:9901/tsfile/live/1055_1.m3u8?key=txiptv&playlive=1&down=1
 #EXTINF:-1 tvg-name="河南卫视高清" group-title="河南",河南卫视高清
-http://110.72.86.97:808/hls/49/index.m3u8
+http://113.9.162.169:9003/hls/49/index.m3u8
 #EXTINF:-1 tvg-name="河南卫视高清" group-title="河南",河南卫视高清·2
-http://110.72.75.114:808/hls/49/index.m3u8
+http://110.72.84.47:808/hls/49/index.m3u8
+#EXTINF:-1 tvg-name="河南乡村频道" group-title="河南",河南乡村频道
+http://tvcdn.stream3.hndt.com/tv/65b8302b017e100019dc540f00000000_transios/playlist.m3u8?wsSecret=492938c128acb7564dc03979719a9d8a&wsTime=1794467018
 #EXTINF:-1 tvg-name="河南农村广播大象资讯台" group-title="河南",河南农村广播大象资讯台
 http://45.192.97.170:8880/play/1337.m3u8
 #EXTINF:-1 tvg-name="河南戏曲广播" group-title="河南",河南戏曲广播

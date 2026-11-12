@@ -1,14 +1,14 @@
 {
-  "date": "2026-11-11",
+  "date": "2026-11-12",
   "env": {
     "env": "github-actions",
-    "runner": "43019020386",
+    "runner": "43147487281",
     "proxy": false,
-    "generated": "2026-11-11 12:25:55 UTC"
+    "generated": "2026-11-12 03:30:51 UTC"
   },
   "source": "github-actions",
-  "run_id": "43019020386",
-  "commit": "c313736874281e420d235219d7f86d91315b679e",
+  "run_id": "43147487281",
+  "commit": "2f25b0a7e35985682cecfe10bc2760e46396c3e4",
   "steps": {
     "audit": "success",
     "home_probe": "success",
@@ -17,14 +17,19 @@
     "rank_home": "success",
     "variants": "success",
     "search_rank": "success",
+    "live_audit": "success",
     "jar_health": "success",
-    "regression": "success"
+    "regression": "failure"
   },
-  "failed_steps": [],
-  "incomplete_steps": [],
-  "status_incomplete": false,
+  "failed_steps": [
+    "regression"
+  ],
+  "incomplete_steps": [
+    "regression"
+  ],
+  "status_incomplete": true,
   "config_steps_failed": [],
   "data_steps_failed": [],
-  "degraded": false,
+  "degraded": true,
   "policy": "探测失败不沿用旧产物：派生配置与每日结论在构建前清除，生成失败即硬阻断；数据类失败照常发布但标记降级，且不推进稳定版 tag"
 }

@@ -28,7 +28,7 @@
 缓存只有几分钟、每次构建自动部署、不受 CDN 边缘缓存影响，国内一般也能直连。把上一节的文件名替换进统一前缀即可：
 
 ```
-https://dimogu.github.io/tvbox-merged/<文件名>
+https://longge83.github.io/tvbox-merged/<文件名>
 ```
 
 > ⚠️ 这些文件都是**点播（VOD）配置**，填进客户端的「**点播**」地址框即可。配置内已自带直播源（`lives` 数组），导入后客户端会**自动加载直播**，无需、也不建议再单独往「直播」框填链接。配置每天自动重建，**彻底退出 app 再打开就会联网重新拉取，无需重新导入**；从「设置」页按返回键回首页会读本地缓存，想立刻生效请从多任务里划掉 app。若曾报 `IllegalStateException / 配置取得失败`，可换一个文件名或清空 app 数据后重试。
@@ -36,16 +36,16 @@ https://dimogu.github.io/tvbox-merged/<文件名>
 例如：
 
 ```
-https://dimogu.github.io/tvbox-merged/tvbox-quality.json
-https://dimogu.github.io/tvbox-merged/tvbox-cn-fast.json
-https://dimogu.github.io/tvbox-merged/tvbox-stable7.json
-https://dimogu.github.io/tvbox-merged/tvbox-full-homefirst.json
-https://dimogu.github.io/tvbox-merged/tvbox-lite-homefirst.json
-https://dimogu.github.io/tvbox-merged/tvbox-network-homefirst.json
-https://dimogu.github.io/tvbox-merged/tvbox-home.json
-https://dimogu.github.io/tvbox-merged/tvbox.json
-https://dimogu.github.io/tvbox-merged/tvbox-lite.json
-https://dimogu.github.io/tvbox-merged/tvbox-network.json
+https://longge83.github.io/tvbox-merged/tvbox-quality.json
+https://longge83.github.io/tvbox-merged/tvbox-cn-fast.json
+https://longge83.github.io/tvbox-merged/tvbox-stable7.json
+https://longge83.github.io/tvbox-merged/tvbox-full-homefirst.json
+https://longge83.github.io/tvbox-merged/tvbox-lite-homefirst.json
+https://longge83.github.io/tvbox-merged/tvbox-network-homefirst.json
+https://longge83.github.io/tvbox-merged/tvbox-home.json
+https://longge83.github.io/tvbox-merged/tvbox.json
+https://longge83.github.io/tvbox-merged/tvbox-lite.json
+https://longge83.github.io/tvbox-merged/tvbox-network.json
 ```
 
 > 首次使用需在仓库 Settings → Pages 把 Build and deployment 的 Source 设为 **GitHub Actions**（一次性操作），之后每次构建自动部署。
@@ -53,7 +53,7 @@ https://dimogu.github.io/tvbox-merged/tvbox-network.json
 ### 健康页（查看各版本完整直链与实时状态）
 
 ```
-https://dimogu.github.io/tvbox-merged/
+https://longge83.github.io/tvbox-merged/
 ```
 
 一页展示各版本站点数、完整直链、上游源健康、近 14 天趋势、可播率、回归状态、直播源实测（含河南台可播线路数）、稳定版固定链接。

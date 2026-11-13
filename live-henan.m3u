@@ -5,9 +5,13 @@ http://111.61.236.247:9081/hls/33/index.m3u8
 http://61.136.172.236:9901/tsfile/live/0139_1.m3u8
 #EXTINF:-1 tvg-name="河南卫视" group-title="河南",河南卫视·3
 http://61.136.172.236:9901/tsfile/live/0139_1.m3u8?key=txiptv&playlive=1&authid=0
+#EXTINF:-1 tvg-name="河南卫视" group-title="河南",河南卫视·4
+http://111.53.200.17:9003/hls/35/index.m3u8
+#EXTINF:-1 tvg-name="河南卫视" group-title="河南",河南卫视·5
+http://120.76.248.139/live/bfgd/4200000339.m3u8
 #EXTINF:-1 tvg-name="河南卫视高清" group-title="河南",河南卫视高清
-http://113.9.162.169:9003/hls/49/index.m3u8
+http://110.72.84.234:808/hls/49/index.m3u8
 #EXTINF:-1 tvg-name="河南卫视高清" group-title="河南",河南卫视高清·2
-http://110.72.84.47:808/hls/49/index.m3u8
+http://113.9.162.169:9003/hls/49/index.m3u8
 #EXTINF:-1 tvg-name="河南都市" group-title="河南",河南都市
 http://zzssw01.55555.io:9901/tsfile/live/1002_1.m3u8

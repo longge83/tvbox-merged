@@ -1,11 +1,11 @@
 {
-  "date": "2026-11-12",
+  "date": "2026-11-13",
   "passed": true,
   "env": {
     "env": "github-actions",
-    "runner": "43192510285",
+    "runner": "43339816554",
     "proxy": false,
-    "generated": "2026-11-12 09:36:20 UTC"
+    "generated": "2026-11-13 00:49:44 UTC"
   },
   "checks": {
     "json_valid_no_dup_key": true,
@@ -50,11 +50,11 @@
     },
     "no_site_collapse": {
       "ok": true,
-      "detail": "今日 1512（polish 后），昨日 2517（build 口径，polish 前），下限 60%"
+      "detail": "今日 1515（polish 后），昨日 1526（build 口径，polish 前），下限 60%"
     },
     "csp_has_jar": {
       "ok": true,
-      "detail": "289/964 个 csp 缺 jar (30.0%, 阈值 30%): 18:☁️Sed┃4K,19:☁️七味┃4K,20:☁️多多┃4K,21:☁️花卷┃4K"
+      "detail": "289/967 个 csp 缺 jar (29.9%, 阈值 30%): 18:☁️多多┃4K,19:☁️花卷┃4K,20:✌️┃再来┃APP,21:⭐热播┃快速"
     },
     "no_relative_path": {
       "ok": true,
@@ -70,7 +70,7 @@
     },
     "home_subset_of_full": {
       "ok": true,
-      "detail": "首页版 420 ⊆ 全量 1512"
+      "detail": "首页版 413 ⊆ 全量 1515"
     },
     "homefirst_same_site_count": {
       "ok": true,
@@ -150,15 +150,15 @@
     },
     "live_sources_sane": {
       "ok": true,
-      "detail": "专列表 6 个频道、收费黑名单 1 条、配置无引用断裂"
+      "detail": "专列表 8 个频道、收费黑名单 1 条、配置无引用断裂"
     },
     "jar_sample_reachable": {
       "ok": true,
-      "detail": "8/20 可用 (40%, 阈值 20%，昨日 50%)"
+      "detail": "6/20 可用 (30%, 阈值 20%，昨日 40%)"
     },
     "ext_sample_reachable": {
       "ok": true,
-      "detail": "13/20 可用 (65%, 阈值 20%，昨日 65%)"
+      "detail": "16/20 可用 (80%, 阈值 20%，昨日 65%)"
     }
   },
   "failed": [],
@@ -170,32 +170,12 @@
         "ok": true
       },
       {
-        "url": "https://raw.githubusercontent.com/qist/tvbox/master/jar/pg_upgraded.jar",
-        "status": 200,
-        "ok": true
-      },
-      {
         "url": "https://raw.githubusercontent.com/gaotianliuyun/gao/master/jar/pg.jar",
         "status": 200,
         "ok": true
       },
       {
-        "url": "http://xhztv.top/xhz/Yoursmile.jar",
-        "status": 200,
-        "ok": true
-      },
-      {
-        "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/libs/jar/P4.jar",
-        "status": 404,
-        "ok": false
-      },
-      {
-        "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/fty.jar",
-        "status": 404,
-        "ok": false
-      },
-      {
-        "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/libs/jar/app.jar",
+        "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/libs/jar/Panda.jar",
         "status": 404,
         "ok": false
       },
@@ -205,27 +185,17 @@
         "ok": false
       },
       {
+        "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/libs/jar/c.jar",
+        "status": 404,
+        "ok": false
+      },
+      {
         "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/libs/jar/xyq.jar",
         "status": 404,
         "ok": false
       },
       {
-        "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/libs/jar/XBPQ.jar",
-        "status": 404,
-        "ok": false
-      },
-      {
-        "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/libs/jar/Panda.jar",
-        "status": 404,
-        "ok": false
-      },
-      {
-        "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/libs/jar/Token.jar",
-        "status": 404,
-        "ok": false
-      },
-      {
-        "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/libs/jar/c.jar",
+        "url": "https://raw.githubusercontent.com/apaodh/apaodh/main/backups/jar/xbpq.jar",
         "status": 404,
         "ok": false
       },
@@ -235,7 +205,42 @@
         "ok": false
       },
       {
-        "url": "https://raw.githubusercontent.com/apaodh/apaodh/main/backups/jar/xbpq.jar",
+        "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/fty.jar",
+        "status": 404,
+        "ok": false
+      },
+      {
+        "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/libs/jar/XYQH.jar",
+        "status": 404,
+        "ok": false
+      },
+      {
+        "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/libs/jar/Token.jar",
+        "status": 404,
+        "ok": false
+      },
+      {
+        "url": "http://xhztv.top/xhz/Yoursmile.jar",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/libs/jar/XBPQ.jar",
+        "status": 404,
+        "ok": false
+      },
+      {
+        "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/libs/jar/P4.jar",
+        "status": 404,
+        "ok": false
+      },
+      {
+        "url": "https://gh-proxy.com/raw.githubusercontent.com/gaotianliuyun/gao/master/jar/custom_spider.jar",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/libs/jar/app.jar",
         "status": 404,
         "ok": false
       },
@@ -250,127 +255,122 @@
         "ok": true
       },
       {
-        "url": "https://qiniu.gongxueyun.com/upload/8927661/2026-11-10/training_record/721461376_4_1794323426144.jar",
-        "status": 200,
-        "ok": true
-      },
-      {
-        "url": "https://gitee.com/xhuban/getjar/raw/master/jar/custom_spider_cat.jar",
+        "url": "https://qiniu.gongxueyun.com/upload/2371282/2026-11-12/noknow/759250805_1_1794505074145.jar",
         "status": 200,
         "ok": true
       },
       {
         "url": "https://gitee.com/zj521jj/little-tiger-spot/raw/master/jar/HubanTC.jar",
-        "status": 200,
-        "ok": true
+        "status": 0,
+        "ok": false
       }
     ],
     "ext": [
       {
-        "url": "http://xhztv.top/xhz/sub/高中课堂.json",
+        "url": "https://raw.githubusercontent.com/gaotianliuyun/gao/master/lib/token.json",
         "status": 200,
         "ok": true
       },
       {
-        "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/libs/xyq/素白白.json",
+        "url": "https://raw.githubusercontent.com/gaotianliuyun/gao/master/js/美视网.js",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "https://raw.githubusercontent.com/gaotianliuyun/gao/master/js/皮皮鸭.js",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/libs/hccx/美女.json",
         "status": 404,
         "ok": false
       },
       {
-        "url": "https://raw.githubusercontent.com/gaotianliuyun/gao/master/js/cilixiong.js",
+        "url": "https://raw.githubusercontent.com/qist/tvbox/master/json/ky4kbgq7b273.json",
         "status": 200,
         "ok": true
       },
       {
-        "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/libs/c/骚火2.json",
+        "url": "https://raw.githubusercontent.com/qist/tvbox/master/lib/token.json$$$https:/www.80yy3.com/$$$1$$$./lib/wogg.json",
         "status": 404,
         "ok": false
       },
       {
-        "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/libs/js/虎牙直播.js",
+        "url": "https://raw.githubusercontent.com/gaotianliuyun/gao/master/js/凌云影视.js",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "https://raw.githubusercontent.com/qist/tvbox/master/js/cokemv.js",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "https://raw.githubusercontent.com/qist/tvbox/master/js/思古影视[V2].js",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "https://raw.githubusercontent.com/gaotianliuyun/gao/master/js/哔嘀影视.js",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "https://raw.githubusercontent.com/qist/tvbox/master/js/欧乐影院[飞].js",
+        "status": 200,
+        "ok": true
+      },
+      {
+        "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/libs/js/bzys.js",
         "status": 404,
         "ok": false
       },
       {
-        "url": "https://raw.githubusercontent.com/qist/tvbox/master/js/童趣.js",
+        "url": "https://raw.githubusercontent.com/gaotianliuyun/gao/master/js/555电影[V2].js",
         "status": 200,
         "ok": true
       },
       {
-        "url": "https://raw.githubusercontent.com/qist/tvbox/master/js/酷奇MV.js",
-        "status": 200,
-        "ok": true
-      },
-      {
-        "url": "https://raw.githubusercontent.com/gaotianliuyun/gao/master/js/dydhhy.js",
-        "status": 200,
-        "ok": true
-      },
-      {
-        "url": "https://raw.githubusercontent.com/qist/tvbox/master/js/A8音乐.js",
-        "status": 200,
-        "ok": true
-      },
-      {
-        "url": "https://raw.githubusercontent.com/gaotianliuyun/gao/master/lib/token.json$$$https:/hdhive.online$$$noproxy$$$1$$$http:/127.0.0.1:9",
+        "url": "https://raw.githubusercontent.com/apaodh/apaodh/main/backups/js/蜻蜓FM.js",
         "status": 404,
         "ok": false
       },
       {
-        "url": "https://raw.githubusercontent.com/qist/tvbox/master/js/量子影视.js",
+        "url": "https://raw.githubusercontent.com/gaotianliuyun/gao/master/js/电影先生.js",
         "status": 200,
         "ok": true
       },
       {
-        "url": "https://raw.githubusercontent.com/qist/tvbox/master/js/ikanbot2.js",
+        "url": "https://raw.githubusercontent.com/qist/tvbox/master/js/影视之家[V2].js",
         "status": 200,
         "ok": true
       },
       {
-        "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/libs/hccx/黑狐影视.json",
-        "status": 404,
-        "ok": false
-      },
-      {
-        "url": "https://raw.githubusercontent.com/qist/tvbox/master/lib/token.json$$$https:/hdhive.online$$$noproxy$$$1$$$http:/127.0.0.1:9978/fil",
-        "status": 404,
-        "ok": false
-      },
-      {
-        "url": "https://raw.githubusercontent.com/Lightconer/tvbox-ysc-config/main/output/libs/c/热播之家.json",
-        "status": 404,
-        "ok": false
-      },
-      {
-        "url": "https://raw.githubusercontent.com/gaotianliuyun/gao/master/js/相声随身听.js",
+        "url": "http://xhztv.top/xhz/js/有声小说吧.js",
         "status": 200,
         "ok": true
       },
       {
-        "url": "https://raw.githubusercontent.com/gaotianliuyun/gao/master/js/中国人.js",
+        "url": "https://raw.githubusercontent.com/gaotianliuyun/gao/master/js/奈飞狗[V2].js",
         "status": 200,
         "ok": true
       },
       {
-        "url": "https://raw.githubusercontent.com/qist/tvbox/master/js/网易公版影像.js",
+        "url": "http://38.76.197.42:25252/仅供测试/lib/雪糕影视.json",
         "status": 200,
         "ok": true
       },
       {
-        "url": "https://raw.githubusercontent.com/qist/tvbox/master/js/348电影网.js",
-        "status": 200,
-        "ok": true
-      },
-      {
-        "url": "https://raw.githubusercontent.com/gaotianliuyun/gao/master/js/兄弟影视.js",
+        "url": "https://szyyds.cn/js/3c16.js",
         "status": 200,
         "ok": true
       }
     ]
   },
   "sample_rates": {
-    "jar": 0.4,
-    "ext": 0.65
+    "jar": 0.3,
+    "ext": 0.8
   },
-  "sites": 1512
+  "sites": 1515
 }

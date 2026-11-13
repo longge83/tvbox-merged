@@ -1,10 +1,10 @@
 {
-  "date": "2026-11-12",
+  "date": "2026-11-13",
   "env": {
     "env": "github-actions",
-    "runner": "43192510285",
+    "runner": "43339816554",
     "proxy": false,
-    "generated": "2026-11-12 09:38:07 UTC"
+    "generated": "2026-11-13 00:51:41 UTC"
   },
   "files": 13,
   "refreshed": [
@@ -24,19 +24,6 @@
   ],
   "stale": [],
   "noversion_stale": [],
-  "mirror_stale": {
-    "tvbox.json": [
-      "fastly.jsdelivr.net",
-      "gcore.jsdelivr.net"
-    ],
-    "tvbox-quality.json": [
-      "fastly.jsdelivr.net",
-      "gcore.jsdelivr.net"
-    ],
-    "tvbox-cn-fast.json": [
-      "fastly.jsdelivr.net",
-      "gcore.jsdelivr.net"
-    ]
-  },
+  "mirror_stale": {},
   "attempts": 3
 }

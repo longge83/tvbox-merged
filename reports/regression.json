@@ -1,10 +1,10 @@
 {
-  "date": "2026-11-13",
+  "date": "2026-11-14",
   "env": {
     "env": "github-actions",
-    "runner": "43339816554",
+    "runner": "43534865872",
     "proxy": false,
-    "generated": "2026-11-13 00:50:19 UTC"
+    "generated": "2026-11-14 00:35:03 UTC"
   },
   "passed": false,
   "total": 47,
@@ -76,7 +76,7 @@
       "origin": "第一轮：csp 爬虫节点没有 jar",
       "title": "csp 站点缺 jar 比例不超过 30%",
       "ok": true,
-      "detail": "289/967 个 csp 站点缺 jar（上游本身可能没写，阈值 30%）",
+      "detail": "289/966 个 csp 站点缺 jar（上游本身可能没写，阈值 30%）",
       "critical": true
     },
     {
@@ -256,7 +256,7 @@
       "origin": "每日保险丝结果",
       "title": "当日回归断言已通过",
       "ok": true,
-      "detail": "date=2026-11-13 / passed=True，30 项检查，失败 []",
+      "detail": "date=2026-11-14 / passed=True，30 项检查，失败 []",
       "critical": true
     },
     {
@@ -265,7 +265,7 @@
       "origin": "第十轮：误杀率 52% 证明单日判定不可信",
       "title": "quality.json 保留多日历史与抽样基线",
       "ok": true,
-      "detail": "多日历史 / 连败 / 抽样基线字段齐全（3 天）",
+      "detail": "多日历史 / 连败 / 抽样基线字段齐全（4 天）",
       "critical": true
     },
     {

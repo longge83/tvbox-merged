@@ -1,17 +1,17 @@
 {
-  "date": "2026-11-13",
+  "date": "2026-11-14",
   "env": {
     "env": "github-actions",
-    "runner": "43339816554",
+    "runner": "43534865872",
     "proxy": false,
-    "generated": "2026-11-13 00:49:33 UTC"
+    "generated": "2026-11-14 00:34:33 UTC"
   },
   "sources": [
     {
       "name": "live · epg.pw",
       "url": "https://epg.pw/test_channels.m3u",
       "status": 200,
-      "chans": 2267,
+      "chans": 2252,
       "sec": 0.2,
       "ad": 0,
       "ad_ratio": 0.0,
@@ -47,7 +47,7 @@
       "url": "https://szyyds.cn/tv/live/x.txt",
       "status": 200,
       "chans": 6641,
-      "sec": 5.5,
+      "sec": 6.5,
       "ad": 1,
       "ad_ratio": 0.0,
       "reuse": 7,
@@ -65,7 +65,7 @@
       "url": "http://m.szyyds.cn/api.php?token=8664f352657e8b13585bcf0f84fc3512",
       "status": 200,
       "chans": 51,
-      "sec": 0.8,
+      "sec": 1.2,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 1,
@@ -82,18 +82,18 @@
       "name": "自动更新",
       "url": "https://z.szyyds.cn/iptv",
       "status": 200,
-      "chans": 249,
-      "sec": 1.0,
-      "ad": 1,
-      "ad_ratio": 0.004,
-      "reuse": 2,
-      "reuse_url": "http://110.72.84.234:808/hls/54/index.m3u8",
+      "chans": 228,
+      "sec": 1.3,
+      "ad": 0,
+      "ad_ratio": 0.0,
+      "reuse": 1,
+      "reuse_url": "http://127.0.0.1/",
       "playable": null,
       "err": "",
       "current": true,
       "shell": 0,
-      "henan_total": 2,
-      "henan_ok": 2,
+      "henan_total": 8,
+      "henan_ok": 4,
       "verdict": "河南可播"
     },
     {
@@ -101,7 +101,7 @@
       "url": "https://szyyds.cn/tv/live/yy.txt",
       "status": 200,
       "chans": 42285,
-      "sec": 12.6,
+      "sec": 12.3,
       "ad": 17,
       "ad_ratio": 0.0,
       "reuse": 7,
@@ -221,7 +221,7 @@
       "url": "http://193.123.86.190:14888/TV/iptv.php",
       "status": 200,
       "chans": 188,
-      "sec": 0.7,
+      "sec": 0.5,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 2,
@@ -238,12 +238,12 @@
       "name": "📡咪咕直播",
       "url": "http://139.224.44.53:1234",
       "status": 200,
-      "chans": 407,
-      "sec": 0.9,
+      "chans": 415,
+      "sec": 1.2,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 3,
-      "reuse_url": "http://139.224.44.53:1234/969378120",
+      "reuse_url": "http://139.224.44.53:1234/969306491",
       "playable": null,
       "err": "",
       "current": true,
@@ -257,7 +257,7 @@
       "url": "http://psp1000.asuscomm.com:1234",
       "status": 0,
       "chans": 0,
-      "sec": 25.1,
+      "sec": 0.4,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 0,
@@ -273,12 +273,12 @@
       "name": "📡咪咕直播3",
       "url": "http://117.72.81.53:3000",
       "status": 200,
-      "chans": 409,
-      "sec": 1.1,
+      "chans": 414,
+      "sec": 1.4,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 3,
-      "reuse_url": "http://117.72.81.53:3000/969378120",
+      "reuse_url": "http://117.72.81.53:3000/969306491",
       "playable": null,
       "err": "",
       "current": true,
@@ -291,12 +291,12 @@
       "name": "📡虎牙",
       "url": "https://sub.ottiptv.cc/huyayqk.m3u",
       "status": 200,
-      "chans": 1076,
-      "sec": 0.6,
+      "chans": 1092,
+      "sec": 0.9,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 2,
-      "reuse_url": "https://live.ottiptv.cc/huya/20985870",
+      "reuse_url": "https://live.ottiptv.cc/huya/30829078",
       "playable": null,
       "err": "",
       "current": true,
@@ -309,8 +309,8 @@
       "name": "📡斗鱼",
       "url": "https://sub.ottiptv.cc/douyuyqk.m3u",
       "status": 200,
-      "chans": 921,
-      "sec": 0.6,
+      "chans": 922,
+      "sec": 1.0,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 1,
@@ -327,8 +327,8 @@
       "name": "📡YY",
       "url": "https://sub.ottiptv.cc/yylunbo.m3u",
       "status": 200,
-      "chans": 535,
-      "sec": 0.3,
+      "chans": 546,
+      "sec": 0.8,
       "ad": 2,
       "ad_ratio": 0.004,
       "reuse": 1,
@@ -345,10 +345,10 @@
       "name": "📡BL",
       "url": "https://sub.ottiptv.cc/bililive.m3u",
       "status": 200,
-      "chans": 150,
-      "sec": 0.4,
-      "ad": 0,
-      "ad_ratio": 0.0,
+      "chans": 346,
+      "sec": 0.8,
+      "ad": 1,
+      "ad_ratio": 0.003,
       "reuse": 1,
       "reuse_url": "https://cdn.jsdelivr.net/gh/feiyang666999/testvideo/time/time.mp4",
       "playable": null,
@@ -364,7 +364,7 @@
       "url": "http://xhztv.top/xhz/live.txt",
       "status": 200,
       "chans": 2422,
-      "sec": 0.3,
+      "sec": 0.4,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 3,
@@ -382,7 +382,7 @@
       "url": "https://mpimg.cn/down.php/caac7a6dae8f835257a11e7a11291bf2.txt",
       "status": 200,
       "chans": 0,
-      "sec": 0.2,
+      "sec": 1.3,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 0,
@@ -400,7 +400,7 @@
       "url": "http://home.jundie.top:81/Cat/tv/live.txt",
       "status": 404,
       "chans": 0,
-      "sec": 0.7,
+      "sec": 0.8,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 0,
@@ -416,8 +416,8 @@
       "name": "vbskycn/iptv4",
       "url": "https://live.zbds.top/tv/iptv4.m3u",
       "status": 200,
-      "chans": 424,
-      "sec": 0.7,
+      "chans": 427,
+      "sec": 0.3,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 2,
@@ -470,7 +470,7 @@
       "url": "https://develop202.github.io/migu_video/interface.txt",
       "status": 200,
       "chans": 0,
-      "sec": 0.2,
+      "sec": 0.0,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 0,
@@ -506,7 +506,7 @@
       "url": "https://raw.githubusercontent.com/qist/tvbox/master/tv.txt",
       "status": 404,
       "chans": 0,
-      "sec": 0.1,
+      "sec": 0.0,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 0,
@@ -575,7 +575,7 @@
       "url": "https://ghfast.top/https://raw.githubusercontent.com/Kimentanm/aptv/master/m3u/iptv.m3u",
       "status": 200,
       "chans": 120,
-      "sec": 0.3,
+      "sec": 0.4,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 2,
@@ -611,7 +611,7 @@
       "url": "https://raw.githubusercontent.com/jn950/live/main/tv/holive.m3u",
       "status": 200,
       "chans": 381,
-      "sec": 0.2,
+      "sec": 0.1,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 2,
@@ -629,7 +629,7 @@
       "url": "https://raw.githubusercontent.com/kimwang1978/collect-txt/main/assets/blacklist1/whitelist_auto_tv.txt",
       "status": 200,
       "chans": 14091,
-      "sec": 0.3,
+      "sec": 0.2,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 1,
@@ -639,7 +639,7 @@
       "current": true,
       "shell": 0,
       "henan_total": 175,
-      "henan_ok": 5,
+      "henan_ok": 7,
       "verdict": "河南可播"
     },
     {
@@ -647,7 +647,7 @@
       "url": "https://myernestlu.github.io/zby.txt",
       "status": 200,
       "chans": 589,
-      "sec": 0.3,
+      "sec": 0.0,
       "ad": 0,
       "ad_ratio": 0.0,
       "reuse": 2,
@@ -950,6 +950,24 @@
       ]
     },
     {
+      "ch": "河南卫视高清",
+      "url": "http://113.9.162.169:9003/hls/49/index.m3u8",
+      "group": "IPTV",
+      "hits": 2,
+      "srcs": [
+        "自动更新",
+        "jn950/holive"
+      ],
+      "ok": true,
+      "kind": "hls",
+      "detail": "分片真码流",
+      "rk": [
+        0,
+        0,
+        -2
+      ]
+    },
+    {
       "ch": "河南民生",
       "url": "http://123.6.9.146/live/jz-henanminsheng/live.m3u8?zhend",
       "group": "河南",
@@ -1036,23 +1054,6 @@
     },
     {
       "ch": "[BD]河南卫视",
-      "url": "https://stream1.freetv.fun/e10babc946441f86bbf308ed367395e69b2b8f62b684a3ed75bc5adbe4bc3339.m3u8",
-      "group": "綜合",
-      "hits": 1,
-      "srcs": [
-        "live · epg.pw"
-      ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
-      "rk": [
-        9,
-        3,
-        -1
-      ]
-    },
-    {
-      "ch": "[BD]河南卫视",
       "url": "https://stream1.freetv.fun/2e110535b415adb85de384221124aaca09d4809a3ab71a234eedb2b3f736aa99.m3u8",
       "group": "綜合",
       "hits": 1,
@@ -1071,6 +1072,23 @@
     {
       "ch": "[BD]河南卫视",
       "url": "https://stream1.freetv.fun/cae48024728a173bd9ced7f377e7e520da7a8df590a26a325e46e79d9b7b21e2.m3u8",
+      "group": "綜合",
+      "hits": 1,
+      "srcs": [
+        "live · epg.pw"
+      ],
+      "ok": false,
+      "kind": "dead",
+      "detail": "HTTP0",
+      "rk": [
+        9,
+        3,
+        -1
+      ]
+    },
+    {
+      "ch": "[BD]河南卫视",
+      "url": "https://stream1.freetv.fun/f64729f80423b183cd5c5e3d93c57732416de2210609891cb7a2438c04742745.m3u8",
       "group": "綜合",
       "hits": 1,
       "srcs": [
@@ -1251,6 +1269,23 @@
       "detail": "HTTP403",
       "rk": [
         9,
+        3,
+        -1
+      ]
+    },
+    {
+      "ch": "河南公共",
+      "url": "http://171.14.94.102:808/hls/38/index.m3u8",
+      "group": "IPTV",
+      "hits": 1,
+      "srcs": [
+        "自动更新"
+      ],
+      "ok": true,
+      "kind": "hls",
+      "detail": "分片真码流",
+      "rk": [
+        0,
         3,
         -1
       ]
@@ -1478,18 +1513,35 @@
     },
     {
       "ch": "河南卫视",
-      "url": "http://111.53.200.17:9003/hls/35/index.m3u8",
+      "url": "http://171.14.94.102:808/hls/31/index.m3u8",
       "group": "IPTV",
       "hits": 1,
       "srcs": [
         "自动更新"
       ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
+      "ok": false,
+      "kind": "dead",
+      "detail": "HTTP404",
       "rk": [
-        0,
+        9,
         3,
+        -1
+      ]
+    },
+    {
+      "ch": "河南卫视",
+      "url": "http://171.14.94.102:808/hls/33/index.m3u8",
+      "group": "IPTV",
+      "hits": 1,
+      "srcs": [
+        "自动更新"
+      ],
+      "ok": false,
+      "kind": "dead",
+      "detail": "HTTP404",
+      "rk": [
+        9,
+        0,
         -1
       ]
     },
@@ -2674,11 +2726,11 @@
       "srcs": [
         "kimwang/白名单"
       ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
+      "ok": true,
+      "kind": "hls",
+      "detail": "分片真码流",
       "rk": [
-        9,
+        0,
         1,
         -1
       ]
@@ -2759,11 +2811,11 @@
       "srcs": [
         "kimwang/白名单"
       ],
-      "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
+      "ok": true,
+      "kind": "hls",
+      "detail": "分片真码流",
       "rk": [
-        9,
+        0,
         1,
         -1
       ]
@@ -3219,8 +3271,8 @@
         "kimwang/白名单"
       ],
       "ok": false,
-      "kind": "web",
-      "detail": "返回网页",
+      "kind": "dead",
+      "detail": "HTTP0",
       "rk": [
         9,
         5,
@@ -3236,8 +3288,8 @@
         "kimwang/白名单"
       ],
       "ok": false,
-      "kind": "web",
-      "detail": "返回网页",
+      "kind": "dead",
+      "detail": "HTTP0",
       "rk": [
         9,
         5,
@@ -3270,8 +3322,8 @@
         "kimwang/白名单"
       ],
       "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
+      "kind": "web",
+      "detail": "返回网页",
       "rk": [
         9,
         5,
@@ -3287,8 +3339,8 @@
         "kimwang/白名单"
       ],
       "ok": false,
-      "kind": "web",
-      "detail": "返回网页",
+      "kind": "dead",
+      "detail": "HTTP0",
       "rk": [
         9,
         5,
@@ -3355,8 +3407,8 @@
         "kimwang/白名单"
       ],
       "ok": false,
-      "kind": "web",
-      "detail": "返回网页",
+      "kind": "dead",
+      "detail": "HTTP0",
       "rk": [
         9,
         5,
@@ -3678,8 +3730,8 @@
         "kimwang/白名单"
       ],
       "ok": false,
-      "kind": "dead",
-      "detail": "HTTP0",
+      "kind": "web",
+      "detail": "返回网页",
       "rk": [
         9,
         5,
@@ -4299,8 +4351,8 @@
       ]
     },
     {
-      "ch": "河南卫视高清",
-      "url": "http://110.72.84.234:808/hls/49/index.m3u8",
+      "ch": "河南国际",
+      "url": "http://171.14.94.102:808/hls/40/index.m3u8",
       "group": "IPTV",
       "hits": 1,
       "srcs": [
@@ -4311,24 +4363,7 @@
       "detail": "分片真码流",
       "rk": [
         0,
-        0,
-        -1
-      ]
-    },
-    {
-      "ch": "河南卫视高清",
-      "url": "http://113.9.162.169:9003/hls/49/index.m3u8",
-      "group": "卫视频道",
-      "hits": 1,
-      "srcs": [
-        "jn950/holive"
-      ],
-      "ok": true,
-      "kind": "hls",
-      "detail": "分片真码流",
-      "rk": [
-        0,
-        0,
+        3,
         -1
       ]
     },
@@ -4486,6 +4521,40 @@
       ]
     },
     {
+      "ch": "河南法制",
+      "url": "http://171.14.94.102:808/hls/34/index.m3u8",
+      "group": "IPTV",
+      "hits": 1,
+      "srcs": [
+        "自动更新"
+      ],
+      "ok": false,
+      "kind": "dead",
+      "detail": "HTTP404",
+      "rk": [
+        9,
+        3,
+        -1
+      ]
+    },
+    {
+      "ch": "河南电视剧",
+      "url": "http://171.14.94.102:808/hls/35/index.m3u8",
+      "group": "IPTV",
+      "hits": 1,
+      "srcs": [
+        "自动更新"
+      ],
+      "ok": true,
+      "kind": "hls",
+      "detail": "分片真码流",
+      "rk": [
+        0,
+        3,
+        -1
+      ]
+    },
+    {
       "ch": "河南都市",
       "url": "http://media.hndyjyfw.gov.cn/live/jz-henandushi/live.m3u8",
       "group": "河南",
@@ -4496,6 +4565,23 @@
       "ok": false,
       "kind": "dead",
       "detail": "HTTP403",
+      "rk": [
+        9,
+        3,
+        -1
+      ]
+    },
+    {
+      "ch": "河南都市",
+      "url": "http://171.14.94.102:808/hls/32/index.m3u8",
+      "group": "IPTV",
+      "hits": 1,
+      "srcs": [
+        "自动更新"
+      ],
+      "ok": false,
+      "kind": "dead",
+      "detail": "HTTP404",
       "rk": [
         9,
         3,
@@ -4724,8 +4810,8 @@
       ]
     }
   ],
-  "henan_playable": 8,
+  "henan_playable": 11,
   "henan_main_playable": 7,
-  "henan_list_lines": 8,
-  "elapsed": 90.2
+  "henan_list_lines": 11,
+  "elapsed": 77.9
 }

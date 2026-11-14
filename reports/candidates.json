@@ -1,18 +1,18 @@
 {
-  "date": "2026-11-12",
+  "date": "2026-11-14",
   "env": {
     "env": "github-actions",
-    "runner": "43192461225",
+    "runner": "43539948591",
     "proxy": false,
-    "generated": "2026-11-12 09:34:10 UTC"
+    "generated": "2026-11-14 01:20:31 UTC"
   },
-  "baseline_sites": 2408,
-  "candidates_found": 212,
+  "baseline_sites": 1513,
+  "candidates_found": 213,
   "candidates_evaluated": 80,
   "candidates_usable": 6,
   "candidates_failed": 74,
   "min_new_sites": 3,
-  "elapsed_sec": 16.0,
+  "elapsed_sec": 15.7,
   "candidates": [
     {
       "url": "https://dxawi.github.io/0/0.json",
@@ -21,8 +21,8 @@
       ],
       "ok": true,
       "sites": 48,
-      "new_sites": 46,
-      "new_cms": 9,
+      "new_sites": 48,
+      "new_cms": 10,
       "lives": 4,
       "parses": 0
     },
@@ -45,7 +45,7 @@
       ],
       "ok": true,
       "sites": 46,
-      "new_sites": 17,
+      "new_sites": 25,
       "new_cms": 3,
       "lives": 10,
       "parses": 0
@@ -68,8 +68,8 @@
         "youhunwl/TVAPP"
       ],
       "ok": true,
-      "sites": 80,
-      "new_sites": 2,
+      "sites": 82,
+      "new_sites": 4,
       "new_cms": 0,
       "lives": 7,
       "parses": 13
@@ -145,12 +145,12 @@
       "reason": "HTTP 0 / 非 TVBox 配置"
     },
     {
-      "url": "http://120.79.4.185/dc.json",
+      "url": "http://pt.sxtv.top:66/sx.json",
       "sources": [
         "Zhou-Li-Bin/Tvbox-QingNing"
       ],
       "ok": false,
-      "reason": "HTTP 404 / 非 TVBox 配置"
+      "reason": "HTTP 0 / 非 TVBox 配置"
     },
     {
       "url": "http://tvbox.王二小放牛娃.top",
@@ -169,6 +169,14 @@
       "reason": "HTTP 0 / 非 TVBox 配置"
     },
     {
+      "url": "http://120.79.4.185/dc.json",
+      "sources": [
+        "Zhou-Li-Bin/Tvbox-QingNing"
+      ],
+      "ok": false,
+      "reason": "HTTP 404 / 非 TVBox 配置"
+    },
+    {
       "url": "http://52pan.top:81/api/v3/file/get/174964/%E5%90%BE%E7%88%B1%E8%AF%84%E6%B5%8B.m3u?sign=rPssLoffquDXszCARt6UNF8MobSa1FA27XomzOluJBY%3D%3A0",
       "sources": [
         "Zhou-Li-Bin/Tvbox-QingNing"
@@ -177,7 +185,15 @@
       "reason": "HTTP 0 / 非 TVBox 配置"
     },
     {
-      "url": "http://mzjk.top/DC",
+      "url": "http://ww.weidonglong.com/ysc50311.json",
+      "sources": [
+        "Zhou-Li-Bin/Tvbox-QingNing"
+      ],
+      "ok": false,
+      "reason": "HTTP 0 / 非 TVBox 配置"
+    },
+    {
+      "url": "http://fmys.top/fmys.json",
       "sources": [
         "Zhou-Li-Bin/Tvbox-QingNing"
       ],
@@ -192,22 +208,6 @@
       ],
       "ok": false,
       "reason": "HTTP 403 / 非 TVBox 配置"
-    },
-    {
-      "url": "http://pt.sxtv.top:66/sx.json",
-      "sources": [
-        "Zhou-Li-Bin/Tvbox-QingNing"
-      ],
-      "ok": false,
-      "reason": "HTTP 0 / 非 TVBox 配置"
-    },
-    {
-      "url": "http://www.fish2018.us.kg/p/jsm.json",
-      "sources": [
-        "Zhou-Li-Bin/Tvbox-QingNing"
-      ],
-      "ok": false,
-      "reason": "HTTP 0 / 非 TVBox 配置"
     },
     {
       "url": "http://www.饭太硬.cc/tv",

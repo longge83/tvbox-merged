@@ -1,10 +1,10 @@
 {
-  "date": "2026-11-13",
+  "date": "2026-11-14",
   "env": {
     "env": "github-actions",
-    "runner": "43339816554",
+    "runner": "43534865872",
     "proxy": false,
-    "generated": "2026-11-13 00:51:41 UTC"
+    "generated": "2026-11-14 00:36:19 UTC"
   },
   "files": 13,
   "refreshed": [
@@ -24,6 +24,10 @@
   ],
   "stale": [],
   "noversion_stale": [],
-  "mirror_stale": {},
+  "mirror_stale": {
+    "tvbox.json": [
+      "gcore.jsdelivr.net"
+    ]
+  },
   "attempts": 3
 }

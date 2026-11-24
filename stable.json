@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-23",
+  "updated": "2026-11-24",
   "tag": "stable-20261110",
   "commit": "4e83a87b598085073d6541458a7f71d859ad2d9d",
   "repo": "dimogu/tvbox-merged",
@@ -54,7 +54,7 @@
   ],
   "rollback_hint": "python scripts/stable.py --rollback <上一个 tag>",
   "readme": "把 files.<版本>.cdn 整行粘进 TVBox 配置地址即可；tag 固定，内容永不变化",
-  "last_check_commit": "9c07342850ed71ec709e16e7f2620939ce55e2cb",
+  "last_check_commit": "d2e7a3e95dc1fff2a42ad16f68575caa20091a10",
   "deprecated": {
     "stable-20261110": "早期格式：lives.type 混有整数与 null、sites.ext 含对象，新版影视仓导入会报 IllegalStateException / 配置取得失败"
   }

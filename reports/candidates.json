@@ -1,18 +1,18 @@
 {
-  "date": "2026-11-23",
+  "date": "2026-11-26",
   "env": {
     "env": "github-actions",
-    "runner": "45094701493",
+    "runner": "45748751942",
     "proxy": false,
-    "generated": "2026-11-23 01:28:12 UTC"
+    "generated": "2026-11-26 03:25:24 UTC"
   },
-  "baseline_sites": 1482,
-  "candidates_found": 215,
+  "baseline_sites": 1483,
+  "candidates_found": 214,
   "candidates_evaluated": 80,
   "candidates_usable": 6,
   "candidates_failed": 74,
   "min_new_sites": 3,
-  "elapsed_sec": 18.0,
+  "elapsed_sec": 16.6,
   "candidates": [
     {
       "url": "https://dxawi.github.io/0/0.json",
@@ -56,7 +56,7 @@
         "Zhou-Li-Bin/Tvbox-QingNing"
       ],
       "ok": true,
-      "sites": 99,
+      "sites": 95,
       "new_sites": 12,
       "new_cms": 0,
       "lives": 2,
@@ -68,7 +68,7 @@
         "youhunwl/TVAPP"
       ],
       "ok": true,
-      "sites": 99,
+      "sites": 95,
       "new_sites": 12,
       "new_cms": 0,
       "lives": 2,
@@ -80,11 +80,11 @@
         "youhunwl/TVAPP"
       ],
       "ok": true,
-      "sites": 82,
-      "new_sites": 6,
+      "sites": 84,
+      "new_sites": 7,
       "new_cms": 0,
       "lives": 7,
-      "parses": 5
+      "parses": 2
     }
   ],
   "failed_sample": [
@@ -121,7 +121,7 @@
       "reason": "HTTP 0 / 非 TVBox 配置"
     },
     {
-      "url": "http://tv.laohu.cool/tvbox.json",
+      "url": "http://ok321.top/ok",
       "sources": [
         "Zhou-Li-Bin/Tvbox-QingNing"
       ],
@@ -137,7 +137,7 @@
       "reason": "HTTP 0 / 非 TVBox 配置"
     },
     {
-      "url": "http://ok321.top/ok",
+      "url": "http://8.210.232.168/xc.json",
       "sources": [
         "Zhou-Li-Bin/Tvbox-QingNing"
       ],
@@ -169,14 +169,6 @@
       "reason": "HTTP 0 / 非 TVBox 配置"
     },
     {
-      "url": "http://8.210.232.168/xc.json",
-      "sources": [
-        "Zhou-Li-Bin/Tvbox-QingNing"
-      ],
-      "ok": false,
-      "reason": "HTTP 0 / 非 TVBox 配置"
-    },
-    {
       "url": "http://pt.sxtv.top:66/sx.json",
       "sources": [
         "Zhou-Li-Bin/Tvbox-QingNing"
@@ -186,6 +178,14 @@
     },
     {
       "url": "http://www.fish2018.us.kg/p/jsm.json",
+      "sources": [
+        "Zhou-Li-Bin/Tvbox-QingNing"
+      ],
+      "ok": false,
+      "reason": "HTTP 0 / 非 TVBox 配置"
+    },
+    {
+      "url": "http://tv.laohu.cool/tvbox.json",
       "sources": [
         "Zhou-Li-Bin/Tvbox-QingNing"
       ],

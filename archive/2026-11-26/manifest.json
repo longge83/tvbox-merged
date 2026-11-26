@@ -1,0 +1,69 @@
+{
+  "date": "2026-11-26",
+  "commit": "505e9c5b8d273115ed1f601d4e474dff2e69b31b",
+  "env": {
+    "env": "github-actions",
+    "runner": "45743126400",
+    "proxy": false,
+    "generated": "2026-11-26 02:35:45 UTC"
+  },
+  "files": {
+    "tvbox-full-homefirst.json": {
+      "sha256": "2e3943f015c81c36",
+      "bytes": 447290,
+      "sites": 1483
+    },
+    "tvbox-lite-homefirst.json": {
+      "sha256": "8972d5ed24c5dc94",
+      "bytes": 177126,
+      "sites": 546
+    },
+    "tvbox-network-homefirst.json": {
+      "sha256": "fc1b3fccba716838",
+      "bytes": 31191,
+      "sites": 41
+    },
+    "tvbox-home.json": {
+      "sha256": "0a944806778fc861",
+      "bytes": 167283,
+      "sites": 443
+    },
+    "tvbox.json": {
+      "sha256": "0bafcf7e74186e8a",
+      "bytes": 446882,
+      "sites": 1483
+    },
+    "tvbox-lite.json": {
+      "sha256": "b4d4129419ab1479",
+      "bytes": 176749,
+      "sites": 546
+    },
+    "tvbox-network.json": {
+      "sha256": "2c71c35fb66cda8d",
+      "bytes": 30829,
+      "sites": 41
+    },
+    "tvbox-quality.json": {
+      "sha256": "bc4c2034f1b18e82",
+      "bytes": 107812,
+      "sites": 216
+    },
+    "tvbox-cn-fast.json": {
+      "sha256": "88055b43a1abc314",
+      "bytes": 23993,
+      "sites": 25
+    },
+    "tvbox-stable7.json": {
+      "sha256": "fb96c67118ea1a9a",
+      "bytes": 113334,
+      "sites": 286
+    }
+  },
+  "assert_passed": true,
+  "assert_pass_streak": 0,
+  "play_rate": 0.0455,
+  "false_kill_rate": 0.26,
+  "sources_failed": [
+    "clun"
+  ]
+}

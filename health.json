@@ -1,19 +1,19 @@
 {
-  "date": "2026-11-27",
+  "date": "2026-11-28",
   "env": {
     "env": "github-actions",
-    "runner": "45928860298",
+    "runner": "46097593529",
     "proxy": false,
-    "generated": "2026-11-27 02:35:39 UTC"
+    "generated": "2026-11-28 02:23:40 UTC"
   },
   "versions": [
     {
       "file": "tvbox-quality.json",
       "label": "精播版",
       "note": "只留实测可播 / 首页实测有影片的节点，宁缺毋滥",
-      "sites": 221,
+      "sites": 215,
       "home_first": null,
-      "bytes": 108186,
+      "bytes": 107594,
       "cdn": "https://cdn.jsdelivr.net/gh/longge83/tvbox-merged@main/tvbox-quality.json",
       "mirror": "https://fastly.jsdelivr.net/gh/longge83/tvbox-merged@main/tvbox-quality.json",
       "pages": "https://longge83.github.io/tvbox-merged/tvbox-quality.json"
@@ -24,7 +24,7 @@
       "note": "国内直连、无 spider jar、最多取前 120 个，老盒子开屏最快",
       "sites": 25,
       "home_first": null,
-      "bytes": 23904,
+      "bytes": 24202,
       "cdn": "https://cdn.jsdelivr.net/gh/longge83/tvbox-merged@main/tvbox-cn-fast.json",
       "mirror": "https://fastly.jsdelivr.net/gh/longge83/tvbox-merged@main/tvbox-cn-fast.json",
       "pages": "https://longge83.github.io/tvbox-merged/tvbox-cn-fast.json"
@@ -33,9 +33,9 @@
       "file": "tvbox-stable7.json",
       "label": "7 天稳定版",
       "note": "近 7 天多次可用且当前无连败，不追新源、不随上游抖动",
-      "sites": 291,
+      "sites": 297,
       "home_first": null,
-      "bytes": 114559,
+      "bytes": 117351,
       "cdn": "https://cdn.jsdelivr.net/gh/longge83/tvbox-merged@main/tvbox-stable7.json",
       "mirror": "https://fastly.jsdelivr.net/gh/longge83/tvbox-merged@main/tvbox-stable7.json",
       "pages": "https://longge83.github.io/tvbox-merged/tvbox-stable7.json"
@@ -279,8 +279,8 @@
   ],
   "home_grades": {
     "likely": 426,
-    "unknown": 647,
-    "fail": 397,
+    "unknown": 651,
+    "fail": 393,
     "ok": 16
   },
   "home_inferred": 241,
@@ -291,10 +291,10 @@
     "play_rate": 0.0455,
     "search_rate": 0.6364,
     "playable": 1,
-    "parses_alive_rate": 0.45,
+    "parses_alive_rate": 0.5,
     "parses_total": 93
   },
-  "false_kill_rate": 0.38,
+  "false_kill_rate": 0.26,
   "assert_passed": true,
   "assert_ran": true,
   "assert_pass_streak": 0,
@@ -321,7 +321,7 @@
       "jar_health": "success",
       "regression": "failure"
     },
-    "run_id": "45928860298"
+    "run_id": "46097593529"
   },
   "stable": {
     "tag": "stable-20261110",
@@ -498,6 +498,19 @@
       "sources_ok": 16,
       "assert_passed": true,
       "degraded": true
+    },
+    {
+      "date": "2026-11-28",
+      "sites": 1493,
+      "lite": 550,
+      "network": 43,
+      "home_sites": 442,
+      "home_ok": 16,
+      "play_rate": 0.0455,
+      "false_kill_rate": 0.26,
+      "sources_ok": 16,
+      "assert_passed": true,
+      "degraded": true
     }
   ],
   "dedupe": {
@@ -574,9 +587,9 @@
   },
   "live": {
     "ran": true,
-    "henan_playable": 6,
-    "henan_main": 5,
-    "list_lines": 6,
+    "henan_playable": 9,
+    "henan_main": 8,
+    "list_lines": 7,
     "list_exists": true,
     "sources_total": 35,
     "sources_ok": 20,
@@ -585,11 +598,11 @@
       {
         "name": "kimwang/白名单",
         "url": "https://raw.githubusercontent.com/kimwang1978/collect-txt/main/assets/blacklist1/whitelist_auto_tv.txt",
-        "ok": 5
+        "ok": 8
       },
       {
-        "name": "jn950/holive",
-        "url": "https://raw.githubusercontent.com/jn950/live/main/tv/holive.m3u",
+        "name": "自动更新",
+        "url": "https://z.szyyds.cn/iptv",
         "ok": 1
       }
     ],
@@ -601,10 +614,10 @@
     "jar_dead": 13,
     "jar_alive_rate": 0.38095238095238093,
     "ext_total": 752,
-    "ext_dead": 262,
+    "ext_dead": 258,
     "jar_fail_streak": 13,
     "jar_fail_ge2": 13,
     "ext_fail_streak": 264,
-    "ext_fail_ge2": 256
+    "ext_fail_ge2": 257
   }
 }

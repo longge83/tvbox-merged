@@ -1,10 +1,10 @@
 {
-  "date": "2026-11-27",
+  "date": "2026-11-28",
   "env": {
     "env": "github-actions",
-    "runner": "45928860298",
+    "runner": "46097593529",
     "proxy": false,
-    "generated": "2026-11-27 02:35:38 UTC"
+    "generated": "2026-11-28 02:23:39 UTC"
   },
   "passed": false,
   "total": 47,
@@ -256,7 +256,7 @@
       "origin": "每日保险丝结果",
       "title": "当日回归断言已通过",
       "ok": true,
-      "detail": "date=2026-11-27 / passed=True，30 项检查，失败 []",
+      "detail": "date=2026-11-28 / passed=True，30 项检查，失败 []",
       "critical": true
     },
     {
@@ -265,7 +265,7 @@
       "origin": "第十轮：误杀率 52% 证明单日判定不可信",
       "title": "quality.json 保留多日历史与抽样基线",
       "ok": true,
-      "detail": "多日历史 / 连败 / 抽样基线字段齐全（12 天）",
+      "detail": "多日历史 / 连败 / 抽样基线字段齐全（13 天）",
       "critical": true
     },
     {
